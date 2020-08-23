@@ -1,0 +1,19 @@
+package com.ms.playstop.model
+
+data class Profile(
+    var name : String? = null,
+    var email : String? = null,
+    var gender : Int = GENDER_UNKNOWN,
+    var token : String? = null,
+    var refreshToken : String? = null,
+    var expiresIn : Long = 300000,
+    var isGuest : Boolean = true,
+    var uuid : String? = null) {
+
+    companion object {
+        val PROFILE_KEY = "Profile Key"
+        const val GENDER_MAIL = 1
+        const val GENDER_FEMALE = 2
+        const val GENDER_UNKNOWN = 0
+    }
+}

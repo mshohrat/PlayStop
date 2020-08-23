@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:alpha="0"
+    tools:alpha="1"
+    android:layout_marginEnd="@dimen/margin_standard"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/movie_image_iv"
+        android:layout_width="@dimen/item_movie_width"
+        android:layout_height="@dimen/item_movie_image_height"
+        android:scaleType="fitXY"
+        tools:srcCompat="@drawable/ic_home_header"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/movie_free_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?textAppearanceCaption"
+        android:textSize="12sp"
+        android:padding="@dimen/padding_small"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_margin="@dimen/margin_small"
+        android:background="@drawable/shape_rectangle_rounded_24dp_primary"
+        app:layout_constraintBottom_toBottomOf="@id/movie_image_iv"
+        app:layout_constraintStart_toStartOf="@id/movie_image_iv"
+        android:text="@string/free"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/movie_name_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="?textAppearanceHeadline3"
+        android:layout_marginTop="@dimen/margin_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movie_image_iv"
+        tools:text="دل"/>
+    
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/movie_genre_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="?textAppearanceCaption"
+        android:textSize="12sp"
+        android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movie_name_tv"
+        tools:text="خانوادگی"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/movie_score_title_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="?textAppearanceCaption"
+        android:layout_marginTop="@dimen/margin_small"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movie_genre_tv"
+        android:text="@string/imdb_score"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/movie_score_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="?textAppearanceCaption"
+        android:textSize="12sp"
+        android:layout_marginEnd="@dimen/margin_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toStartOf="@id/movie_score_title_tv"
+        app:layout_constraintTop_toTopOf="@id/movie_score_title_tv"
+        app:layout_constraintBottom_toBottomOf="@id/movie_score_title_tv"
+        tools:text="9.7"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

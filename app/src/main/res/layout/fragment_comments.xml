@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.comment.CommentsFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorAccent"
+        app:contentInsetEnd="@dimen/margin_standard"
+        app:contentInsetStart="@dimen/margin_standard"
+        app:contentInsetStartWithNavigation="@dimen/margin_standard"
+        app:contentInsetEndWithActions="@dimen/margin_standard"
+        app:layout_collapseMode="pin">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?textAppearanceBody1"
+                android:textColor="@color/white"
+                android:layout_marginEnd="@dimen/margin_standard"
+                android:text="@string/comments"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/comments_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rotation="180"
+                app:srcCompat="@drawable/ic_back"
+                android:background="?android:selectableItemBackground"/>
+
+        </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/margin_standard"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_marginEnd="@dimen/margin_standard"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:orientation="horizontal">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/comments_submit_comment_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="?textAppearanceBody1"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/colorAccent"
+            android:text="@string/submit"/>
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/comments_submit_comment_et"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:layout_marginStart="@dimen/margin_medium"
+            style="?textAppearanceBody1"
+            android:textColor="@color/white"
+            android:paddingStart="@dimen/padding_standard"
+            android:paddingEnd="@dimen/padding_standard"
+            android:paddingTop="@dimen/padding_medium"
+            android:paddingBottom="@dimen/padding_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:hint="@string/write_your_comment"
+            android:background="@drawable/shape_rectangle_rounded_6dp_stroke_white"
+            android:textColorHint="@color/gray"/>
+    </LinearLayout>
+
+</LinearLayout>

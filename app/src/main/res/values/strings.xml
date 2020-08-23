@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">PlayStop</string>
+    <string name="default_notification_channel_id">playstop_notification_channel_id</string>
+    <string name="try_again">تلاش مجدد</string>
+    <string name="account">حساب</string>
+    <string name="category">دسته‌بندی</string>
+    <string name="news">اخبار</string>
+    <string name="home">خانه</string>
+    <string name="show_all">نمایش همه</string>
+    <string name="imdb_score">امتیاز IMDB:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="free">رایگان</string>
+    <string name="search">جستجو</string>
+    <string name="no_result">نتیجه‌ای پیدا نشد</string>
+    <string name="description">توضیحات</string>
+    <string name="actors">بازیگران</string>
+    <string name="director">کارگردان</string>
+    <string name="writer">نویسنده</string>
+    <string name="links">لینک‌ها</string>
+    <string name="seasons">فصل‌ها</string>
+    <string name="show_all_comments">مشاهده تمامی نظرات</string>
+    <string name="comments">نظرات</string>
+    <string name="failed_in_communication_with_server">خطا در برقراری اطلاعات با سرور</string>
+    <string name="x_hours_x_minuets">%s ساعت و %s دقیقه</string>
+    <string name="x_minuets">%s دقیقه</string>
+    <string name="imdb_score_x">IMDB: %s</string>
+    <string name="quality_x">کیفیت %s</string>
+    <string name="submit">ثبت</string>
+    <string name="write_your_comment">نظر خود را بنویسید</string>
+
+</resources>

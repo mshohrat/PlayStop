@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/padding_standard">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/comment_user_avatar_iv"
+        android:layout_width="@dimen/user_avatar_size"
+        android:layout_height="@dimen/user_avatar_size"
+        app:srcCompat="@drawable/ic_user_avater"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/comment_user_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?textAppearanceCaption"
+        android:textSize="12sp"
+        android:textColor="@color/gray"
+        android:layout_marginEnd="@dimen/margin_standard"
+        android:layout_marginStart="@dimen/margin_standard"
+        app:layout_constraintTop_toTopOf="@id/comment_user_avatar_iv"
+        app:layout_constraintBottom_toBottomOf="@id/comment_user_avatar_iv"
+        app:layout_constraintEnd_toStartOf="@id/comment_user_avatar_iv"
+        tools:text="میثم شهرت"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/comment_text_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?textAppearanceCaption"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/margin_standard"
+        app:layout_constraintTop_toBottomOf="@id/comment_user_avatar_iv"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="right"
+        tools:text="عالی است"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

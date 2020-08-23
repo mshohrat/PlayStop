@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="@dimen/margin_standard"
+    android:layout_marginEnd="@dimen/margin_standard"
+    android:layout_marginBottom="@dimen/margin_large"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/movie_list_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/movie_list_show_all_btn"
+        app:layout_constraintBottom_toBottomOf="@id/movie_list_show_all_btn"
+        style="?textAppearanceHeadline3"
+        tools:text="test" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/movie_list_show_all_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/show_all"
+        android:textAppearance="?textAppearanceCaption"
+        android:textColor="@color/colorAccent"
+        app:icon="@drawable/ic_arrow"
+        app:iconGravity="end"
+        app:iconTint="@color/colorAccent"
+        app:iconPadding="@dimen/margin_medium"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/movie_list_item_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/movie_list_show_all_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="@dimen/margin_standard"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

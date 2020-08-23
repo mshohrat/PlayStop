@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="MirroredImage">
+        <item name="android:rotationX">0</item>
+    </style>
+
+</resources>

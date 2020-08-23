@@ -1,0 +1,10 @@
+#Sat Aug 22 17:11:41 IRDT 2020
+path.2=classes2.dex
+path.1=classes.dex
+path.0=classes.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.2=/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/dex/bazaarDebug/mergeExtDexBazaarDebug/out/classes2.dex
+base.1=/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/dex/bazaarDebug/mergeProjectDexBazaarDebug/out/classes.dex
+base.0=/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/dex/bazaarDebug/mergeExtDexBazaarDebug/out/classes.dex

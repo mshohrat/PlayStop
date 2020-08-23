@@ -1,0 +1,1 @@
+[{"outputType":{"type":"MERGED_MANIFESTS"},"apkData":{"type":"MAIN","splits":[],"versionCode":15,"versionName":"1.1.4","enabled":true,"outputFile":"app-bazaar-debug.apk","fullName":"bazaarDebug","baseName":"bazaar-debug","dirName":""},"path":"AndroidManifest.xml","properties":{"packageId":"com.ms.playstop","split":"","minSdkVersion":"17"}}]

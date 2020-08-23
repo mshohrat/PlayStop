@@ -1,0 +1,45 @@
+<resources>
+    <!-- Text Size-->
+    <dimen name="headline_1_max_text_size">24sp</dimen>
+    <dimen name="headline_1_min_text_size">20sp</dimen>
+    <dimen name="headline_2_max_text_size">20sp</dimen>
+    <dimen name="headline_2_min_text_size">17sp</dimen>
+    <dimen name="headline_3_max_text_size">17sp</dimen>
+    <dimen name="headline_3_min_text_size">14sp</dimen>
+    <dimen name="headline_4_max_text_size">14sp</dimen>
+    <dimen name="headline_4_min_text_size">12sp</dimen>
+    <dimen name="body_1_max_text_size">17sp</dimen>
+    <dimen name="body_1_min_text_size">14sp</dimen>
+    <dimen name="caption_max_text_size">14sp</dimen>
+    <dimen name="caption_min_text_size">12sp</dimen>
+    <dimen name="caption_line_height">24dp</dimen>
+    <dimen name="body_line_height">28dp</dimen>
+
+    <!-- Margin-->
+    <dimen name="margin_tiny">2dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_standard">16dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_huge">32dp</dimen>
+
+    <!-- Padding-->
+    <dimen name="padding_tiny">2dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_standard">16dp</dimen>
+    <dimen name="padding_large">24dp</dimen>
+    <dimen name="padding_huge">32dp</dimen>
+
+    <!-- Size-->
+    <dimen name="movie_list_card_height">300dp</dimen>
+    <dimen name="item_movie_width">120dp</dimen>
+    <dimen name="item_movie_height">300dp</dimen>
+    <dimen name="item_movie_image_height">164dp</dimen>
+    <dimen name="badge_radius">24dp</dimen>
+    <dimen name="background_card_radius">10dp</dimen>
+    <dimen name="shimmer_radius">6dp</dimen>
+    <dimen name="minimum_button_size">48dp</dimen>
+    <dimen name="user_avatar_size">36dp</dimen>
+
+</resources>
