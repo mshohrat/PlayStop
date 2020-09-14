@@ -1,15 +1,25 @@
 package com.ms.playstop
 
+import android.os.Build
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.initCustomAnimations
 import com.ms.playstop.ui.splash.SplashFragment
 
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            val w = window
+            w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportFragmentManager.fragments.size.takeIf { it == 0 }.let {

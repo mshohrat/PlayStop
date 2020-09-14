@@ -2,9 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
-final VERSION_NAME = "1.1.4"
-final VERSION_CODE = 15
+final VERSION_NAME = "1.0.0"
+final VERSION_CODE = 1
 
 final retrofitVersion = "2.6.4"
 final okhttpVersion = "3.12.8"
@@ -54,14 +56,14 @@ android {
             buildConfigField 'String', 'STORE_NAME', '"cafebazaar"'
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
-            buildConfigField 'String', 'CLIENT_SECRET', '"YpzYl4frNqYSYxjdqQDBT3WNAC3ZpoNJv1mIrGPi"'
+            buildConfigField 'String', 'CLIENT_SECRET', '"n6HgBlB9Y8VQOJH0NB53bpC0kS2bhyc2owRcpFVe"'
         }
         googlePlay {
             dimension "main"
             buildConfigField 'String', 'STORE_NAME', '"playstore"'
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
-            buildConfigField 'String', 'CLIENT_SECRET', '"YpzYl4frNqYSYxjdqQDBT3WNAC3ZpoNJv1mIrGPi"'
+            buildConfigField 'String', 'CLIENT_SECRET', '"n6HgBlB9Y8VQOJH0NB53bpC0kS2bhyc2owRcpFVe"'
         }
     }
 

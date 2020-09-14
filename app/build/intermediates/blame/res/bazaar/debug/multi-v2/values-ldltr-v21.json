@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/incremental/mergeBazaarDebugResources/merged.dir/values-ldltr-v21/values-ldltr-v21.xml",
+            "outputFile": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/incremental/mergeBazaarDebugResources/merged.dir/values-ldltr-v21/values-ldltr-v21.xml",
             "map": [
                 {
                     "source": "/Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/7a8ed05afbaa7bd2d86de9ec4587651c/appcompat-1.2.0/res/values-ldltr-v21/values-ldltr-v21.xml",

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.account.AccountFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/account_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/colorAccentDark"
+        android:paddingTop="@dimen/status_bar_height">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar_height"
+            app:contentInsetEnd="@dimen/margin_standard"
+            app:contentInsetStart="@dimen/margin_standard"
+            app:contentInsetStartWithNavigation="@dimen/margin_standard"
+            app:contentInsetEndWithActions="@dimen/margin_standard">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/account_toolbar_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceBody1"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="@dimen/margin_standard"
+                    android:text="@string/user_account"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/account_back_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rotation="180"
+                    app:srcCompat="@drawable/ic_back"
+                    android:background="?android:selectableItemBackground"/>
+
+            </LinearLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/account_avatar_iv"
+        android:layout_width="@dimen/account_avatar_size"
+        android:layout_height="@dimen/account_avatar_size"
+        app:layout_constraintTop_toBottomOf="@id/account_appbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_user_avater"
+        android:layout_margin="@dimen/margin_standard"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/account_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/account_avatar_iv"
+        app:layout_constraintTop_toTopOf="@id/account_avatar_iv"
+        app:layout_constraintBottom_toTopOf="@id/account_email_tv"
+        android:layout_marginHorizontal="@dimen/margin_standard"
+        android:maxLines="1"
+        android:ellipsize="end"
+        style="?textAppearanceHeadline3"
+        tools:text="میثم قربانی" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/account_email_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/account_avatar_iv"
+        app:layout_constraintTop_toBottomOf="@id/account_name_tv"
+        app:layout_constraintBottom_toBottomOf="@id/account_avatar_iv"
+        android:layout_marginHorizontal="@dimen/margin_standard"
+        android:maxLines="1"
+        android:ellipsize="end"
+        style="?textAppearanceBody1"
+        android:textColor="@color/colorAccent"
+        tools:text="meysam.shohrat@gmail.com" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/account_logout_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/logout"
+        android:textAppearance="?textAppearanceCaption"
+        android:textColor="@color/colorAccent"
+        android:layout_marginBottom="@dimen/margin_standard"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

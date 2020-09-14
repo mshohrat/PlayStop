@@ -14,10 +14,22 @@ data class RefreshTokenResponse(
 
 data class ConfigResponse(
     @SerializedName("suggestions")
-    val suggestions: List<Suggestion?>?
+    val suggestions: List<Suggestion>?,
+    @SerializedName("categories")
+    val categories: List<Category>?,
+    @SerializedName("genres")
+    val genres: List<Genre>?,
+    @SerializedName("specials")
+    val specialsName: String?,
+    @SerializedName("is_user_active")
+    val isUserActive: Boolean?,
+    @SerializedName("requires_token")
+    val requiresToken: Boolean?,
+    @SerializedName("user")
+    val user: UserResponse?
 ) {
     companion object {
-        const val SAVE_KEY = "Profile Response Save Key"
+        const val SAVE_KEY = "Config Response Save Key"
     }
 }
 
@@ -28,7 +40,7 @@ data class MovieListResponse(
 
 data class MoviePagedListResponse(
     @SerializedName("movies")
-    val movies : List<Movie?>?,
+    val movies : List<Movie>?,
     @SerializedName("current_page")
     val currentPage: Int,
     @SerializedName("total_pages")
@@ -117,5 +129,30 @@ data class LoginResponse(
 
 data class AllSuggestionsMoviesResponse(
     @SerializedName("suggestion_movies")
-    val suggestionMovies : List<SuggestionMovies>
+    val suggestionMovies : ArrayList<SuggestionMovies>?,
+    @SerializedName("special_movies")
+    val specialMovies: SpecialMovies?
+)
+
+data class InvalidCredentialsResponse(
+    @SerializedName("message")
+    val message: String?,
+    @SerializedName("errors")
+    val invalidCredentialsData: InvalidCredentialsData?
+)
+
+data class InvalidCredentialsData(
+    @SerializedName("email")
+    val emailErrors : List<String?>?,
+    @SerializedName("password")
+    val passwordErrors : List<String?>?,
+    @SerializedName("name")
+    val nameErrors : List<String?>?
+)
+
+data class UserResponse(
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("email")
+    val email: String
 )

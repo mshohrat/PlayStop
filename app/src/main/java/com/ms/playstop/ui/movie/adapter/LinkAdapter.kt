@@ -35,8 +35,10 @@ class LinkAdapter(private val urls: List<Url>): RecyclerView.Adapter<LinkAdapter
             nameTv?.text = String.format(itemView.context.getString(R.string.quality_x),url.quality.name)
             rootView.setOnClickListener {
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(url.link)
-                rootView.context.startActivity(intent)
+                intent.setDataAndType(Uri.parse(url.link),"file/*")
+                rootView.context.startActivity(
+                    Intent.createChooser(intent,rootView.context.getString(R.string.receive_by))
+                )
             }
         }
     }

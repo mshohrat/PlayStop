@@ -37,9 +37,20 @@
     <dimen name="item_movie_height">300dp</dimen>
     <dimen name="item_movie_image_height">164dp</dimen>
     <dimen name="badge_radius">24dp</dimen>
+    <dimen name="button_radius">28dp</dimen>
     <dimen name="background_card_radius">10dp</dimen>
     <dimen name="shimmer_radius">6dp</dimen>
     <dimen name="minimum_button_size">48dp</dimen>
+    <dimen name="default_button_size">56dp</dimen>
     <dimen name="user_avatar_size">36dp</dimen>
+    <dimen name="divider_height_default">1dp</dimen>
+    <dimen name="account_avatar_size">76dp</dimen>
+    <dimen name="progress_bar_size">76dp</dimen>
+    <dimen name="divider_default_size">1dp</dimen>
+    <dimen name="status_bar_height">0dp</dimen>
+    <dimen name="action_bar_height">56dp</dimen>
+    <dimen name="status_bar_and_action_bar_height">56dp</dimen>
+    <dimen name="shimmer_item_view_height">28dp</dimen>
+    <dimen name="splash_icon_size">128dp</dimen>
 
 </resources>

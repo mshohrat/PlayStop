@@ -1,0 +1,20 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="textAppearanceHeadline1">@style/Headline1.FixSize</item>
+        <item name="textAppearanceHeadline2">@style/Headline2.FixSize</item>
+        <item name="textAppearanceHeadline3">@style/Headline3.FixSize</item>
+        <item name="textAppearanceHeadline4">@style/Headline4.FixSize</item>
+        <item name="textAppearanceBody1">@style/Body1.FixSize</item>
+        <item name="textAppearanceCaption">@style/Caption.FixSize</item>
+        <item name="android:textDirection">rtl</item>
+        <item name="android:fontFamily">@font/iransans_family</item>
+        <item name="fontFamily">@font/iransans_family</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+
+</resources>

@@ -1,218 +1,306 @@
 [
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/font_iran_sans_bold.ttf.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/font/iran_sans_bold.ttf"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/font_iran_sans_medium.ttf.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/font/iran_sans_medium.ttf"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_home_header.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_home_header.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_star_empty.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_star_empty.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_movie_list_layout.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/item_movie_list_layout.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_search.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_search.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_10dp_white_opacity_10.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_10dp_white_opacity_10.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-xxxhdpi_ic_launcher_clear.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-xxxhdpi/ic_launcher_clear.png"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_arrow.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_arrow.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_search.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_search.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_movie.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/fragment_movie.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_notification.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_notification.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_user_avater.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_user_avater.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-v24_ic_launcher_foreground.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable-v24/ic_launcher_foreground.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_primary_dark.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_primary_dark.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_movies.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/fragment_movies.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_bg_ratingbar_full_empty.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/bg_ratingbar_full_empty.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_24dp_primary.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_24dp_primary.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_back.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_back.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_link_layout.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/item_link_layout.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_star_empty.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_star_empty.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-xxhdpi_ic_launcher.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-xxhdpi/ic_launcher.png"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/font_iran_sans_regular.ttf.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/font/iran_sans_regular.ttf"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_movie_header_layout.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/item_movie_header_layout.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_search.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/fragment_search.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_10dp_white_opacity_10.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_10dp_white_opacity_10.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_clear.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_clear.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_28dp_gradient_purple_to_blue.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_28dp_gradient_purple_to_blue.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_avatar.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_avatar.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/font_iran_sans_medium.ttf.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/font/iran_sans_medium.ttf"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-xhdpi_ic_launcher_clear.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-xhdpi/ic_launcher_clear.png"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_home.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/fragment_home.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_movie.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_movie.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_movie_layout.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/item_movie_layout.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_movie_layout.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/item_movie_layout.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_bg_ratingbar_full_empty.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/bg_ratingbar_full_empty.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_movie_lists.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_movie_lists.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_launcher_background.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_launcher_background.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_comment_layout.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/item_comment_layout.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_bg_ratingbar_full_filled.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/bg_ratingbar_full_filled.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_movies.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_movies.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_categories.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/fragment_categories.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_movie_list_layout.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/item_movie_list_layout.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_layout_bottom_sheet_recycler.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/layout_bottom_sheet_recycler.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_yellow.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_yellow.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_gray.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_gray.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_activity_main.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/activity_main.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_splash.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_splash.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-mdpi_ic_launcher.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_movies.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_movies.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_search.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_search.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_bg_ratingbar_full_filled.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/bg_ratingbar_full_filled.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-hdpi/ic_launcher_round.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_layout_movie_shimmer.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/layout_movie_shimmer.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_comment_layout.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/item_comment_layout.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_top_rounded_24dp_gray.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_top_rounded_24dp_gray.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_movie_lists.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/fragment_movie_lists.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/font_iran_sans_bold.ttf.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/font/iran_sans_bold.ttf"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_gray.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_gray.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_24dp_red_light.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_24dp_red_light.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/font_iransans_family.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/font/iransans_family.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_category.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_category.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_avatar.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_avatar.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-ldpi_ic_launcher_clear.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-ldpi/ic_launcher_clear.png"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_category.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_category.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_gradient_transparent_to_gray.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_gradient_transparent_to_gray.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-xxhdpi/ic_launcher.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_white.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_white.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_share.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_share.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-nodpi_ic_launcher_clear.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-nodpi/ic_launcher_clear.png"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_back.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_back.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_24dp_primary.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_24dp_primary.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_no_result.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_no_result.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_categories.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_categories.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-hdpi_ic_launcher.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-hdpi/ic_launcher.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_stroke_white.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_stroke_white.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_bg_rating_bar_full.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/bg_rating_bar_full.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_bg_rating_bar_full.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/bg_rating_bar_full.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-mdpi_ic_launcher_clear.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-mdpi/ic_launcher_clear.png"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_notification.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_notification.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_movie_header_place_holder_layout.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/item_movie_header_place_holder_layout.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_comments.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/fragment_comments.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/font_iransans_family.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/font/iransans_family.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-anydpi-v26_ic_launcher.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_movie_place_holder_layout.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/item_movie_place_holder_layout.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_link_layout.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/item_link_layout.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_yellow.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_yellow.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_star_filled.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_star_filled.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_movies.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_movies.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_accent.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_accent.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_movie_place_holder_layout.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/item_movie_place_holder_layout.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-xxhdpi_ic_launcher_clear.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-xxhdpi/ic_launcher_clear.png"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_star_filled.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_star_filled.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_account.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_account.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_download.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_download.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-nodpi_ic_launcher.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-nodpi/ic_launcher.png"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_home_header.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_home_header.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_splash.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/layout/fragment_splash.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_layout_loading_dialog.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/layout_loading_dialog.xml"
     },
     {
-        "merged": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_user_avater.xml.flat",
-        "source": "/Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/res/drawable/ic_user_avater.xml"
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_primary_dark_stroke_white.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_primary_dark_stroke_white.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_episode_layout.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/item_episode_layout.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_download.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_download.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-v24_shape_rectangle_rounded_24dp_gray.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-v24/shape_rectangle_rounded_24dp_gray.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_comments.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_comments.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_signup.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_signup.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_activity_main.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_home.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_home.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_fragment_login.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/fragment_login.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-v24_ic_launcher_foreground.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-v24/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-xxxhdpi_ic_launcher.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_share.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_share.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_shape_rectangle_rounded_6dp_primary_dark_stroke_gray.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/shape_rectangle_rounded_6dp_primary_dark_stroke_gray.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/transition_default_transition.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/transition/default_transition.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-mdpi_ic_launcher.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_clear.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_clear.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-xhdpi_ic_launcher.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_no_result.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_no_result.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable-ldpi_ic_launcher.png.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable-ldpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_launcher_background.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/drawable_ic_arrow.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/drawable/ic_arrow.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/layout_item_season_layout.xml.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/layout/item_season_layout.xml"
+    },
+    {
+        "merged": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/res/merged/bazaar/debug/font_iran_sans_regular.ttf.flat",
+        "source": "/Users/m.shohrat/projetcs/PlayStop/app/src/main/res/font/iran_sans_regular.ttf"
     }
 ]

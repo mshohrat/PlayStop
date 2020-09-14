@@ -234,6 +234,7 @@
     <color name="background_floating_material_light">@android:color/white</color>
     <color name="background_material_dark">@color/material_grey_850</color>
     <color name="background_material_light">@color/material_grey_50</color>
+    <color name="blue">#2583EB</color>
     <color name="bright_foreground_disabled_material_dark">#80ffffff</color>
     <color name="bright_foreground_disabled_material_light">#80000000</color>
     <color name="bright_foreground_inverse_material_dark">@color/bright_foreground_material_light</color>
@@ -247,6 +248,8 @@
     <color name="cardview_shadow_end_color">#03000000</color>
     <color name="cardview_shadow_start_color">#37000000</color>
     <color name="colorAccent">#00C4E7</color>
+    <color name="colorAccentDark">#01B3D3</color>
+    <color name="colorAccentDarkOpacity50">#8001B3D3</color>
     <color name="colorPrimary">#0C2043</color>
     <color name="colorPrimaryDark">#0D2040</color>
     <color name="common_google_signin_btn_text_dark_default">@android:color/white</color>
@@ -302,6 +305,7 @@
     <color name="foreground_material_light">@android:color/black</color>
     <color name="gray">#a6a6a6</color>
     <color name="grayLight">#EDEEF1</color>
+    <color name="gray_opacity_50">#80A6A6A6</color>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
     <color name="material_blue_grey_800">#ff37474f</color>
@@ -335,6 +339,8 @@
     <color name="primary_text_default_material_light">#de000000</color>
     <color name="primary_text_disabled_material_dark">#4Dffffff</color>
     <color name="primary_text_disabled_material_light">#39000000</color>
+    <color name="purple">#7A4EE3</color>
+    <color name="redLight">#ffff4444</color>
     <color name="ripple_material_dark">#33ffffff</color>
     <color name="ripple_material_light">#1f000000</color>
     <color name="secondary_text_default_material_dark">#b3ffffff</color>
@@ -428,6 +434,8 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
+    <dimen name="account_avatar_size">76dp</dimen>
+    <dimen name="action_bar_height">56dp</dimen>
     <dimen name="action_bar_size">16dp</dimen>
     <dimen name="appcompat_dialog_background_inset">16dp</dimen>
     <dimen name="background_card_radius">10dp</dimen>
@@ -435,6 +443,7 @@
     <dimen name="body_1_max_text_size">17sp</dimen>
     <dimen name="body_1_min_text_size">14sp</dimen>
     <dimen name="body_line_height">28dp</dimen>
+    <dimen name="button_radius">28dp</dimen>
     <dimen name="caption_line_height">24dp</dimen>
     <dimen name="caption_max_text_size">14sp</dimen>
     <dimen name="caption_min_text_size">12sp</dimen>
@@ -449,6 +458,7 @@
     <dimen name="compat_notification_large_icon_max_height">320dp</dimen>
     <dimen name="compat_notification_large_icon_max_width">320dp</dimen>
     <dimen name="def_drawer_elevation">10dp</dimen>
+    <dimen name="default_button_size">56dp</dimen>
     <dimen name="default_dimension">100dp</dimen>
     <dimen name="design_appbar_elevation">4dp</dimen>
     <dimen name="design_bottom_navigation_active_item_max_width">168dp</dimen>
@@ -498,6 +508,8 @@
     <dimen name="design_textinput_caption_translate_y">5dp</dimen>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
+    <dimen name="divider_default_size">1dp</dimen>
+    <dimen name="divider_height_default">1dp</dimen>
     <dimen name="fastscroll_default_thickness">8dp</dimen>
     <dimen name="fastscroll_margin">0dp</dimen>
     <dimen name="fastscroll_minimum_range">50dp</dimen>
@@ -719,7 +731,12 @@
     <dimen name="padding_small">4dp</dimen>
     <dimen name="padding_standard">16dp</dimen>
     <dimen name="padding_tiny">2dp</dimen>
+    <dimen name="progress_bar_size">76dp</dimen>
+    <dimen name="shimmer_item_view_height">28dp</dimen>
     <dimen name="shimmer_radius">6dp</dimen>
+    <dimen name="splash_icon_size">128dp</dimen>
+    <dimen name="status_bar_and_action_bar_height">56dp</dimen>
+    <dimen name="status_bar_height">0dp</dimen>
     <dimen name="subtitle_corner_radius">2dp</dimen>
     <dimen name="subtitle_outline_width">2dp</dimen>
     <dimen name="subtitle_shadow_offset">2dp</dimen>
@@ -881,14 +898,18 @@
     <string name="account">حساب</string>
     <string name="actors">بازیگران</string>
     <string name="app_name">PlayStop</string>
+    <string name="app_name_fa">پلی‌ استپ</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="bottom_sheet_behavior" translatable="false">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
+    <string name="categories">دسته‌بندی‌ها</string>
     <string name="category">دسته‌بندی</string>
     <string name="character_counter_content_description">Characters entered %1$d of %2$d</string>
     <string name="character_counter_overflowed_content_description">Character limit exceeded %1$d of %2$d</string>
     <string name="character_counter_pattern" translatable="false">%1$d/%2$d</string>
     <string name="chip_text">Chip text</string>
     <string name="clear_text_end_icon_content_description">Clear text</string>
+    <string name="com.crashlytics.android.build_id" ns2:ignore="UnusedResources,TypographyDashes" translatable="false">00000000000000000000000000000000</string>
+    <string name="comment_posted_successfully">نظر با موفقیت ثبت شد</string>
     <string name="comments">نظرات</string>
     <string msgid="2523291102206661146" name="common_google_play_services_enable_button">Enable</string>
     <string msgid="227660514972886228" name="common_google_play_services_enable_text"><ns1:g id="app_name">%1$s</ns1:g> won\'t work unless you enable Google Play services.</string>
@@ -908,27 +929,49 @@
     <string name="common_open_on_phone">Open on phone</string>
     <string name="common_signin_button_text">Sign in</string>
     <string name="common_signin_button_text_long">Sign in with Google</string>
+    <string name="create_account">ساخت حساب</string>
     <string name="default_notification_channel_id">playstop_notification_channel_id</string>
+    <string name="default_web_client_id" translatable="false">139662160058-jfu6722k86jatj9nv9v0bsd8peb1se1f.apps.googleusercontent.com</string>
     <string name="description">توضیحات</string>
     <string name="director">کارگردان</string>
+    <string name="email">ایمیل</string>
+    <string name="email_can_not_be_empty">ایمیل نمی‌تواند خالی باشد</string>
+    <string name="email_or_password_is_incorrect">ایمیل یا رمز عبور اشتباه است</string>
+    <string name="enter_your_email">ایمیل خود را وارد کنید</string>
+    <string name="enter_your_name">نام خود را وارد کنید</string>
+    <string name="enter_your_password">رمز عبور را وارد کنید</string>
+    <string name="enter_your_repeat_password">تکرار رمز عبور را وارد کنید</string>
+    <string name="entered_email_is_invalid">آدرس ایمیل وارد شده اشتباه است</string>
     <string name="error_icon_content_description">Error</string>
     <string name="exposed_dropdown_menu_content_description">Show dropdown menu</string>
     <string name="fab_transformation_scrim_behavior" translatable="false">com.google.android.material.transformation.FabTransformationScrimBehavior</string>
     <string name="fab_transformation_sheet_behavior" translatable="false">com.google.android.material.transformation.FabTransformationSheetBehavior</string>
     <string name="failed_in_communication_with_server">خطا در برقراری اطلاعات با سرور</string>
     <string name="fcm_fallback_notification_channel_label">Miscellaneous</string>
+    <string name="firebase_database_url" translatable="false">https://playstop-ebc34.firebaseio.com</string>
     <string name="free">رایگان</string>
+    <string name="gcm_defaultSenderId" translatable="false">139662160058</string>
+    <string name="genres">ژانرها</string>
+    <string name="google_api_key" translatable="false">AIzaSyAWDc5i32e5IQM1xGsDdNL4Ws42XQkP-RY</string>
+    <string name="google_app_id" translatable="false">1:139662160058:android:b32489653e492cff619283</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAWDc5i32e5IQM1xGsDdNL4Ws42XQkP-RY</string>
+    <string name="google_storage_bucket" translatable="false">playstop-ebc34.appspot.com</string>
+    <string name="have_account">حساب کاربری دارید؟</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hide_bottom_view_on_scroll_behavior" translatable="false">com.google.android.material.behavior.HideBottomViewOnScrollBehavior</string>
     <string name="home">خانه</string>
     <string description="Content description for an icon that appears in the title area of a dialog" name="icon_content_description">Dialog Icon</string>
-    <string name="imdb_score">امتیاز IMDB:</string>
+    <string name="imdb_empty">- :IMDB</string>
     <string name="imdb_score_x">IMDB: %s</string>
     <string name="installation_cancelled">Installation cancelled.</string>
     <string name="installation_failed">Installation failed.</string>
     <string name="installing_module">Installing module:</string>
     <string name="item_view_role_description">Tab</string>
     <string name="links">لینک‌ها</string>
+    <string name="logged_in_successfully">با موفقیت به حساب کاربری وارد شدید</string>
+    <string name="login">ورود</string>
+    <string name="login_to_account">ورود به حساب</string>
+    <string name="logout">خروج از حساب</string>
     <string description="Content description for the thumb with the maximum value in a Range slider. [CHAR_LIMIT=NONE]" name="material_slider_range_end">Range end, </string>
     <string description="Content description for the thumb with the minimum value in a Range slider. [CHAR_LIMIT=NONE]" name="material_slider_range_start">Range start, </string>
     <string description="Content description for new notification (no number count) [CHAR_LIMIT=NONE]" name="mtrl_badge_numberless_content_description">New notification</string>
@@ -966,26 +1009,47 @@
     <string description="a11y string to indicate this button switches the user to choosing a day [CHAR_LIMIT=NONE]" name="mtrl_picker_toggle_to_day_selection">Tap to switch to selecting a day</string>
     <string description="a11y string to indicate this button changes the input mode to a text field [CHAR_LIMIT=NONE]" name="mtrl_picker_toggle_to_text_input_mode">Switch to text input mode</string>
     <string description="a11y string to indicate this button switches the user to choosing a year [CHAR_LIMIT=NONE]" name="mtrl_picker_toggle_to_year_selection">Tap to switch to selecting a year</string>
+    <string name="name">نام</string>
+    <string name="name_can_not_be_empty">نام نمی‌تواند خالی باشد</string>
     <string name="nav_app_bar_navigate_up_description">Navigate up</string>
     <string name="nav_app_bar_open_drawer_description">Open navigation drawer</string>
     <string name="news">اخبار</string>
+    <string name="no_comments">نظری ثبت نشده است</string>
+    <string name="no_links">لینک دانلود موجود نیست</string>
     <string name="no_result">نتیجه‌ای پیدا نشد</string>
+    <string name="not_have_account">حساب کاربری ندارید؟</string>
     <string name="ok">Okay</string>
+    <string name="password">رمز عبور</string>
+    <string name="password_can_not_be_empty">رمز عبور نمی‌تواند خالی باشد</string>
     <string name="password_toggle_content_description">Show password</string>
     <string name="path_password_eye" translatable="false">M12,4.5C7,4.5 2.73,7.61 1,12c1.73,4.39 6,7.5 11,7.5s9.27,-3.11 11,-7.5c-1.73,-4.39 -6,-7.5 -11,-7.5zM12,17c-2.76,0 -5,-2.24 -5,-5s2.24,-5 5,-5 5,2.24 5,5 -2.24,5 -5,5zM12,9c-1.66,0 -3,1.34 -3,3s1.34,3 3,3 3,-1.34 3,-3 -1.34,-3 -3,-3z</string>
     <string name="path_password_eye_mask_strike_through" translatable="false">M2,4.27 L19.73,22 L22.27,19.46 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
     <string name="path_password_eye_mask_visible" translatable="false">M2,4.27 L2,4.27 L4.54,1.73 L4.54,1.73 L4.54,1 L23,1 L23,23 L1,23 L1,4.27 Z</string>
     <string name="path_password_strike_through" translatable="false">M3.27,4.27 L19.74,20.74</string>
     <string name="progress">Progress:</string>
+    <string name="project_id" translatable="false">playstop-ebc34</string>
     <string name="quality_x">کیفیت %s</string>
+    <string name="receive_by">دریافت با ...</string>
+    <string name="registered_successfully">حساب کاربری با موفقیت ساخته شد</string>
+    <string name="repeat_password">تکرار رمز عبور</string>
+    <string name="repeat_password_can_not_be_empty">تکرار رمز عبور نمی‌تواند خالی باشد</string>
+    <string name="repeat_password_not_match_password">تکرار رمز عبور با رمز عبور یکسان نیست</string>
     <string name="retry">Retry</string>
     <string name="search">جستجو</string>
     <string name="search_menu_title">Search</string>
     <string name="seasons">فصل‌ها</string>
     <string name="show_all">نمایش همه</string>
-    <string name="show_all_comments">مشاهده تمامی نظرات</string>
+    <string name="show_comments">مشاهده نظرات</string>
+    <string name="soon">به ‌زودی</string>
     <string name="status_bar_notification_info_overflow">999+</string>
+    <string name="submit">ثبت</string>
+    <string name="suggestions">پیشنهادات</string>
     <string name="try_again">تلاش مجدد</string>
+    <string name="unknown_time">زمان نامشخص</string>
+    <string name="user_account">حساب کاربری</string>
+    <string name="version_x">نسخه %s</string>
+    <string name="votes_x">%s رای</string>
+    <string name="write_your_comment">نظر خود را بنویسید</string>
     <string name="writer">نویسنده</string>
     <string name="x_hours_x_minuets">%s ساعت و %s دقیقه</string>
     <string name="x_minuets">%s دقیقه</string>
@@ -2897,6 +2961,9 @@
     </style>
     <style name="Body1.FixSize" parent="Body1">
         <item name="android:textSize">@dimen/body_1_max_text_size</item>
+    </style>
+    <style name="BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="background">@drawable/shape_rectangle_top_rounded_24dp_gray</item>
     </style>
     <style name="Caption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:fontFamily">@font/iran_sans_regular</item>

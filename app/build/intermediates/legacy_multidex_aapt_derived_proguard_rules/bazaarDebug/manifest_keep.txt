@@ -1,4 +1,4 @@
-# Referenced at /Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/merged_manifests/bazaarDebug/AndroidManifest.xml:19
+# Referenced at /Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/merged_manifests/bazaarDebug/AndroidManifest.xml:19
 -keep class androidx.core.app.CoreComponentFactory { <init>(); }
-# Referenced at /Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/merged_manifests/bazaarDebug/AndroidManifest.xml:19
+# Referenced at /Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/merged_manifests/bazaarDebug/AndroidManifest.xml:19
 -keep class com.ms.playstop.App { <init>(); }

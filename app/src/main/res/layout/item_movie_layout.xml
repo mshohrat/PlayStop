@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:alpha="0"
     tools:alpha="1"
-    android:layout_marginEnd="@dimen/margin_standard"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -28,7 +27,8 @@
         android:visibility="gone"
         tools:visibility="visible"
         android:layout_margin="@dimen/margin_small"
-        android:background="@drawable/shape_rectangle_rounded_24dp_primary"
+        android:textColor="@color/grayLight"
+        android:background="@drawable/shape_rectangle_rounded_24dp_red_light"
         app:layout_constraintBottom_toBottomOf="@id/movie_image_iv"
         app:layout_constraintStart_toStartOf="@id/movie_image_iv"
         android:text="@string/free"/>
@@ -41,6 +41,8 @@
         android:layout_marginTop="@dimen/margin_medium"
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="@color/white"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/movie_image_iv"
         tools:text="دل"/>
@@ -59,30 +61,65 @@
         tools:text="خانوادگی"/>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/movie_score_title_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="?textAppearanceCaption"
-        android:layout_marginTop="@dimen/margin_small"
-        android:textColor="@color/gray"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/movie_genre_tv"
-        android:text="@string/imdb_score"/>
-
-    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/movie_score_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         style="?textAppearanceCaption"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
-        android:layout_marginEnd="@dimen/margin_medium"
+        android:background="@drawable/shape_rectangle_rounded_6dp_yellow"
+        android:paddingStart="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_medium"
+        android:paddingTop="@dimen/padding_small"
+        android:paddingBottom="@dimen/padding_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/movie_genre_tv"
+        android:text="@string/imdb_score_x"/>
+
+    <View
+        android:id="@+id/movie_top_border"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height_default"
+        android:background="@color/grayLight"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/gray"
-        app:layout_constraintEnd_toStartOf="@id/movie_score_title_tv"
-        app:layout_constraintTop_toTopOf="@id/movie_score_title_tv"
-        app:layout_constraintBottom_toBottomOf="@id/movie_score_title_tv"
-        tools:text="9.7"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/movie_bottom_border"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height_default"
+        android:background="@color/grayLight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <View
+        android:id="@+id/movie_start_border"
+        android:layout_width="@dimen/divider_height_default"
+        android:layout_height="0dp"
+        android:background="@color/grayLight"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <View
+        android:id="@+id/movie_end_border"
+        android:layout_width="@dimen/divider_height_default"
+        android:layout_height="0dp"
+        android:background="@color/grayLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/movie_border_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:constraint_referenced_ids="movie_bottom_border,movie_end_border,movie_start_border,movie_top_border"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

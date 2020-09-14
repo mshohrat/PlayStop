@@ -1,13 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.categories.CategoriesFragment">
 
-    <TextView
+    <FrameLayout
+        android:id="@+id/categories_top_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/categories_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccentDark"
+        android:paddingTop="@dimen/status_bar_height">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar_height"
+            app:contentInsetEnd="@dimen/margin_standard"
+            app:contentInsetStart="@dimen/margin_standard"
+            app:contentInsetStartWithNavigation="@dimen/margin_standard"
+            app:contentInsetEndWithActions="@dimen/margin_standard">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/categories_toolbar_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceBody1"
+                    android:textColor="@color/white"
+                    android:layout_marginEnd="@dimen/margin_standard"
+                    android:text="@string/category"/>
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/categories_back_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:rotation="180"
+                    app:srcCompat="@drawable/ic_back"
+                    android:background="?android:selectableItemBackground"/>
+
+            </LinearLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    </FrameLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/categories_category_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        style="?textAppearanceHeadline4"
+        app:layout_constraintTop_toBottomOf="@id/categories_top_frame"
+        android:text="@string/categories"
+        android:gravity="center_vertical|start"
+        android:paddingHorizontal="@dimen/margin_standard"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/categories_category_chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_medium"
+        app:chipSpacingHorizontal="@dimen/margin_standard"
+        android:layoutDirection="rtl"
+        app:layout_constraintTop_toBottomOf="@id/categories_category_title_tv">
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:backgroundTint="@color/gray"-->
+<!--            app:cornerRadius="@dimen/badge_radius"-->
+<!--            android:paddingVertical="@dimen/padding_medium"-->
+<!--            style="?textAppearanceBody1"-->
+<!--            android:text="@string/news"/>-->
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/categories_category_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:constraint_referenced_ids="categories_genre_divider,categories_category_title_tv,categories_category_chip_group"/>
+
+    <View
+        android:id="@+id/categories_genre_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height_default"
+        app:layout_constraintTop_toBottomOf="@id/categories_category_chip_group"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginHorizontal="@dimen/margin_standard"
+        android:background="@color/grayLight"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/categories_genre_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        style="?textAppearanceHeadline4"
+        app:layout_constraintTop_toBottomOf="@id/categories_genre_divider"
+        android:text="@string/genres"
+        android:gravity="center_vertical|start"
+        android:paddingHorizontal="@dimen/margin_standard"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/categories_genre_chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_medium"
+        app:chipSpacingHorizontal="@dimen/margin_standard"
+        android:layoutDirection="rtl"
+        app:layout_constraintTop_toBottomOf="@id/categories_genre_title_tv">
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/categories_genre_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:constraint_referenced_ids="categories_suggestion_divider,categories_genre_title_tv,categories_genre_chip_group"/>
+
+    <View
+        android:id="@+id/categories_suggestion_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_height_default"
+        app:layout_constraintTop_toBottomOf="@id/categories_genre_chip_group"
+        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginHorizontal="@dimen/margin_standard"
+        android:background="@color/grayLight"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/categories_suggestion_title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        style="?textAppearanceHeadline4"
+        app:layout_constraintTop_toBottomOf="@id/categories_suggestion_divider"
+        android:text="@string/suggestions"
+        android:gravity="center_vertical|start"
+        android:paddingHorizontal="@dimen/margin_standard"/>
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/categories_suggestion_chip_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:chipSpacingHorizontal="@dimen/margin_standard"
+        android:padding="@dimen/padding_medium"
+        android:layoutDirection="rtl"
+        app:layout_constraintTop_toBottomOf="@id/categories_suggestion_title_tv">
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/categories_suggestion_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:constraint_referenced_ids="categories_suggestion_title_tv,categories_suggestion_chip_group"/>
+
+    <FrameLayout
+        android:id="@+id/categories_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

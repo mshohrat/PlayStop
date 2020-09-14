@@ -9,6 +9,7 @@ import com.ms.playstop.R
 import com.ms.playstop.model.Movie
 import com.ms.playstop.model.Suggestion
 import com.ms.playstop.model.SuggestionMovies
+import com.ms.playstop.utils.RtlLinearLayoutManager
 import kotlinx.android.synthetic.main.item_movie_list_layout.view.*
 
 class MovieListAdapter(
@@ -51,7 +52,7 @@ class MovieListAdapter(
                     onItemClickListener.onMovieClick(movie)
                 }
             })
-            val layoutManager = LinearLayoutManager(rootView.context,RecyclerView.HORIZONTAL,false)
+            val layoutManager = RtlLinearLayoutManager(rootView.context,RecyclerView.HORIZONTAL,false)
             recycler?.layoutManager = layoutManager
             recycler?.adapter = movieAdapter
         }

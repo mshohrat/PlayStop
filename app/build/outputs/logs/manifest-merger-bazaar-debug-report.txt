@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/5634c85b4eacb8d426dd4f9def66534e/multidex-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-ui-ktx:2.3.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/0f33fbc19b8fe1693123663be49d2e50/navigation-ui-ktx-2.3.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.navigation:navigation-ui:2.3.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/1a023a480b471f1b0bd83e606780e6e2/navigation-ui-2.3.0/AndroidManifest.xml:17:1-24:12
@@ -105,25 +105,25 @@ MERGED from [androidx.annotation:annotation-experimental:1.0.0] /Users/m.shohrat
 MERGED from [com.facebook.conceal:conceal:1.1.3] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/79c5ef947e144182d1b82fb428c0b217/jetified-conceal-1.1.3/AndroidManifest.xml:7:1-16:12
 MERGED from [com.google.android.datatransport:transport-api:2.2.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/872b7ad91bdfa4dfd8f582c67043d81d/jetified-transport-api-2.2.0/AndroidManifest.xml:15:1-22:12
 MERGED from [com.google.android.play:core:1.7.2] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/4a8eb8ce82f74cd29dcff929eb5c395c/jetified-core-1.7.2/AndroidManifest.xml:2:1-19:12
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
 	package
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:3:5-30
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:3:5-30
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:1-49:12
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:2:11-69
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:5:5-67
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:5:5-67
 MERGED from [com.google.firebase:firebase-crashlytics:17.1.1] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/7f5fdc377da99078acbd5017a87662fa/jetified-firebase-crashlytics-17.1.1/AndroidManifest.xml:10:5-67
 MERGED from [com.google.firebase:firebase-crashlytics:17.1.1] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/7f5fdc377da99078acbd5017a87662fa/jetified-firebase-crashlytics-17.1.1/AndroidManifest.xml:10:5-67
 MERGED from [com.google.android.gms:play-services-measurement:17.4.4] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/3c5944e0f4ac8ffdbe5995d9f0c7a1a7/jetified-play-services-measurement-17.4.4/AndroidManifest.xml:23:5-67
@@ -141,9 +141,9 @@ MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.4.4] /U
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/bb82d071138c1b514645e2adb901ddfd/jetified-transport-backend-cct-2.3.0/AndroidManifest.xml:26:5-67
 MERGED from [com.google.android.datatransport:transport-backend-cct:2.3.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/bb82d071138c1b514645e2adb901ddfd/jetified-transport-backend-cct-2.3.0/AndroidManifest.xml:26:5-67
 	android:name
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:5:22-64
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:5:22-64
 application
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:7:5-47:19
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:7:5-47:19
 MERGED from [com.google.android.material:material:1.2.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/574b29d98fe551e275060c3a14f09ed3/material-1.2.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.2.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/574b29d98fe551e275060c3a14f09ed3/material-1.2.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/f33662860cafd6492d5f1d251fedc507/constraintlayout-1.1.3/AndroidManifest.xml:9:5-20
@@ -211,65 +211,65 @@ MERGED from [com.google.android.play:core:1.7.2] /Users/m.shohrat/.gradle/caches
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.3.1] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/cf83f24b41ec8bf98c26f064780dee87/core-1.3.1/AndroidManifest.xml:24:18-86
 	android:supportsRtl
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:13:9-35
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:13:9-35
 	android:label
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:10:9-41
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:10:9-41
 	android:roundIcon
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:12:9-54
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:12:9-50
 	android:icon
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:9:9-43
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:9:9-45
 	android:allowBackup
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:8:9-35
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:8:9-35
 	android:theme
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:14:9-40
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:14:9-40
 	android:usesCleartextTraffic
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:15:9-44
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:15:9-44
 	android:name
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:11:9-28
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:11:9-28
 activity#com.ms.playstop.MainActivity
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:17:9-27:20
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:17:9-27:20
 	android:screenOrientation
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:19:13-49
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:19:13-49
 	android:label
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:18:13-45
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:18:13-45
 	android:windowSoftInputMode
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:21:13-55
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:21:13-55
 	android:theme
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:20:13-56
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:20:13-56
 	android:name
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:17:19-47
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:17:19-47
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:22:13-26:29
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:22:13-26:29
 action#android.intent.action.MAIN
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:23:17-69
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:23:17-69
 	android:name
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:23:25-66
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:23:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:25:17-77
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:25:27-74
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:25:27-74
 meta-data#com.google.firebase.messaging.default_notification_icon
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:37:9-39:54
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:37:9-39:56
 	android:resource
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:39:13-51
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:39:13-53
 	android:name
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:38:13-83
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:38:13-83
 meta-data#com.google.firebase.messaging.default_notification_color
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:40:9-42:53
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:40:9-42:53
 	android:resource
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:42:13-50
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:42:13-50
 	android:name
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:41:13-84
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:41:13-84
 meta-data#com.google.firebase.messaging.default_notification_channel_id
-ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:43:9-45:71
+ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:43:9-45:71
 	android:value
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:45:13-68
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:45:13-68
 	android:name
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml:44:13-89
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml:44:13-89
 uses-sdk
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/5634c85b4eacb8d426dd4f9def66534e/multidex-2.0.0/AndroidManifest.xml:20:5-43
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/5634c85b4eacb8d426dd4f9def66534e/multidex-2.0.0/AndroidManifest.xml:20:5-43
 MERGED from [androidx.navigation:navigation-ui-ktx:2.3.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/0f33fbc19b8fe1693123663be49d2e50/navigation-ui-ktx-2.3.0/AndroidManifest.xml:20:5-22:41
@@ -472,16 +472,16 @@ MERGED from [com.google.android.datatransport:transport-api:2.2.0] /Users/m.shoh
 MERGED from [com.google.android.datatransport:transport-api:2.2.0] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/872b7ad91bdfa4dfd8f582c67043d81d/jetified-transport-api-2.2.0/AndroidManifest.xml:18:5-20:41
 MERGED from [com.google.android.play:core:1.7.2] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/4a8eb8ce82f74cd29dcff929eb5c395c/jetified-core-1.7.2/AndroidManifest.xml:4:3-70
 MERGED from [com.google.android.play:core:1.7.2] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/4a8eb8ce82f74cd29dcff929eb5c395c/jetified-core-1.7.2/AndroidManifest.xml:4:3-70
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
-INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
+INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
-		ADDED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/m.shohrat/projetcs/arash/PlayStop/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
+		ADDED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/m.shohrat/projetcs/PlayStop/app/src/main/AndroidManifest.xml
 service#com.google.firebase.components.ComponentDiscoveryService
 ADDED from [com.google.firebase:firebase-crashlytics:17.1.1] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/7f5fdc377da99078acbd5017a87662fa/jetified-firebase-crashlytics-17.1.1/AndroidManifest.xml:13:9-19:19
 MERGED from [com.google.firebase:firebase-messaging:20.2.3] /Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/42ddad44a1f0f57c9fdc44b09c332a9e/jetified-firebase-messaging-20.2.3/AndroidManifest.xml:36:9-42:19

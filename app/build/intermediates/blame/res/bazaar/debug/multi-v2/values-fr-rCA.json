@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/incremental/mergeBazaarDebugResources/merged.dir/values-fr-rCA/values-fr-rCA.xml",
+            "outputFile": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/incremental/mergeBazaarDebugResources/merged.dir/values-fr-rCA/values-fr-rCA.xml",
             "map": [
                 {
                     "source": "/Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/4454ceeecf8541c8a980b56035c61ada/jetified-play-services-basement-17.0.0/res/values-fr-rCA/values.xml",

@@ -110,5 +110,9 @@
         <item name="android:maxHeight">24dp</item>
     </style>
 
+    <style name="BottomSheetDialog" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="background">@drawable/shape_rectangle_top_rounded_24dp_gray</item>
+    </style>
+
 
 </resources>

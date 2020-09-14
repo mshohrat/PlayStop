@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.ms.playstop.BuildConfig
 
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
@@ -44,7 +45,7 @@ class SplashFragment : Fragment() {
     }
 
     private fun initViews() {
-        //todo set version name in view
+        splash_version_tv?.text = String.format(getString(R.string.version_x),BuildConfig.VERSION_NAME)
     }
 
     private fun subscribeToViewEvents() {

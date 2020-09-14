@@ -77,6 +77,7 @@ androidx/annotation/experimental/UseExperimental.class
 androidx/appcompat/app/ActionBar$DisplayOptions.class
 androidx/appcompat/app/ActionBar$NavigationMode.class
 androidx/appcompat/app/AppCompatDelegate$NightMode.class
+androidx/appcompat/app/AppCompatDelegate.class
 androidx/appcompat/graphics/drawable/DrawerArrowDrawable$ArrowDirection.class
 androidx/appcompat/view/menu/CascadingMenuPopup$HorizPosition.class
 androidx/appcompat/widget/LinearLayoutCompat$DividerMode.class
@@ -111,6 +112,7 @@ androidx/core/view/ViewCompat$NestedScrollType.class
 androidx/core/view/ViewCompat$ScrollAxis.class
 androidx/core/view/ViewCompat$ScrollIndicators.class
 androidx/core/widget/TextViewCompat$AutoSizeTextType.class
+androidx/exifinterface/media/ExifInterface$IfdType.class
 androidx/fragment/app/FragmentManagerKt.class
 androidx/lifecycle/Lifecycle$1.class
 androidx/lifecycle/Lifecycle$Event.class
@@ -183,6 +185,14 @@ androidx/viewpager/widget/ViewPager$DecorView.class
 androidx/viewpager2/widget/ViewPager2$OffscreenPageLimit.class
 androidx/viewpager2/widget/ViewPager2$Orientation.class
 androidx/viewpager2/widget/ViewPager2$ScrollState.class
+com/bumptech/glide/annotation/Excludes.class
+com/bumptech/glide/annotation/GlideExtension.class
+com/bumptech/glide/annotation/GlideModule.class
+com/bumptech/glide/annotation/GlideOption.class
+com/bumptech/glide/annotation/GlideType.class
+com/bumptech/glide/annotation/compiler/Index.class
+com/bumptech/glide/gifdecoder/GifDecoder$GifDecodeStatus.class
+com/bumptech/glide/util/Synthetic.class
 com/facebook/crypto/proguard/annotations/DoNotStrip.class
 com/facebook/crypto/proguard/annotations/InternalBuildOnly.class
 com/facebook/crypto/proguard/annotations/KeepGettersAndSetters.class

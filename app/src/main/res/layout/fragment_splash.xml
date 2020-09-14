@@ -8,20 +8,20 @@
     tools:context=".ui.splash.SplashFragment">
     
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="@dimen/splash_icon_size"
+        android:layout_height="@dimen/splash_icon_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@mipmap/ic_launcher"/>
+        app:srcCompat="@drawable/ic_launcher_clear"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/splash_version_tv"
         style="?textAppearanceCaption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="نسخه ۱.۰.۰"
+        tools:text="نسخه ۱.۰.۰"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

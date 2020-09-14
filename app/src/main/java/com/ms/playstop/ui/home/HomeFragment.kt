@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.addOrShow
+import com.ms.playstop.extension.updateStatusBarColor
 import com.ms.playstop.ui.categories.CategoriesFragment
 import com.ms.playstop.ui.movieLists.MovieListsFragment
 import com.ms.playstop.ui.search.SearchFragment
@@ -38,6 +39,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        //activity?.updateStatusBarColor(R.color.purple)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
         initViews()
         subscribeToViewEvents()
@@ -60,7 +62,6 @@ class HomeFragment : BaseFragment() {
                     .setText(R.string.home)
                     .setIcon(R.drawable.ic_movies)
             )
-            it.getTabAt(0)?.select()
         }
     }
 
@@ -93,6 +94,8 @@ class HomeFragment : BaseFragment() {
             }
 
         })
+
+        home_tab_layout?.getTabAt(2)?.select()
     }
 
     fun selectTabBy(destination: Fragment) {
@@ -105,8 +108,17 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun handleBack(): Boolean {
-        activity?.finish()
+        if(home_tab_layout?.selectedTabPosition == 0 || home_tab_layout?.selectedTabPosition == 1 ) {
+            home_tab_layout?.getTabAt(2)?.select()
+        }
+        else {
+            activity?.finish()
+        }
         return true
+    }
+
+    override fun containerId(): Int {
+        return R.id.home_frame
     }
 
 }

@@ -26,6 +26,11 @@ interface ApiService {
         ,@Path("suggestion_id") suggestionId : Int
     ) : Single<MoviePagedListResponse?>?
 
+    @GET("movies/special/1/{page}")
+    fun getSpecialMovies(
+        @Path("page") page : Int
+    ) : Single<MoviePagedListResponse?>?
+
     @GET("movies/director/{id}/{page}")
     fun getDirectorMovies(
         @Path("page") page : Int
@@ -149,7 +154,7 @@ interface ApiService {
 
     @POST("comment/{movie_id}")
     fun postComment(
-        @Body postCommentRequest: PostCommentRequest?
+        @Body postCommentRequest: PostCommentRequest?,@Path("movie_id") movieId: Int
     ) : Single<GeneralResponse?>?
 
     @POST("register")
@@ -157,7 +162,7 @@ interface ApiService {
         @Body signupRequest: SignupRequest?
     ) : Single<GenreListResponse?>?
 
-    @POST("login")
+    @POST("auth/login")
     fun login(
         @Body loginRequest: LoginRequest?
     ) : Single<LoginResponse?>?

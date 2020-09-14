@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/m.shohrat/projetcs/arash/PlayStop/app/build/intermediates/incremental/mergeBazaarDebugResources/merged.dir/values-ja/values-ja.xml",
+            "outputFile": "/Users/m.shohrat/projetcs/PlayStop/app/build/intermediates/incremental/mergeBazaarDebugResources/merged.dir/values-ja/values-ja.xml",
             "map": [
                 {
                     "source": "/Users/m.shohrat/.gradle/caches/transforms-2/files-2.1/1a023a480b471f1b0bd83e606780e6e2/navigation-ui-2.3.0/res/values-ja/values-ja.xml",

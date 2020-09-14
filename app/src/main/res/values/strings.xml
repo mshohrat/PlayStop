@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">PlayStop</string>
+    <string name="app_name_fa">پلی‌ استپ</string>
     <string name="default_notification_channel_id">playstop_notification_channel_id</string>
     <string name="try_again">تلاش مجدد</string>
     <string name="account">حساب</string>
@@ -7,7 +8,7 @@
     <string name="news">اخبار</string>
     <string name="home">خانه</string>
     <string name="show_all">نمایش همه</string>
-    <string name="imdb_score">امتیاز IMDB:</string>
+    <string name="imdb_empty">- :IMDB</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -20,14 +21,49 @@
     <string name="writer">نویسنده</string>
     <string name="links">لینک‌ها</string>
     <string name="seasons">فصل‌ها</string>
-    <string name="show_all_comments">مشاهده تمامی نظرات</string>
+    <string name="show_comments">مشاهده نظرات</string>
     <string name="comments">نظرات</string>
     <string name="failed_in_communication_with_server">خطا در برقراری اطلاعات با سرور</string>
     <string name="x_hours_x_minuets">%s ساعت و %s دقیقه</string>
     <string name="x_minuets">%s دقیقه</string>
     <string name="imdb_score_x">IMDB: %s</string>
     <string name="quality_x">کیفیت %s</string>
+    <string name="votes_x">%s رای</string>
     <string name="submit">ثبت</string>
     <string name="write_your_comment">نظر خود را بنویسید</string>
+    <string name="categories">دسته‌بندی‌ها</string>
+    <string name="genres">ژانرها</string>
+    <string name="suggestions">پیشنهادات</string>
+    <string name="user_account">حساب کاربری</string>
+    <string name="logout">خروج از حساب</string>
+    <string name="login_to_account">ورود به حساب</string>
+    <string name="create_account">ساخت حساب</string>
+    <string name="login">ورود</string>
+    <string name="name">نام</string>
+    <string name="enter_your_name">نام خود را وارد کنید</string>
+    <string name="email">ایمیل</string>
+    <string name="enter_your_email">ایمیل خود را وارد کنید</string>
+    <string name="password">رمز عبور</string>
+    <string name="enter_your_password">رمز عبور را وارد کنید</string>
+    <string name="repeat_password">تکرار رمز عبور</string>
+    <string name="enter_your_repeat_password">تکرار رمز عبور را وارد کنید</string>
+    <string name="not_have_account">حساب کاربری ندارید؟</string>
+    <string name="have_account">حساب کاربری دارید؟</string>
+    <string name="name_can_not_be_empty">نام نمی‌تواند خالی باشد</string>
+    <string name="email_can_not_be_empty">ایمیل نمی‌تواند خالی باشد</string>
+    <string name="entered_email_is_invalid">آدرس ایمیل وارد شده اشتباه است</string>
+    <string name="password_can_not_be_empty">رمز عبور نمی‌تواند خالی باشد</string>
+    <string name="repeat_password_can_not_be_empty">تکرار رمز عبور نمی‌تواند خالی باشد</string>
+    <string name="repeat_password_not_match_password">تکرار رمز عبور با رمز عبور یکسان نیست</string>
+    <string name="email_or_password_is_incorrect">ایمیل یا رمز عبور اشتباه است</string>
+    <string name="logged_in_successfully">با موفقیت به حساب کاربری وارد شدید</string>
+    <string name="registered_successfully">حساب کاربری با موفقیت ساخته شد</string>
+    <string name="comment_posted_successfully">نظر با موفقیت ثبت شد</string>
+    <string name="no_comments">نظری ثبت نشده است</string>
+    <string name="no_links">لینک دانلود موجود نیست</string>
+    <string name="soon">به ‌زودی</string>
+    <string name="unknown_time">زمان نامشخص</string>
+    <string name="receive_by">دریافت با ...</string>
+    <string name="version_x">نسخه %s</string>
 
 </resources>

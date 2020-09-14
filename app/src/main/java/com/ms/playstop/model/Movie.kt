@@ -23,6 +23,8 @@ data class Movie(
     val trailer: String?,
     @SerializedName("image")
     val image: String,
+    @SerializedName("header")
+    val header: String?,
     @SerializedName("is_series")
     val isSeries: Boolean,
     @SerializedName("category")

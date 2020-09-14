@@ -12,13 +12,14 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
         <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/movie_collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:collapsedTitleGravity="end|center_vertical"
             app:collapsedTitleTextAppearance="?textAppearanceHeadline3"
             app:expandedTitleGravity="end|center_vertical"
             app:expandedTitleMargin="@dimen/margin_standard"
-            app:contentScrim="@color/colorPrimaryDark"
+            app:contentScrim="@color/colorAccentDark"
             app:expandedTitleTextAppearance="?textAppearanceHeadline3"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:scrimAnimationDuration="200"
@@ -27,8 +28,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingTop="?actionBarSize"
-                android:background="@color/colorAccent"
+                android:background="@color/colorAccentDark"
+                android:paddingTop="@dimen/status_bar_and_action_bar_height"
                 app:layout_collapseMode="parallax">
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -37,6 +38,20 @@
                     android:layout_height="@dimen/item_movie_image_height"
                     android:scaleType="fitXY"
                     tools:srcCompat="@drawable/ic_avatar"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_margin="@dimen/margin_standard"/>
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/movie_shimmer_image"
+                    android:layout_width="@dimen/item_movie_width"
+                    android:layout_height="@dimen/item_movie_image_height"
+                    android:visibility="visible"
+                    tools:visibility="gone"
+                    android:background="@drawable/shape_rectangle_rounded_6dp_white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -84,6 +99,8 @@
                     android:id="@+id/movie_score_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible"
                     style="?textAppearanceCaption"
                     app:layout_constraintEnd_toEndOf="@id/movie_name_tv"
                     app:layout_constraintTop_toBottomOf="@id/movie_length_tv"
@@ -111,11 +128,10 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
             <com.google.android.material.appbar.MaterialToolbar
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
+                android:layout_height="@dimen/action_bar_height"
+                android:layout_marginTop="@dimen/status_bar_height"
                 app:contentInsetEnd="@dimen/margin_standard"
                 app:contentInsetStart="@dimen/margin_standard"
                 app:contentInsetStartWithNavigation="@dimen/margin_standard"
@@ -137,8 +153,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/movie_toolbar_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:visibility="visible"
                         style="?textAppearanceBody1"
                         android:textColor="@color/white"
                         android:layout_marginEnd="@dimen/margin_standard"
@@ -165,174 +184,274 @@
         android:padding="@dimen/padding_standard"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="vertical">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?textAppearanceHeadline3"
-                android:text="@string/description"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_description_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginTop="@dimen/margin_medium"
-                style="?textAppearanceCaption"
-                tools:text=" یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?textAppearanceHeadline3"
-                android:layout_marginTop="@dimen/margin_large"
-                android:text="@string/actors"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_actors_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginTop="@dimen/margin_medium"
-                style="?textAppearanceCaption"
-                tools:text="جانی دپ - برد پیت - آلپاچینو"/>
-
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?textAppearanceHeadline3"
-                android:layout_marginTop="@dimen/margin_large"
-                android:text="@string/director"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_director_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginTop="@dimen/margin_medium"
-                style="?textAppearanceCaption"
-                tools:text="کریستوفر نولان"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?textAppearanceHeadline3"
-                android:layout_marginTop="@dimen/margin_large"
-                android:text="@string/writer"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_writer_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:layout_marginTop="@dimen/margin_medium"
-                style="?textAppearanceCaption"
-                tools:text="کریستوفر نولان"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_links_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?textAppearanceHeadline3"
-                android:layout_marginTop="@dimen/margin_large"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:text="@string/links"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/movie_links_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_marginTop="@dimen/margin_medium"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_seasons_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="?textAppearanceHeadline3"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_marginTop="@dimen/margin_large"
-                android:text="@string/seasons"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/movie_seasons_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_marginTop="@dimen/margin_medium"/>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/movie_comments_title_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:visibility="visible"
-                style="?textAppearanceHeadline3"
-                android:layout_marginTop="@dimen/margin_large"
-                android:text="@string/comments"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/movie_comments_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:visibility="visible"
-                android:layout_marginTop="@dimen/margin_medium"/>
+            android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/movie_detail_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/movie_submit_comment_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    style="?textAppearanceBody1"
-                    android:textColor="@color/white"
-                    app:backgroundTint="@color/colorAccent"
-                    android:text="@string/submit"/>
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/movie_submit_comment_et"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    style="?textAppearanceBody1"
-                    android:textColor="@color/white"
-                    android:paddingStart="@dimen/padding_standard"
-                    android:paddingEnd="@dimen/padding_standard"
-                    android:paddingTop="@dimen/padding_medium"
-                    android:paddingBottom="@dimen/padding_medium"
-                    android:layout_marginBottom="@dimen/margin_medium"
-                    android:hint="@string/write_your_comment"
-                    android:background="@drawable/shape_rectangle_rounded_6dp_stroke_white"
-                    android:textColorHint="@color/gray"/>
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/movie_show_all_comments_tv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="?textAppearanceHeadline3"
+                android:layout_height="match_parent"
                 android:visibility="gone"
                 tools:visibility="visible"
-                app:backgroundTint="@color/colorAccent"
-                android:textColor="@color/white"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/show_all_comments"/>
+                android:gravity="end"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:text="@string/description"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_description_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    style="?textAppearanceCaption"
+                    tools:text=" یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/actors"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_actors_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    style="?textAppearanceCaption"
+                    tools:text="جانی دپ - برد پیت - آلپاچینو"/>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/director"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_director_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    style="?textAppearanceCaption"
+                    tools:text="کریستوفر نولان"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/writer"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_writer_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    style="?textAppearanceCaption"
+                    tools:text="کریستوفر نولان"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_links_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:text="@string/links"/>
+
+                <View
+                    android:id="@+id/movie_links_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_no_links_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/action_bar_height"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:gravity="center"
+                    style="?textAppearanceCaption"
+                    android:textColor="@color/gray"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/no_links"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movie_links_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_marginTop="@dimen/margin_medium"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_seasons_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/seasons"/>
+
+                <View
+                    android:id="@+id/movie_seasons_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_no_seasons_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/action_bar_height"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:gravity="center"
+                    style="?textAppearanceCaption"
+                    android:textColor="@color/gray"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/soon"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movie_seasons_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_marginTop="@dimen/margin_medium"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_comments_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/comments"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_no_comments_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/action_bar_height"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:gravity="center"
+                    style="?textAppearanceCaption"
+                    android:textColor="@color/gray"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/no_comments"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movie_comments_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_marginTop="@dimen/margin_standard"/>
+
+                <LinearLayout
+                    android:id="@+id/movie_submit_comment_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:orientation="horizontal">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/movie_submit_comment_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        style="?textAppearanceBody1"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/colorAccent"
+                        android:text="@string/submit"/>
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/movie_submit_comment_et"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        style="?textAppearanceBody1"
+                        android:textColor="@color/white"
+                        android:paddingStart="@dimen/padding_standard"
+                        android:paddingEnd="@dimen/padding_standard"
+                        android:paddingTop="@dimen/padding_medium"
+                        android:paddingBottom="@dimen/padding_medium"
+                        android:layout_marginBottom="@dimen/margin_medium"
+                        android:hint="@string/write_your_comment"
+                        android:background="@drawable/shape_rectangle_rounded_6dp_stroke_white"
+                        android:textColorHint="@color/gray"/>
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/movie_show_comments_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceBody1"
+                    app:backgroundTint="@color/colorAccent"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/show_comments"/>
+
+            </LinearLayout>
+
+            <include
+                android:id="@+id/movie_shimmer_detail"
+                layout="@layout/layout_movie_shimmer"
+                android:visibility="visible"
+                tools:visibility="gone"/>
+
+        </FrameLayout>
+
 
     </androidx.core.widget.NestedScrollView>
 

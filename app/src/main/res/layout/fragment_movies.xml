@@ -1,13 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".ui.movies.MoviesFragment">
 
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/status_bar_height"
+        android:background="@color/colorAccentDark">
 
-</FrameLayout>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/action_bar_height"
+        app:contentInsetEnd="@dimen/margin_standard"
+        app:contentInsetStart="@dimen/margin_standard"
+        app:contentInsetStartWithNavigation="@dimen/margin_standard"
+        app:contentInsetEndWithActions="@dimen/margin_standard">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/movies_toolbar_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="?textAppearanceBody1"
+                android:textColor="@color/white"
+                android:layout_marginEnd="@dimen/margin_standard"
+                tools:text="@string/app_name"/>
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/movies_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:rotation="180"
+                app:srcCompat="@drawable/ic_back"
+                android:background="?android:selectableItemBackground"/>
+
+        </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movies_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/movies_loading_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+</LinearLayout>

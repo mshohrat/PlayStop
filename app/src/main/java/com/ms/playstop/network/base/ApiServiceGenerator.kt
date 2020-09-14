@@ -57,7 +57,6 @@ class ApiServiceGenerator {
                             .header("Authorization", "Bearer $token")
                             .header("Accept","application/json")
                             .header("Content-Type","application/json")
-                            .header("uuid",uuid)
                             .method(original.method(), original.body())
                             .build()
                     }
@@ -70,7 +69,7 @@ class ApiServiceGenerator {
                             || refreshToken.isEmpty())
                         {
                             //this is refresh token request. so, we should remove user and restart app
-                            Hawk.delete(Profile.PROFILE_KEY)
+                            Hawk.delete(Profile.SAVE_KEY)
                             MainActivity.doRestart()
                         }
                         else
@@ -80,17 +79,17 @@ class ApiServiceGenerator {
                                 ?.observeOn(AndroidSchedulers.mainThread())
                                 ?.subscribe({
                                     it?.let {
-                                        val profile = Hawk.get(Profile.PROFILE_KEY) as? Profile
+                                        val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
                                         profile?.token = it.token
                                         profile?.refreshToken = it.refreshToken
                                         profile?.expiresIn = it.expiresIn
-                                        Hawk.put(Profile.PROFILE_KEY,profile)
+                                        Hawk.put(Profile.SAVE_KEY,profile)
                                     } ?: kotlin.run {
-                                        Hawk.delete(Profile.PROFILE_KEY)
+                                        Hawk.delete(Profile.SAVE_KEY)
                                         MainActivity.doRestart()
                                     }
                                 },{
-                                    Hawk.delete(Profile.PROFILE_KEY)
+                                    Hawk.delete(Profile.SAVE_KEY)
                                     MainActivity.doRestart()
                                 })
                         }
@@ -100,8 +99,8 @@ class ApiServiceGenerator {
 
                 private val token: String
                     private get() {
-                        if (Hawk.contains(Profile.PROFILE_KEY) && Hawk.get<Profile?>(Profile.PROFILE_KEY) is Profile) {
-                            val profile = Hawk.get<Profile?>(Profile.PROFILE_KEY)
+                        if (Hawk.contains(Profile.SAVE_KEY) && Hawk.get<Profile?>(Profile.SAVE_KEY) is Profile) {
+                            val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
                             return profile?.token?.let { it } ?: ""
                         }
                         return ""
@@ -109,18 +108,9 @@ class ApiServiceGenerator {
 
                 private val refreshToken: String
                     private get() {
-                        if (Hawk.contains(Profile.PROFILE_KEY) && Hawk.get<Profile?>(Profile.PROFILE_KEY) is Profile) {
-                            val profile = Hawk.get<Profile?>(Profile.PROFILE_KEY)
+                        if (Hawk.contains(Profile.SAVE_KEY) && Hawk.get<Profile?>(Profile.SAVE_KEY) is Profile) {
+                            val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
                             return profile?.refreshToken?.let { it } ?: ""
-                        }
-                        return ""
-                    }
-
-                private val uuid: String
-                    private get() {
-                        if (Hawk.contains(Profile.PROFILE_KEY) && Hawk.get<Profile?>(Profile.PROFILE_KEY) is Profile) {
-                            val profile = Hawk.get<Profile?>(Profile.PROFILE_KEY)
-                            return profile?.uuid?.let { it } ?: ""
                         }
                         return ""
                     }
