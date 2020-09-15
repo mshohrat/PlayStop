@@ -4,6 +4,7 @@ app/app.iml
 .gradle
 /local.properties
 /.idea/caches
+.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
@@ -15,3 +16,9 @@ app/app.iml
 .externalNativeBuild
 .idea
 .idea/workspace.xml
+.gradle/*
+/.gradle/*
+app/build
+app/build/*
+/app/build
+/app/build/*

@@ -56,14 +56,14 @@ android {
             buildConfigField 'String', 'STORE_NAME', '"cafebazaar"'
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
-            buildConfigField 'String', 'CLIENT_SECRET', '"n6HgBlB9Y8VQOJH0NB53bpC0kS2bhyc2owRcpFVe"'
+            buildConfigField 'String', 'CLIENT_SECRET', '"PE79WqJZnDka9g2D5NOTuJz57oqwvPqsE518StpH"'
         }
         googlePlay {
             dimension "main"
             buildConfigField 'String', 'STORE_NAME', '"playstore"'
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
-            buildConfigField 'String', 'CLIENT_SECRET', '"n6HgBlB9Y8VQOJH0NB53bpC0kS2bhyc2owRcpFVe"'
+            buildConfigField 'String', 'CLIENT_SECRET', '"PE79WqJZnDka9g2D5NOTuJz57oqwvPqsE518StpH"'
         }
     }
 
