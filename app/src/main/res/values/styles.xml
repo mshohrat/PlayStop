@@ -40,7 +40,7 @@
         <item name="android:textSize">@dimen/headline_1_max_text_size</item>
     </style>
 
-    <style name="Headline2.AutoSize" parent="Headline1">
+    <style name="Headline2.AutoSize" parent="Headline1.AutoSize">
         <item name="autoSizeMaxTextSize">@dimen/headline_2_max_text_size</item>
         <item name="autoSizeMinTextSize">@dimen/headline_2_min_text_size</item>
     </style>

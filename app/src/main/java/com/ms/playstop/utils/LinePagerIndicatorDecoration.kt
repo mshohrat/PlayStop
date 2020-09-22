@@ -1,6 +1,7 @@
 package com.ms.playstop.utils
 
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.view.View
@@ -13,8 +14,8 @@ import com.ms.playstop.extension.convertDpToPixel
 
 class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
 
-    private val colorActive = -0x1
-    private val colorInactive = 0x66FFFFFF
+    private val colorActive = Color.parseColor("#0C2043")
+    private val colorInactive = Color.parseColor("#330D2040")
 
     private val mIndicatorHeight = convertDpToPixel(16f)
 

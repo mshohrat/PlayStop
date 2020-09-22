@@ -2,16 +2,18 @@ package com.ms.playstop.ui.categories
 
 import android.content.res.ColorStateList
 import android.os.Build
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.google.android.material.button.MaterialButton
-
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.add
@@ -21,9 +23,14 @@ import com.ms.playstop.extension.show
 import com.ms.playstop.model.Category
 import com.ms.playstop.model.Genre
 import com.ms.playstop.model.Suggestion
+import com.ms.playstop.model.Year
+import com.ms.playstop.ui.categories.adapter.ChipAdapter
 import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
+import com.ms.playstop.utils.LoadingDialog
+import com.ms.playstop.utils.RtlFlexBoxLayoutManager
 import kotlinx.android.synthetic.main.fragment_categories.*
+
 
 class CategoriesFragment : BaseFragment() {
 
@@ -32,6 +39,7 @@ class CategoriesFragment : BaseFragment() {
     }
 
     private lateinit var viewModel: CategoriesViewModel
+    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,21 +66,38 @@ class CategoriesFragment : BaseFragment() {
             }
             else {
                 categories_category_group?.show()
-                for (category in it) {
-                    val button = createButton()
-                    button?.let {
-                        it.text = category.name
-                        categories_category_chip_group?.addView(
-                            it, ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT
-                            )
-                        )
-                        it.setOnClickListener {
-                            onItemClick(category)
+                val layoutManager = FlexboxLayoutManager(activity)
+                layoutManager.flexDirection = FlexDirection.ROW
+                layoutManager.justifyContent = JustifyContent.FLEX_END
+                layoutManager.flexWrap = FlexWrap.WRAP
+                categories_category_chip_recycler?.layoutManager = layoutManager
+                val adapter = ChipAdapter<Category>(it,object : ChipAdapter.OnItemClickListener<Category>{
+                    override fun onItemClick(item: Category) {
+                        val moviesFragment = MoviesFragment.newInstance()
+                        moviesFragment.arguments = Bundle().apply {
+                            this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE, RequestType.CATEGORY.type)
+                            this.putInt(MoviesFragment.MOVIES_REQUEST_ID,item.id)
+                            this.putString(MoviesFragment.MOVIES_REQUEST_NAME,item.name)
                         }
+                        add(containerId(),moviesFragment)
                     }
-                }
+                })
+                categories_category_chip_recycler?.adapter = adapter
+//                for (category in it) {
+//                    val button = createButton()
+//                    button?.let {
+//                        it.text = category.name
+//                        categories_category_chip_group?.addView(
+//                            it, ViewGroup.LayoutParams(
+//                                ViewGroup.LayoutParams.WRAP_CONTENT,
+//                                ViewGroup.LayoutParams.WRAP_CONTENT
+//                            )
+//                        )
+//                        it.setOnClickListener {
+//                            onItemClick(category)
+//                        }
+//                    }
+//                }
             }
         })
 
@@ -82,45 +107,49 @@ class CategoriesFragment : BaseFragment() {
             }
             else {
                 categories_genre_group?.show()
-                for (genre in it) {
-                    val button = createButton()
-                    button?.let {
-                        it.text = genre.name
-                        categories_genre_chip_group?.addView(
-                            it, ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT
-                            )
-                        )
-                        it.setOnClickListener {
-                            onItemClick(genre)
+                val layoutManager = FlexboxLayoutManager(activity)
+                layoutManager.flexDirection = FlexDirection.ROW
+                layoutManager.justifyContent = JustifyContent.FLEX_END
+                layoutManager.flexWrap = FlexWrap.WRAP
+                categories_genre_chip_recycler?.layoutManager = layoutManager
+                val adapter = ChipAdapter<Genre>(it,object : ChipAdapter.OnItemClickListener<Genre> {
+                    override fun onItemClick(item: Genre) {
+                        val moviesFragment = MoviesFragment.newInstance()
+                        moviesFragment.arguments = Bundle().apply {
+                            this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE, RequestType.GENRE.type)
+                            this.putInt(MoviesFragment.MOVIES_REQUEST_ID,item.id)
+                            this.putString(MoviesFragment.MOVIES_REQUEST_NAME,item.name)
                         }
+                        add(containerId(),moviesFragment)
                     }
-                }
+                })
+                categories_genre_chip_recycler?.adapter = adapter
             }
         })
 
-        viewModel.suggestions.observe(viewLifecycleOwner, Observer {
+        viewModel.years.observe(viewLifecycleOwner, Observer {
             if(it.isEmpty()) {
-                categories_suggestion_group?.hide()
+                categories_year_group?.hide()
             }
             else {
-                categories_suggestion_group?.show()
-                for (suggestion in it) {
-                    val button = createButton()
-                    button?.let {
-                        it.text = suggestion.name
-                        categories_suggestion_chip_group?.addView(
-                            it, ViewGroup.LayoutParams(
-                                ViewGroup.LayoutParams.WRAP_CONTENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT
-                            )
-                        )
-                        it.setOnClickListener {
-                            onItemClick(suggestion)
+                categories_year_group?.show()
+                val layoutManager = FlexboxLayoutManager(activity)
+                layoutManager.flexDirection = FlexDirection.ROW
+                layoutManager.justifyContent = JustifyContent.FLEX_END
+                layoutManager.flexWrap = FlexWrap.WRAP
+                categories_year_chip_recycler?.layoutManager = layoutManager
+                val adapter = ChipAdapter<Year>(it,object : ChipAdapter.OnItemClickListener<Year> {
+                    override fun onItemClick(item: Year) {
+                        val moviesFragment = MoviesFragment.newInstance()
+                        moviesFragment.arguments = Bundle().apply {
+                            this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE, RequestType.YEAR.type)
+                            this.putInt(MoviesFragment.MOVIES_REQUEST_ID,item.value)
+                            this.putString(MoviesFragment.MOVIES_REQUEST_NAME,String.format(getString(R.string.year_x),item.value))
                         }
+                        add(containerId(),moviesFragment)
                     }
-                }
+                })
+                categories_year_chip_recycler?.adapter = adapter
             }
         })
     }
@@ -147,36 +176,6 @@ class CategoriesFragment : BaseFragment() {
         }
         return null
 
-    }
-
-    private fun onItemClick(category: Category) {
-        val moviesFragment = MoviesFragment.newInstance()
-        moviesFragment.arguments = Bundle().apply {
-            this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE, RequestType.CATEGORY.type)
-            this.putInt(MoviesFragment.MOVIES_REQUEST_ID,category.id)
-            this.putString(MoviesFragment.MOVIES_REQUEST_NAME,category.name)
-        }
-        add(containerId(),moviesFragment)
-    }
-
-    private fun onItemClick(genre: Genre) {
-        val moviesFragment = MoviesFragment.newInstance()
-        moviesFragment.arguments = Bundle().apply {
-            this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE, RequestType.GENRE.type)
-            this.putInt(MoviesFragment.MOVIES_REQUEST_ID,genre.id)
-            this.putString(MoviesFragment.MOVIES_REQUEST_NAME,genre.name)
-        }
-        add(containerId(),moviesFragment)
-    }
-
-    private fun onItemClick(suggestion: Suggestion) {
-        val moviesFragment = MoviesFragment.newInstance()
-        moviesFragment.arguments = Bundle().apply {
-            this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE, RequestType.SUGGESTION.type)
-            this.putInt(MoviesFragment.MOVIES_REQUEST_ID,suggestion.id)
-            this.putString(MoviesFragment.MOVIES_REQUEST_NAME,suggestion.name)
-        }
-        add(containerId(),moviesFragment)
     }
 
     override fun containerId(): Int {

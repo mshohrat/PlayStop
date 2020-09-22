@@ -9,7 +9,8 @@
     tools:context=".ui.login.LoginFragment">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/padding_standard">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/login_appbar"
@@ -40,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceBody1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginEnd="@dimen/margin_standard"
                     android:text="@string/login_to_account"/>
 
@@ -75,7 +76,7 @@
         app:layout_constraintTop_toTopOf="@id/login_email_bg_view"
         android:layout_marginTop="@dimen/margin_standard"
         android:layout_marginHorizontal="@dimen/margin_standard"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorAccentDark"
         style="?textAppearanceCaption"
         android:text="@string/email" />
 
@@ -115,7 +116,7 @@
         app:layout_constraintTop_toTopOf="@id/login_password_bg_view"
         android:layout_marginTop="@dimen/margin_standard"
         android:layout_marginHorizontal="@dimen/margin_standard"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorAccentDark"
         style="?textAppearanceCaption"
         android:text="@string/password" />
 
@@ -165,10 +166,9 @@
         app:layout_constraintTop_toBottomOf="@id/login_btn_divider"
         android:layout_marginHorizontal="@dimen/margin_standard"
         android:layout_marginTop="@dimen/margin_huge"
-        android:layout_marginBottom="@dimen/margin_standard"
         android:text="@string/login"
         android:textAppearance="?textAppearanceBody1"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
         android:background="@drawable/shape_rectangle_rounded_28dp_gradient_purple_to_blue"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

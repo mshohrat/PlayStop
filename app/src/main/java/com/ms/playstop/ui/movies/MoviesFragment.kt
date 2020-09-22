@@ -59,6 +59,18 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
                 RequestType.SUGGESTION.type -> {
                     moviesRequestType = RequestType.SUGGESTION
                 }
+                RequestType.CATEGORY.type -> {
+                    moviesRequestType = RequestType.CATEGORY
+                }
+                RequestType.GENRE.type -> {
+                    moviesRequestType = RequestType.GENRE
+                }
+                RequestType.SPECIAL.type -> {
+                    moviesRequestType = RequestType.SPECIAL
+                }
+                RequestType.YEAR.type -> {
+                    moviesRequestType = RequestType.YEAR
+                }
                 else -> {}
             }
         }

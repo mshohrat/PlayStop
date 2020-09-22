@@ -27,10 +27,10 @@
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/show_all"
         android:textAppearance="?textAppearanceCaption"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorAccentDark"
         app:icon="@drawable/ic_arrow"
         app:iconGravity="start"
-        app:iconTint="@color/colorAccent"
+        app:iconTint="@color/colorAccentDark"
         app:iconPadding="@dimen/margin_medium"/>
 
     <androidx.recyclerview.widget.RecyclerView

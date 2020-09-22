@@ -75,8 +75,8 @@ interface ApiService {
 
     @GET("movies/year/{year}/{page}")
     fun getYearMovies(
+        @Path("year") year : Int,
         @Path("page") page : Int
-        ,@Path("year") year : Int
     ) : Single<MoviePagedListResponse?>?
 
     @GET("movie/{id}")

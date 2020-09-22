@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
-    android:paddingTop="@dimen/status_bar_height"
     android:orientation="vertical"
     tools:context=".ui.search.SearchFragment">
 
@@ -16,7 +15,7 @@
         android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginTop="@dimen/search_top_margin"
         app:layout_constraintTop_toTopOf="parent"
         android:textAppearance="?textAppearanceBody1"
         android:textColor="@color/white"
@@ -24,7 +23,7 @@
         android:hint="@string/search"
         android:paddingEnd="@dimen/padding_medium"
         android:paddingStart="@dimen/padding_medium"
-        android:drawableEnd="@drawable/ic_search"
+        android:drawableEnd="@drawable/ic_search_dark_blue"
         android:drawablePadding="@dimen/padding_standard"/>
 
     <androidx.appcompat.widget.AppCompatImageButton
@@ -35,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="@id/search_et"
         app:layout_constraintStart_toStartOf="@id/search_et"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_clear"
+        app:srcCompat="@drawable/ic_clear_dark_blue"
         android:background="?selectableItemBackground"/>
 
     <androidx.recyclerview.widget.RecyclerView

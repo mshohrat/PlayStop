@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:srcCompat="@drawable/ic_launcher_clear"/>
+        app:srcCompat="@drawable/ic_launcher"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/splash_version_tv"

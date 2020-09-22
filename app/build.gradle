@@ -56,14 +56,14 @@ android {
             buildConfigField 'String', 'STORE_NAME', '"cafebazaar"'
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
-            buildConfigField 'String', 'CLIENT_SECRET', '"PE79WqJZnDka9g2D5NOTuJz57oqwvPqsE518StpH"'
+            buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
         }
         googlePlay {
             dimension "main"
             buildConfigField 'String', 'STORE_NAME', '"playstore"'
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
-            buildConfigField 'String', 'CLIENT_SECRET', '"PE79WqJZnDka9g2D5NOTuJz57oqwvPqsE518StpH"'
+            buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
         }
     }
 
@@ -126,6 +126,7 @@ dependencies {
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
+    implementation 'com.google.android:flexbox:2.0.1'
 }
 
 repositories {

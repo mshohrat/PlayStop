@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
+import com.ms.playstop.MainActivity
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
-import com.ms.playstop.model.Movie
-import com.ms.playstop.model.Suggestion
+import com.ms.playstop.model.*
 import com.ms.playstop.ui.account.AccountFragment
 import com.ms.playstop.ui.home.HomeFragment
 import com.ms.playstop.ui.login.LoginFragment
@@ -97,6 +98,15 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
             val adapter = MovieHeaderAdapter(it,this)
             movies_top_recycler?.adapter = adapter
         })
+
+        viewModel.moviesError.observe(viewLifecycleOwner, Observer {
+            //todo show error
+//            it.messageResId?.let {
+//                Toast.makeText(activity,it, Toast.LENGTH_SHORT).show()
+//            }
+            movies_recycler?.hide()
+            movies_top_layout?.hide()
+        })
     }
 
     private fun subscribeToViewEvents() {
@@ -163,6 +173,23 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
 
     override fun handleBack(): Boolean {
         return passHandleBackToParent()
+    }
+
+    override fun onHandleDeepLink() {
+        super.onHandleDeepLink()
+        activity?.takeIf { it is MainActivity }?.let { act ->
+            (act as MainActivity).deepLink?.takeIf {
+                it.scheme == Scheme.PlayStop
+                        && it.host == Host.Open
+                        && it.path1?.pathType == PathType.Movie }?.let {
+                it.path1?.value?.let {
+                    act.consumeDeepLink()
+                    val movieFragment = MovieFragment.newInstance()
+                    movieFragment.arguments = Bundle().apply { this.putInt(MovieFragment.MOVIE_ID_KEY,it) }
+                    add(containerId(),movieFragment)
+                }
+            }
+        }
     }
 
 }

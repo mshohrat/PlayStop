@@ -16,7 +16,7 @@
         app:backgroundTint="@color/colorAccent"
         style="?textAppearanceCaption"
         android:gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
         tools:text="web-dl"/>
 
     <androidx.recyclerview.widget.RecyclerView

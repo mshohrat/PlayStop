@@ -2,6 +2,8 @@ package com.ms.playstop.network.model
 
 import com.google.gson.annotations.SerializedName
 import com.ms.playstop.model.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 data class RefreshTokenResponse(
     @SerializedName("access_token")
@@ -15,6 +17,10 @@ data class RefreshTokenResponse(
 data class ConfigResponse(
     @SerializedName("suggestions")
     val suggestions: List<Suggestion>?,
+    @SerializedName("minimum_movie_year")
+    val minimumMovieYear: Int = 0,
+    @SerializedName("maximum_movie_year")
+    val maximumMovieYear: Int = 0,
     @SerializedName("categories")
     val categories: List<Category>?,
     @SerializedName("genres")

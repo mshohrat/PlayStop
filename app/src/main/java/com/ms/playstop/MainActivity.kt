@@ -1,5 +1,6 @@
 package com.ms.playstop
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.Window
@@ -7,17 +8,28 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.initCustomAnimations
+import com.ms.playstop.model.*
 import com.ms.playstop.ui.splash.SplashFragment
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
 
+    var deepLink: DeepLink? = null
+    val hasDeepLink: Boolean
+    get() {
+        return deepLink != null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             val w = window
-            w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+            w.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+            w.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         }
         super.onCreate(savedInstanceState)
@@ -28,6 +40,95 @@ class MainActivity : AppCompatActivity() {
                     SplashFragment.newInstance())
                 .commit()
         }
+        handleDeepLink(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handleDeepLink(intent)
+    }
+
+    private fun handleDeepLink(intent: Intent?) {
+        this.deepLink = null
+        intent?.let {
+            val linkString = it.data?.toString()
+            linkString?.takeIf { it.isNotEmpty() }?.let { link ->
+                val schemeSplitted = link.split(":".toRegex()).toTypedArray()
+                if (schemeSplitted.isNotEmpty()) {
+                    val schemeString = schemeSplitted[0]
+                    val rest = schemeSplitted[1].replace("//", "")
+                    val scheme = if (schemeString == Scheme.PlayStop.type) {
+                        Scheme.PlayStop
+                    } else {
+                        null
+                    }
+                    if (scheme != null) {
+                        val slashSeparated = rest.split("/".toRegex()).toTypedArray()
+                        if (slashSeparated.isNotEmpty()) {
+                            val hostString = slashSeparated[0]
+                            val host = if (hostString == Host.Open.type) {
+                                Host.Open
+                            } else {
+                                null
+                            }
+                            if (host != null) {
+                                when (host) {
+                                    Host.Open -> {
+                                        if (slashSeparated.size > 1) {
+                                            val path1String = slashSeparated[1]
+                                            deepLink = DeepLink(
+                                                scheme,
+                                                host,
+                                                extractPath(path1String)
+                                            )
+                                        }
+                                    }
+                                    else -> {
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        if(deepLink != null) {
+            val baseFragments = supportFragmentManager.fragments
+            baseFragments.takeIf { it.isNotEmpty() }?.let {
+                for (i in 0 until it.size) {
+                    val fragment = it[i]
+                    if (fragment is BaseFragment && fragment.isVisible) {
+                        fragment.onHandleDeepLink()
+                    }
+                }
+            }
+        }
+    }
+
+    fun consumeDeepLink() {
+        deepLink = null
+        intent = null
+    }
+
+    private fun extractPath(pathString: String?): Path? {
+        pathString?.takeIf { it.isNotEmpty() }?.toLowerCase(Locale.getDefault())?.let {
+            if(it.startsWith(PathType.Movie.type)) {
+                val valueString = it.replaceFirst(PathType.Movie.type,"")
+                try {
+                    val value = valueString.toInt()
+                    return Path(PathType.Movie,value)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    FirebaseCrashlytics.getInstance().recordException(e)
+                }
+            } else {
+                return null
+            }
+        } ?: kotlin.run {
+            return null
+        }
+        return null
     }
 
     companion object {

@@ -82,7 +82,7 @@ class MovieListsViewModel : ViewModel() {
                         specialMoviesList.value = ArrayList(it.take(5))
                     } ?: kotlin.run {
                         response?.specialMovies?.movies?.takeIf { it.isNotEmpty() }?.let {
-                            specialMoviesList.value = it
+                            specialMoviesList.value = it.apply { this.addAll(it) }
                         } ?: kotlin.run {
 
                         }

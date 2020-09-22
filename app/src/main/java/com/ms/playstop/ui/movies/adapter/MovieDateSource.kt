@@ -134,6 +134,24 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                         networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
                     })
             }
+            RequestType.YEAR -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getYearMovies(requestId,1)
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        val nextKey = if(it?.currentPage == it?.totalPages) null else 2
+                        it?.movies?.let {
+                            requestState.postValue(STATE_SUCCESS)
+                            callback.onResult(it,null,nextKey)
+                        } ?: kotlin.run {
+                            requestState.postValue(STATE_ERROR)
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    },{
+                        requestState.postValue(STATE_ERROR)
+                        networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                    })
+            }
             else -> {}
         }
     }
@@ -206,6 +224,18 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
             }
             RequestType.SPECIAL -> {
                 ApiServiceGenerator.getApiService.getSpecialMovies(params.key)
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        it?.movies?.let { movies ->
+                            val nextKey = if (params.key == it.totalPages) null else params.key+1;
+                            callback.onResult(movies,nextKey)
+                        } ?: kotlin.run {
+                        }
+                    },{
+                    })
+            }
+            RequestType.YEAR -> {
+                ApiServiceGenerator.getApiService.getYearMovies(requestId,params.key)
                     ?.initSchedulers()
                     ?.subscribe({
                         it?.movies?.let { movies ->

@@ -75,8 +75,10 @@ fun Fragment.addOrShow(destination: Fragment) {
             if (f != null) {
                 for (fragment in childFragmentManager.fragments) {
                     if (fragment.tag == destination.tag()) {
-                        childFragmentManager.beginTransaction().initCustomAnimations()
-                            .show(fragment).commitAllowingStateLoss()
+                        if(fragment.isVisible.not()) {
+                            childFragmentManager.beginTransaction().initCustomAnimations()
+                                .show(fragment).commitAllowingStateLoss()
+                        }
                         done = true
                     } else {
                         childFragmentManager.beginTransaction().hide(fragment)

@@ -11,6 +11,16 @@
     android:orientation="horizontal">
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/link_volume_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?textAppearanceCaption"
+        android:textColor="@color/white"
+        android:textDirection="ltr"
+        android:layout_marginStart="@dimen/margin_standard"
+        tools:text="100 MB"/>
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/link_name_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -25,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_download"
-        app:tint="@color/colorAccent"
+        app:tint="@color/colorAccentDark"
         android:layout_marginEnd="@dimen/margin_standard"/>
 
 </LinearLayout>

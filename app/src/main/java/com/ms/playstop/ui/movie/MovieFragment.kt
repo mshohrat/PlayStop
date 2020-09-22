@@ -1,6 +1,8 @@
 package com.ms.playstop.ui.movie
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -117,16 +119,9 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                         )).into(it)
                 }
                 movie_description_tv?.text = movie.description
-                movie_director_tv?.text = movie.director?.name
-                movie_writer_tv?.text = movie.writer?.name
-                movie.actors?.let {
-                    var actors = ""
-                    for (actor in it) {
-                        actors = "$actors${actor.name} - "
-                    }
-                    actors = actors.dropLast(3)
-                    movie_actors_tv?.text = actors
-                }
+                movie_director_tv?.text = movie.director
+                movie_writer_tv?.text = movie.writer
+                movie_actors_tv?.text = movie.actors
                 if(movie.isSeries) {
                     movie_seasons_title_tv?.show()
                     movie_seasons_divider?.show()
@@ -233,6 +228,14 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                 val loginFragment = LoginFragment.newInstance()
                 addToParent(loginFragment)
             }
+        }
+
+        movie_share_btn?.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("playstop://open/movie".plus(movie?.id))
+            activity?.startActivity(
+                Intent.createChooser(intent,activity?.getString(R.string.receive_by))
+            )
         }
     }
 

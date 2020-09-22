@@ -30,9 +30,9 @@ data class Movie(
     @SerializedName("category")
     val category: Category?,
     @SerializedName("director")
-    val director: Director?,
+    val director: String?,
     @SerializedName("writer")
-    val writer: Writer?,
+    val writer: String?,
     @SerializedName("genres")
     val genres: List<Genre>?,
     @SerializedName("languages")
@@ -40,7 +40,7 @@ data class Movie(
     @SerializedName("countries")
     val countries: List<Country>?,
     @SerializedName("actors")
-    val actors: List<Actor>?,
+    val actors: String?,
     @SerializedName("seasons")
     val seasons: List<Season>?,
     @SerializedName("urls")

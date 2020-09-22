@@ -34,6 +34,7 @@
     <string name="categories">دسته‌بندی‌ها</string>
     <string name="genres">ژانرها</string>
     <string name="suggestions">پیشنهادات</string>
+    <string name="years">سال‌های تولید</string>
     <string name="user_account">حساب کاربری</string>
     <string name="logout">خروج از حساب</string>
     <string name="login_to_account">ورود به حساب</string>
@@ -65,5 +66,8 @@
     <string name="unknown_time">زمان نامشخص</string>
     <string name="receive_by">دریافت با ...</string>
     <string name="version_x">نسخه %s</string>
+    <string name="year_x">سال %s</string>
+    <string name="x_GB">%s GB</string>
+    <string name="x_MB">%s MB</string>
 
 </resources>

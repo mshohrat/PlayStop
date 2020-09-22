@@ -41,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceBody1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginEnd="@dimen/margin_standard"
                     android:text="@string/category"/>
 
@@ -80,25 +80,15 @@
                 android:gravity="center_vertical|start"
                 android:paddingHorizontal="@dimen/margin_standard"/>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/categories_category_chip_group"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_category_chip_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_medium"
-                app:chipSpacingHorizontal="@dimen/margin_standard"
-                android:layoutDirection="rtl"
+                android:overScrollMode="never"
                 app:layout_constraintTop_toBottomOf="@id/categories_category_title_tv">
 
-                <!--        <com.google.android.material.button.MaterialButton-->
-                <!--            android:layout_width="wrap_content"-->
-                <!--            android:layout_height="wrap_content"-->
-                <!--            app:backgroundTint="@color/gray"-->
-                <!--            app:cornerRadius="@dimen/badge_radius"-->
-                <!--            android:paddingVertical="@dimen/padding_medium"-->
-                <!--            style="?textAppearanceBody1"-->
-                <!--            android:text="@string/news"/>-->
-
-            </com.google.android.material.chip.ChipGroup>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/categories_category_group"
@@ -106,13 +96,13 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:visibility="visible"
-                app:constraint_referenced_ids="categories_genre_divider,categories_category_title_tv,categories_category_chip_group"/>
+                app:constraint_referenced_ids="categories_genre_divider,categories_category_title_tv,categories_category_chip_recycler"/>
 
             <View
                 android:id="@+id/categories_genre_divider"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/divider_height_default"
-                app:layout_constraintTop_toBottomOf="@id/categories_category_chip_group"
+                app:layout_constraintTop_toBottomOf="@id/categories_category_chip_recycler"
                 android:layout_marginTop="@dimen/margin_standard"
                 android:layout_marginHorizontal="@dimen/margin_standard"
                 android:background="@color/grayLight"/>
@@ -127,16 +117,15 @@
                 android:gravity="center_vertical|start"
                 android:paddingHorizontal="@dimen/margin_standard"/>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/categories_genre_chip_group"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_genre_chip_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/padding_medium"
-                app:chipSpacingHorizontal="@dimen/margin_standard"
-                android:layoutDirection="rtl"
+                android:overScrollMode="never"
                 app:layout_constraintTop_toBottomOf="@id/categories_genre_title_tv">
 
-            </com.google.android.material.chip.ChipGroup>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/categories_genre_group"
@@ -144,45 +133,44 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:visibility="visible"
-                app:constraint_referenced_ids="categories_suggestion_divider,categories_genre_title_tv,categories_genre_chip_group"/>
+                app:constraint_referenced_ids="categories_suggestion_divider,categories_genre_title_tv,categories_genre_chip_recycler"/>
 
             <View
                 android:id="@+id/categories_suggestion_divider"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/divider_height_default"
-                app:layout_constraintTop_toBottomOf="@id/categories_genre_chip_group"
+                app:layout_constraintTop_toBottomOf="@id/categories_genre_chip_recycler"
                 android:layout_marginTop="@dimen/margin_standard"
                 android:layout_marginHorizontal="@dimen/margin_standard"
                 android:background="@color/grayLight"/>
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/categories_suggestion_title_tv"
+                android:id="@+id/categories_year_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/action_bar_height"
                 style="?textAppearanceHeadline4"
                 app:layout_constraintTop_toBottomOf="@id/categories_suggestion_divider"
-                android:text="@string/suggestions"
+                android:text="@string/years"
                 android:gravity="center_vertical|start"
                 android:paddingHorizontal="@dimen/margin_standard"/>
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/categories_suggestion_chip_group"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_year_chip_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:chipSpacingHorizontal="@dimen/margin_standard"
                 android:padding="@dimen/padding_medium"
-                android:layoutDirection="rtl"
-                app:layout_constraintTop_toBottomOf="@id/categories_suggestion_title_tv">
+                android:overScrollMode="never"
+                app:layout_constraintTop_toBottomOf="@id/categories_year_title_tv">
 
-            </com.google.android.material.chip.ChipGroup>
+            </androidx.recyclerview.widget.RecyclerView>
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/categories_suggestion_group"
+                android:id="@+id/categories_year_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 tools:visibility="visible"
-                app:constraint_referenced_ids="categories_suggestion_title_tv,categories_suggestion_chip_group"/>
+                app:constraint_referenced_ids="categories_year_title_tv,categories_year_chip_recycler"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

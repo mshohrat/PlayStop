@@ -7,6 +7,8 @@ data class Url(
     val id: Int,
     @SerializedName("link")
     val link: String,
+    @SerializedName("volume")
+    val volume: Int = 0,
     @SerializedName("quality")
     val quality: Quality
 )
