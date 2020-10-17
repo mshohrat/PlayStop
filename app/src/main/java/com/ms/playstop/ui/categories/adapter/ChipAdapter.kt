@@ -53,7 +53,6 @@ class ChipAdapter<in T>(
                     }
                 }
             }
-            itemView.animate().alpha(1f).start()
         }
 
     }

@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray"
+    android:background="@color/colorPrimary"
     android:padding="@dimen/padding_standard">
 
     <com.google.android.material.textview.MaterialTextView
@@ -23,7 +23,7 @@
         android:id="@+id/bottom_sheet_recycler_close_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_clear"
+        app:srcCompat="@drawable/ic_clear_dark_blue"
         android:background="?selectableItemBackground"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/bottom_sheet_recycler_title_tv"

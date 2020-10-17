@@ -57,6 +57,7 @@ android {
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
+            buildConfigField 'String', 'DOWNLOAD_URL', '"https://cafebazaar.ir/app/com.ms.playstop"'
         }
         googlePlay {
             dimension "main"
@@ -64,6 +65,7 @@ android {
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
+            buildConfigField 'String', 'DOWNLOAD_URL', '"https://play.google.com/store/apps/details?id=com.ms.playstop"'
         }
     }
 
@@ -127,6 +129,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.google.android:flexbox:2.0.1'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }
 
 repositories {

@@ -32,7 +32,9 @@ data class ConfigResponse(
     @SerializedName("requires_token")
     val requiresToken: Boolean?,
     @SerializedName("user")
-    val user: UserResponse?
+    val user: UserResponse?,
+    @SerializedName("update_app")
+    val updateApp: UpdateApp?
 ) {
     companion object {
         const val SAVE_KEY = "Config Response Save Key"

@@ -1,24 +1,39 @@
 package com.ms.playstop.ui.movieLists.adapter
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ms.playstop.R
 import com.ms.playstop.model.Movie
 import com.ms.playstop.model.Suggestion
 import com.ms.playstop.model.SuggestionMovies
+import com.ms.playstop.utils.GestureListener
 import com.ms.playstop.utils.RtlLinearLayoutManager
 import kotlinx.android.synthetic.main.item_movie_list_layout.view.*
 
 class MovieListAdapter(
     private var movies: List<SuggestionMovies>,
     private val onItemClickListener: OnItemClickListener
-) : RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MovieListAdapter.ViewHolder>(),RecyclerView.OnItemTouchListener,
+    GestureListener.OnScrollOrientationListener {
+
+    private var recyclerView: RecyclerView? = null
+    private var gestureDetector: GestureDetector? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        gestureDetector = GestureDetector(parent.context,GestureListener(this))
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_movie_list_layout,parent,false))
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        this.recyclerView = recyclerView
+        super.onAttachedToRecyclerView(recyclerView)
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        this.recyclerView = null
+        this.gestureDetector = null
     }
 
     override fun getItemCount(): Int {
@@ -55,7 +70,27 @@ class MovieListAdapter(
             val layoutManager = RtlLinearLayoutManager(rootView.context,RecyclerView.HORIZONTAL,false)
             recycler?.layoutManager = layoutManager
             recycler?.adapter = movieAdapter
+            recycler?.addOnItemTouchListener(this@MovieListAdapter)
         }
+    }
+
+    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+    }
+
+    override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+        gestureDetector?.onTouchEvent(e)
+        return false
+    }
+
+    override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+    }
+
+    override fun onVerticalScroll() {
+        recyclerView?.requestDisallowInterceptTouchEvent(false)
+    }
+
+    override fun onHorizontalScroll() {
+        recyclerView?.requestDisallowInterceptTouchEvent(true)
     }
 
     interface OnItemClickListener {

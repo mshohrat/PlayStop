@@ -66,8 +66,16 @@
     <string name="soon">به ‌زودی</string>
     <string name="unknown_time">زمان نامشخص</string>
     <string name="receive_by">دریافت با ...</string>
+    <string name="send_by">ارسال با ...</string>
     <string name="version_x">نسخه %s</string>
     <string name="year_x">سال %s</string>
     <string name="x_GB">%s GB</string>
     <string name="x_MB">%s MB</string>
+    <string name="subtitle">زیرنویس</string>
+    <string name="download_subtitle">دریافت فایل زیرنویس</string>
+    <string name="new_version">نسخه جدید</string>
+    <string name="new_version_published">نسخه جدید برنامه منتشر شده است</string>
+    <string name="download">دانلود</string>
+    <string name="later">بعدا</string>
+    <string name="cancel">لغو</string>
 </resources>

@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/movie_list_show_all_btn"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="@dimen/margin_standard"/>
+        android:layout_marginTop="@dimen/margin_standard"
+        android:overScrollMode="never"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

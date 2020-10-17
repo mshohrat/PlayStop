@@ -71,7 +71,7 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
                     val spacing = activity?.resources?.getDimensionPixelSize(R.dimen.margin_medium) ?: 0
                     search_recycler?.addItemDecoration(GridSpacingItemDecoration(3,spacing,true))
                 }
-                val adapter = MovieAdapter(it,this)
+                val adapter = MovieAdapter(it,this,0,false)
                 search_recycler?.adapter = adapter
             }
         })
@@ -105,10 +105,11 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        if(hidden){
-            search_et?.text = null
-            search_no_result_group?.hide()
-        }
+//        if(hidden){
+//            search_et?.text.takeIf { it.isNullOrEmpty() }?.let {
+//                search_no_result_group?.hide()
+//            }
+//        }
     }
 
     override fun handleBack(): Boolean {

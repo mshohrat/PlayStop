@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -27,11 +26,7 @@ import com.ms.playstop.ui.movies.adapter.RequestType
 import com.ms.playstop.ui.search.SearchFragment
 import com.ms.playstop.utils.LinePagerIndicatorDecoration
 import com.ms.playstop.utils.RtlLinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_movie.*
 import kotlinx.android.synthetic.main.fragment_movie_lists.*
-import kotlinx.android.synthetic.main.fragment_movie_lists.movies_recycler
-import kotlinx.android.synthetic.main.fragment_movies.*
-import kotlin.math.abs
 
 class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     MovieHeaderAdapter.OnItemClickListener {
@@ -42,7 +37,6 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     }
 
     private lateinit var viewModel: MovieListsViewModel
-    private var specialMoviesName = ""
     private var appbarHeight = 0
 
     override fun onCreateView(
@@ -82,6 +76,7 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
 //        })
 
         viewModel.moviesList.observe(viewLifecycleOwner, Observer { list ->
+            movies_refresh_layout?.isRefreshing = false
             movies_recycler?.adapter?.takeIf { it is MovieListAdapter }?.let {
                 (it as MovieListAdapter).updateData(list)
             } ?: kotlin.run {
@@ -92,8 +87,6 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
         })
 
         viewModel.specialMoviesList.observe(viewLifecycleOwner, Observer {
-            //specialMoviesName = it.name
-            //movies_top_title_tv?.text = specialMoviesName
             movies_top_layout?.show()
             val adapter = MovieHeaderAdapter(it,this)
             movies_top_recycler?.adapter = adapter
@@ -106,6 +99,7 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
 //            }
             movies_recycler?.hide()
             movies_top_layout?.hide()
+            movies_refresh_layout?.isRefreshing = false
         })
     }
 
@@ -120,23 +114,10 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
                 add(containerId(),LoginFragment.newInstance())
             }
         }
-//        movies_top_show_all_btn?.setOnClickListener {
-//            val moviesFragment = MoviesFragment.newInstance()
-//            moviesFragment.arguments = Bundle().apply {
-//                this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE,RequestType.SPECIAL.type)
-//                this.putInt(MoviesFragment.MOVIES_REQUEST_ID,-1)
-//                this.putString(MoviesFragment.MOVIES_REQUEST_NAME,specialMoviesName)
-//            }
-//            add(containerId(),moviesFragment)
-//        }
 
         movies_appbar?.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
-            //var scrollRange = -1
             override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
                 appBarLayout?.let {
-//                    if (scrollRange == -1) {
-//                        scrollRange = appbarHeight.minus(movies_toolbar?.bottom ?: 0)
-//                    }
                     if (verticalOffset == 0) {
                         movies_toolbar?.setBackgroundResource(android.R.color.transparent)
                     } else{
@@ -147,6 +128,10 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
             }
 
         })
+
+        movies_refresh_layout?.setOnRefreshListener {
+            viewModel.refresh()
+        }
     }
 
     override fun onShowAllClick(suggestion: Suggestion) {

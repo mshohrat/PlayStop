@@ -34,7 +34,7 @@ class LinkAdapter(private val urls: List<Url>): RecyclerView.Adapter<LinkAdapter
         val nameTv = itemView.link_name_tv
         val volumeTv = itemView.link_volume_tv
         fun bind(url: Url) {
-            nameTv?.text = String.format(itemView.context.getString(R.string.quality_x),url.quality.name)
+            nameTv?.text = String.format(itemView.context.getString(R.string.quality_x),url.quality?.name ?: "")
             rootView.context?.let { ctx ->
                 volumeTv?.text = getVolumeText(ctx,url.volume)
             }
@@ -52,7 +52,6 @@ class LinkAdapter(private val urls: List<Url>): RecyclerView.Adapter<LinkAdapter
                         Intent.createChooser(intent,rootView.context.getString(R.string.receive_by))
                     )
                 }
-
             }
         }
     }

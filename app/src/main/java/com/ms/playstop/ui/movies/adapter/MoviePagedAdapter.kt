@@ -68,11 +68,11 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
             } ?: kotlin.run {
                 scoreTv?.text = itemView.context?.getString(R.string.imdb_empty)
             }
-            if(item?.price == 0f && item.isSeries.not()) {
-                freeTv?.show()
-            } else {
-                freeTv?.hide()
-            }
+//            if(item?.price == 0f && item.isSeries.not()) {
+//                freeTv?.show()
+//            } else {
+//                freeTv?.hide()
+//            }
             rootView.setOnClickListener {
                 onItemClickListener?.onItemClick(item)
             }
@@ -84,7 +84,7 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
             params?.height = height
             imageIv?.layoutParams = params
             //borderGroup?.show()
-            rootView.animate().alpha(1f).setDuration(250).start()
+            //rootView.animate().alpha(1f).setDuration(250).start()
         }
     }
 

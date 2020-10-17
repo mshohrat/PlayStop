@@ -10,5 +10,5 @@ data class Url(
     @SerializedName("volume")
     val volume: Int = 0,
     @SerializedName("quality")
-    val quality: Quality
+    val quality: Quality?
 )

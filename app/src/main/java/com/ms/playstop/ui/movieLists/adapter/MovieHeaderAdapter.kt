@@ -89,11 +89,11 @@ class MovieHeaderAdapter(
             } ?: kotlin.run {
                 scoreTv?.text = itemView.context?.getString(R.string.imdb_empty)
             }
-            if(item?.price == 0f && item.isSeries.not()) {
-                freeTv?.show()
-            } else {
-                freeTv?.hide()
-            }
+//            if(item?.price == 0f && item.isSeries.not()) {
+//                freeTv?.show()
+//            } else {
+//                freeTv?.hide()
+//            }
             rootView.setOnClickListener {
                 onItemClickListener?.onMovieClick(item)
             }

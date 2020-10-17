@@ -99,14 +99,17 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
         movies_back_btn?.setOnClickListener {
             activity?.onBackPressed()
         }
+        movies_refresh_layout?.setOnRefreshListener {
+            viewModel.refresh()
+        }
     }
 
     private fun subscribeToViewModel() {
         viewModel.movies.observe(viewLifecycleOwner, Observer { list ->
-//            val itemWidth = activity?.resources?.getDimensionPixelSize(R.dimen.item_movie_width) ?: 0
-//            val spacing = movies_recycler?.measuredWidth?.minus(itemWidth*2)?.div(3) ?: 0
-            val spacing = activity?.resources?.getDimensionPixelSize(R.dimen.margin_medium) ?: 0
-            movies_recycler?.addItemDecoration(GridSpacingItemDecoration(3,spacing,true))
+            movies_recycler?.itemDecorationCount?.takeIf { it == 0 }?.let {
+                val spacing = activity?.resources?.getDimensionPixelSize(R.dimen.margin_medium) ?: 0
+                movies_recycler?.addItemDecoration(GridSpacingItemDecoration(3,spacing,true))
+            }
             movies_recycler?.adapter?.takeIf { it is MoviePagedAdapter }?.let {
                 (it as MoviePagedAdapter).submitList(list)
             } ?: kotlin.run {
@@ -114,18 +117,21 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
                     submitList(list)
                 }
             }
+            movies_refresh_layout?.isRefreshing = false
         })
 
         viewModel.moviesError.observe(viewLifecycleOwner, Observer {
             it.messageResId?.let {
                 Toast.makeText(activity,it,Toast.LENGTH_SHORT).show()
             }
+            movies_refresh_layout?.isRefreshing = false
         })
 
         viewModel.moviesRequestState.observe(viewLifecycleOwner, Observer {
             if(it != MovieDateSource.STATE_LOADING) {
                 movies_loading_recycler?.adapter = null
                 movies_loading_recycler?.hide()
+                movies_refresh_layout?.isRefreshing = false
             }
         })
     }

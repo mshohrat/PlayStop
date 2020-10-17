@@ -35,6 +35,8 @@ import com.ms.playstop.utils.LoadingDialog
 import com.ms.playstop.utils.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movie.*
+import java.text.NumberFormat
+import java.util.*
 
 class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 
@@ -82,17 +84,28 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             movie_image_iv?.show()
             movie_detail_layout?.show()
 
+            movie_refresh_layout?.isRefreshing = false
+
             this.movie = it
             it?.let { movie ->
                 movie_name_tv?.text = movie.name
                 movie_toolbar_name_tv?.text = movie.name
-                movie.genres?.let {
-                    var genres = ""
-                    for (genre in it) {
-                        genres = "$genres${genre.name} - "
+                movie.genres?.let { list ->
+                    list.takeIf { it.size >= 3 }?.take(3)?.let {
+                        var genres = ""
+                        for (genre in it) {
+                            genres = "$genres${genre.name} - "
+                        }
+                        genres = genres.dropLast(3)
+                        movie_genre_tv?.text = genres
+                    } ?: kotlin.run {
+                        var genres = ""
+                        for (genre in list) {
+                            genres = "$genres${genre.name} - "
+                        }
+                        genres = genres.dropLast(3)
+                        movie_genre_tv?.text = genres
                     }
-                    genres = genres.dropLast(3)
-                    movie_genre_tv?.text = genres
                 }
                 if(movie.isSeries) {
                     movie_length_tv?.text = getString(R.string.unknown_time)
@@ -106,11 +119,21 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                     movie_score_tv?.text = getString(R.string.imdb_empty)
                 }
 
-                movie.scoreVotes?.toString()?.takeIf { it.isNotEmpty() && it != "0" }?.let {
-                    movie_score_number_tv?.text = String.format(getString(R.string.votes_x),it)
+                movie.scoreVotes?.let { votes ->
+                    val votesString = NumberFormat.getNumberInstance(Locale("fa-IR")).format(votes)
+                    votesString?.takeIf { it.isNotEmpty() && it != "0" }?.let {
+                        movie_score_number_tv?.text = String.format(getString(R.string.votes_x),it)
+                    } ?: kotlin.run {
+                        movie_score_number_tv?.hide()
+                    }
                 } ?: kotlin.run {
                     movie_score_number_tv?.hide()
                 }
+//                movie.scoreVotes?.toString()?.takeIf { it.isNotEmpty() && it != "0" }?.let {
+//                    movie_score_number_tv?.text = String.format(getString(R.string.votes_x),it)
+//                } ?: kotlin.run {
+//                    movie_score_number_tv?.hide()
+//                }
 
                 movie_image_iv?.let {
                     Glide.with(it).load(movie.image).apply(
@@ -161,12 +184,25 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                 } ?: kotlin.run {
                     movie_no_comments_tv?.show()
                 }
+                movie.subtitle?.let { subtitle ->
+                    movie_subtitle_title_tv?.show()
+                    movie_subtitle_divider?.show()
+                    movie_subtitle_btn?.show()
+                    movie_subtitle_btn?.setOnClickListener {
+                        tryToDownload(subtitle)
+                    }
+                } ?: kotlin.run {
+                    movie_subtitle_title_tv?.hide()
+                    movie_subtitle_divider?.hide()
+                    movie_subtitle_btn?.hide()
+                }
             }
         })
 
         viewModel.movieError.observe(viewLifecycleOwner, Observer {
             movie_shimmer_image?.hide()
             movie_shimmer_detail?.hide()
+            movie_refresh_layout?.isRefreshing = false
             it.messageResId?.let {
                 Toast.makeText(activity,it,Toast.LENGTH_SHORT).show()
             } ?: kotlin.run {
@@ -184,6 +220,22 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             showToast(it)
             dismissLoadingDialog()
         })
+    }
+
+    private fun tryToDownload(urlString: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.setDataAndType(Uri.parse(urlString),"file/*")
+        val resolveInfo = activity?.packageManager?.queryIntentActivities(intent,0)
+        resolveInfo?.takeIf { it.isNotEmpty() }?.let {
+            activity?.startActivity(
+                Intent.createChooser(intent,getString(R.string.receive_by))
+            )
+        } ?: kotlin.run {
+            intent.data = Uri.parse(urlString)
+            activity?.startActivity(
+                Intent.createChooser(intent,getString(R.string.receive_by))
+            )
+        }
     }
 
     private fun subscribeToViewEvents() {
@@ -231,11 +283,16 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         }
 
         movie_share_btn?.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("playstop://open/movie".plus(movie?.id))
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.putExtra(Intent.EXTRA_TEXT,"playstopapp.ir/open/movie".plus(movie?.id))
+            intent.type = "text/plain"
             activity?.startActivity(
-                Intent.createChooser(intent,activity?.getString(R.string.receive_by))
+                Intent.createChooser(intent,activity?.getString(R.string.send_by))
             )
+        }
+
+        movie_refresh_layout?.setOnRefreshListener {
+            viewModel.refresh()
         }
     }
 

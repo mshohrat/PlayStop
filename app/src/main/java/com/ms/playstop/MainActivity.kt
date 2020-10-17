@@ -57,8 +57,8 @@ class MainActivity : AppCompatActivity() {
                 if (schemeSplitted.isNotEmpty()) {
                     val schemeString = schemeSplitted[0]
                     val rest = schemeSplitted[1].replace("//", "")
-                    val scheme = if (schemeString == Scheme.PlayStop.type) {
-                        Scheme.PlayStop
+                    val scheme = if (schemeString == Scheme.Http.type || schemeString == Scheme.Https.type) {
+                        Scheme.Http
                     } else {
                         null
                     }
@@ -66,14 +66,14 @@ class MainActivity : AppCompatActivity() {
                         val slashSeparated = rest.split("/".toRegex()).toTypedArray()
                         if (slashSeparated.isNotEmpty()) {
                             val hostString = slashSeparated[0]
-                            val host = if (hostString == Host.Open.type) {
-                                Host.Open
+                            val host = if (hostString == Host.PlayStop.type) {
+                                Host.PlayStop
                             } else {
                                 null
                             }
                             if (host != null) {
                                 when (host) {
-                                    Host.Open -> {
+                                    Host.PlayStop -> {
                                         if (slashSeparated.size > 1) {
                                             val path1String = slashSeparated[1]
                                             deepLink = DeepLink(
@@ -113,8 +113,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun extractPath(pathString: String?): Path? {
         pathString?.takeIf { it.isNotEmpty() }?.toLowerCase(Locale.getDefault())?.let {
-            if(it.startsWith(PathType.Movie.type)) {
-                val valueString = it.replaceFirst(PathType.Movie.type,"")
+            if(it.startsWith(PathType.Open.type)) {
+                val valueString = it.replaceFirst(PathType.Open.type,"").replaceFirst("/","")
                 try {
                     val value = valueString.toInt()
                     return Path(PathType.Movie,value)

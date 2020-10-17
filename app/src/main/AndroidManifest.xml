@@ -32,9 +32,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data
-                    android:host="open"
+                    android:host="playstopapp.ir"
                     android:pathPattern=".*"
-                    android:scheme="playstop" />
+                    android:scheme="http,https" />
             </intent-filter>
         </activity>
 

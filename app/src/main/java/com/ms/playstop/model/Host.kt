@@ -1,5 +1,5 @@
 package com.ms.playstop.model
 
 enum class Host(val type: String) {
-    Open("open")
+    Open("open"),PlayStop("playstopapp.ir")
 }

@@ -38,6 +38,10 @@ class MovieViewModel : ViewModel() {
             })
     }
 
+    fun refresh() {
+        fetchMovie(movieId)
+    }
+
     fun sendComment(text: String?) {
         when {
             text.isNullOrEmpty() -> sendCommentError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)

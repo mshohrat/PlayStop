@@ -60,6 +60,15 @@ class CategoriesFragment : BaseFragment() {
     }
 
     private fun subscribeToViewModel() {
+
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            if(it) {
+                showLoadingDialog()
+            } else {
+                dismissLoadingDialog()
+            }
+        })
+
         viewModel.categories.observe(viewLifecycleOwner, Observer {
             if(it.isEmpty()) {
                 categories_category_group?.hide()
@@ -67,8 +76,8 @@ class CategoriesFragment : BaseFragment() {
             else {
                 categories_category_group?.show()
                 val layoutManager = FlexboxLayoutManager(activity)
-                layoutManager.flexDirection = FlexDirection.ROW
-                layoutManager.justifyContent = JustifyContent.FLEX_END
+                layoutManager.flexDirection = FlexDirection.ROW_REVERSE
+                layoutManager.justifyContent = JustifyContent.FLEX_START
                 layoutManager.flexWrap = FlexWrap.WRAP
                 categories_category_chip_recycler?.layoutManager = layoutManager
                 val adapter = ChipAdapter<Category>(it,object : ChipAdapter.OnItemClickListener<Category>{
@@ -108,8 +117,8 @@ class CategoriesFragment : BaseFragment() {
             else {
                 categories_genre_group?.show()
                 val layoutManager = FlexboxLayoutManager(activity)
-                layoutManager.flexDirection = FlexDirection.ROW
-                layoutManager.justifyContent = JustifyContent.FLEX_END
+                layoutManager.flexDirection = FlexDirection.ROW_REVERSE
+                layoutManager.justifyContent = JustifyContent.FLEX_START
                 layoutManager.flexWrap = FlexWrap.WRAP
                 categories_genre_chip_recycler?.layoutManager = layoutManager
                 val adapter = ChipAdapter<Genre>(it,object : ChipAdapter.OnItemClickListener<Genre> {
@@ -134,8 +143,8 @@ class CategoriesFragment : BaseFragment() {
             else {
                 categories_year_group?.show()
                 val layoutManager = FlexboxLayoutManager(activity)
-                layoutManager.flexDirection = FlexDirection.ROW
-                layoutManager.justifyContent = JustifyContent.FLEX_END
+                layoutManager.flexDirection = FlexDirection.ROW_REVERSE
+                layoutManager.justifyContent = JustifyContent.FLEX_START
                 layoutManager.flexWrap = FlexWrap.WRAP
                 categories_year_chip_recycler?.layoutManager = layoutManager
                 val adapter = ChipAdapter<Year>(it,object : ChipAdapter.OnItemClickListener<Year> {
@@ -184,6 +193,18 @@ class CategoriesFragment : BaseFragment() {
 
     override fun handleBack(): Boolean {
         return passHandleBackToParent()
+    }
+
+    private fun showLoadingDialog() {
+        activity?.let { ctx ->
+            loadingDialog = LoadingDialog(ctx)
+            loadingDialog?.show()
+        }
+    }
+
+    private fun dismissLoadingDialog() {
+        loadingDialog?.takeIf { it.isShowing }?.dismiss()
+        loadingDialog?.cancel()
     }
 
 }

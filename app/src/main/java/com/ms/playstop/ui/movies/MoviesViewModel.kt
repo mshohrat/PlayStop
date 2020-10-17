@@ -10,6 +10,7 @@ import androidx.paging.PagedList
 import com.ms.playstop.model.Movie
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.movies.adapter.MovieDataFactory
+import com.ms.playstop.ui.movies.adapter.MovieDateSource
 import com.ms.playstop.ui.movies.adapter.RequestType
 import java.util.concurrent.Executors
 
@@ -44,5 +45,9 @@ class MoviesViewModel : ViewModel() {
         movies = LivePagedListBuilder(movieDataFactory,pagedListConfig)
             .setFetchExecutor(executor)
             .build()
+    }
+
+    fun refresh() {
+        movies.value?.dataSource?.invalidate()
     }
 }

@@ -1,5 +1,5 @@
 package com.ms.playstop.model
 
 enum class Scheme(val type: String) {
-    PlayStop("playstop")
+    PlayStop("playstopapp.ir"),Http("http"),Https("https")
 }

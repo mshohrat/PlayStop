@@ -10,12 +10,12 @@ class MovieDataFactory(
     private val requestId: Int
 ) : DataSource.Factory<Int, Movie>() {
 
-    private var movieDataSource: MovieDateSource = MovieDateSource(requestType,requestId)
     private var mutableLiveData: MutableLiveData<MovieDateSource> = MutableLiveData()
 
     override fun create(): DataSource<Int, Movie> {
-        mutableLiveData.postValue(movieDataSource)
-        return movieDataSource
+        val movieDateSource = MovieDateSource(requestType,requestId)
+        mutableLiveData.postValue(movieDateSource)
+        return movieDateSource
     }
 
     fun getMutableLiveData(): MutableLiveData<MovieDateSource> {

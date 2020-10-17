@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="@dimen/margin_medium"
     android:layout_marginBottom="@dimen/margin_medium"
+    android:foreground="?selectableItemBackground"
     android:background="@drawable/shape_rectangle_rounded_6dp_primary_dark_stroke_white"
     android:gravity="center_vertical"
     android:orientation="horizontal">

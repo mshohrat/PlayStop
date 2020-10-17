@@ -1,5 +1,7 @@
 package com.ms.playstop.ui.splash
 
+import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,6 +18,7 @@ import com.ms.playstop.extension.navigate
 import com.ms.playstop.extension.show
 import com.ms.playstop.network.model.ConfigResponse
 import com.ms.playstop.ui.home.HomeFragment
+import com.ms.playstop.utils.UpdateDialog
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.fragment_splash.*
 
@@ -27,6 +30,7 @@ class SplashFragment : Fragment() {
     }
 
     private lateinit var viewModel: SplashViewModel
+    private var updateDialog: UpdateDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,7 +65,21 @@ class SplashFragment : Fragment() {
             it?.let {
                 Hawk.put(ConfigResponse.SAVE_KEY,it)
             }
-            navigate(HomeFragment.newInstance())
+            it?.updateApp?.let {
+                when {
+                    it.minVersion > BuildConfig.VERSION_CODE -> {
+                        showUpdateDialog(true)
+                    }
+                    it.lastVersion > BuildConfig.VERSION_CODE -> {
+                        showUpdateDialog(false)
+                    }
+                    else -> {
+                        navigate(HomeFragment.newInstance())
+                    }
+                }
+            } ?: kotlin.run {
+                navigate(HomeFragment.newInstance())
+            }
         })
 
         viewModel.configError.observe(viewLifecycleOwner, Observer {
@@ -69,5 +87,33 @@ class SplashFragment : Fragment() {
             splash_progress?.hide()
             splash_try_again_btn?.show()
         })
+    }
+
+    private fun showUpdateDialog(isForce: Boolean = false) {
+        activity?.takeIf { it.isFinishing.not() }?.let { ctx ->
+            updateDialog = UpdateDialog(ctx,isForce.not())
+            updateDialog?.updateClickListener = object : UpdateDialog.OnUpdateClickListener {
+                override fun onDownloadClick() {
+                    dismissUpdateDialog()
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(BuildConfig.DOWNLOAD_URL)
+                    activity?.startActivity(intent)
+                    activity?.finish()
+                }
+
+                override fun onCancelClick() {
+                    navigate(HomeFragment.newInstance())
+                }
+
+            }
+            updateDialog?.show()
+        }
+
+    }
+
+    private fun dismissUpdateDialog() {
+        updateDialog?.takeIf { it.isShowing }?.dismiss()
+        updateDialog?.cancel()
+        updateDialog = null
     }
 }
