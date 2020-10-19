@@ -294,6 +294,28 @@
                     tools:text="کریستوفر نولان"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/production_year"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_production_year_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    style="?textAppearanceCaption"
+                    tools:text="2020"/>
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_links_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -370,6 +392,36 @@
                     android:visibility="gone"
                     tools:visibility="visible"
                     android:layout_marginTop="@dimen/margin_medium"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_subtitle_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/subtitle"/>
+
+                <View
+                    android:id="@+id/movie_subtitle_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:background="@color/colorAccent"/>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/movie_subtitle_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceBody1"
+                    app:backgroundTint="@color/colorAccent"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/download_subtitle"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_comments_title_tv"
@@ -449,36 +501,6 @@
                     android:textColor="@color/colorPrimary"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:text="@string/show_comments"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/movie_subtitle_title_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?textAppearanceHeadline3"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:text="@string/subtitle"/>
-
-                <View
-                    android:id="@+id/movie_subtitle_divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider_height_default"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:visibility="gone"
-                    tools:visibility="visible"
-                    android:background="@color/colorAccent"/>
-
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/movie_subtitle_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="?textAppearanceBody1"
-                    app:backgroundTint="@color/colorAccent"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:text="@string/download_subtitle"/>
 
             </LinearLayout>
 

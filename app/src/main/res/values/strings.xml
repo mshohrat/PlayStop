@@ -77,5 +77,7 @@
     <string name="download">دانلود</string>
     <string name="later">بعدا</string>
     <string name="cancel">لغو</string>
+    <string name="production_year">سال انتشار</string>
+    <string name="download_movie_and_series">دانلود فیلم و سریال</string>
 
 </resources>

@@ -32,6 +32,7 @@
     <color name="yellow">#ECAB00</color>
     <color name="white_opacity_10">#1A0C2043</color>
     <color name="purple">#7A4EE3</color>
+    <color name="purple_new">#9527B3</color>
     <color name="blue">#2583EB</color>
     <color name="redLight">#ffff4444</color>
 </resources>

@@ -1,5 +1,6 @@
 <resources>
     <!-- Text Size-->
+    <dimen name="large_text_size">28sp</dimen>
     <dimen name="headline_1_max_text_size">24sp</dimen>
     <dimen name="headline_1_min_text_size">20sp</dimen>
     <dimen name="headline_2_max_text_size">20sp</dimen>
