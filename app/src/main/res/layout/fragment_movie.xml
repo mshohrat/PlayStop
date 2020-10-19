@@ -57,19 +57,20 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_name_tv"
+                    style="@style/Headline2.AutoSize"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/headline_2_line_height"
-                    style="@style/Headline2.AutoSize"
-                    android:textColor="@color/colorPrimary"
+                    android:layout_marginHorizontal="@dimen/margin_standard"
+                    android:gravity="right|center_vertical"
                     android:maxLines="1"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toTopOf="@id/movie_genre_tv"
                     app:layout_constraintEnd_toStartOf="@id/movie_image_iv"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/movie_image_iv"
-                    app:layout_constraintBottom_toTopOf="@id/movie_genre_tv"
                     app:layout_constraintVertical_chainStyle="packed"
-                    android:gravity="right|center_vertical"
-                    tools:text="دل"
-                    android:layout_marginHorizontal="@dimen/margin_standard"/>
+                    tools:text="دل" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_genre_tv"
@@ -81,9 +82,22 @@
                     app:layout_constraintTop_toBottomOf="@id/movie_name_tv"
                     app:layout_constraintBottom_toTopOf="@id/movie_length_tv"
                     app:layout_constraintStart_toStartOf="@id/movie_name_tv"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:textSize="12sp"
                     tools:text="ترسناک"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_production_year_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceBody1"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="@id/movie_name_tv"
+                    app:layout_constraintTop_toBottomOf="@id/movie_genre_tv"
+                    app:layout_constraintBottom_toTopOf="@id/movie_length_tv"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textSize="12sp"
+                    tools:text="2020"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_length_tv"
@@ -92,9 +106,9 @@
                     style="?textAppearanceBody1"
                     android:textColor="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="@id/movie_name_tv"
-                    app:layout_constraintTop_toBottomOf="@id/movie_genre_tv"
+                    app:layout_constraintTop_toBottomOf="@id/movie_production_year_tv"
                     app:layout_constraintBottom_toTopOf="@id/movie_score_tv"
-                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:textSize="12sp"
                     tools:text="1:22 دقیقه"/>
 
@@ -292,28 +306,6 @@
                     android:layout_marginTop="@dimen/margin_standard"
                     style="?textAppearanceCaption"
                     tools:text="کریستوفر نولان"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="?textAppearanceHeadline3"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:text="@string/production_year"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/divider_height_default"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:background="@color/colorAccent"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/movie_production_year_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:layout_marginTop="@dimen/margin_standard"
-                    style="?textAppearanceCaption"
-                    tools:text="2020"/>
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_links_title_tv"
