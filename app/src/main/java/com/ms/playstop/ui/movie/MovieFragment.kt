@@ -144,6 +144,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                 movie_description_tv?.text = movie.description
                 movie_director_tv?.text = movie.director
                 movie_writer_tv?.text = movie.writer
+                movie_production_year_tv?.text = movie.productionYear.toString()
                 movie_actors_tv?.text = movie.actors
                 if(movie.isSeries) {
                     movie_seasons_title_tv?.show()
