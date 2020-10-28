@@ -3,16 +3,16 @@ package com.ms.playstop
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.initCustomAnimations
+import com.ms.playstop.extension.isVpnActive
 import com.ms.playstop.model.*
 import com.ms.playstop.ui.splash.SplashFragment
+import com.ms.playstop.utils.VpnDialog
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     get() {
         return deepLink != null
     }
+    private var vpnDialog: VpnDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -46,6 +47,15 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         handleDeepLink(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isVpnActive()) {
+            showVpnDialog()
+        } else {
+            dismissVpnDialog()
+        }
     }
 
     private fun handleDeepLink(intent: Intent?) {
@@ -192,5 +202,19 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun showVpnDialog() {
+        takeIf { isFinishing.not() }?.let { ctx ->
+            vpnDialog = VpnDialog(ctx)
+            vpnDialog?.show()
+        }
+
+    }
+
+    private fun dismissVpnDialog() {
+        vpnDialog?.takeIf { it.isShowing }?.dismiss()
+        vpnDialog?.cancel()
+        vpnDialog = null
     }
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_large"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/shape_rectangle_rounded_24dp_primary">
+
+        <com.google.android.material.textview.MaterialTextView
+            style="?attr/textAppearanceHeadline3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/notice"
+            android:gravity="center"
+            android:paddingVertical="@dimen/padding_standard"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/shape_rectangle_top_rounded_24dp_accent"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?attr/textAppearanceBody1"
+            android:layout_margin="@dimen/margin_standard"
+            android:text="@string/not_use_vpn"
+            android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="@dimen/margin_standard"
+            android:layout_marginBottom="@dimen/margin_standard">
+
+            <View android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/vpn_btn"
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_standard"
+                style="?textAppearanceBody1"
+                app:backgroundTint="@color/blue"
+                android:textColor="@color/colorPrimary"
+                android:text="@string/got_it"/>
+
+            <View android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="0dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</FrameLayout>

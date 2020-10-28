@@ -13,10 +13,8 @@ import android.view.WindowManager
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.transition.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -32,6 +30,9 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
+import java.net.NetworkInterface
+import java.net.SocketException
+import java.util.*
 import kotlin.math.roundToInt
 
 const val TRANSITION_NAME = "Transition Name"
@@ -234,6 +235,21 @@ fun isDeviceOnline(): Boolean {
         }
         return false
     }
+}
+
+fun isVpnActive(): Boolean {
+    var iface = ""
+    try {
+        for (networkInterface in Collections.list(NetworkInterface.getNetworkInterfaces())) {
+            if (networkInterface.isUp) iface = networkInterface.name
+            if (iface.contains("tun") || iface.contains("ppp") || iface.contains("pptp")) {
+                return true
+            }
+        }
+    } catch (e1: SocketException) {
+        e1.printStackTrace()
+    }
+    return false
 }
 
 fun CharSequence.isValidEmail() : Boolean {
