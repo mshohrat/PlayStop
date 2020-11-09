@@ -11,9 +11,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.ms.playstop.BuildConfig
+import com.ms.playstop.MainActivity
 
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
+import com.ms.playstop.extension.isVpnActive
 import com.ms.playstop.extension.navigate
 import com.ms.playstop.extension.show
 import com.ms.playstop.network.model.ConfigResponse
@@ -45,7 +47,13 @@ class SplashFragment : Fragment() {
         initViews()
         subscribeToViewEvents()
         subscribeToViewModel()
-        viewModel.fetchConfig()
+        if(isVpnActive().not()) {
+            (activity as? MainActivity?)?.dismissVpnDialog()
+            viewModel.fetchConfig()
+        }
+        else {
+            (activity as? MainActivity?)?.showVpnDialog()
+        }
     }
 
     private fun initViews() {
@@ -54,9 +62,15 @@ class SplashFragment : Fragment() {
 
     private fun subscribeToViewEvents() {
         splash_try_again_btn?.setOnClickListener {
-            viewModel.fetchConfig()
-            splash_try_again_btn?.hide()
-            splash_progress?.show()
+            if(isVpnActive().not()) {
+                (activity as? MainActivity?)?.dismissVpnDialog()
+                viewModel.fetchConfig()
+                splash_try_again_btn?.hide()
+                splash_progress?.show()
+            }
+            else {
+                (activity as? MainActivity?)?.showVpnDialog()
+            }
         }
     }
 

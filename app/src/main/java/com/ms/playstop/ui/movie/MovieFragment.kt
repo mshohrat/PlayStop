@@ -190,7 +190,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                     movie_subtitle_divider?.show()
                     movie_subtitle_btn?.show()
                     movie_subtitle_btn?.setOnClickListener {
-                        tryToDownload(subtitle)
+                        tryToShowUrl(subtitle)
                     }
                 } ?: kotlin.run {
                     movie_subtitle_title_tv?.hide()
@@ -223,18 +223,17 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         })
     }
 
-    private fun tryToDownload(urlString: String) {
+    private fun tryToShowUrl(urlString: String) {
         val intent = Intent(Intent.ACTION_VIEW)
-        intent.setDataAndType(Uri.parse(urlString),"file/*")
         val resolveInfo = activity?.packageManager?.queryIntentActivities(intent,0)
         resolveInfo?.takeIf { it.isNotEmpty() }?.let {
             activity?.startActivity(
-                Intent.createChooser(intent,getString(R.string.receive_by))
+                Intent.createChooser(intent,getString(R.string.show_by))
             )
         } ?: kotlin.run {
             intent.data = Uri.parse(urlString)
             activity?.startActivity(
-                Intent.createChooser(intent,getString(R.string.receive_by))
+                Intent.createChooser(intent,getString(R.string.show_by))
             )
         }
     }

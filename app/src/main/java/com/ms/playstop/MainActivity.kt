@@ -204,15 +204,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showVpnDialog() {
+    fun showVpnDialog() {
         takeIf { isFinishing.not() }?.let { ctx ->
             vpnDialog = VpnDialog(ctx)
+            vpnDialog?.vpnClickListener = object : VpnDialog.OnVpnClickListener {
+                override fun onGotItClick() {
+                    try {
+                        this@MainActivity.finish()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        FirebaseCrashlytics.getInstance().recordException(e)
+                    }
+                }
+            }
             vpnDialog?.show()
         }
 
     }
 
-    private fun dismissVpnDialog() {
+    fun dismissVpnDialog() {
         vpnDialog?.takeIf { it.isShowing }?.dismiss()
         vpnDialog?.cancel()
         vpnDialog = null
