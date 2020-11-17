@@ -53,7 +53,6 @@ class SplashFragment : Fragment() {
         }
         else {
             (activity as? MainActivity?)?.showVpnDialog()
-            viewModel.fetchConfig()
         }
     }
 
@@ -71,9 +70,6 @@ class SplashFragment : Fragment() {
             }
             else {
                 (activity as? MainActivity?)?.showVpnDialog()
-                viewModel.fetchConfig()
-                splash_try_again_btn?.hide()
-                splash_progress?.show()
             }
         }
     }
