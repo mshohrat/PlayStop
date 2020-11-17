@@ -66,7 +66,8 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
                     scoreTv?.text = String.format(string,it)
                 }
             } ?: kotlin.run {
-                scoreTv?.text = itemView.context?.getString(R.string.imdb_empty)
+                //scoreTv?.text = itemView.context?.getString(R.string.imdb_empty)
+                scoreTv?.hide()
             }
 //            if(item?.price == 0f && item.isSeries.not()) {
 //                freeTv?.show()

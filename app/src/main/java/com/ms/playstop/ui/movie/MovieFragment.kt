@@ -116,7 +116,8 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                 movie.score?.toString()?.takeIf { it.isNotEmpty() && it != "0" }?.let {
                     movie_score_tv?.text = String.format(getString(R.string.imdb_score_x),it)
                 } ?: kotlin.run {
-                    movie_score_tv?.text = getString(R.string.imdb_empty)
+                    //movie_score_tv?.text = getString(R.string.imdb_empty)
+                    movie_score_tv?.hide()
                 }
 
                 movie.scoreVotes?.let { votes ->

@@ -26,8 +26,8 @@ class MovieListsViewModel : ViewModel() {
         listOf()
     )
 
-    val specialMoviesList : MutableLiveData<ArrayList<Movie>> = MutableLiveData(
-        arrayListOf()
+    val specialMoviesList : MutableLiveData<ArrayList<Movie>?> = MutableLiveData(
+        null
     )
 
     init {
@@ -48,6 +48,11 @@ class MovieListsViewModel : ViewModel() {
                     }
                     moviesList.value = l
                 }
+            }
+            config?.specialsName?.let {
+                specialMoviesList.value = arrayListOf()
+            } ?: kotlin.run {
+                specialMoviesList.value = null
             }
         }
         fetchMovies()

@@ -87,9 +87,13 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
         })
 
         viewModel.specialMoviesList.observe(viewLifecycleOwner, Observer {
-            movies_top_layout?.show()
-            val adapter = MovieHeaderAdapter(it,this)
-            movies_top_recycler?.adapter = adapter
+            it?.let {
+                movies_top_layout?.show()
+                val adapter = MovieHeaderAdapter(it,this)
+                movies_top_recycler?.adapter = adapter
+            } ?: kotlin.run {
+                movies_top_layout?.hide()
+            }
         })
 
         viewModel.moviesError.observe(viewLifecycleOwner, Observer {
