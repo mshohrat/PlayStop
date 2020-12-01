@@ -6,9 +6,16 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.textview.MaterialTextView
 import com.ms.playstop.R
+import com.ms.playstop.extension.isPlayable
 import com.ms.playstop.model.Url
+import com.ms.playstop.ui.playVideo.PlayVideoActivity
+import com.ms.playstop.utils.MenuAdapter
 import kotlinx.android.synthetic.main.item_link_layout.view.*
 
 class LinkAdapter(private val urls: List<Url>): RecyclerView.Adapter<LinkAdapter.ViewHolder>() {
@@ -39,18 +46,11 @@ class LinkAdapter(private val urls: List<Url>): RecyclerView.Adapter<LinkAdapter
                 volumeTv?.text = getVolumeText(ctx,url.volume)
             }
             rootView.setOnClickListener {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.setDataAndType(Uri.parse(url.link),"file/*")
-                val resolveInfo = rootView.context?.packageManager?.queryIntentActivities(intent,0)
-                resolveInfo?.takeIf { it.isNotEmpty() }?.let {
-                    rootView.context?.startActivity(
-                        Intent.createChooser(intent,rootView.context.getString(R.string.receive_by))
-                    )
-                } ?: kotlin.run {
-                    intent.data = Uri.parse(url.link)
-                    rootView.context?.startActivity(
-                        Intent.createChooser(intent,rootView.context.getString(R.string.receive_by))
-                    )
+                if(url.link.isPlayable()) {
+                    showBottomSheetDialogForPlayOrDownload(rootView.context, url)
+                }
+                else {
+                    tryToDownload(rootView.context,url)
                 }
             }
         }
@@ -66,5 +66,68 @@ class LinkAdapter(private val urls: List<Url>): RecyclerView.Adapter<LinkAdapter
                 String.format(context.getString(R.string.x_MB),volume.toString())
             }
         }
+    }
+
+    private fun showBottomSheetDialogForPlayOrDownload(context: Context?,url: Url) {
+        context?.let { ctx ->
+            val items = arrayListOf<Pair<Int,Int>>()
+            items.add(MenuAdapter.ITEM_TYPE_PLAY to R.string.play)
+            items.add(MenuAdapter.ITEM_TYPE_DOWNLOAD to R.string.download)
+            val dialog = BottomSheetDialog(ctx)
+            dialog.setContentView(R.layout.layout_bottom_sheet_recycler)
+            val titleTv = dialog.findViewById<MaterialTextView>(R.id.bottom_sheet_recycler_title_tv)
+            val closeIb = dialog.findViewById<AppCompatImageButton>(R.id.bottom_sheet_recycler_close_ib)
+            val recycler = dialog.findViewById<RecyclerView>(R.id.bottom_sheet_recycler_recycler)
+            titleTv?.setText(R.string.please_choose_play_or_download)
+            closeIb?.setOnClickListener {
+                dialog.takeIf { it.isShowing }?.dismiss()
+                dialog.cancel()
+            }
+            val lm = LinearLayoutManager(ctx,RecyclerView.VERTICAL,false)
+            recycler?.layoutManager = lm
+            val adapter = MenuAdapter(items,object : MenuAdapter.OnItemClickListener {
+                override fun onItemClick(position: Int, itemType: Int) {
+                    when(itemType) {
+                        MenuAdapter.ITEM_TYPE_PLAY -> {
+                            tryToPlay(context,url)
+                        }
+                        MenuAdapter.ITEM_TYPE_DOWNLOAD -> {
+                            tryToDownload(context,url)
+                        }
+                        else -> {}
+                    }
+                    dialog.takeIf { it.isShowing }?.dismiss()
+                    dialog.cancel()
+                }
+            })
+            recycler?.adapter = adapter
+            dialog.show()
+        }
+    }
+
+    private fun tryToPlay(context: Context?,url: Url) {
+        context?.let {
+            val intent = Intent(context,PlayVideoActivity::class.java)
+            intent.putExtra(PlayVideoActivity.PLAY_VIDEO_URL,url.link)
+            context.startActivity(intent)
+        }
+    }
+
+    private fun tryToDownload(context: Context?,url: Url) {
+         val intent = Intent(Intent.ACTION_VIEW)
+         if(url.link.isPlayable()) {
+             intent.setDataAndType(Uri.parse(url.link), "file/*")
+         }
+         val resolveInfo = context?.packageManager?.queryIntentActivities(intent,0)
+         resolveInfo?.takeIf { it.isNotEmpty() }?.let {
+             context.startActivity(
+                 Intent.createChooser(intent,context.getString(R.string.receive_by))
+             )
+         } ?: kotlin.run {
+                    intent.data = Uri.parse(url.link)
+                    context?.startActivity(
+                        Intent.createChooser(intent,context.getString(R.string.receive_by))
+                    )
+         }
     }
 }

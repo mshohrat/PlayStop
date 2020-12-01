@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Patterns
@@ -192,6 +193,20 @@ fun BaseFragment.passHandleBackToParent() : Boolean {
     } ?: kotlin.run {
         return false
     }
+}
+
+fun String.isPlayable() : Boolean {
+    if(this.isEmpty() || this.contains(".").not()) {
+        return false
+    }
+    val uri = Uri.parse(this)
+    val lastSegment = uri.lastPathSegment
+    if(lastSegment.isNullOrEmpty()) {
+        return false
+    }
+    return lastSegment.contains("mkv",true)
+            || lastSegment.contains("mp4",true)
+            || lastSegment.contains("m3u8",true)
 }
 
 fun Fragment.addToParent(destination: Fragment) {

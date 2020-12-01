@@ -55,5 +55,6 @@
     <dimen name="splash_icon_size">128dp</dimen>
     <dimen name="headline_2_line_height">36dp</dimen>
     <dimen name="search_top_margin">16dp</dimen>
+    <dimen name="play_movie_timebar_height">20dp</dimen>
 
 </resources>

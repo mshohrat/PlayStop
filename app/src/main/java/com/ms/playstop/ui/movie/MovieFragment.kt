@@ -1,7 +1,6 @@
 package com.ms.playstop.ui.movie
 
 import android.content.Intent
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -226,6 +225,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 
     private fun tryToShowUrl(urlString: String) {
         val intent = Intent(Intent.ACTION_VIEW)
+        intent.data = Uri.parse(urlString)
         val resolveInfo = activity?.packageManager?.queryIntentActivities(intent,0)
         resolveInfo?.takeIf { it.isNotEmpty() }?.let {
             activity?.startActivity(

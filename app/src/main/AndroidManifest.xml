@@ -38,6 +38,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.playVideo.PlayVideoActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
+        </activity>
+
 <!--        <service-->
 <!--            android:name=".MyFirebaseMessagingService"-->
 <!--            android:exported="false">-->

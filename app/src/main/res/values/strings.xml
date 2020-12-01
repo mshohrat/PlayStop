@@ -83,5 +83,7 @@
     <string name="not_use_vpn">به منظور کارکرد بهتر برنامه لازم است اتصال وی پی ان خود را قطع نمایید</string>
     <string name="got_it">متوجه شدم</string>
     <string name="show_by">نمایش با ...</string>
+    <string name="play">پخش</string>
+    <string name="please_choose_play_or_download">مایل به پخش یا دانلود فایل هستید؟</string>
 
 </resources>
