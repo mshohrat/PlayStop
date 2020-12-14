@@ -3,6 +3,7 @@ package com.ms.playstop.ui.playVideo
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -26,6 +27,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
+import com.ms.playstop.extension.retrieveVideoFrameFromVideo
 import com.ms.playstop.extension.show
 import kotlinx.android.synthetic.main.activity_play_video.*
 import kotlinx.android.synthetic.main.exo_playback_control_view.*
@@ -60,6 +62,9 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
         play_fullscreen?.setOnClickListener {
             changeOrientation()
         }
+        play_back?.setOnClickListener {
+            onBackPressed()
+        }
     }
 
     private fun changeOrientation() {
@@ -71,11 +76,6 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        initializePlayer(videoUrl)
-    }
-
     override fun onResume() {
         super.onResume()
         initializePlayer(videoUrl)
@@ -83,9 +83,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
 
     override fun onPause() {
         super.onPause()
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            releasePlayer()
-        }
+        releasePlayer()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -124,13 +122,6 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            releasePlayer()
-        }
-    }
-
     private fun initializePlayer(url: String) {
         if(exoPlayer == null) {
             val trackSelector = DefaultTrackSelector()
@@ -140,13 +131,12 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
                 renderersFactory, trackSelector, loadControl
             )
             play_video_player?.player = exoPlayer
-            exoPlayer?.playWhenReady = playWhenReady
-            exoPlayer?.seekTo(currentWindow, playbackPosition)
         }
         val mediaSource = buildMediaSource(Uri.parse(url))
         exoPlayer?.addListener(this)
         exoPlayer?.prepare(mediaSource)
-        exoPlayer?.playWhenReady = true
+        exoPlayer?.seekTo(currentWindow, playbackPosition)
+        exoPlayer?.playWhenReady = playWhenReady
     }
 
     private fun buildMediaSource(uri: Uri): MediaSource {

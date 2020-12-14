@@ -136,7 +136,17 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
         })
     }
 
-    override fun onItemClick(movie: Movie?) {
+    override fun onItemClick(movie: Movie?, transitionElement: View?) {
+        movie?.let {
+            val movieFragment = MovieFragment.newInstance()
+            movieFragment.arguments = Bundle().apply { this.putInt(MovieFragment.MOVIE_ID_KEY,it.id) }
+            parentFragment?.takeIf { it is BaseFragment }?.let {
+                (it as BaseFragment).add(it.containerId(),movieFragment)
+            }
+        }
+    }
+
+    override fun onPagedItemClick(movie: Movie?) {
         movie?.let {
             val movieFragment = MovieFragment.newInstance()
             movieFragment.arguments = Bundle().apply { this.putInt(MovieFragment.MOVIE_ID_KEY,it.id) }

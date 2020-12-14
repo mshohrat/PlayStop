@@ -1,5 +1,6 @@
 package com.ms.playstop.ui.movieLists.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,6 +83,9 @@ class MovieAdapter(
             imageIv?.let {
                 Glide.with(it).load(item?.image).apply(RequestOptions.bitmapTransform(RoundedCornersTransformation(16,0))).into(it)
             }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                imageIv?.transitionName = "movie_transition${adapterPosition}${Math.random().toInt()}"
+            }
             nameTv?.text = item?.name
             item?.genres?.takeIf { it.isNotEmpty() }?.let {
                 genreTv?.text = it.first().name
@@ -100,7 +104,7 @@ class MovieAdapter(
 //                freeTv?.hide()
 //            }
             rootView.setOnClickListener {
-                onItemClickListener?.onItemClick(item)
+                onItemClickListener?.onItemClick(item,imageIv)
             }
             if(handleMargin.not()) {
                 val params = imageIv?.layoutParams as? ConstraintLayout.LayoutParams
@@ -116,6 +120,6 @@ class MovieAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(movie: Movie?)
+        fun onItemClick(movie: Movie?,transitionElement : View? = null)
     }
 }

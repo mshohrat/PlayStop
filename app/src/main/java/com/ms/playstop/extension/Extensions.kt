@@ -3,16 +3,20 @@ package com.ms.playstop.extension
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
+import android.transition.*
 import android.util.DisplayMetrics
 import android.util.Patterns
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -134,23 +138,68 @@ fun Fragment.addOrShow(destination: Fragment) {
 
 fun Fragment.add(@IdRes containerId: Int,destination: Fragment,transitionElement: View? = null) {
     try {
-        if(destination.isStateSaved) {
-            childFragmentManager.beginTransaction()
-                .initCustomAnimations()
-                .add(containerId, destination)
-                .commitAllowingStateLoss()
-        }
-        else {
-            childFragmentManager.beginTransaction()
-                .initCustomAnimations()
-                .add(containerId, destination)
-                .commit()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            transitionElement?.let { sharedElement ->
+                destination.sharedElementEnterTransition = getSharedElementTransition()
+                destination.sharedElementReturnTransition = null
+                destination.arguments?.apply {
+                    this.putString(TRANSITION_NAME,sharedElement.transitionName)
+                }
+                if (destination.isStateSaved) {
+                    childFragmentManager.beginTransaction()
+                        //.initCustomAnimations()
+                        .addSharedElement(sharedElement, sharedElement.transitionName)
+                        .add(containerId, destination)
+                        .commitAllowingStateLoss()
+                } else {
+                    childFragmentManager.beginTransaction()
+                        //.initCustomAnimations()
+                        .addSharedElement(sharedElement, sharedElement.transitionName)
+                        .add(containerId, destination)
+                        .commit()
+                }
+
+            } ?: kotlin.run {
+                if (destination.isStateSaved) {
+                    childFragmentManager.beginTransaction()
+                        .initCustomAnimations()
+                        .add(containerId, destination)
+                        .commitAllowingStateLoss()
+                } else {
+                    childFragmentManager.beginTransaction()
+                        .initCustomAnimations()
+                        .add(containerId, destination)
+                        .commit()
+                }
+            }
+        } else {
+            if (destination.isStateSaved) {
+                childFragmentManager.beginTransaction()
+                    .initCustomAnimations()
+                    .add(containerId, destination)
+                    .commitAllowingStateLoss()
+            } else {
+                childFragmentManager.beginTransaction()
+                    .initCustomAnimations()
+                    .add(containerId, destination)
+                    .commit()
+            }
         }
     } catch (e: Exception) {
         e.printStackTrace()
         FirebaseCrashlytics.getInstance().recordException(e)
     }
 
+}
+
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+fun getSharedElementTransition() : Transition {
+    val transitionSet = TransitionSet()
+    transitionSet.ordering = TransitionSet.ORDERING_TOGETHER
+    transitionSet.addTransition(ChangeBounds())
+    transitionSet.addTransition(ChangeImageTransform())
+    transitionSet.addTransition(ChangeTransform())
+    return transitionSet
 }
 
 fun convertDpToPixel(dp: Float): Int {
@@ -344,4 +393,25 @@ fun Activity.updateStatusBarColor(@ColorRes colorId: Int, isStatusBarFontDark: B
                 if (isStatusBarFontDark) lFlags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv() else lFlags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
     }
+}
+
+fun retrieveVideoFrameFromVideo(videoPath: String) : Bitmap? {
+    var bitmap: Bitmap? = null
+    val mediaMetadataRetriever = MediaMetadataRetriever()
+    try {
+        mediaMetadataRetriever.setDataSource(
+            videoPath,
+            HashMap<String, String>()
+        )
+        bitmap = mediaMetadataRetriever.getFrameAtTime(1, MediaMetadataRetriever.OPTION_CLOSEST)
+    } catch (e: java.lang.Exception) {
+        e.printStackTrace()
+        throw Throwable(
+            "Exception in retriveVideoFrameFromVideo(String videoPath)"
+                    + e.message
+        )
+    } finally {
+        mediaMetadataRetriever.release()
+    }
+    return bitmap
 }

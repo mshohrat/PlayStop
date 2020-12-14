@@ -3,10 +3,12 @@ package com.ms.playstop
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.iid.FirebaseInstanceId
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.initCustomAnimations
 import com.ms.playstop.extension.isVpnActive
@@ -47,6 +49,10 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         handleDeepLink(intent)
+        val t = FirebaseInstanceId.getInstance().token
+        t?.let {
+            Log.i("tttt",t)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

@@ -1,5 +1,6 @@
 package com.ms.playstop.ui.movieLists
 
+import android.os.Build
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -148,7 +149,35 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
         add(containerId(),moviesFragment)
     }
 
-    override fun onMovieClick(movie: Movie?) {
+    override fun onMovieClick(movie: Movie?, transitionElement: View?) {
+        movie?.let {
+            val movieFragment = MovieFragment.newInstance()
+            movieFragment.arguments = Bundle().apply {
+                this.putInt(MovieFragment.MOVIE_ID_KEY,it.id)
+                this.putString(MovieFragment.MOVIE_IMAGE_URL,it.image)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    this.putString(TRANSITION_NAME,transitionElement?.transitionName)
+                }
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                movieFragment.sharedElementEnterTransition = getSharedElementTransition()
+                movieFragment.sharedElementReturnTransition = getSharedElementTransition()
+            }
+            transitionElement?.let {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    childFragmentManager.beginTransaction()
+                        //.initCustomAnimations()
+                        .addSharedElement(transitionElement, transitionElement.transitionName)
+                        .add(containerId(), movieFragment)
+                        .commit()
+                } else {
+                    add(containerId(),movieFragment,transitionElement)
+                }
+            }
+        }
+    }
+
+    override fun onMovieHeaderClick(movie: Movie?, transitionElement: View?) {
         movie?.let {
             val movieFragment = MovieFragment.newInstance()
             movieFragment.arguments = Bundle().apply { this.putInt(MovieFragment.MOVIE_ID_KEY,it.id) }

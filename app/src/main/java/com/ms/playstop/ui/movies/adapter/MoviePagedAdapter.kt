@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.show
 import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
 import com.ms.playstop.utils.RoundedCornersTransformation
@@ -75,7 +74,7 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
 //                freeTv?.hide()
 //            }
             rootView.setOnClickListener {
-                onItemClickListener?.onItemClick(item)
+                onItemClickListener?.onPagedItemClick(item)
             }
             val params = imageIv?.layoutParams as? ConstraintLayout.LayoutParams
             val margins = (rootView.context?.resources?.getDimensionPixelSize(R.dimen.margin_medium) ?: 0 ) * 4
@@ -90,6 +89,6 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
     }
 
     interface OnItemClickListener {
-        fun onItemClick(movie: Movie?)
+        fun onPagedItemClick(movie: Movie?)
     }
 }
