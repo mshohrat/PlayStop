@@ -3,7 +3,6 @@ package com.ms.playstop.ui.playVideo
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,8 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
@@ -23,11 +22,9 @@ import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.retrieveVideoFrameFromVideo
 import com.ms.playstop.extension.show
 import kotlinx.android.synthetic.main.activity_play_video.*
 import kotlinx.android.synthetic.main.exo_playback_control_view.*
@@ -41,7 +38,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
 
     private lateinit var viewModel: PlayVideoViewModel
     private var exoPlayer: ExoPlayer? = null
-    private var playWhenReady = true
+    private var playWhenReady = false
     private var currentWindow = 0
     private var playbackPosition = 0L
     private lateinit var videoUrl : String
@@ -65,6 +62,9 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
         play_back?.setOnClickListener {
             onBackPressed()
         }
+        Glide.with(this).load("empty")
+            .thumbnail(Glide.with(this).load(videoUrl))
+            .into(test);
     }
 
     private fun changeOrientation() {

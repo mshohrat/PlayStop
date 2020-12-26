@@ -15,6 +15,11 @@
         app:rewind_increment="15000"
         app:fastforward_increment="15000"/>
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/test"/>
+
     <ProgressBar
         android:id="@+id/play_video_progress"
         style="@style/Widget.AppCompat.ProgressBar"
