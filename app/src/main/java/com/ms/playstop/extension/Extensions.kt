@@ -3,16 +3,20 @@ package com.ms.playstop.extension
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
+import android.transition.*
 import android.util.DisplayMetrics
 import android.util.Patterns
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -134,13 +138,12 @@ fun Fragment.addOrShow(destination: Fragment) {
 
 fun Fragment.add(@IdRes containerId: Int,destination: Fragment,transitionElement: View? = null) {
     try {
-        if(destination.isStateSaved) {
+        if (destination.isStateSaved) {
             childFragmentManager.beginTransaction()
                 .initCustomAnimations()
                 .add(containerId, destination)
                 .commitAllowingStateLoss()
-        }
-        else {
+        } else {
             childFragmentManager.beginTransaction()
                 .initCustomAnimations()
                 .add(containerId, destination)

@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.show
 import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
 import com.ms.playstop.utils.RoundedCornersTransformation

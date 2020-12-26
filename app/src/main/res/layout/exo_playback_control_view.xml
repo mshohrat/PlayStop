@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <View
         android:layout_width="match_parent"
@@ -107,5 +108,19 @@
         app:layout_constraintTop_toTopOf="@id/exo_progress"
         app:layout_constraintBottom_toBottomOf="@id/exo_progress"
         app:srcCompat="@drawable/ic_fullscreen"/>
+
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/play_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccentDarkOpacity50"
+        android:layout_margin="@dimen/margin_standard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingHorizontal="@dimen/padding_medium"
+        android:paddingVertical="@dimen/padding_small"
+        android:rotation="180"
+        app:srcCompat="@drawable/ic_back"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

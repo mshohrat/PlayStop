@@ -151,7 +151,9 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     override fun onMovieClick(movie: Movie?) {
         movie?.let {
             val movieFragment = MovieFragment.newInstance()
-            movieFragment.arguments = Bundle().apply { this.putInt(MovieFragment.MOVIE_ID_KEY,it.id) }
+            movieFragment.arguments = Bundle().apply {
+                this.putInt(MovieFragment.MOVIE_ID_KEY,it.id)
+            }
             add(containerId(),movieFragment)
         }
     }

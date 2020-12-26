@@ -98,7 +98,9 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
     override fun onItemClick(movie: Movie?) {
         movie?.let {
             val movieFragment = MovieFragment.newInstance()
-            movieFragment.arguments = Bundle().apply { this.putInt(MovieFragment.MOVIE_ID_KEY,it.id) }
+            movieFragment.arguments = Bundle().apply {
+                this.putInt(MovieFragment.MOVIE_ID_KEY,it.id)
+            }
             add(containerId(),movieFragment)
         }
     }

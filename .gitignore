@@ -1,3 +1,4 @@
+/build
 *.iml
 app/app.iml
 /app/app.iml
@@ -10,12 +11,19 @@ app/app.iml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+.idea/libraries
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/*/
+.idea/*
+.idea/*.xml
 .DS_Store
-/build
+build
 /captures
 .externalNativeBuild
 .idea
-.idea/workspace.xml
 .gradle/*
 /.gradle/*
 app/build

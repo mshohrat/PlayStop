@@ -12,8 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.TrackGroupArray
@@ -22,7 +22,6 @@ import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
@@ -39,7 +38,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
 
     private lateinit var viewModel: PlayVideoViewModel
     private var exoPlayer: ExoPlayer? = null
-    private var playWhenReady = true
+    private var playWhenReady = false
     private var currentWindow = 0
     private var playbackPosition = 0L
     private lateinit var videoUrl : String
@@ -60,6 +59,12 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
         play_fullscreen?.setOnClickListener {
             changeOrientation()
         }
+        play_back?.setOnClickListener {
+            onBackPressed()
+        }
+        Glide.with(this).load("empty")
+            .thumbnail(Glide.with(this).load(videoUrl))
+            .into(test);
     }
 
     private fun changeOrientation() {
@@ -71,11 +76,6 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        initializePlayer(videoUrl)
-    }
-
     override fun onResume() {
         super.onResume()
         initializePlayer(videoUrl)
@@ -83,9 +83,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
 
     override fun onPause() {
         super.onPause()
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            releasePlayer()
-        }
+        releasePlayer()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -124,13 +122,6 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
     }
 
-    override fun onStop() {
-        super.onStop()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            releasePlayer()
-        }
-    }
-
     private fun initializePlayer(url: String) {
         if(exoPlayer == null) {
             val trackSelector = DefaultTrackSelector()
@@ -140,13 +131,12 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
                 renderersFactory, trackSelector, loadControl
             )
             play_video_player?.player = exoPlayer
-            exoPlayer?.playWhenReady = playWhenReady
-            exoPlayer?.seekTo(currentWindow, playbackPosition)
         }
         val mediaSource = buildMediaSource(Uri.parse(url))
         exoPlayer?.addListener(this)
         exoPlayer?.prepare(mediaSource)
-        exoPlayer?.playWhenReady = true
+        exoPlayer?.seekTo(currentWindow, playbackPosition)
+        exoPlayer?.playWhenReady = playWhenReady
     }
 
     private fun buildMediaSource(uri: Uri): MediaSource {
