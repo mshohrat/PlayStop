@@ -96,13 +96,13 @@ class MovieHeaderAdapter(
 //                freeTv?.hide()
 //            }
             rootView.setOnClickListener {
-                onItemClickListener?.onMovieHeaderClick(item)
+                onItemClickListener?.onMovieClick(item)
             }
             rootView.animate().alpha(1f).setDuration(250).start()
         }
     }
 
     interface OnItemClickListener {
-        fun onMovieHeaderClick(movie: Movie?,transitionElement : View? = null)
+        fun onMovieClick(movie: Movie?)
     }
 }

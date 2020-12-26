@@ -63,8 +63,8 @@ class MovieListAdapter(
                 onItemClickListener.onShowAllClick(item.suggestion)
             }
             val movieAdapter = MovieAdapter(item.movies,object : MovieAdapter.OnItemClickListener{
-                override fun onItemClick(movie: Movie?, transitionElement: View?) {
-                    onItemClickListener.onMovieClick(movie,transitionElement)
+                override fun onItemClick(movie: Movie?) {
+                    onItemClickListener.onMovieClick(movie)
                 }
             })
             val layoutManager = RtlLinearLayoutManager(rootView.context,RecyclerView.HORIZONTAL,false)
@@ -95,7 +95,7 @@ class MovieListAdapter(
 
     interface OnItemClickListener {
         fun onShowAllClick(suggestion: Suggestion)
-        fun onMovieClick(movie: Movie?,transitionElement : View? = null)
+        fun onMovieClick(movie: Movie?)
     }
 
 }

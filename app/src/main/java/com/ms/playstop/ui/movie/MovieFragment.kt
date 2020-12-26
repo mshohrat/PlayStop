@@ -1,7 +1,6 @@
 package com.ms.playstop.ui.movie
 
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -10,17 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textview.MaterialTextView
@@ -40,7 +34,6 @@ import com.ms.playstop.utils.LoadingDialog
 import com.ms.playstop.utils.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movie.*
-import kotlinx.android.synthetic.main.fragment_movie.view.*
 import java.text.NumberFormat
 import java.util.*
 
@@ -49,65 +42,17 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     companion object {
         fun newInstance() = MovieFragment()
         const val MOVIE_ID_KEY = "MOVIE ID KEY"
-        const val MOVIE_IMAGE_URL = "MOVIE IMAGE URL"
     }
 
     private lateinit var viewModel: MovieViewModel
     private var movie: Movie? = null
     private var loadingDialog: LoadingDialog? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        postponeEnterTransition()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_movie, container, false)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            //postponeEnterTransition()
-            val transitionName = arguments?.takeIf { it.containsKey(TRANSITION_NAME) }?.getString(TRANSITION_NAME)
-            view.movie_image_iv?.transitionName = transitionName
-        }
-        return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val movieImage = arguments?.takeIf { it.containsKey(MOVIE_IMAGE_URL) }?.getString(MOVIE_IMAGE_URL) ?: ""
-        movie_image_iv?.let {
-            Glide.with(it).load(movieImage).apply(
-                RequestOptions.bitmapTransform(
-                    RoundedCornersTransformation(16,0)
-                ))
-                .addListener(object : RequestListener<Drawable> {
-
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        startPostponedEnterTransition()
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        startPostponedEnterTransition()
-                        return false
-                    }
-
-                })
-                .into(it)
-        }
+        return inflater.inflate(R.layout.fragment_movie, container, false)
     }
 
     override fun tag(): String {
@@ -117,17 +62,25 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
+        initViews()
         subscribeToViewModel()
         subscribeToViewEvents()
         val movieId = arguments?.takeIf { it.containsKey(MOVIE_ID_KEY) }?.getInt(MOVIE_ID_KEY) ?: -1
         viewModel.fetchMovie(movieId)
     }
 
+    private fun initViews() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val transitionName = arguments?.takeIf { it.containsKey(TRANSITION_NAME) }?.getString(TRANSITION_NAME)
+            movie_image_iv?.transitionName = transitionName
+        }
+    }
+
     private fun subscribeToViewModel() {
         viewModel.movie.observe(viewLifecycleOwner, Observer {
-            //movie_shimmer_image?.hide()
+            movie_shimmer_image?.hide()
             movie_shimmer_detail?.hide()
-            //movie_image_iv?.show()
+            movie_image_iv?.show()
             movie_detail_layout?.show()
 
             movie_refresh_layout?.isRefreshing = false
@@ -182,12 +135,12 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 //                    movie_score_number_tv?.hide()
 //                }
 
-//                movie_image_iv?.let {
-//                    Glide.with(it).load(movie.image).apply(
-//                        RequestOptions.bitmapTransform(
-//                            RoundedCornersTransformation(16,0)
-//                        )).into(it)
-//                }
+                movie_image_iv?.let {
+                    Glide.with(it).load(movie.image).apply(
+                        RequestOptions.bitmapTransform(
+                            RoundedCornersTransformation(16,0)
+                        )).into(it)
+                }
                 movie_description_tv?.text = movie.description
                 movie_director_tv?.text = movie.director
                 movie_writer_tv?.text = movie.writer

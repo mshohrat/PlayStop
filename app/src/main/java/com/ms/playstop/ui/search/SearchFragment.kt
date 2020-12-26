@@ -95,14 +95,13 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
         }
     }
 
-    override fun onItemClick(movie: Movie?, transitionElement: View?) {
+    override fun onItemClick(movie: Movie?) {
         movie?.let {
             val movieFragment = MovieFragment.newInstance()
             movieFragment.arguments = Bundle().apply {
                 this.putInt(MovieFragment.MOVIE_ID_KEY,it.id)
-                this.putString(MovieFragment.MOVIE_IMAGE_URL,it.image)
             }
-            add(containerId(),movieFragment,transitionElement)
+            add(containerId(),movieFragment)
         }
     }
 
