@@ -346,7 +346,7 @@
                         android:layout_height="@dimen/minimum_button_size"
                         app:srcCompat="@drawable/ic_play"
                         android:layout_gravity="center"
-                        app:tint="@color/colorAccent"
+                        app:tint="@color/colorPrimaryDark"
                         android:visibility="gone"
                         tools:visibility="visible"/>
 

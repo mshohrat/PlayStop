@@ -273,7 +273,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         return Single.fromCallable {
             try {
                 val mediaMetadataRetriever = MediaMetadataRetriever()
-                val m = mediaMetadataRetriever.apply { setDataSource(path) }.frameAtTime
+                val m = mediaMetadataRetriever.apply { setDataSource(path, hashMapOf<String,String>()) }.frameAtTime
                 mediaMetadataRetriever.release()
                 m
             } catch (e: Exception) {
