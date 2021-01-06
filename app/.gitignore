@@ -4,8 +4,8 @@ app/app.iml
 /app/app.iml
 .gradle
 /local.properties
-/.idea/caches
-.idea/caches
+/.idea/caches/
+.idea/caches/
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml

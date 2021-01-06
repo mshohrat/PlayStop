@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.MediaSource
@@ -38,7 +37,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
 
     private lateinit var viewModel: PlayVideoViewModel
     private var exoPlayer: ExoPlayer? = null
-    private var playWhenReady = false
+    private var playWhenReady = true
     private var currentWindow = 0
     private var playbackPosition = 0L
     private lateinit var videoUrl : String
@@ -62,9 +61,6 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener {
         play_back?.setOnClickListener {
             onBackPressed()
         }
-        Glide.with(this).load("empty")
-            .thumbnail(Glide.with(this).load(videoUrl))
-            .into(test);
     }
 
     private fun changeOrientation() {

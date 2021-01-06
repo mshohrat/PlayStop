@@ -1,12 +1,16 @@
 package com.ms.playstop.ui.movie
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.lifecycle.Observer
@@ -30,12 +34,17 @@ import com.ms.playstop.ui.movie.adapter.CommentAdapter
 import com.ms.playstop.ui.movie.adapter.EpisodeAdapter
 import com.ms.playstop.ui.movie.adapter.LinkAdapter
 import com.ms.playstop.ui.movie.adapter.SeasonAdapter
+import com.ms.playstop.ui.playVideo.PlayVideoActivity
 import com.ms.playstop.utils.LoadingDialog
 import com.ms.playstop.utils.RoundedCornersTransformation
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 import java.text.NumberFormat
 import java.util.*
+import java.util.concurrent.Callable
 
 class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 
@@ -76,6 +85,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         }
     }
 
+    @SuppressLint("CheckResult")
     private fun subscribeToViewModel() {
         viewModel.movie.observe(viewLifecycleOwner, Observer {
             movie_shimmer_image?.hide()
@@ -136,16 +146,52 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 //                }
 
                 movie_image_iv?.let {
-                    Glide.with(it).load(movie.image).apply(
-                        RequestOptions.bitmapTransform(
-                            RoundedCornersTransformation(16,0)
-                        )).into(it)
+                    context?.let { ctx ->
+                        Glide.with(ctx).load(movie.image).apply(
+                            RequestOptions.bitmapTransform(
+                                RoundedCornersTransformation(16,0)
+                            )).into(it)
+                    }
                 }
                 movie_description_tv?.text = movie.description
                 movie_director_tv?.text = movie.director
                 movie_writer_tv?.text = movie.writer
                 movie_production_year_tv?.text = movie.productionYear.toString()
                 movie_actors_tv?.text = movie.actors
+                if(movie.trailer != null) {
+                    movie_trailer_title_tv?.show()
+                    movie_trailer_divider?.show()
+                    movie_trailer_frame?.show()
+                    val trailerImageParams = movie_trailer_iv?.layoutParams as? FrameLayout.LayoutParams
+                    val trailerImageWidth = widthOfDevice().minus(context?.resources?.getDimensionPixelSize(R.dimen.padding_standard)?.times(2) ?: 0)
+                    trailerImageParams?.height = trailerImageWidth.times(3).div(5)
+                    movie_trailer_iv?.layoutParams = trailerImageParams
+                    getBitmapFromVideo(movie.trailer)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ bitmap ->
+                            movie_trailer_progress?.hide()
+                            movie_trailer_play_iv?.show()
+                            movie_trailer_iv?.let {
+                                context?.let { ctx ->
+                                    Glide.with(ctx).load(bitmap).apply(
+                                        RequestOptions.bitmapTransform(
+                                            RoundedCornersTransformation(8,0)
+                                        )).into(it)
+                                }
+                            }
+                        },{})
+                    movie_trailer_frame?.setOnClickListener {
+                        val intent = Intent(context, PlayVideoActivity::class.java)
+                        intent.putExtra(PlayVideoActivity.PLAY_VIDEO_URL,movie.trailer)
+                        activity?.startActivity(intent)
+                    }
+                } else {
+                    movie_trailer_title_tv?.hide()
+                    movie_trailer_divider?.hide()
+                    movie_trailer_frame?.hide()
+                    movie_trailer_frame?.setOnClickListener(null)
+                }
                 if(movie.isSeries) {
                     movie_seasons_title_tv?.show()
                     movie_seasons_divider?.show()
@@ -221,6 +267,19 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             showToast(it)
             dismissLoadingDialog()
         })
+    }
+
+    private fun getBitmapFromVideo(path: String?) : Single<Bitmap?> {
+        return Single.fromCallable {
+            try {
+                val mediaMetadataRetriever = MediaMetadataRetriever()
+                val m = mediaMetadataRetriever.apply { setDataSource(path) }.frameAtTime
+                mediaMetadataRetriever.release()
+                m
+            } catch (e: Exception) {
+                null
+            }
+        }
     }
 
     private fun tryToShowUrl(urlString: String) {

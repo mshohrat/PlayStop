@@ -308,6 +308,60 @@
                     tools:text="کریستوفر نولان"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_trailer_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/trailer"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <View
+                    android:id="@+id/movie_trailer_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <FrameLayout
+                    android:id="@+id/movie_trailer_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/movie_trailer_iv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/movie_trailer_play_iv"
+                        android:layout_width="@dimen/minimum_button_size"
+                        android:layout_height="@dimen/minimum_button_size"
+                        app:srcCompat="@drawable/ic_play"
+                        android:layout_gravity="center"
+                        app:tint="@color/colorAccent"
+                        android:visibility="gone"
+                        tools:visibility="visible"/>
+
+                    <ProgressBar
+                        android:id="@+id/movie_trailer_progress"
+                        style="@style/Widget.AppCompat.ProgressBar"
+                        android:layout_width="@dimen/minimum_button_size"
+                        android:layout_height="@dimen/minimum_button_size"
+                        android:layout_gravity="center"
+                        android:visibility="visible"
+                        tools:visibility="gone"/>
+
+                </FrameLayout>
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_links_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

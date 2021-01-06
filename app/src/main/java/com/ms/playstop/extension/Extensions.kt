@@ -3,20 +3,15 @@ package com.ms.playstop.extension
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.media.MediaMetadataRetriever
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
-import android.transition.*
 import android.util.DisplayMetrics
 import android.util.Patterns
-import android.view.View
-import android.view.WindowManager
+import android.view.*
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -347,4 +342,24 @@ fun Activity.updateStatusBarColor(@ColorRes colorId: Int, isStatusBarFontDark: B
                 if (isStatusBarFontDark) lFlags and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv() else lFlags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
     }
+}
+
+fun Activity.hasSoftKeys(): Boolean {
+    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR1){
+        val d = windowManager.defaultDisplay
+        val realDisplayMetrics = DisplayMetrics()
+        d.getRealMetrics(realDisplayMetrics)
+        val realHeight = realDisplayMetrics.heightPixels
+        val realWidth = realDisplayMetrics.widthPixels
+        val displayMetrics = DisplayMetrics()
+        d.getMetrics(displayMetrics)
+        val displayHeight = displayMetrics.heightPixels
+        val displayWidth = displayMetrics.widthPixels
+        return realWidth - displayWidth > 0 || realHeight - displayHeight > 0
+    } else {
+        val hasMenuKey: Boolean = ViewConfiguration.get(this).hasPermanentMenuKey()
+        val hasBackKey: Boolean = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)
+        return !hasMenuKey && !hasBackKey
+    }
+
 }

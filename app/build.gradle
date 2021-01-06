@@ -57,7 +57,7 @@ android {
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
-            buildConfigField 'String', 'DOWNLOAD_URL', '"https://cafebazaar.ir/app/com.ms.playstop"'
+            buildConfigField 'String', 'DOWNLOAD_URL', '"https://playstop.ir/app/"'
         }
         googlePlay {
             dimension "main"
@@ -65,7 +65,7 @@ android {
             buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
-            buildConfigField 'String', 'DOWNLOAD_URL', '"https://play.google.com/store/apps/details?id=com.ms.playstop"'
+            buildConfigField 'String', 'DOWNLOAD_URL', '"https://playstop.ir/app/"'
         }
     }
 

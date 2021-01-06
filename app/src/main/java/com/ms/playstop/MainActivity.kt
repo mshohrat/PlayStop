@@ -3,11 +3,13 @@ package com.ms.playstop
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.ms.playstop.base.BaseFragment
+import com.ms.playstop.extension.hasSoftKeys
 import com.ms.playstop.extension.initCustomAnimations
 import com.ms.playstop.extension.isVpnActive
 import com.ms.playstop.model.*
@@ -29,13 +31,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             val w = window
-            w.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
             w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
             w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-            } else {
+            w.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+            if(hasSoftKeys()) {
                 w.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            } else {
+                w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
             }
         }
         super.onCreate(savedInstanceState)
