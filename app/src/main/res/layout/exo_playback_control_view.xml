@@ -50,19 +50,41 @@
         android:layout_width="@dimen/minimum_button_size"
         android:layout_height="@dimen/minimum_button_size"
         app:layout_constraintEnd_toStartOf="@id/play_holder"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/play_subtitle"
         app:layout_constraintTop_toTopOf="@id/play_holder"
         app:layout_constraintBottom_toBottomOf="@id/play_holder"
         style="@style/ExoMediaButton.Rewind"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/play_subtitle"
+        android:layout_width="@dimen/minimum_button_size"
+        android:layout_height="@dimen/minimum_button_size"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/exo_rew"
+        app:layout_constraintTop_toTopOf="@id/play_holder"
+        app:layout_constraintBottom_toBottomOf="@id/play_holder"
+        app:srcCompat="@drawable/ic_subtitle"/>
 
     <ImageButton android:id="@id/exo_ffwd"
         android:layout_width="@dimen/minimum_button_size"
         android:layout_height="@dimen/minimum_button_size"
         app:layout_constraintStart_toEndOf="@id/play_holder"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/play_fullscreen"
         app:layout_constraintTop_toTopOf="@id/play_holder"
         app:layout_constraintBottom_toBottomOf="@id/play_holder"
         style="@style/ExoMediaButton.FastForward"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/play_fullscreen"
+        android:layout_width="@dimen/minimum_button_size"
+        android:layout_height="@dimen/minimum_button_size"
+        android:background="@null"
+        app:layout_constraintStart_toEndOf="@id/exo_ffwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/play_holder"
+        app:layout_constraintBottom_toBottomOf="@id/play_holder"
+        app:srcCompat="@drawable/ic_fullscreen"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@id/exo_position"
@@ -93,21 +115,9 @@
         style="?textAppearanceCaption"
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@id/exo_progress"
-        app:layout_constraintEnd_toStartOf="@id/play_fullscreen"
-        app:layout_constraintTop_toTopOf="@id/exo_progress"
-        app:layout_constraintBottom_toBottomOf="@id/exo_progress"/>
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/play_fullscreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?android:selectableItemBackground"
-        android:layout_marginEnd="@dimen/margin_standard"
-        app:layout_constraintStart_toEndOf="@id/exo_duration"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/exo_progress"
-        app:layout_constraintBottom_toBottomOf="@id/exo_progress"
-        app:srcCompat="@drawable/ic_fullscreen"/>
+        app:layout_constraintBottom_toBottomOf="@id/exo_progress"/>
 
 
     <androidx.appcompat.widget.AppCompatImageButton

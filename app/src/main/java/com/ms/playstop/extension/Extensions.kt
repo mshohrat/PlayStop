@@ -3,13 +3,16 @@ package com.ms.playstop.extension
 import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Patterns
-import android.view.*
+import android.view.View
+import android.view.WindowManager
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
@@ -345,21 +348,79 @@ fun Activity.updateStatusBarColor(@ColorRes colorId: Int, isStatusBarFontDark: B
 }
 
 fun Activity.hasSoftKeys(): Boolean {
-    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR1){
-        val d = windowManager.defaultDisplay
-        val realDisplayMetrics = DisplayMetrics()
-        d.getRealMetrics(realDisplayMetrics)
-        val realHeight = realDisplayMetrics.heightPixels
-        val realWidth = realDisplayMetrics.widthPixels
-        val displayMetrics = DisplayMetrics()
-        d.getMetrics(displayMetrics)
-        val displayHeight = displayMetrics.heightPixels
-        val displayWidth = displayMetrics.widthPixels
-        return realWidth - displayWidth > 0 || realHeight - displayHeight > 0
-    } else {
-        val hasMenuKey: Boolean = ViewConfiguration.get(this).hasPermanentMenuKey()
-        val hasBackKey: Boolean = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)
-        return !hasMenuKey && !hasBackKey
-    }
+//    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR1){
+//        val d = windowManager.defaultDisplay
+//        val realDisplayMetrics = DisplayMetrics()
+//        d.getRealMetrics(realDisplayMetrics)
+//        val realHeight = realDisplayMetrics.heightPixels
+//        val realWidth = realDisplayMetrics.widthPixels
+//        val displayMetrics = DisplayMetrics()
+//        d.getMetrics(displayMetrics)
+//        val displayHeight = displayMetrics.heightPixels
+//        val displayWidth = displayMetrics.widthPixels
+//        return realWidth - displayWidth > 0 || realHeight - displayHeight > 0
+//    } else {
+//        val hasMenuKey: Boolean = ViewConfiguration.get(this).hasPermanentMenuKey()
+//        val hasBackKey: Boolean = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK)
+//        return !hasMenuKey && !hasBackKey
+//    }
 
+    val id = resources.getIdentifier("config_showNavigationBar", "bool", "android")
+    return id > 0 && resources.getBoolean(id)
+}
+
+fun Activity.hasNotch(): Boolean {
+    val d = windowManager.defaultDisplay
+    val realDisplayMetrics = DisplayMetrics()
+    d.getRealMetrics(realDisplayMetrics)
+    val realHeight = realDisplayMetrics.heightPixels
+    val realWidth = realDisplayMetrics.widthPixels
+    val displayMetrics = DisplayMetrics()
+    d.getMetrics(displayMetrics)
+    val displayHeight = displayMetrics.heightPixels
+    val displayWidth = displayMetrics.widthPixels
+    return realWidth - displayWidth > 0 || realHeight - displayHeight > 0
+}
+
+fun Activity.setStatusBarColor(
+    @ColorInt color: Int
+) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        window?.let { window ->
+
+            // set status bar icons color to White or Black based on status bar's color
+            val contrastColor = getContrastColor(color)
+            setStatusBarTheme(contrastColor == Color.WHITE)
+
+            // on APIs lower than M (basically 21 and 22), status bar's color shouldn't be white
+            // so set a darker color so that icons will be visible
+            val standardColor =
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M && color == Color.WHITE)
+                    ContextCompat.getColor(this, R.color.colorAccentDark)
+                else color
+
+            // set status bar color
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.statusBarColor = standardColor
+        }
+    }
+}
+
+private fun Activity.setStatusBarTheme(isDark: Boolean = false) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        // Fetch the current flags.
+        val flags = window.decorView.systemUiVisibility
+        // Update the SystemUiVisibility dependening on whether we want a Light or Dark theme.
+        window.decorView.systemUiVisibility =
+            if (isDark) flags.and(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv())
+            else flags.or(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR)
+    }
+}
+
+private fun getContrastColor(@ColorInt color: Int): Int {
+    val red = Color.red(color)
+    val green = Color.green(color)
+    val blue = Color.blue(color)
+    val lum = (((0.299 * red) + ((0.587 * green) + (0.114 * blue))))
+    return if (lum > 186) Color.BLACK else Color.WHITE
 }

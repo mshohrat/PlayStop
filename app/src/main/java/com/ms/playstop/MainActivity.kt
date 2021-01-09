@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.ms.playstop.base.BaseFragment
-import com.ms.playstop.extension.hasSoftKeys
-import com.ms.playstop.extension.initCustomAnimations
-import com.ms.playstop.extension.isVpnActive
+import com.ms.playstop.extension.*
 import com.ms.playstop.model.*
 import com.ms.playstop.ui.splash.SplashFragment
 import com.ms.playstop.utils.VpnDialog
@@ -29,19 +28,17 @@ class MainActivity : AppCompatActivity() {
     private var vpnDialog: VpnDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            val w = window
-            w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-            w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-            w.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
-            if(hasSoftKeys()) {
-                w.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-            } else {
-                w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            val w = window
+//            //w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+//            //w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//            w.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+//            w.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//            //w.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+//        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent))
         supportFragmentManager.fragments.size.takeIf { it == 0 }.let {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frame,
@@ -214,16 +211,6 @@ class MainActivity : AppCompatActivity() {
     fun showVpnDialog() {
         takeIf { isFinishing.not() }?.let { ctx ->
             vpnDialog = VpnDialog(ctx)
-            vpnDialog?.vpnClickListener = object : VpnDialog.OnVpnClickListener {
-                override fun onGotItClick() {
-                    try {
-                        this@MainActivity.finish()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        FirebaseCrashlytics.getInstance().recordException(e)
-                    }
-                }
-            }
             vpnDialog?.show()
         }
 

@@ -80,11 +80,14 @@
     <string name="production_year">سال انتشار</string>
     <string name="download_movie_and_series">دانلود فیلم و سریال</string>
     <string name="notice">توجه !!</string>
-    <string name="not_use_vpn">به منظور کارکرد بهتر برنامه لازم است اتصال وی پی ان خود را قطع نمایید</string>
+    <string name="not_use_vpn">به منظور کارکرد بهتر برنامه بهتر است اتصال وی پی ان خود را قطع نمایید</string>
     <string name="got_it">متوجه شدم</string>
     <string name="show_by">نمایش با ...</string>
     <string name="play">پخش</string>
     <string name="please_choose_play_or_download">مایل به پخش یا دانلود فایل هستید؟</string>
     <string name="trailer">پیش نمایش</string>
+    <string name="choose_subtitle">انتخاب زیرنویس</string>
+    <string name="subtitle_x">زیرنویس %s</string>
+    <string name="failed_in_playing_video">خطا در پخش ویدئو</string>
 
 </resources>

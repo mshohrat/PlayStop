@@ -13,12 +13,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textview.MaterialTextView
 import com.ms.playstop.R
 import com.ms.playstop.extension.isPlayable
+import com.ms.playstop.model.Subtitle
 import com.ms.playstop.model.Url
 import com.ms.playstop.ui.playVideo.PlayVideoActivity
 import com.ms.playstop.utils.MenuAdapter
 import kotlinx.android.synthetic.main.item_link_layout.view.*
+import java.util.ArrayList
 
-class LinkAdapter(private val urls: List<Url>): RecyclerView.Adapter<LinkAdapter.ViewHolder>() {
+class LinkAdapter(private val urls: List<Url>,private val subtitles: List<Subtitle>? = null): RecyclerView.Adapter<LinkAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_link_layout,parent,false))
@@ -109,6 +111,10 @@ class LinkAdapter(private val urls: List<Url>): RecyclerView.Adapter<LinkAdapter
         context?.let {
             val intent = Intent(context,PlayVideoActivity::class.java)
             intent.putExtra(PlayVideoActivity.PLAY_VIDEO_URL,url.link)
+            val subtitles = subtitles?.let { list ->
+                ArrayList(list.map { it.link })
+            }
+            intent.putStringArrayListExtra(PlayVideoActivity.PLAY_VIDEO_SUBTITLES, subtitles)
             context.startActivity(intent)
         }
     }
@@ -117,6 +123,8 @@ class LinkAdapter(private val urls: List<Url>): RecyclerView.Adapter<LinkAdapter
          val intent = Intent(Intent.ACTION_VIEW)
          if(url.link.isPlayable()) {
              intent.setDataAndType(Uri.parse(url.link), "file/*")
+         } else {
+             intent.data = Uri.parse(url.link)
          }
          val resolveInfo = context?.packageManager?.queryIntentActivities(intent,0)
          resolveInfo?.takeIf { it.isNotEmpty() }?.let {

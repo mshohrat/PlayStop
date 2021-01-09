@@ -49,11 +49,11 @@ class SplashFragment : Fragment() {
         subscribeToViewModel()
         if(isVpnActive().not()) {
             (activity as? MainActivity?)?.dismissVpnDialog()
-            viewModel.fetchConfig()
         }
         else {
             (activity as? MainActivity?)?.showVpnDialog()
         }
+        viewModel.fetchConfig()
     }
 
     private fun initViews() {
@@ -97,7 +97,7 @@ class SplashFragment : Fragment() {
         })
 
         viewModel.configError.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(activity,it?.message,Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity,R.string.failed_in_communication_with_server,Toast.LENGTH_SHORT).show()
             splash_progress?.hide()
             splash_try_again_btn?.show()
         })

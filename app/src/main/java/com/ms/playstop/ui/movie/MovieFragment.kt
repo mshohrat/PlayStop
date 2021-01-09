@@ -153,6 +153,20 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                             )).into(it)
                     }
                 }
+                movie.header?.let { header ->
+                    movie_image_background_group?.show()
+                    movie_image_background_iv?.let {
+                        context?.let { ctx ->
+                            Glide.with(ctx).load(header).apply(
+                                RequestOptions.bitmapTransform(
+                                    RoundedCornersTransformation(16,0)
+                                )).into(it)
+                        }
+                    }
+                } ?: kotlin.run {
+                    movie_image_background_group?.hide()
+                }
+
                 movie_description_tv?.text = movie.description
                 movie_director_tv?.text = movie.director
                 movie_writer_tv?.text = movie.writer
@@ -214,7 +228,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                         movie_no_links_tv?.hide()
                         movie_links_recycler?.show()
                         val linkLayoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
-                        val linkAdapter = LinkAdapter(it)
+                        val linkAdapter = LinkAdapter(it,movie.subtitles)
                         movie_links_recycler?.layoutManager = linkLayoutManager
                         movie_links_recycler?.adapter = linkAdapter
                     } ?: kotlin.run {
@@ -361,7 +375,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     }
 
     private fun showBottomSheetDialogForUrls(episode: Episode) {
-        context?.let { ctx ->
+        activity?.let { ctx ->
             episode.urls?.takeIf { it.isNotEmpty() }?.let { urls ->
                 val dialog = BottomSheetDialog(ctx)
                 dialog.setContentView(R.layout.layout_bottom_sheet_recycler)

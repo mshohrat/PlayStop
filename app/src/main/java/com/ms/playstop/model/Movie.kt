@@ -47,6 +47,8 @@ data class Movie(
     val urls: List<Url>?,
     @SerializedName("comments")
     val comments: List<Comment>?,
+    @SerializedName("subtitles")
+    val subtitles: List<Subtitle>?,
     @SerializedName("subtitle")
     var subtitle: String?
 )

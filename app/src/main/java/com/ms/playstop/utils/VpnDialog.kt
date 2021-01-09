@@ -7,7 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import com.ms.playstop.R
 import kotlinx.android.synthetic.main.layout_vpn_dialog.*
 
-class VpnDialog(context: Context, isCancelable: Boolean = false): Dialog(context) {
+class VpnDialog(context: Context, isCancelable: Boolean = true): Dialog(context) {
 
     var vpnClickListener: OnVpnClickListener? = null
 

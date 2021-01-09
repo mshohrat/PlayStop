@@ -54,7 +54,7 @@ android {
         bazaar {
             dimension "main"
             buildConfigField 'String', 'STORE_NAME', '"cafebazaar"'
-            buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
+            buildConfigField 'String', 'SERVER_ADDRESS', '"http://playstopapp.ir/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
             buildConfigField 'String', 'DOWNLOAD_URL', '"https://playstop.ir/app/"'
@@ -62,7 +62,7 @@ android {
         googlePlay {
             dimension "main"
             buildConfigField 'String', 'STORE_NAME', '"playstore"'
-            buildConfigField 'String', 'SERVER_ADDRESS', '"http://185.206.93.231/api/v1/"'
+            buildConfigField 'String', 'SERVER_ADDRESS', '"http://playstopapp.ir/api/v1/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
             buildConfigField 'String', 'DOWNLOAD_URL', '"https://playstop.ir/app/"'
@@ -131,6 +131,7 @@ dependencies {
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.7.2'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.7.2'
 }
 
 repositories {
