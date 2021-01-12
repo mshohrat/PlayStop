@@ -252,7 +252,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 
     private fun hasHardSub(): Boolean {
         return trackSelector.currentMappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_VIDEO)?.takeIf { it.isEmpty.not() }?.get(0)?.takeIf { it.length > 0 }?.getFormat(0)?.let {
-            it.sampleMimeType != MimeTypes.APPLICATION_SUBRIP
+            it.id != null
         } ?: false
     }
 
