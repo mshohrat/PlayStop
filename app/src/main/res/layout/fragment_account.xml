@@ -5,6 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
+    android:clickable="true"
+    android:focusable="true"
     tools:context=".ui.account.AccountFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -36,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceBody1"
-                    android:textColor="@color/white"
+                    android:textColor="@color/colorPrimary"
                     android:layout_marginEnd="@dimen/margin_standard"
                     android:text="@string/user_account"/>
 
