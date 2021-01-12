@@ -1,14 +1,12 @@
 package com.ms.playstop
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.view.Window
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.model.*
@@ -135,6 +133,7 @@ class MainActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     e.printStackTrace()
                     FirebaseCrashlytics.getInstance().recordException(e)
+                    Crashes.trackError(e)
                 }
             } else {
                 return null
