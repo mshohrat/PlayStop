@@ -31,4 +31,6 @@ app/build/*
 /app/build
 /app/build/*
 /app/bazaar/release
+/app/bazaar/release/*
 /app/googlePlay/release
+/app/googlePlay/release/*
