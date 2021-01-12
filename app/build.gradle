@@ -17,6 +17,7 @@ final navigation = "2.3.0"
 final android_lifecycle = "2.2.0"
 final room_version = "2.2.5"
 final hawk = "2.0.1"
+final appCenter = "3.3.1"
 
 android {
     flavorDimensions "main"
@@ -58,6 +59,7 @@ android {
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
             buildConfigField 'String', 'DOWNLOAD_URL', '"https://playstop.ir/app/"'
+            buildConfigField 'String', 'APP_CENTER_CLIENT', '"5dcb3123-8e9d-4c1e-bd07-92fd01900d01"'
         }
         googlePlay {
             dimension "main"
@@ -66,6 +68,7 @@ android {
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
             buildConfigField 'String', 'DOWNLOAD_URL', '"https://playstop.ir/app/"'
+            buildConfigField 'String', 'APP_CENTER_CLIENT', '"5dcb3123-8e9d-4c1e-bd07-92fd01900d01"'
         }
     }
 
@@ -131,6 +134,8 @@ dependencies {
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.7.2'
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenter}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenter}"
 }
 
 repositories {
