@@ -41,7 +41,7 @@ class HomeFragment : BaseFragment() {
     }
 
     override fun tag(): String {
-        return TAG
+        return ""
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
