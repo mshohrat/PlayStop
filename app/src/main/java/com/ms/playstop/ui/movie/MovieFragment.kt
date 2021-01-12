@@ -22,6 +22,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textview.MaterialTextView
+import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
@@ -130,9 +131,12 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                 }
 
                 movie.scoreVotes?.let { votes ->
-                    val votesString = NumberFormat.getNumberInstance(Locale("fa-IR")).format(votes)
-                    votesString?.takeIf { it.isNotEmpty() && it != "0" }?.let {
-                        movie_score_number_tv?.text = String.format(getString(R.string.votes_x),it)
+                    votes.takeIf { it != 0 }?.let {
+                        try {
+                            movie_score_number_tv?.text = String.format(getString(R.string.votes_x),String.format("%,d",it))
+                        } catch (e: Exception) {
+                            Crashes.trackError(e)
+                        }
                     } ?: kotlin.run {
                         movie_score_number_tv?.hide()
                     }
@@ -389,7 +393,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                 }
                 val lm = LinearLayoutManager(ctx,RecyclerView.VERTICAL,false)
                 recycler?.layoutManager = lm
-                val adapter = LinkAdapter(urls)
+                val adapter = LinkAdapter(urls,episode.subtitles)
                 recycler?.adapter = adapter
                 dialog.show()
             }
