@@ -75,7 +75,11 @@ class CategoriesFragment : BaseFragment() {
             }
             else {
                 categories_category_group?.show()
-                val layoutManager = FlexboxLayoutManager(activity)
+                val layoutManager = object :FlexboxLayoutManager(activity) {
+                    override fun canScrollVertically(): Boolean {
+                        return false
+                    }
+                }
                 layoutManager.flexDirection = FlexDirection.ROW_REVERSE
                 layoutManager.justifyContent = JustifyContent.FLEX_START
                 layoutManager.flexWrap = FlexWrap.WRAP
@@ -116,7 +120,11 @@ class CategoriesFragment : BaseFragment() {
             }
             else {
                 categories_genre_group?.show()
-                val layoutManager = FlexboxLayoutManager(activity)
+                val layoutManager = object :FlexboxLayoutManager(activity) {
+                    override fun canScrollVertically(): Boolean {
+                        return false
+                    }
+                }
                 layoutManager.flexDirection = FlexDirection.ROW_REVERSE
                 layoutManager.justifyContent = JustifyContent.FLEX_START
                 layoutManager.flexWrap = FlexWrap.WRAP
@@ -142,7 +150,11 @@ class CategoriesFragment : BaseFragment() {
             }
             else {
                 categories_year_group?.show()
-                val layoutManager = FlexboxLayoutManager(activity)
+                val layoutManager = object : FlexboxLayoutManager(activity){
+                    override fun canScrollVertically(): Boolean {
+                        return false
+                    }
+                }
                 layoutManager.flexDirection = FlexDirection.ROW_REVERSE
                 layoutManager.justifyContent = JustifyContent.FLEX_START
                 layoutManager.flexWrap = FlexWrap.WRAP
