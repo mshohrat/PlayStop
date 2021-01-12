@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
+import com.microsoft.appcenter.analytics.Analytics
 
 abstract class BaseFragment : Fragment() {
 
@@ -38,5 +39,6 @@ abstract class BaseFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         onHandleDeepLink()
+        Analytics.trackEvent(tag())
     }
 }
