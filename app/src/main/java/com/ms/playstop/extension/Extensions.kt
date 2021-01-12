@@ -22,6 +22,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
+import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.App
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
@@ -68,6 +69,7 @@ fun Fragment.navigate(destination: Fragment,replace: Boolean = true) {
     } catch (e: Exception) {
         e.printStackTrace()
         FirebaseCrashlytics.getInstance().recordException(e)
+        Crashes.trackError(e)
     }
 }
 
@@ -131,6 +133,7 @@ fun Fragment.addOrShow(destination: Fragment) {
     } catch (e: Exception) {
         e.printStackTrace()
         FirebaseCrashlytics.getInstance().recordException(e)
+        Crashes.trackError(e)
     }
 }
 
@@ -150,6 +153,7 @@ fun Fragment.add(@IdRes containerId: Int,destination: Fragment,transitionElement
     } catch (e: Exception) {
         e.printStackTrace()
         FirebaseCrashlytics.getInstance().recordException(e)
+        Crashes.trackError(e)
     }
 
 }
