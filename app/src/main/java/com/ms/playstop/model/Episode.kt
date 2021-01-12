@@ -18,5 +18,7 @@ data class Episode(
     @SerializedName("price")
     val price: Float,
     @SerializedName("urls")
-    val urls: List<Url>?
+    val urls: List<Url>?,
+    @SerializedName("subtitles")
+    val subtitles: List<Subtitle>?
 )
