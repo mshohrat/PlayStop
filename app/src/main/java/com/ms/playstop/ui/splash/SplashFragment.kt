@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.ms.playstop.BuildConfig
 import com.ms.playstop.MainActivity
 
 import com.ms.playstop.R
+import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.isVpnActive
 import com.ms.playstop.extension.navigate
@@ -24,11 +24,10 @@ import com.ms.playstop.utils.UpdateDialog
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.fragment_splash.*
 
-class SplashFragment : Fragment() {
+class SplashFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = SplashFragment()
-        const val TAG = "Splash Fragment"
     }
 
     private lateinit var viewModel: SplashViewModel
@@ -129,5 +128,9 @@ class SplashFragment : Fragment() {
         updateDialog?.takeIf { it.isShowing }?.dismiss()
         updateDialog?.cancel()
         updateDialog = null
+    }
+
+    override fun tag(): String {
+        return "Splash Fragment"
     }
 }
