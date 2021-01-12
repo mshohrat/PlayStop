@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@id/splash_app_name_tv"
-        app:srcCompat="@drawable/ic_launcher"/>
+        app:srcCompat="@drawable/ic_logo"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/splash_app_name_tv"
@@ -24,7 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name_fa"
-        android:textSize="@dimen/large_text_size"
+        android:textSize="@dimen/huge_text_size"
+        app:fontFamily="@font/b_narm_0"
         android:textColor="@color/purple_new"
         app:layout_constraintStart_toStartOf="@id/splash_logo_iv"
         app:layout_constraintEnd_toEndOf="@id/splash_logo_iv"
@@ -34,10 +35,11 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/splash_desc_tv"
-        style="?textAppearanceHeadline2"
+        style="?textAppearanceHeadline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/download_movie_and_series"
+        app:fontFamily="@font/b_narm_0"
         android:textColor="@color/purple_new"
         app:layout_constraintStart_toStartOf="@id/splash_logo_iv"
         app:layout_constraintEnd_toEndOf="@id/splash_logo_iv"
