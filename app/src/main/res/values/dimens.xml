@@ -46,7 +46,7 @@
     <dimen name="default_button_size">56dp</dimen>
     <dimen name="user_avatar_size">32dp</dimen>
     <dimen name="divider_height_default">1dp</dimen>
-    <dimen name="account_avatar_size">76dp</dimen>
+    <dimen name="account_avatar_size">84dp</dimen>
     <dimen name="progress_bar_size">76dp</dimen>
     <dimen name="divider_default_size">1dp</dimen>
     <dimen name="status_bar_height">0dp</dimen>
