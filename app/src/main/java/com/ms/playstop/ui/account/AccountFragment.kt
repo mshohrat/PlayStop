@@ -44,6 +44,7 @@ class AccountFragment : BaseFragment() {
             it?.let {
                 account_name_tv?.text = it.name
                 account_email_tv?.text = it.email
+                account_phone_tv?.text = it.phone
             }
         })
     }
