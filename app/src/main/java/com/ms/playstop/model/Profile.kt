@@ -7,7 +7,11 @@ data class Profile(
     var gender : Int = GENDER_UNKNOWN,
     var token : String? = null,
     var refreshToken : String? = null,
-    var expiresIn : Long = 300000) {
+    var expiresIn : Long = 300000,
+    var isActive: Boolean = true,
+    var phone: String? = null,
+    var isPhoneVerified: Boolean = false,
+    var isEmailVerified: Boolean = false) {
 
     companion object {
         val SAVE_KEY = "Profile Save Key"
