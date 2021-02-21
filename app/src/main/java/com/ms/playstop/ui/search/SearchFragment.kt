@@ -17,7 +17,6 @@ import com.ms.playstop.model.Movie
 import com.ms.playstop.ui.movie.MovieFragment
 import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
 import com.ms.playstop.utils.GridSpacingItemDecoration
-import com.ms.playstop.utils.LoadingDialog
 import com.ms.playstop.utils.RtlGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_search.*
 
@@ -28,12 +27,11 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
     }
 
     private lateinit var viewModel: SearchViewModel
-    private var loadingDialog: LoadingDialog? = null
     private val DELAY_THRESHOLD = 800L
     private val handler = Handler()
     private val searchRunnable = Runnable {
         search_et?.text?.toString()?.takeIf { it.isNotEmpty() }?.let {
-            showLoadingDialog()
+            showLoading()
             viewModel.searchMovie(it)
         }
     }
@@ -58,7 +56,7 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
 
     private fun subscribeToViewModel() {
         viewModel.searchResult.observe(viewLifecycleOwner, Observer {
-            dismissLoadingDialog()
+            dismissLoading()
             if(it.isEmpty()) {
                 search_recycler?.hide()
                 search_no_result_group?.show()
@@ -127,16 +125,12 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
         return R.id.search_frame
     }
 
-    private fun showLoadingDialog() {
-        activity?.let { ctx ->
-            loadingDialog = LoadingDialog(ctx)
-            loadingDialog?.show()
-        }
+    private fun showLoading() {
+        search_loading?.show()
     }
 
-    private fun dismissLoadingDialog() {
-        loadingDialog?.takeIf { it.isShowing }?.dismiss()
-        loadingDialog?.cancel()
+    private fun dismissLoading() {
+        search_loading?.hide()
     }
 
 }
