@@ -2,7 +2,6 @@ package com.ms.playstop.ui.login
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,10 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
-import com.ms.playstop.extension.addToParent
+import com.ms.playstop.extension.*
 import com.ms.playstop.network.model.GeneralResponse
+import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
+import com.ms.playstop.ui.forgotPassword.ForgotPasswordFragment
 import com.ms.playstop.ui.signup.SignupFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
@@ -44,11 +45,23 @@ class LoginFragment : BaseFragment() {
 
     private fun subscribeToViewModel() {
         viewModel.login.observe(viewLifecycleOwner, Observer {
-            showToast(it)
-            activity?.onBackPressed()
+            hideButtonLoading()
+            showToast(GeneralResponse(messageResId = it.second))
+            if(it.first) {
+                activity?.onBackPressed()
+            } else {
+                val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
+                val args = Bundle().apply {
+                    putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE,EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_ADD)
+                }
+                enterPhoneNumberFragment.arguments = args
+                addToParent(enterPhoneNumberFragment)
+                removeFromParent(this,false)
+            }
         })
 
         viewModel.loginError.observe(viewLifecycleOwner, Observer {
+            hideButtonLoading()
             showToast(it)
         })
     }
@@ -60,14 +73,32 @@ class LoginFragment : BaseFragment() {
 
         login_not_have_account_btn?.setOnClickListener {
             val signupFragment = SignupFragment.newInstance()
-            addToParent(signupFragment)
+            replaceInParent(signupFragment)
         }
 
         login_btn?.setOnClickListener {
+            showButtonLoading()
             viewModel.login(
                 login_email_et?.text?.toString(),
                 login_password_et?.text?.toString()
             )
+        }
+
+        login_forgot_password_btn?.setOnClickListener {
+            val forgotPasswordFragment = ForgotPasswordFragment.newInstance()
+            addToParent(forgotPasswordFragment)
+        }
+
+        login_by_phone_btn?.setOnClickListener {
+            val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
+            enterPhoneNumberFragment.arguments = Bundle().apply {
+                putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE, EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_LOGIN)
+            }
+            replaceInParent(enterPhoneNumberFragment)
+        }
+
+        login_root?.setOnClickListener {
+            it.hideSoftKeyboard()
         }
     }
 
@@ -81,4 +112,15 @@ class LoginFragment : BaseFragment() {
         }
     }
 
+    private fun showButtonLoading() {
+        login_btn?.text = ""
+        login_btn?.isEnabled = false
+        login_btn_loading?.show()
+    }
+
+    private fun hideButtonLoading() {
+        login_btn_loading?.hide()
+        login_btn?.setText(R.string.login)
+        login_btn?.isEnabled = true
+    }
 }

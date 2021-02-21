@@ -18,7 +18,7 @@ import io.reactivex.schedulers.Schedulers
 
 class LoginViewModel : ViewModel() {
 
-    val login : MutableLiveData<GeneralResponse> = MutableLiveData()
+    val login : MutableLiveData<Pair<Boolean,Int>> = MutableLiveData()
     val loginError : MutableLiveData<GeneralResponse> = MutableLiveData()
 
     fun login(email: String?,password: String?) {
@@ -34,10 +34,18 @@ class LoginViewModel : ViewModel() {
                     ?.subscribe({
                         it?.let {
                             val profile = Profile(
-                                it.name,it.email,token = it.token,refreshToken = it.refreshToken,expiresIn = it.expiresIn
+                                it.name,
+                                it.email,
+                                token = it.token,
+                                refreshToken = it.refreshToken,
+                                expiresIn = it.expiresIn,
+                                isActive = it.isUserActive,
+                                isPhoneVerified = it.isPhoneVerified,
+                                isEmailVerified = it.isEmailVerified,
+                                phone = it.phone
                             )
                             Hawk.put(Profile.SAVE_KEY,profile)
-                            login.value = GeneralResponse(messageResId = R.string.logged_in_successfully)
+                            login.value = it.isPhoneVerified to R.string.logged_in_successfully
                         }
                     },{
                         it.getErrorHttpModel(InvalidCredentialsResponse::class.java)?.let {

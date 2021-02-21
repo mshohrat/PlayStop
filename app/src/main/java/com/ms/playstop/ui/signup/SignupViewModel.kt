@@ -6,10 +6,13 @@ import com.ms.playstop.R
 import com.ms.playstop.extension.getErrorHttpModel
 import com.ms.playstop.extension.getFirstMessage
 import com.ms.playstop.extension.isValidEmail
+import com.ms.playstop.model.Profile
 import com.ms.playstop.network.base.ApiServiceGenerator
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.network.model.InvalidCredentialsResponse
+import com.ms.playstop.network.model.LoginRequest
 import com.ms.playstop.network.model.SignupRequest
+import com.orhanobut.hawk.Hawk
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -32,9 +35,7 @@ class SignupViewModel : ViewModel() {
                     ?.subscribeOn(Schedulers.io())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe({
-                        it?.let {
-                            signup.value = GeneralResponse(messageResId = R.string.registered_successfully)
-                        }
+                        login(email,password)
                     },{
                         it.getErrorHttpModel(InvalidCredentialsResponse::class.java)?.let {
                             it.getFirstMessage()?.let { message ->
@@ -43,6 +44,41 @@ class SignupViewModel : ViewModel() {
                         } ?: kotlin.run {
                             signupError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
                         }
+                    })
+            }
+        }
+    }
+
+    fun login(email: String?,password: String?) {
+        when {
+            email.isNullOrEmpty() -> signup.value = GeneralResponse(messageResId = R.string.registered_successfully)
+            email.isValidEmail().not() -> signup.value = GeneralResponse(messageResId = R.string.registered_successfully)
+            password.isNullOrEmpty() -> signup.value = GeneralResponse(messageResId = R.string.registered_successfully)
+            else -> {
+                ApiServiceGenerator.getApiService
+                    .login(LoginRequest(email, password))
+                    ?.subscribeOn(Schedulers.io())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe({
+                        it?.let {
+                            val profile = Profile(
+                                it.name,
+                                it.email,
+                                token = it.token,
+                                refreshToken = it.refreshToken,
+                                expiresIn = it.expiresIn,
+                                isActive = it.isUserActive,
+                                isPhoneVerified = it.isPhoneVerified,
+                                isEmailVerified = it.isEmailVerified,
+                                phone = it.phone
+                            )
+                            Hawk.put(Profile.SAVE_KEY, profile)
+                        }
+                        signup.value =
+                            GeneralResponse(messageResId = R.string.registered_successfully)
+                    }, {
+                        signup.value =
+                            GeneralResponse(messageResId = R.string.registered_successfully)
                     })
             }
         }
