@@ -1,9 +1,12 @@
 package com.ms.playstop.extension
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Service
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -11,7 +14,10 @@ import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Patterns
 import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
@@ -30,16 +36,20 @@ import com.ms.playstop.model.Profile
 import com.ms.playstop.network.model.InvalidCredentialsResponse
 import com.ms.playstop.ui.home.HomeFragment
 import com.orhanobut.hawk.Hawk
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 import java.net.NetworkInterface
 import java.net.SocketException
 import java.util.*
+import java.util.regex.Pattern
 import kotlin.math.roundToInt
 
 const val TRANSITION_NAME = "Transition Name"
+private val PHONENUMBER_PATTERN = Pattern.compile("^(09)[0-9]{9}")
 
 fun <T> Single<T>?.initSchedulers() : Single<T>? {
     return this?.subscribeOn(Schedulers.io())?.observeOn(AndroidSchedulers.mainThread())
@@ -51,6 +61,41 @@ fun View.hide() {
 
 fun View.show() {
     visibility = View.VISIBLE
+}
+
+@SuppressLint("WrongConstant")
+fun View.hideSoftKeyboard() {
+    try {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
+    } catch (e: Exception) {
+        //ReportManager.getInstance().sendFirebaseNonFatal(e)
+        e.printStackTrace()
+    }
+}
+
+fun View.showSoftKeyboard() {
+    try {
+        val imm =
+            context.getSystemService(Service.INPUT_METHOD_SERVICE) as InputMethodManager
+        this.requestFocus()
+        imm.showSoftInput(this, 0)
+    } catch (e: java.lang.Exception) {
+        //ReportManager.getInstance().sendFirebaseNonFatal(e)
+        e.printStackTrace()
+    }
+}
+
+fun View.isSoftKeyboardOpen(): Boolean {
+    return if (parent is ViewGroup) {
+        val r = Rect()
+        (parent as ViewGroup).getWindowVisibleDisplayFrame(r)
+
+        val heightDiff = (parent as ViewGroup).rootView.height - (r.bottom - r.top)
+        val dp: Float = heightDiff / rootView.resources.displayMetrics.density
+        val isVisible = dp > 100
+        isVisible
+    } else false
 }
 
 fun Fragment.navigate(destination: Fragment,replace: Boolean = true) {
@@ -158,6 +203,60 @@ fun Fragment.add(@IdRes containerId: Int,destination: Fragment,transitionElement
 
 }
 
+fun Fragment.replace(@IdRes containerId: Int,destination: Fragment,transitionElement: View? = null) {
+    try {
+        if (destination.isStateSaved) {
+            childFragmentManager.beginTransaction()
+                .initCustomAnimations()
+                .replace(containerId, destination)
+                .commitAllowingStateLoss()
+        } else {
+            childFragmentManager.beginTransaction()
+                .initCustomAnimations()
+                .replace(containerId, destination)
+                .commit()
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        FirebaseCrashlytics.getInstance().recordException(e)
+        Crashes.trackError(e)
+    }
+
+}
+
+fun Fragment.remove(destination: Fragment,withAnimation: Boolean = true) {
+    try {
+        if(withAnimation) {
+            if (destination.isStateSaved) {
+                childFragmentManager.beginTransaction()
+                    .initCustomAnimations()
+                    .remove(destination)
+                    .commitAllowingStateLoss()
+            } else {
+                childFragmentManager.beginTransaction()
+                    .initCustomAnimations()
+                    .remove(destination)
+                    .commit()
+            }
+        } else {
+            if (destination.isStateSaved) {
+                childFragmentManager.beginTransaction()
+                    .remove(destination)
+                    .commitAllowingStateLoss()
+            } else {
+                childFragmentManager.beginTransaction()
+                    .remove(destination)
+                    .commit()
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        FirebaseCrashlytics.getInstance().recordException(e)
+        Crashes.trackError(e)
+    }
+
+}
+
 fun convertDpToPixel(dp: Float): Int {
     return (dp * (Resources.getSystem().displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).roundToInt()
 }
@@ -220,6 +319,27 @@ fun Fragment.addToParent(destination: Fragment) {
     }
 }
 
+fun Fragment.replaceInParent(destination: Fragment) {
+    parentFragment?.takeIf { it is BaseFragment }?.let {
+        it.replace((it as BaseFragment).containerId(), destination)
+    }
+}
+
+fun Fragment.removeFromParent(destination: Fragment,withAnimation: Boolean = true) {
+    parentFragment?.remove(destination,withAnimation)
+}
+
+fun Fragment.removeLastFromParent(numbers: Int = 1,skipNumbers: Int = 1) {
+    val fragments = parentFragment?.childFragmentManager?.fragments
+    fragments?.takeIf { it.isNotEmpty() && it.size >= numbers + skipNumbers - 1 }?.let {
+        it.reverse()
+        for (i in skipNumbers - 1 until numbers + skipNumbers - 1) {
+            val f = fragments[i]
+            parentFragment?.remove(f,i == numbers + skipNumbers - 2)
+        }
+    }
+}
+
 fun FragmentTransaction.initCustomAnimations() : FragmentTransaction {
     return this.setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out,android.R.anim.fade_in,android.R.anim.fade_out)
 }
@@ -228,6 +348,24 @@ fun isUserLoggedIn(): Boolean {
     return if (Hawk.contains(Profile.SAVE_KEY)) {
         val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
         profile != null
+    } else {
+        false
+    }
+}
+
+fun isUserPhoneVerified(): Boolean {
+    return if (Hawk.contains(Profile.SAVE_KEY)) {
+        val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+        profile != null && profile.isPhoneVerified
+    } else {
+        false
+    }
+}
+
+fun isUserActive(): Boolean {
+    return if (Hawk.contains(Profile.SAVE_KEY)) {
+        val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+        profile != null && profile.isActive
     } else {
         false
     }
@@ -275,6 +413,11 @@ fun isVpnActive(): Boolean {
 fun CharSequence.isValidEmail() : Boolean {
     return !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
+
+fun CharSequence.isValidPhoneNumber() : Boolean {
+    return !isNullOrEmpty() && PHONENUMBER_PATTERN.matcher(this.toString().convertToEnglishNumber()).matches()
+}
+
 val Fragment.isGooglePlayServicesAvailable: Boolean
     get() {
         try {
@@ -326,6 +469,9 @@ fun InvalidCredentialsResponse.getFirstMessage() : String? {
             }
             errors.passwordErrors?.isNotEmpty() == true -> {
                 errors.passwordErrors[0]
+            }
+            errors.phoneErrors?.isNotEmpty() == true -> {
+                errors.phoneErrors[0]
             }
             else -> {
                 null
@@ -427,4 +573,32 @@ private fun getContrastColor(@ColorInt color: Int): Int {
     val blue = Color.blue(color)
     val lum = (((0.299 * red) + ((0.587 * green) + (0.114 * blue))))
     return if (lum > 186) Color.BLACK else Color.WHITE
+}
+
+fun String.convertToPersianNumber(): String {
+    return this
+        .replace("0", "۰")
+        .replace("1", "۱")
+        .replace("2", "۲")
+        .replace("3", "۳")
+        .replace("4", "۴")
+        .replace("5", "۵")
+        .replace("6", "۶")
+        .replace("7", "۷")
+        .replace("8", "۸")
+        .replace("9", "۹")
+}
+
+fun String.convertToEnglishNumber(): String {
+    return this
+        .replace("۰", "0")
+        .replace("۱", "1")
+        .replace("۲", "2")
+        .replace("۳", "3")
+        .replace("۴", "4")
+        .replace("۵", "5")
+        .replace("۶", "6")
+        .replace("۷", "7")
+        .replace("۸", "8")
+        .replace("۹", "9")
 }
