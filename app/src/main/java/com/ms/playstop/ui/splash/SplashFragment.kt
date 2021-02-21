@@ -18,6 +18,7 @@ import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.isVpnActive
 import com.ms.playstop.extension.navigate
 import com.ms.playstop.extension.show
+import com.ms.playstop.model.Profile
 import com.ms.playstop.network.model.ConfigResponse
 import com.ms.playstop.ui.home.HomeFragment
 import com.ms.playstop.utils.UpdateDialog
@@ -77,6 +78,16 @@ class SplashFragment : BaseFragment() {
         viewModel.config.observe(viewLifecycleOwner, Observer {
             it?.let {
                 Hawk.put(ConfigResponse.SAVE_KEY,it)
+            }
+            it?.user?.let { user ->
+                val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+                profile?.apply {
+                    name = user.name
+                    email = user.email
+                    isPhoneVerified = user.isPhoneVerified
+                    phone = user.phone
+                }
+                Hawk.put(Profile.SAVE_KEY,profile)
             }
             it?.updateApp?.let {
                 when {

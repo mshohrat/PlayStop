@@ -58,13 +58,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="@dimen/margin_standard"/>
 
-    <ProgressBar
+<!--    <ProgressBar-->
+<!--        android:id="@+id/splash_progress"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        style="@style/Widget.AppCompat.ProgressBar"-->
+<!--        android:indeterminateTint="@color/gray"-->
+<!--        android:indeterminate="true"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/splash_version_tv"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_marginBottom="@dimen/margin_standard"/>-->
+
+    <com.tuyenmonkey.mkloader.MKLoader
         android:id="@+id/splash_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:indeterminateTint="@color/gray"
-        android:indeterminate="true"
+        app:mk_type="Worm"
+        app:mk_color="@color/gray"
         app:layout_constraintBottom_toTopOf="@id/splash_version_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
