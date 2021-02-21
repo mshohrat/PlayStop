@@ -62,6 +62,7 @@ class OtpFragment : BaseFragment() {
 
     private fun initViews() {
         otp_desc_tv?.text = String.format(getString(R.string.enter_the_otp_sent_to_phone_number_x),viewModel.phoneNumber)
+        otp_pin_entry?.setMaxLength(5)
     }
 
 
