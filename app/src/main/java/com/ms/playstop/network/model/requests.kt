@@ -46,7 +46,44 @@ data class LoginRequest(
     val clientSecret: String = BuildConfig.CLIENT_SECRET
 )
 
+data class LoginWithPhoneNumberRequest(
+    @SerializedName("phone")
+    val phone: String? = null,
+    @SerializedName("otp")
+    val code: String? = null,
+    @SerializedName("grant_type")
+    val grantType : String = "otp",
+    @SerializedName("client_id")
+    val clientId: String = BuildConfig.CLIENT_ID,
+    @SerializedName("client_secret")
+    val clientSecret: String = BuildConfig.CLIENT_SECRET
+)
+
+data class PhoneNumberRequest(
+    @SerializedName("phone")
+    val phone: String? = null
+)
+
+data class VerifyPhoneNumberRequest(
+    @SerializedName("phone")
+    val phone: String? = null,
+    @SerializedName("code")
+    val code: String? = null
+)
+
 data class GetAllSuggestionsMoviesRequest(
     @SerializedName("suggestions")
     val suggestions: List<Int>
+)
+
+data class ResetPasswordRequest(
+    @SerializedName("email")
+    val email: String
+)
+
+data class VerifySignupOtpRequest(
+    @SerializedName("phone")
+    val phone: String,
+    @SerializedName("code")
+    val code: String
 )

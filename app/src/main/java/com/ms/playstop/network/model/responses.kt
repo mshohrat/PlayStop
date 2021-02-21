@@ -130,9 +130,15 @@ data class LoginResponse(
     @SerializedName("refresh_token")
     val refreshToken: String? = null,
     @SerializedName("is_user_active")
-    val isUserActive: Boolean,
+    val isUserActive: Boolean = true,
     @SerializedName("expires_in")
-    val expiresIn: Long = 3000000
+    val expiresIn: Long = 3000000,
+    @SerializedName("phone_verified")
+    val isPhoneVerified: Boolean = false,
+    @SerializedName("email_verified")
+    val isEmailVerified: Boolean = false,
+    @SerializedName("phone")
+    val phone: String? = null
 )
 
 data class AllSuggestionsMoviesResponse(
@@ -155,12 +161,32 @@ data class InvalidCredentialsData(
     @SerializedName("password")
     val passwordErrors : List<String?>?,
     @SerializedName("name")
-    val nameErrors : List<String?>?
+    val nameErrors : List<String?>?,
+    @SerializedName("phone")
+    val phoneErrors : List<String?>?
 )
 
 data class UserResponse(
     @SerializedName("name")
     val name: String,
     @SerializedName("email")
-    val email: String
+    val email: String,
+    @SerializedName("phone_verified")
+    val isPhoneVerified: Boolean = false,
+    @SerializedName("phone")
+    val phone: String?
+)
+
+data class EnterPhoneNumberResponse(
+    @SerializedName("result")
+    val result: EnterPhoneNumberResult?,
+    @SerializedName("items")
+    val items: ArrayList<Long?>?
+)
+
+data class EnterPhoneNumberResult(
+    @SerializedName("code")
+    val code: Int?,
+    @SerializedName("message")
+    val message: String?
 )
