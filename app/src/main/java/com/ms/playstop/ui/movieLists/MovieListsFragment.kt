@@ -64,7 +64,7 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
         PagerSnapHelper().attachToRecyclerView(movies_top_recycler)
 
         movies_appbar?.post{
-            appbarHeight = movies_appbar.measuredHeight
+            appbarHeight = movies_appbar?.measuredHeight ?: 0
         }
     }
 
