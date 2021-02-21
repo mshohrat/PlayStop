@@ -89,5 +89,26 @@
     <string name="choose_subtitle">انتخاب زیرنویس</string>
     <string name="subtitle_x">زیرنویس %s</string>
     <string name="failed_in_playing_video">خطا در پخش ویدئو</string>
+    <string name="forgot_password">فراموشی رمز عبور</string>
+    <string name="reset">بازیابی</string>
+    <string name="phone_number">شماره تلفن</string>
+    <string name="enter_your_phone_number">شماره تلفن خود را وارد کنید</string>
+    <string name="entered_phone_number_is_invalid">شماره تلفن وارد شده اشتباه است</string>
+    <string name="phone_number_can_not_be_empty">شماره تلفن نمی‌تواند خالی باشد</string>
+    <string name="wrong_phone_number">شماره را اشتباه وارد کرده اید؟</string>
+    <string name="enter_the_otp_sent_to_phone_number_x">کد فعال‌سازی ارسال شده به شماره %s را وارد کنید.</string>
+    <string name="otp_verify">فعال‌سازی شماره تلفن</string>
+    <string name="otp_can_not_be_empty">کد فعال‌سازی نمی‌تواند خالی باشد</string>
+    <string name="entered_otp_is_invalid">کد فعال‌سازی وارد شده اشتباه است</string>
+    <string name="phone_number_verified_successfully">شماره تلفن وارد شده با موفقیت تایید شد</string>
+    <string name="please_verify_your_phone_number_before_exit">لطفا شماره تلفن خود را فعال نمایید در غیر این صورت قادر به استفاده از امکانات حساب کاربری خود نخواهید بود.</string>
+    <string name="add_phone_number">اضافه کردن شماره تلفن</string>
+    <string name="enter_phone_number_description">شماره تلفن خود را به صورت ۰۹۱۲۳۴۵۶۷۸۹ وارد نمایید.</string>
+    <string name="login_with_phone_number">ورود با شماره تلفن</string>
+    <string name="otp_sent_successfully">کد فعال‌سازی برای شماره تلفن وارد شده ارسال شد</string>
+    <string name="add_phone_number_later">بعدا اضافه میکنم</string>
+    <string name="login_by_phone_number">ورود با شماره تلفن</string>
+    <string name="login_and_watch">ورود و تماشا</string>
+    <string name="verify_phone_and_watch">تایید شماره تلفن و تماشا</string>
 
 </resources>
