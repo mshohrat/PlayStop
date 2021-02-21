@@ -11,15 +11,10 @@ import com.ms.playstop.MainActivity
 
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
-import com.ms.playstop.extension.add
 import com.ms.playstop.extension.addOrShow
-import com.ms.playstop.extension.updateStatusBarColor
-import com.ms.playstop.model.DeepLink
 import com.ms.playstop.model.Host
-import com.ms.playstop.model.PathType
 import com.ms.playstop.model.Scheme
 import com.ms.playstop.ui.categories.CategoriesFragment
-import com.ms.playstop.ui.movie.MovieFragment
 import com.ms.playstop.ui.movieLists.MovieListsFragment
 import com.ms.playstop.ui.search.SearchFragment
 import kotlinx.android.synthetic.main.fragment_home.*
