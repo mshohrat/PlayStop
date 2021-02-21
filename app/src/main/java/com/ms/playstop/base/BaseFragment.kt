@@ -5,6 +5,7 @@ import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.microsoft.appcenter.analytics.Analytics
+import com.ms.playstop.extension.hideSoftKeyboard
 
 abstract class BaseFragment : Fragment() {
 
@@ -40,5 +41,10 @@ abstract class BaseFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         onHandleDeepLink()
         Analytics.trackEvent(tag())
+    }
+
+    override fun onDestroyView() {
+        view?.hideSoftKeyboard()
+        super.onDestroyView()
     }
 }
