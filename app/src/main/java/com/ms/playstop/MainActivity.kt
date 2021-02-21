@@ -2,6 +2,7 @@ package com.ms.playstop
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -153,40 +154,45 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val fragments = ArrayList<Fragment>()
-        val baseFragments = supportFragmentManager.fragments
-        baseFragments.takeIf { it.isNotEmpty() }?.let {
-            for (i in 0 until it.size){
-                val fragment = it[i]
-                if(fragment is BaseFragment && fragment.isVisible) {
-                    fragments.add(fragment)
-                    if(hasNestedFragments(fragment)) {
-                        putFragments(fragment, fragments)
+        val rootView = findViewById<ViewGroup>(android.R.id.content)
+        if(rootView.isSoftKeyboardOpen()) {
+            rootView.hideSoftKeyboard()
+        } else {
+            val fragments = ArrayList<Fragment>()
+            val baseFragments = supportFragmentManager.fragments
+            baseFragments.takeIf { it.isNotEmpty() }?.let {
+                for (i in 0 until it.size) {
+                    val fragment = it[i]
+                    if (fragment is BaseFragment && fragment.isVisible) {
+                        fragments.add(fragment)
+                        if (hasNestedFragments(fragment)) {
+                            putFragments(fragment, fragments)
+                        }
                     }
                 }
-            }
-            fragments.reverse()
-            if(fragments.size == 1) {
-                if(fragments[0] is BaseFragment && (fragments[0] as BaseFragment).handleBack()) {
-                    return
-                } else {
-                    super.onBackPressed()
-                }
-            } else {
-                for (f in fragments) {
-                    if(f is BaseFragment && f.handleBack()) {
-                        break
+                fragments.reverse()
+                if (fragments.size == 1) {
+                    if (fragments[0] is BaseFragment && (fragments[0] as BaseFragment).handleBack()) {
+                        return
                     } else {
-                        f.parentFragment?.childFragmentManager?.beginTransaction()
-                            ?.initCustomAnimations()
-                            ?.remove(f)
-                            ?.commit()
-                        break
+                        super.onBackPressed()
+                    }
+                } else {
+                    for (f in fragments) {
+                        if (f is BaseFragment && f.handleBack()) {
+                            break
+                        } else {
+                            f.parentFragment?.childFragmentManager?.beginTransaction()
+                                ?.initCustomAnimations()
+                                ?.remove(f)
+                                ?.commit()
+                            break
+                        }
                     }
                 }
+            } ?: kotlin.run {
+                super.onBackPressed()
             }
-        } ?: kotlin.run {
-            super.onBackPressed()
         }
     }
 
