@@ -30,6 +30,7 @@ import com.ms.playstop.model.Episode
 import com.ms.playstop.model.Movie
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.comments.CommentsFragment
+import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
 import com.ms.playstop.ui.login.LoginFragment
 import com.ms.playstop.ui.movie.adapter.CommentAdapter
 import com.ms.playstop.ui.movie.adapter.EpisodeAdapter
@@ -210,33 +211,44 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                     movie_trailer_frame?.hide()
                     movie_trailer_frame?.setOnClickListener(null)
                 }
-                if(movie.isSeries) {
-                    movie_seasons_title_tv?.show()
-                    movie_seasons_divider?.show()
-                    movie.seasons?.takeIf { it.isNotEmpty() }?.let {
-                        movie_no_seasons_tv?.hide()
-                        movie_seasons_recycler?.show()
-                        val seasonLayoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
-                        val seasonAdapter = SeasonAdapter(it,this)
-                        movie_seasons_recycler?.layoutManager = seasonLayoutManager
-                        movie_seasons_recycler?.adapter = seasonAdapter
-                    } ?: kotlin.run {
-                        movie_no_seasons_tv?.show()
+                when {
+                    isUserLoggedIn().not() -> {
+                        hideAllLinks()
+                        movie_login_and_watch_btn?.show()
+                        movie_verify_phone_and_watch_btn?.hide()
                     }
-                }
-                else
-                {
-                    movie_links_title_tv?.show()
-                    movie_links_divider?.show()
-                    movie.urls?.takeIf { it.isNotEmpty() }?.let {
-                        movie_no_links_tv?.hide()
-                        movie_links_recycler?.show()
-                        val linkLayoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
-                        val linkAdapter = LinkAdapter(it,movie.subtitles)
-                        movie_links_recycler?.layoutManager = linkLayoutManager
-                        movie_links_recycler?.adapter = linkAdapter
-                    } ?: kotlin.run {
-                        movie_no_links_tv?.show()
+                    isUserPhoneVerified().not() -> {
+                        hideAllLinks()
+                        movie_login_and_watch_btn?.hide()
+                        movie_verify_phone_and_watch_btn?.show()
+                    }
+                    movie.isSeries -> {
+                        movie_seasons_title_tv?.show()
+                        movie_seasons_divider?.show()
+                        movie.seasons?.takeIf { it.isNotEmpty() }?.let {
+                            movie_no_seasons_tv?.hide()
+                            movie_seasons_recycler?.show()
+                            val seasonLayoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
+                            val seasonAdapter = SeasonAdapter(it,this)
+                            movie_seasons_recycler?.layoutManager = seasonLayoutManager
+                            movie_seasons_recycler?.adapter = seasonAdapter
+                        } ?: kotlin.run {
+                            movie_no_seasons_tv?.show()
+                        }
+                    }
+                    else -> {
+                        movie_links_title_tv?.show()
+                        movie_links_divider?.show()
+                        movie.urls?.takeIf { it.isNotEmpty() }?.let {
+                            movie_no_links_tv?.hide()
+                            movie_links_recycler?.show()
+                            val linkLayoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
+                            val linkAdapter = LinkAdapter(it,movie.subtitles)
+                            movie_links_recycler?.layoutManager = linkLayoutManager
+                            movie_links_recycler?.adapter = linkAdapter
+                        } ?: kotlin.run {
+                            movie_no_links_tv?.show()
+                        }
                     }
                 }
                 movie.comments?.takeIf { it.isNotEmpty() }?.let {
@@ -285,6 +297,18 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             showToast(it)
             dismissLoadingDialog()
         })
+    }
+
+    private fun hideAllLinks() {
+        movie_seasons_title_tv?.hide()
+        movie_seasons_divider?.hide()
+        movie_no_seasons_tv?.hide()
+        movie_seasons_recycler?.hide()
+        movie_links_title_tv?.hide()
+        movie_links_divider?.hide()
+        movie_no_links_tv?.hide()
+        movie_links_recycler?.hide()
+        movie_no_links_tv?.hide()
     }
 
     private fun getBitmapFromVideo(path: String?) : Single<Bitmap?> {
@@ -371,6 +395,19 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 
         movie_refresh_layout?.setOnRefreshListener {
             viewModel.refresh()
+        }
+
+        movie_login_and_watch_btn?.setOnClickListener {
+            addToParent(LoginFragment.newInstance())
+        }
+
+        movie_verify_phone_and_watch_btn?.setOnClickListener {
+            val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
+            val args = Bundle().apply {
+                putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE, EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_ADD)
+            }
+            enterPhoneNumberFragment.arguments = args
+            addToParent(enterPhoneNumberFragment)
         }
     }
 
