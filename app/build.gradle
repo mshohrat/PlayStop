@@ -57,7 +57,7 @@ android {
         bazaar {
             dimension "main"
             buildConfigField 'String', 'STORE_NAME', '"cafebazaar"'
-            buildConfigField 'String', 'SERVER_ADDRESS', '"http://playstopapp.ir/api/"'
+            buildConfigField 'String', 'SERVER_ADDRESS', '"https://playstopapp.ir/api/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
             buildConfigField 'String', 'DOWNLOAD_URL', '"https://playstop.ir/app/"'
@@ -66,7 +66,7 @@ android {
         googlePlay {
             dimension "main"
             buildConfigField 'String', 'STORE_NAME', '"playstore"'
-            buildConfigField 'String', 'SERVER_ADDRESS', '"http://playstopapp.ir/api/"'
+            buildConfigField 'String', 'SERVER_ADDRESS', '"https://playstopapp.ir/api/"'
             buildConfigField 'String', 'CLIENT_ID', '"2"'
             buildConfigField 'String', 'CLIENT_SECRET', '"sJU6jvbu3Jyw4PltF4CbeySgugHItRITPGUDiXVP"'
             buildConfigField 'String', 'DOWNLOAD_URL', '"https://playstop.ir/app/"'
