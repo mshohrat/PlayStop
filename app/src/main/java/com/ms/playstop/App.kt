@@ -1,8 +1,8 @@
 package com.ms.playstop
 
-import android.app.Application
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.multidex.MultiDexApplication
 import com.google.firebase.messaging.FirebaseMessaging
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
@@ -10,7 +10,7 @@ import com.microsoft.appcenter.crashes.Crashes
 import com.orhanobut.hawk.Hawk
 
 
-class App : Application() {
+class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
