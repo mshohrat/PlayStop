@@ -35,7 +35,11 @@ class EnterPhoneNumberViewModel : ViewModel() {
                                     login.value = phoneNumber to R.string.otp_sent_successfully
                                 }
                             },{
-                                loginError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                                it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                                    loginError.value = it
+                                } ?: kotlin.run {
+                                    loginError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                                }
                             })
                     }
                 }
@@ -54,7 +58,11 @@ class EnterPhoneNumberViewModel : ViewModel() {
                                     verify.value = phoneNumber to R.string.otp_sent_successfully
                                 }
                             },{
-                                verifyError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                                it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                                    verifyError.value = it
+                                } ?: kotlin.run {
+                                    verifyError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                                }
                             })
                     }
                 }

@@ -50,7 +50,7 @@ class OtpViewModel : ViewModel() {
                                     Hawk.put(Profile.SAVE_KEY, profile)
                                     loginOtp.value = GeneralResponse(messageResId = R.string.logged_in_successfully)
                                 } ?: kotlin.run {
-                                    otpError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                                    otpError.value = GeneralResponse(messageResId = R.string.entered_otp_is_invalid)
                                 }
                             },{
                                 it.getErrorHttpModel(InvalidCredentialsResponse::class.java)?.let {
@@ -58,7 +58,7 @@ class OtpViewModel : ViewModel() {
                                         otpError.value = GeneralResponse(message)
                                     }
                                 } ?: kotlin.run {
-                                    otpError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                                    otpError.value = GeneralResponse(messageResId = R.string.entered_otp_is_invalid)
                                 }
                             })
                     }
@@ -76,11 +76,11 @@ class OtpViewModel : ViewModel() {
                             ?.subscribe({ user ->
                                 user?.let {
                                     val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
-                                    profile?.let {
-                                        it.isPhoneVerified = true
-                                        it.phone = user.phone
-                                        Hawk.put(Profile.SAVE_KEY,it)
+                                    profile?.apply {
+                                        isPhoneVerified = true
+                                        phone = user.phone
                                     }
+                                    Hawk.put(Profile.SAVE_KEY,profile)
                                     verifyOtp.value = GeneralResponse(messageResId = R.string.phone_number_verified_successfully)
                                 }
                             },{
@@ -89,12 +89,13 @@ class OtpViewModel : ViewModel() {
                                         otpError.value = GeneralResponse(message)
                                     }
                                 } ?: kotlin.run {
-                                    otpError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                                    otpError.value = GeneralResponse(messageResId = R.string.entered_otp_is_invalid)
                                 }
                             })
                     }
                 }
             }
+            else -> {}
         }
     }
 }
