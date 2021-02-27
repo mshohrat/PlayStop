@@ -13,7 +13,6 @@ import com.ms.playstop.extension.*
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
 import com.ms.playstop.ui.login.LoginFragment
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_signup.*
 
 class SignupFragment : BaseFragment() {
@@ -53,7 +52,7 @@ class SignupFragment : BaseFragment() {
             }
             enterPhoneNumberFragment.arguments = args
             addToParent(enterPhoneNumberFragment)
-            removeFromParent(this,false)
+            removeFromParent(this)
         })
 
         viewModel.signupError.observe(viewLifecycleOwner, Observer {
@@ -67,14 +66,16 @@ class SignupFragment : BaseFragment() {
             if(it.isSoftKeyboardOpen()) {
                 it.hideSoftKeyboard()
             }
-            replaceInParent(LoginFragment.newInstance())
+            addToParent(LoginFragment.newInstance())
+            removeFromParent(this)
         }
 
         signup_have_account_btn?.setOnClickListener {
             if(it.isSoftKeyboardOpen()) {
                 it.hideSoftKeyboard()
             }
-            replaceInParent(LoginFragment.newInstance())
+            addToParent(LoginFragment.newInstance())
+            removeFromParent(this)
         }
 
         signup_btn?.setOnClickListener {
@@ -103,7 +104,8 @@ class SignupFragment : BaseFragment() {
     }
 
     override fun handleBack(): Boolean {
-        replaceInParent(LoginFragment.newInstance())
+        addToParent(LoginFragment.newInstance())
+        removeFromParent(this)
         return true
     }
 

@@ -56,7 +56,7 @@ class LoginFragment : BaseFragment() {
                 }
                 enterPhoneNumberFragment.arguments = args
                 addToParent(enterPhoneNumberFragment)
-                removeFromParent(this,false)
+                removeFromParent(this)
             }
         })
 
@@ -73,7 +73,8 @@ class LoginFragment : BaseFragment() {
 
         login_not_have_account_btn?.setOnClickListener {
             val signupFragment = SignupFragment.newInstance()
-            replaceInParent(signupFragment)
+            addToParent(signupFragment)
+            removeFromParent(this)
         }
 
         login_btn?.setOnClickListener {
@@ -94,7 +95,8 @@ class LoginFragment : BaseFragment() {
             enterPhoneNumberFragment.arguments = Bundle().apply {
                 putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE, EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_LOGIN)
             }
-            replaceInParent(enterPhoneNumberFragment)
+            addToParent(enterPhoneNumberFragment)
+            removeFromParent(this)
         }
 
         login_root?.setOnClickListener {

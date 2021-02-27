@@ -14,7 +14,6 @@ import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.login.LoginFragment
 import com.ms.playstop.ui.otp.OtpFragment
 import kotlinx.android.synthetic.main.fragment_enter_phone_number.*
-import kotlinx.android.synthetic.main.fragment_login.*
 
 class EnterPhoneNumberFragment : BaseFragment() {
 
@@ -135,7 +134,8 @@ class EnterPhoneNumberFragment : BaseFragment() {
     private fun pushBack() : Boolean {
         return when(viewModel.state) {
             ENTER_PHONE_NUMBER_STATE_LOGIN -> {
-                replaceInParent(LoginFragment.newInstance())
+                addToParent(LoginFragment.newInstance())
+                removeFromParent(this)
                 true
             }
             else -> {
