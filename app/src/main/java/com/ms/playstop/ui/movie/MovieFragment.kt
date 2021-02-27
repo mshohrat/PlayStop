@@ -90,190 +90,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     @SuppressLint("CheckResult")
     private fun subscribeToViewModel() {
         viewModel.movie.observe(viewLifecycleOwner, Observer {
-            movie_shimmer_image?.hide()
-            movie_shimmer_detail?.hide()
-            movie_image_iv?.show()
-            movie_detail_layout?.show()
-
-            movie_refresh_layout?.isRefreshing = false
-
-            this.movie = it
-            it?.let { movie ->
-                movie_name_tv?.text = movie.name
-                movie_toolbar_name_tv?.text = movie.name
-                movie.genres?.let { list ->
-                    list.takeIf { it.size >= 3 }?.take(3)?.let {
-                        var genres = ""
-                        for (genre in it) {
-                            genres = "$genres${genre.name} - "
-                        }
-                        genres = genres.dropLast(3)
-                        movie_genre_tv?.text = genres
-                    } ?: kotlin.run {
-                        var genres = ""
-                        for (genre in list) {
-                            genres = "$genres${genre.name} - "
-                        }
-                        genres = genres.dropLast(3)
-                        movie_genre_tv?.text = genres
-                    }
-                }
-                if(movie.isSeries) {
-                    movie_length_tv?.text = getString(R.string.unknown_time)
-                } else {
-                    movie_length_tv?.text = separateLengthByTime(movie.length)
-                }
-                movie_score_tv?.show()
-                movie.score?.toString()?.takeIf { it.isNotEmpty() && it != "0" }?.let {
-                    movie_score_tv?.text = String.format(getString(R.string.imdb_score_x),it)
-                } ?: kotlin.run {
-                    //movie_score_tv?.text = getString(R.string.imdb_empty)
-                    movie_score_tv?.hide()
-                }
-
-                movie.scoreVotes?.let { votes ->
-                    votes.takeIf { it != 0 }?.let {
-                        try {
-                            movie_score_number_tv?.text = String.format(getString(R.string.votes_x),String.format("%,d",it))
-                        } catch (e: Exception) {
-                            Crashes.trackError(e)
-                        }
-                    } ?: kotlin.run {
-                        movie_score_number_tv?.hide()
-                    }
-                } ?: kotlin.run {
-                    movie_score_number_tv?.hide()
-                }
-//                movie.scoreVotes?.toString()?.takeIf { it.isNotEmpty() && it != "0" }?.let {
-//                    movie_score_number_tv?.text = String.format(getString(R.string.votes_x),it)
-//                } ?: kotlin.run {
-//                    movie_score_number_tv?.hide()
-//                }
-
-                movie_image_iv?.let {
-                    context?.let { ctx ->
-                        Glide.with(ctx).load(movie.image).apply(
-                            RequestOptions.bitmapTransform(
-                                RoundedCornersTransformation(16,0)
-                            )).into(it)
-                    }
-                }
-                movie.header?.let { header ->
-                    movie_image_background_group?.show()
-                    movie_image_background_iv?.let {
-                        context?.let { ctx ->
-                            Glide.with(ctx).load(header).apply(
-                                RequestOptions.bitmapTransform(
-                                    RoundedCornersTransformation(16,0)
-                                )).into(it)
-                        }
-                    }
-                } ?: kotlin.run {
-                    movie_image_background_group?.hide()
-                }
-
-                movie_description_tv?.text = movie.description
-                movie_director_tv?.text = movie.director
-                movie_writer_tv?.text = movie.writer
-                movie_production_year_tv?.text = movie.productionYear.toString()
-                movie_actors_tv?.text = movie.actors
-                if(movie.trailer != null) {
-                    movie_trailer_title_tv?.show()
-                    movie_trailer_divider?.show()
-                    movie_trailer_frame?.show()
-                    val trailerImageParams = movie_trailer_iv?.layoutParams as? FrameLayout.LayoutParams
-                    val trailerImageWidth = widthOfDevice().minus(context?.resources?.getDimensionPixelSize(R.dimen.padding_standard)?.times(2) ?: 0)
-                    trailerImageParams?.height = trailerImageWidth.times(3).div(5)
-                    movie_trailer_iv?.layoutParams = trailerImageParams
-                    getBitmapFromVideo(movie.trailer)
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe({ bitmap ->
-                            movie_trailer_progress?.hide()
-                            movie_trailer_play_iv?.show()
-                            movie_trailer_iv?.let {
-                                context?.let { ctx ->
-                                    Glide.with(ctx).load(bitmap).apply(
-                                        RequestOptions.bitmapTransform(
-                                            RoundedCornersTransformation(8,0)
-                                        )).into(it)
-                                }
-                            }
-                        },{})
-                    movie_trailer_frame?.setOnClickListener {
-                        val intent = Intent(context, PlayVideoActivity::class.java)
-                        intent.putExtra(PlayVideoActivity.PLAY_VIDEO_URL,movie.trailer)
-                        activity?.startActivity(intent)
-                    }
-                } else {
-                    movie_trailer_title_tv?.hide()
-                    movie_trailer_divider?.hide()
-                    movie_trailer_frame?.hide()
-                    movie_trailer_frame?.setOnClickListener(null)
-                }
-                when {
-                    isUserLoggedIn().not() -> {
-                        hideAllLinks()
-                        movie_login_and_watch_btn?.show()
-                        movie_verify_phone_and_watch_btn?.hide()
-                    }
-                    isUserPhoneVerified().not() -> {
-                        hideAllLinks()
-                        movie_login_and_watch_btn?.hide()
-                        movie_verify_phone_and_watch_btn?.show()
-                    }
-                    movie.isSeries -> {
-                        movie_seasons_title_tv?.show()
-                        movie_seasons_divider?.show()
-                        movie.seasons?.takeIf { it.isNotEmpty() }?.let {
-                            movie_no_seasons_tv?.hide()
-                            movie_seasons_recycler?.show()
-                            val seasonLayoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
-                            val seasonAdapter = SeasonAdapter(it,this)
-                            movie_seasons_recycler?.layoutManager = seasonLayoutManager
-                            movie_seasons_recycler?.adapter = seasonAdapter
-                        } ?: kotlin.run {
-                            movie_no_seasons_tv?.show()
-                        }
-                    }
-                    else -> {
-                        movie_links_title_tv?.show()
-                        movie_links_divider?.show()
-                        movie.urls?.takeIf { it.isNotEmpty() }?.let {
-                            movie_no_links_tv?.hide()
-                            movie_links_recycler?.show()
-                            val linkLayoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
-                            val linkAdapter = LinkAdapter(it,movie.subtitles)
-                            movie_links_recycler?.layoutManager = linkLayoutManager
-                            movie_links_recycler?.adapter = linkAdapter
-                        } ?: kotlin.run {
-                            movie_no_links_tv?.show()
-                        }
-                    }
-                }
-                movie.comments?.takeIf { it.isNotEmpty() }?.let {
-                    movie_no_comments_tv?.hide()
-                    movie_comments_recycler?.show()
-                    val commentLayoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
-                    val commentAdapter = CommentAdapter(it)
-                    movie_comments_recycler?.layoutManager = commentLayoutManager
-                    movie_comments_recycler?.adapter = commentAdapter
-                } ?: kotlin.run {
-                    movie_no_comments_tv?.show()
-                }
-                movie.subtitle?.let { subtitle ->
-                    movie_subtitle_title_tv?.show()
-                    movie_subtitle_divider?.show()
-                    movie_subtitle_btn?.show()
-                    movie_subtitle_btn?.setOnClickListener {
-                        tryToShowUrl(subtitle)
-                    }
-                } ?: kotlin.run {
-                    movie_subtitle_title_tv?.hide()
-                    movie_subtitle_divider?.hide()
-                    movie_subtitle_btn?.hide()
-                }
-            }
+            fillMovieData(it)
         })
 
         viewModel.movieError.observe(viewLifecycleOwner, Observer {
@@ -297,6 +114,203 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             showToast(it)
             dismissLoadingDialog()
         })
+    }
+
+    @SuppressLint("CheckResult")
+    private fun fillMovieData(movie: Movie?) {
+        movie_shimmer_image?.hide()
+        movie_shimmer_detail?.hide()
+        movie_image_iv?.show()
+        movie_detail_layout?.show()
+
+        movie_refresh_layout?.isRefreshing = false
+
+        movie?.let { movie ->
+            movie_name_tv?.text = movie.name
+            movie_toolbar_name_tv?.text = movie.name
+            movie.genres?.let { list ->
+                list.takeIf { it.size >= 3 }?.take(3)?.let {
+                    var genres = ""
+                    for (genre in it) {
+                        genres = "$genres${genre.name} - "
+                    }
+                    genres = genres.dropLast(3)
+                    movie_genre_tv?.text = genres
+                } ?: kotlin.run {
+                    var genres = ""
+                    for (genre in list) {
+                        genres = "$genres${genre.name} - "
+                    }
+                    genres = genres.dropLast(3)
+                    movie_genre_tv?.text = genres
+                }
+            }
+            if (movie.isSeries) {
+                movie_length_tv?.text = getString(R.string.unknown_time)
+            } else {
+                movie_length_tv?.text = separateLengthByTime(movie.length)
+            }
+            movie_score_tv?.show()
+            movie.score?.toString()?.takeIf { it.isNotEmpty() && it != "0" }?.let {
+                movie_score_tv?.text = String.format(getString(R.string.imdb_score_x), it)
+            } ?: kotlin.run {
+                //movie_score_tv?.text = getString(R.string.imdb_empty)
+                movie_score_tv?.hide()
+            }
+
+            movie.scoreVotes?.let { votes ->
+                votes.takeIf { it != 0 }?.let {
+                    try {
+                        movie_score_number_tv?.text =
+                            String.format(getString(R.string.votes_x), String.format("%,d", it))
+                    } catch (e: Exception) {
+                        Crashes.trackError(e)
+                    }
+                } ?: kotlin.run {
+                    movie_score_number_tv?.hide()
+                }
+            } ?: kotlin.run {
+                movie_score_number_tv?.hide()
+            }
+//                movie.scoreVotes?.toString()?.takeIf { it.isNotEmpty() && it != "0" }?.let {
+//                    movie_score_number_tv?.text = String.format(getString(R.string.votes_x),it)
+//                } ?: kotlin.run {
+//                    movie_score_number_tv?.hide()
+//                }
+
+            movie_image_iv?.let {
+                context?.let { ctx ->
+                    Glide.with(ctx).load(movie.image).apply(
+                        RequestOptions.bitmapTransform(
+                            RoundedCornersTransformation(16, 0)
+                        )
+                    ).into(it)
+                }
+            }
+            movie.header?.let { header ->
+                movie_image_background_group?.show()
+                movie_image_background_iv?.let {
+                    context?.let { ctx ->
+                        Glide.with(ctx).load(header).apply(
+                            RequestOptions.bitmapTransform(
+                                RoundedCornersTransformation(16, 0)
+                            )
+                        ).into(it)
+                    }
+                }
+            } ?: kotlin.run {
+                movie_image_background_group?.hide()
+            }
+
+            movie_description_tv?.text = movie.description
+            movie_director_tv?.text = movie.director
+            movie_writer_tv?.text = movie.writer
+            movie_production_year_tv?.text = movie.productionYear.toString()
+            movie_actors_tv?.text = movie.actors
+            if (movie.trailer != null) {
+                movie_trailer_title_tv?.show()
+                movie_trailer_divider?.show()
+                movie_trailer_frame?.show()
+                val trailerImageParams = movie_trailer_iv?.layoutParams as? FrameLayout.LayoutParams
+                val trailerImageWidth = widthOfDevice().minus(
+                    context?.resources?.getDimensionPixelSize(R.dimen.padding_standard)?.times(2)
+                        ?: 0
+                )
+                trailerImageParams?.height = trailerImageWidth.times(3).div(5)
+                movie_trailer_iv?.layoutParams = trailerImageParams
+                getBitmapFromVideo(movie.trailer)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ bitmap ->
+                        movie_trailer_progress?.hide()
+                        movie_trailer_play_iv?.show()
+                        movie_trailer_iv?.let {
+                            context?.let { ctx ->
+                                Glide.with(ctx).load(bitmap).apply(
+                                    RequestOptions.bitmapTransform(
+                                        RoundedCornersTransformation(8, 0)
+                                    )
+                                ).into(it)
+                            }
+                        }
+                    }, {})
+                movie_trailer_frame?.setOnClickListener {
+                    val intent = Intent(context, PlayVideoActivity::class.java)
+                    intent.putExtra(PlayVideoActivity.PLAY_VIDEO_URL, movie.trailer)
+                    activity?.startActivity(intent)
+                }
+            } else {
+                movie_trailer_title_tv?.hide()
+                movie_trailer_divider?.hide()
+                movie_trailer_frame?.hide()
+                movie_trailer_frame?.setOnClickListener(null)
+            }
+            when {
+                isUserLoggedIn().not() -> {
+                    hideAllLinks()
+                    movie_login_and_watch_btn?.show()
+                    movie_verify_phone_and_watch_btn?.hide()
+                }
+                isUserPhoneVerified().not() -> {
+                    hideAllLinks()
+                    movie_login_and_watch_btn?.hide()
+                    movie_verify_phone_and_watch_btn?.show()
+                }
+                movie.isSeries -> {
+                    movie_seasons_title_tv?.show()
+                    movie_seasons_divider?.show()
+                    movie.seasons?.takeIf { it.isNotEmpty() }?.let {
+                        movie_no_seasons_tv?.hide()
+                        movie_seasons_recycler?.show()
+                        val seasonLayoutManager =
+                            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+                        val seasonAdapter = SeasonAdapter(it, this)
+                        movie_seasons_recycler?.layoutManager = seasonLayoutManager
+                        movie_seasons_recycler?.adapter = seasonAdapter
+                    } ?: kotlin.run {
+                        movie_no_seasons_tv?.show()
+                    }
+                }
+                else -> {
+                    movie_links_title_tv?.show()
+                    movie_links_divider?.show()
+                    movie.urls?.takeIf { it.isNotEmpty() }?.let {
+                        movie_no_links_tv?.hide()
+                        movie_links_recycler?.show()
+                        val linkLayoutManager =
+                            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+                        val linkAdapter = LinkAdapter(it, movie.subtitles)
+                        movie_links_recycler?.layoutManager = linkLayoutManager
+                        movie_links_recycler?.adapter = linkAdapter
+                    } ?: kotlin.run {
+                        movie_no_links_tv?.show()
+                    }
+                }
+            }
+            movie.comments?.takeIf { it.isNotEmpty() }?.let {
+                movie_no_comments_tv?.hide()
+                movie_comments_recycler?.show()
+                val commentLayoutManager =
+                    LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+                val commentAdapter = CommentAdapter(it)
+                movie_comments_recycler?.layoutManager = commentLayoutManager
+                movie_comments_recycler?.adapter = commentAdapter
+            } ?: kotlin.run {
+                movie_no_comments_tv?.show()
+            }
+            movie.subtitle?.let { subtitle ->
+                movie_subtitle_title_tv?.show()
+                movie_subtitle_divider?.show()
+                movie_subtitle_btn?.show()
+                movie_subtitle_btn?.setOnClickListener {
+                    tryToShowUrl(subtitle)
+                }
+            } ?: kotlin.run {
+                movie_subtitle_title_tv?.hide()
+                movie_subtitle_divider?.hide()
+                movie_subtitle_btn?.hide()
+            }
+        }
     }
 
     private fun hideAllLinks() {
@@ -459,6 +473,10 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     private fun dismissLoadingDialog() {
         loadingDialog?.takeIf { it.isShowing }?.dismiss()
         loadingDialog?.cancel()
+    }
+
+    override fun onSharedPreferencesChanged() {
+        fillMovieData(viewModel.movie.value)
     }
 
 }
