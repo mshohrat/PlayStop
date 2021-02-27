@@ -257,6 +257,8 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                     movie_verify_phone_and_watch_btn?.show()
                 }
                 movie.isSeries -> {
+                    movie_login_and_watch_btn?.hide()
+                    movie_verify_phone_and_watch_btn?.hide()
                     movie_seasons_title_tv?.show()
                     movie_seasons_divider?.show()
                     movie.seasons?.takeIf { it.isNotEmpty() }?.let {
@@ -272,6 +274,8 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                     }
                 }
                 else -> {
+                    movie_login_and_watch_btn?.hide()
+                    movie_verify_phone_and_watch_btn?.hide()
                     movie_links_title_tv?.show()
                     movie_links_divider?.show()
                     movie.urls?.takeIf { it.isNotEmpty() }?.let {
