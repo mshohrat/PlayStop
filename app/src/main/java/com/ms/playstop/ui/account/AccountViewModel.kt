@@ -10,6 +10,10 @@ class AccountViewModel : ViewModel() {
     val account: MutableLiveData<Profile?> = MutableLiveData()
 
     init {
+        loadAccountData()
+    }
+
+    fun loadAccountData() {
         if(Hawk.contains(Profile.SAVE_KEY)) {
             val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
             account.value = profile
