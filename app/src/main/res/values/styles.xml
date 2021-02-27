@@ -16,6 +16,7 @@
         <item name="android:fontFamily">@font/iransans_family</item>
         <item name="fontFamily">@font/iransans_family</item>
         <item name="android:layoutDirection">ltr</item>
+        <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

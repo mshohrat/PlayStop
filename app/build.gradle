@@ -20,6 +20,7 @@ final hawk = "2.0.1"
 final appCenter = "3.3.1"
 final pinEntry = "2.0.6"
 final mkLoader = "1.4.0"
+final otpView = "2.1.2"
 
 android {
     flavorDimensions "main"
@@ -48,7 +49,9 @@ android {
 
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -139,10 +142,11 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.7.2'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenter}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenter}"
-    implementation ("com.alimuzaffar.lib:pinentryedittext:${pinEntry}") {
-        exclude group: 'androidx.appcompat', module: 'appcompat'
-    }
+//    implementation ("com.alimuzaffar.lib:pinentryedittext:${pinEntry}") {
+//        exclude group: 'androidx.appcompat', module: 'appcompat'
+//    }
     implementation "com.tuyenmonkey:mkloader:${mkLoader}"
+    implementation "com.github.mukeshsolanki:android-otpview-pinview:${otpView}"
 }
 
 repositories {
