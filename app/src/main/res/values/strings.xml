@@ -103,12 +103,13 @@
     <string name="phone_number_verified_successfully">شماره تلفن وارد شده با موفقیت تایید شد</string>
     <string name="please_verify_your_phone_number_before_exit">لطفا شماره تلفن خود را فعال نمایید در غیر این صورت قادر به استفاده از امکانات حساب کاربری خود نخواهید بود.</string>
     <string name="add_phone_number">اضافه کردن شماره تلفن</string>
-    <string name="enter_phone_number_description">شماره تلفن خود را به صورت ۰۹۱۲۳۴۵۶۷۸۹ وارد نمایید.</string>
+    <string name="enter_phone_number_description">شماره تلفن خود را به صورت *********۰۹ وارد نمایید.</string>
     <string name="login_with_phone_number">ورود با شماره تلفن</string>
     <string name="otp_sent_successfully">کد فعال‌سازی برای شماره تلفن وارد شده ارسال شد</string>
     <string name="add_phone_number_later">بعدا اضافه میکنم</string>
     <string name="login_by_phone_number">ورود با شماره تلفن</string>
     <string name="login_and_watch">ورود و تماشا</string>
     <string name="verify_phone_and_watch">تایید شماره تلفن و تماشا</string>
+    <string name="resend">ارسال مجدد</string>
 
 </resources>
