@@ -203,6 +203,9 @@
 -dontwarn org.conscrypt.**
 # A resource is loaded with a relative path so the package of this class must be preserved.
 -keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+-keepclassmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
 
 -keep class * implements android.os.Parcelable {
  public static final android.os.Parcelable$Creator *;
@@ -253,4 +256,4 @@
 -keepclasseswithmembers class com.guardsquare.dexguard.runtime.encryption.**{*;}
 -dontwarn com.guardsquare.dexguard.runtime.encryption.**
 -flattenpackagehierarchy
--overloadaggressively
+#-overloadaggressively
