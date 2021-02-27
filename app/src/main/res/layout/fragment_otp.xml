@@ -71,27 +71,90 @@
             android:textAppearance="?textAppearanceCaption"
             android:textColor="@color/white"/>
 
-        <com.alimuzaffar.lib.pin.PinEntryEditText
+        <com.mukesh.OtpView
             android:id="@+id/otp_pin_entry"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_standard"
-            android:layout_marginTop="@dimen/margin_standard"
-            android:cursorVisible="false"
-            android:digits="1234567890۰۱۲۳۴۵۶۷۸۹"
-            android:inputType="number"
-            android:maxLength="5"
-            android:textIsSelectable="false"
-            android:textSize="@dimen/headline_2_max_text_size"
-            android:textColor="@color/white"
-            app:pinBackgroundDrawable="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
-            app:pinAnimationType="popIn"
-            app:pinTextBottomPadding="@dimen/padding_large"
-            app:pinBackgroundIsSquare="true"
-            app:pinLineColors="@color/colorAccent"
-            android:layoutDirection="ltr"
+            style="?textAppearanceHeadline1"
             app:layout_constraintTop_toBottomOf="@id/otp_desc_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="@dimen/margin_standard"
+            android:layout_marginTop="@dimen/margin_huge"
+            android:inputType="number"
+            android:itemBackground="@null"
+            android:textColor="@color/white"
+            app:OtpItemCount="5"
+            app:OtpLineColor="@color/blue"
+            app:OtpViewType="line"
+            app:OtpItemSpacing="@dimen/margin_medium"
+            app:OtpHideLineWhenFilled="true"
+            />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/otp_timer_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:enabled="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/otp_pin_entry"
+        android:text="03:00"
+        android:layout_marginTop="@dimen/margin_large"
+        android:textAppearance="?textAppearanceBody1"
+        android:textColor="@color/gray"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/otp_resend_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:text="@string/resend"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginTop="@dimen/margin_large"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/otp_pin_entry"
+        android:textAppearance="?textAppearanceCaption"
+        android:textColor="@color/white"/>
+
+    <com.tuyenmonkey.mkloader.MKLoader
+        android:id="@+id/otp_resend_btn_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:mk_type="Worm"
+        app:mk_color="@color/white"
+        app:layout_constraintStart_toStartOf="@id/otp_resend_btn"
+        app:layout_constraintEnd_toEndOf="@id/otp_resend_btn"
+        app:layout_constraintTop_toTopOf="@id/otp_resend_btn"
+        app:layout_constraintBottom_toBottomOf="@id/otp_resend_btn"
+        android:visibility="gone"
+        tools:visibility="visible"
         />
+
+<!--        <com.alimuzaffar.lib.pin.PinEntryEditText-->
+<!--            android:id="@+id/otp_pin_entry"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginHorizontal="@dimen/margin_standard"-->
+<!--            android:layout_marginTop="@dimen/margin_standard"-->
+<!--            android:cursorVisible="false"-->
+<!--            android:digits="1234567890۰۱۲۳۴۵۶۷۸۹"-->
+<!--            android:inputType="number"-->
+<!--            android:maxLength="5"-->
+<!--            android:textIsSelectable="false"-->
+<!--            android:textSize="@dimen/headline_2_max_text_size"-->
+<!--            android:textColor="@color/white"-->
+<!--            app:pinBackgroundDrawable="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"-->
+<!--            app:pinAnimationType="popIn"-->
+<!--            app:pinTextBottomPadding="@dimen/padding_large"-->
+<!--            app:pinBackgroundIsSquare="true"-->
+<!--            app:pinLineColors="@color/colorAccent"-->
+<!--            android:layoutDirection="ltr"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/otp_desc_tv"-->
+<!--        />-->
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/otp_wrong_number_btn"

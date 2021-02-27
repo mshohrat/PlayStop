@@ -2,6 +2,7 @@ package com.ms.playstop.ui.otp
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,6 @@ import com.ms.playstop.extension.removeLastFromParent
 import com.ms.playstop.extension.show
 import com.ms.playstop.network.model.GeneralResponse
 import kotlinx.android.synthetic.main.fragment_otp.*
-import kotlinx.android.synthetic.main.fragment_signup.*
 
 class OtpFragment : BaseFragment() {
 
@@ -28,6 +28,7 @@ class OtpFragment : BaseFragment() {
     }
 
     private lateinit var viewModel: OtpViewModel
+    private var timer: CountDownTimer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,7 +63,8 @@ class OtpFragment : BaseFragment() {
 
     private fun initViews() {
         otp_desc_tv?.text = String.format(getString(R.string.enter_the_otp_sent_to_phone_number_x),viewModel.phoneNumber)
-        otp_pin_entry?.setMaxLength(5)
+        otp_pin_entry?.requestFocus()
+        startTimer()
     }
 
 
@@ -81,10 +83,44 @@ class OtpFragment : BaseFragment() {
             hideButtonLoading()
             showToast(it)
         })
+
+        viewModel.resendCode.observe(viewLifecycleOwner, Observer {
+            showToast(it)
+            startTimer()
+        })
+
+        viewModel.resendCodeError.observe(viewLifecycleOwner, Observer {
+            enableResendButton()
+            showToast(it)
+        })
+    }
+
+    private fun startTimer() {
+        timer?.cancel()
+        otp_resend_btn_loading?.hide()
+        otp_timer_tv?.text = "03:00"
+        otp_timer_tv?.show()
+        disableResendButton()
+        timer = object : CountDownTimer(180000L,1000L) {
+
+            override fun onTick(time: Long) {
+                val totalTimeInSeconds = time.div(1000)
+                val timeInMinuets = totalTimeInSeconds.div(60)
+                val timeInExtraSeconds = totalTimeInSeconds.rem(60)
+                otp_timer_tv?.text = "0".plus(timeInMinuets).plus(":").plus(if(timeInExtraSeconds < 10) "0".plus(timeInExtraSeconds) else timeInExtraSeconds)
+            }
+
+            override fun onFinish() {
+                otp_timer_tv?.text = "00:00"
+                enableResendButton()
+                otp_timer_tv?.hide()
+            }
+        }
+        timer?.start()
     }
 
     private fun subscribeToViewEvents() {
-        otp_pin_entry?.setOnPinEnteredListener {
+        otp_pin_entry?.setOtpCompletionListener {
             showButtonLoading()
             viewModel.verify(it?.toString())
         }
@@ -101,6 +137,20 @@ class OtpFragment : BaseFragment() {
         otp_root?.setOnClickListener {
             it.hideSoftKeyboard()
         }
+
+        otp_resend_btn?.setOnClickListener {
+            disableResendButton()
+            viewModel.resendCode()
+            otp_resend_btn_loading?.show()
+        }
+    }
+
+    private fun disableResendButton() {
+        otp_resend_btn?.visibility = View.INVISIBLE
+    }
+
+    private fun enableResendButton() {
+        otp_resend_btn?.show()
     }
 
     private fun showToast(response: GeneralResponse) {
