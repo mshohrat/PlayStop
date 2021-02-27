@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.ms.playstop.R
 import com.ms.playstop.extension.getErrorHttpModel
 import com.ms.playstop.extension.getFirstMessage
+import com.ms.playstop.extension.isValidPhoneNumber
 import com.ms.playstop.model.Profile
 import com.ms.playstop.network.base.ApiServiceGenerator
 import com.ms.playstop.network.model.*
@@ -17,6 +18,8 @@ class OtpViewModel : ViewModel() {
     val verifyOtp : MutableLiveData<GeneralResponse> = MutableLiveData()
     val loginOtp : MutableLiveData<GeneralResponse> = MutableLiveData()
     val otpError : MutableLiveData<GeneralResponse> = MutableLiveData()
+    val resendCode : MutableLiveData<GeneralResponse> = MutableLiveData()
+    val resendCodeError : MutableLiveData<GeneralResponse> = MutableLiveData()
 
     var phoneNumber: String = ""
     var email: String = ""
@@ -90,6 +93,58 @@ class OtpViewModel : ViewModel() {
                                     }
                                 } ?: kotlin.run {
                                     otpError.value = GeneralResponse(messageResId = R.string.entered_otp_is_invalid)
+                                }
+                            })
+                    }
+                }
+            }
+            else -> {}
+        }
+    }
+
+    fun resendCode() {
+        when(verifyState) {
+            OtpFragment.VERIFY_STATE_LOGIN -> {
+                when {
+                    phoneNumber.isEmpty() -> resendCodeError.value = GeneralResponse(messageResId = R.string.phone_number_can_not_be_empty)
+                    phoneNumber.isValidPhoneNumber().not() -> resendCodeError.value = GeneralResponse(messageResId = R.string.entered_phone_number_is_invalid)
+                    else -> {
+                        ApiServiceGenerator.getApiService
+                            .sendPhoneNumber(PhoneNumberRequest(phoneNumber))
+                            ?.subscribeOn(Schedulers.io())
+                            ?.observeOn(AndroidSchedulers.mainThread())
+                            ?.subscribe({
+                                it?.let {
+                                    resendCode.value = GeneralResponse(messageResId = R.string.otp_sent_successfully)
+                                }
+                            },{
+                                it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                                    resendCodeError.value = it
+                                } ?: kotlin.run {
+                                    resendCodeError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                                }
+                            })
+                    }
+                }
+            }
+            OtpFragment.VERIFY_STATE_NONE -> {
+                when {
+                    phoneNumber.isEmpty() -> resendCodeError.value = GeneralResponse(messageResId = R.string.phone_number_can_not_be_empty)
+                    phoneNumber.isValidPhoneNumber().not() -> resendCodeError.value = GeneralResponse(messageResId = R.string.entered_phone_number_is_invalid)
+                    else -> {
+                        ApiServiceGenerator.getApiService
+                            .addPhoneNumber(PhoneNumberRequest(phoneNumber))
+                            ?.subscribeOn(Schedulers.io())
+                            ?.observeOn(AndroidSchedulers.mainThread())
+                            ?.subscribe({
+                                it?.let {
+                                    resendCode.value = GeneralResponse(messageResId = R.string.otp_sent_successfully)
+                                }
+                            },{
+                                it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                                    resendCodeError.value = it
+                                } ?: kotlin.run {
+                                    resendCodeError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
                                 }
                             })
                     }
