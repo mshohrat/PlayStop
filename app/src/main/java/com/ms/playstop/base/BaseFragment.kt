@@ -1,5 +1,7 @@
 package com.ms.playstop.base
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
@@ -10,6 +12,13 @@ import com.ms.playstop.extension.hideSoftKeyboard
 abstract class BaseFragment : Fragment() {
 
     abstract fun tag() : String
+
+    private val SHARED_PREFERENCES_TAG = "Hawk2"
+    private val sharedPreferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { preferences, key -> onSharedPreferencesChanged() }
+
+    protected open fun onSharedPreferencesChanged() {
+
+    }
 
     @CallSuper
     open fun onHandleDeepLink() {
@@ -41,10 +50,16 @@ abstract class BaseFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         onHandleDeepLink()
         Analytics.trackEvent(tag())
+        activity?.getSharedPreferences(SHARED_PREFERENCES_TAG, Context.MODE_PRIVATE)?.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
     }
 
     override fun onDestroyView() {
         view?.hideSoftKeyboard()
         super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.getSharedPreferences(SHARED_PREFERENCES_TAG, Context.MODE_PRIVATE)?.unregisterOnSharedPreferenceChangeListener(sharedPreferenceChangeListener)
     }
 }
