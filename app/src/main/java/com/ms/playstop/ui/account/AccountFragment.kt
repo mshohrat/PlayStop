@@ -2,14 +2,12 @@ package com.ms.playstop.ui.account
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
-import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.fragment_account.*
 
 class AccountFragment : BaseFragment() {
@@ -61,6 +59,10 @@ class AccountFragment : BaseFragment() {
 
     private fun restartApp() {
         activity?.recreate()
+    }
+
+    override fun onSharedPreferencesChanged() {
+        viewModel.loadAccountData()
     }
 
 }
