@@ -112,4 +112,11 @@
     <string name="login_and_watch">ورود و تماشا</string>
     <string name="verify_phone_and_watch">تایید شماره تلفن و تماشا</string>
     <string name="resend">ارسال مجدد</string>
+    <string name="settings">تنظیمات</string>
+    <string name="night_mode">حالت شب</string>
+    <string name="off">خاموش</string>
+    <string name="on">روشن</string>
+    <string name="auto">خودکار</string>
+    <string name="day_night_mode_auto_desc">تغییر خودکار حالت نمایش (حالت روشن در روز و حالت تاریک در شب)</string>
+    <string name="liked_movies">فیلم‌های مورد علاقه</string>
 </resources>
