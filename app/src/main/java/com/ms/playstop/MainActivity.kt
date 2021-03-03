@@ -6,13 +6,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.model.*
 import com.ms.playstop.ui.splash.SplashFragment
 import com.ms.playstop.utils.VpnDialog
+import java.net.URLDecoder
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -79,25 +78,37 @@ class MainActivity : AppCompatActivity() {
                         val slashSeparated = rest.split("/".toRegex()).toTypedArray()
                         if (slashSeparated.isNotEmpty()) {
                             val hostString = slashSeparated[0]
-                            val host = if (hostString == Host.PlayStop.type) {
-                                Host.PlayStop
-                            } else {
-                                null
+                            val host = when(hostString) {
+                                Host.PlayStopApp.type -> Host.PlayStopApp
+                                Host.PlayStop.type -> Host.PlayStop
+                                else -> null
                             }
-                            if (host != null) {
-                                when (host) {
-                                    Host.PlayStop -> {
-                                        if (slashSeparated.size > 1) {
-                                            val path1String = slashSeparated[1]
-                                            deepLink = DeepLink(
-                                                scheme,
-                                                host,
-                                                extractPath(path1String)
-                                            )
-                                        }
+                            when (host) {
+                                Host.PlayStopApp -> {
+                                    val path1String = slashSeparated.takeIf { it.size > 1 }?.let {
+                                        extractFirstPath(it[1])
                                     }
-                                    else -> {
+                                    val path2String = slashSeparated.takeIf { it.size > 2 }?.let {
+                                        extractSecondPath(it[2])
                                     }
+                                    deepLink = DeepLink(
+                                        scheme,
+                                        host,
+                                        path1String,
+                                        path2String
+                                    )
+                                }
+                                Host.PlayStop -> {
+                                    val path1String = slashSeparated.takeIf { it.size > 1 }?.let {
+                                        excludeExtraFromPath(it[1])
+                                    }
+                                    deepLink = DeepLink(
+                                        scheme,
+                                        host,
+                                        path1String
+                                    )
+                                }
+                                else -> {
                                 }
                             }
                         }
@@ -124,25 +135,53 @@ class MainActivity : AppCompatActivity() {
         intent = null
     }
 
-    private fun extractPath(pathString: String?): Path? {
+    private fun extractFirstPath(pathString: String?): Path? {
         pathString?.takeIf { it.isNotEmpty() }?.toLowerCase(Locale.getDefault())?.let {
-            if(it.startsWith(PathType.Open.type)) {
-                val valueString = it.replaceFirst(PathType.Open.type,"").replaceFirst("/","")
-                try {
-                    val value = valueString.toInt()
-                    return Path(PathType.Movie,value)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    FirebaseCrashlytics.getInstance().recordException(e)
-                    Crashes.trackError(e)
-                }
+            return if(it.startsWith(PathType.Open.type)) {
+                Path(PathType.Open,"")
             } else {
-                return null
+                null
             }
         } ?: kotlin.run {
             return null
         }
-        return null
+    }
+
+    private fun extractSecondPath(pathString: String?): Path? {
+        pathString?.takeIf { it.isNotEmpty() }?.toLowerCase(Locale.getDefault())?.let {
+            return if(it.startsWith(PathType.Movie.type)) {
+                val valueString = it.replaceFirst(PathType.Movie.type,"")
+                Path(PathType.Movie,valueString)
+            } else {
+                null
+            }
+        } ?: kotlin.run {
+            return null
+        }
+    }
+
+    private fun excludeExtraFromPath(pathString: String?): Path? {
+        pathString?.takeIf { it.isNotEmpty() }?.toLowerCase(Locale.getDefault())?.let {
+            val valueString = URLDecoder.decode(it, "UTF-8")
+                .replace("-"," ")
+                .replace("دانلود","")
+                .replace("فیلم","")
+                .replace("سریال","")
+                .convertToEnglishNumber()
+                .clearYearsPhrase()
+                .trim()
+            return Path(PathType.Search,valueString)
+        } ?: kotlin.run {
+            return null
+        }
+    }
+
+    private fun String.clearYearsPhrase() : String {
+        var finalString = this
+        for (i in 1965 .. 2021) {
+            finalString = finalString.replace(i.toString(),"")
+        }
+        return finalString
     }
 
     companion object {

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.appindexing.Action
+import com.google.firebase.appindexing.FirebaseUserActions
 
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
@@ -70,6 +72,9 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
                 }
                 RequestType.YEAR.type -> {
                     moviesRequestType = RequestType.YEAR
+                }
+                RequestType.LIKES.type -> {
+                    moviesRequestType = RequestType.LIKES
                 }
                 else -> {}
             }
@@ -143,6 +148,12 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
             parentFragment?.takeIf { it is BaseFragment }?.let {
                 (it as BaseFragment).add(it.containerId(),movieFragment)
             }
+            FirebaseUserActions.getInstance().start(
+                Action.Builder(Action.Builder.VIEW_ACTION).setObject(
+                " دانلود و تماشای فیلم ${it.name} PlayStop.ir",
+                "//playstop.ir/دانلود-فیلم-${it.name}/")
+                .setMetadata(Action.Metadata.Builder().setUpload(true))
+                .build())
         }
     }
 

@@ -9,11 +9,18 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.appindexing.Action
+import com.google.firebase.appindexing.Action.Builder.VIEW_ACTION
+import com.google.firebase.appindexing.FirebaseUserActions
+import com.ms.playstop.MainActivity
 
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
+import com.ms.playstop.model.Host
 import com.ms.playstop.model.Movie
+import com.ms.playstop.model.PathType
+import com.ms.playstop.model.Scheme
 import com.ms.playstop.ui.movie.MovieFragment
 import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
 import com.ms.playstop.utils.GridSpacingItemDecoration
@@ -33,8 +40,13 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
         search_et?.text?.toString()?.takeIf { it.isNotEmpty() }?.let {
             showLoading()
             viewModel.searchMovie(it)
+            FirebaseUserActions.getInstance().end(Action.Builder(VIEW_ACTION).setObject(
+                    " دانلود و تماشای فیلم ${it} PlayStop.ir",
+                    "//playstop.ir/دانلود-فیلم-${it}/")
+                .build())
         }
     }
+    private var searchPhraseFromDeepLink : String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,6 +64,11 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
         viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
         subscribeToViewModel()
         subscribeToViewEvents()
+        initViews()
+    }
+
+    private fun initViews() {
+        //search_et?.requestFocus()
     }
 
     private fun subscribeToViewModel() {
@@ -121,6 +138,14 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
         }
     }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        searchPhraseFromDeepLink?.let {
+            search_et?.setText(it)
+            searchPhraseFromDeepLink = null
+        }
+    }
+
     override fun containerId(): Int {
         return R.id.search_frame
     }
@@ -131,6 +156,21 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
 
     private fun dismissLoading() {
         search_loading?.hide()
+    }
+
+    override fun onHandleDeepLink() {
+        super.onHandleDeepLink()
+        activity?.takeIf { it is MainActivity }?.let { act ->
+            (act as MainActivity).deepLink?.takeIf {
+                it.scheme == Scheme.Http
+                        && it.host == Host.PlayStop
+                        && it.path1?.pathType == PathType.Search }?.let {
+                it.path1?.value?.let {
+                    act.consumeDeepLink()
+                    searchPhraseFromDeepLink = it
+                }
+            }
+        }
     }
 
 }

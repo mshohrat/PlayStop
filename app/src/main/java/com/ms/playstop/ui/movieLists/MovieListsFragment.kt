@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
+import com.google.firebase.appindexing.Action
+import com.google.firebase.appindexing.FirebaseUserActions
 import com.ms.playstop.MainActivity
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
@@ -26,7 +28,12 @@ import com.ms.playstop.ui.movies.adapter.RequestType
 import com.ms.playstop.ui.search.SearchFragment
 import com.ms.playstop.utils.LinePagerIndicatorDecoration
 import com.ms.playstop.utils.RtlLinearLayoutManager
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_movie_lists.*
+import java.util.concurrent.TimeUnit
 
 class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     MovieHeaderAdapter.OnItemClickListener {
@@ -38,6 +45,7 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
 
     private lateinit var viewModel: MovieListsViewModel
     private var appbarHeight = 0
+    private val disposables = CompositeDisposable()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,8 +99,10 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
                 movies_top_layout?.show()
                 val adapter = MovieHeaderAdapter(it,this)
                 movies_top_recycler?.adapter = adapter
+                //initAutoScrollForHeaderRecycler()
             } ?: kotlin.run {
                 movies_top_layout?.hide()
+                //cancelAutoScrollOfHeaderRecycler()
             }
         })
 
@@ -155,6 +165,12 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
                 this.putInt(MovieFragment.MOVIE_ID_KEY,it.id)
             }
             add(containerId(),movieFragment)
+            FirebaseUserActions.getInstance().start(
+                Action.Builder(Action.Builder.VIEW_ACTION).setObject(
+                    " دانلود و تماشای فیلم ${it.name} PlayStop.ir",
+                    "//playstop.ir/دانلود-فیلم-${it.name}/")
+                    .setMetadata(Action.Metadata.Builder().setUpload(true))
+                    .build())
         }
     }
 
@@ -170,17 +186,55 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
         super.onHandleDeepLink()
         activity?.takeIf { it is MainActivity }?.let { act ->
             (act as MainActivity).deepLink?.takeIf {
-                it.scheme == Scheme.PlayStop
-                        && it.host == Host.Open
-                        && it.path1?.pathType == PathType.Movie }?.let {
-                it.path1?.value?.let {
+                it.scheme == Scheme.Http
+                        && it.host == Host.PlayStopApp
+                        && it.path1?.pathType == PathType.Open
+                        && it.path2?.pathType == PathType.Movie }?.let {
+                it.path2?.value?.let {
                     act.consumeDeepLink()
                     val movieFragment = MovieFragment.newInstance()
-                    movieFragment.arguments = Bundle().apply { this.putInt(MovieFragment.MOVIE_ID_KEY,it) }
+                    movieFragment.arguments = Bundle().apply { this.putInt(MovieFragment.MOVIE_ID_KEY,it.toInt()) }
                     add(containerId(),movieFragment)
                 }
             }
+            act.deepLink?.takeIf {
+                it.scheme == Scheme.Http
+                        && it.host == Host.PlayStop
+                        && it.path1?.pathType == PathType.Search }?.let {
+                parentFragment?.takeIf { it is HomeFragment }?.let {
+                    (it as HomeFragment).selectTabBy(SearchFragment.newInstance())
+                }
+            }
         }
+    }
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        disposables.takeIf { it.isDisposed.not() }?.dispose()
+//    }
+
+
+    private fun initAutoScrollForHeaderRecycler() {
+        cancelAutoScrollOfHeaderRecycler()
+        disposables.add(Observable.interval(5L,TimeUnit.SECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                movies_top_recycler?.layoutManager?.takeIf { it is LinearLayoutManager }?.let {
+                    val pos = (it as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
+                    if(pos == movies_top_recycler?.adapter?.itemCount?.minus(1) ?: 0) {
+                        movies_top_recycler?.smoothScrollToPosition(0)
+                    } else {
+                        movies_top_recycler?.smoothScrollToPosition(pos+1)
+                    }
+                }
+            },{
+
+            }))
+    }
+
+    private fun cancelAutoScrollOfHeaderRecycler() {
+        disposables.clear()
     }
 
 }
