@@ -29,6 +29,7 @@
     <color name="gray_opacity_50">#330D1F40</color>
     <color name="gray_opacity_75">#BF0D1F40</color>
     <color name="white">#0C2043</color>
+    <color name="white_opacity_50">#800C2043</color>
     <color name="grayLight">#112D5E</color>
     <color name="yellow">#ECAB00</color>
     <color name="white_opacity_10">#1A0C2043</color>
@@ -36,4 +37,7 @@
     <color name="purple_new">#9527B3</color>
     <color name="blue">#2583EB</color>
     <color name="redLight">#ffff4444</color>
+    <color name="pure_white">#ffffff</color>
+    <color name="pure_black_opacity_20">#33000000</color>
+    <color name="pure_dark_blue_opacity_75">#BF0D1F40</color>
 </resources>
