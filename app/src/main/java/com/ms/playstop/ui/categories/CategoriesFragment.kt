@@ -22,13 +22,10 @@ import com.ms.playstop.extension.passHandleBackToParent
 import com.ms.playstop.extension.show
 import com.ms.playstop.model.Category
 import com.ms.playstop.model.Genre
-import com.ms.playstop.model.Suggestion
 import com.ms.playstop.model.Year
 import com.ms.playstop.ui.categories.adapter.ChipAdapter
 import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
-import com.ms.playstop.utils.LoadingDialog
-import com.ms.playstop.utils.RtlFlexBoxLayoutManager
 import kotlinx.android.synthetic.main.fragment_categories.*
 
 
@@ -39,7 +36,6 @@ class CategoriesFragment : BaseFragment() {
     }
 
     private lateinit var viewModel: CategoriesViewModel
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,9 +59,9 @@ class CategoriesFragment : BaseFragment() {
 
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             if(it) {
-                showLoadingDialog()
+                showLoading()
             } else {
-                dismissLoadingDialog()
+                hideLoadingg()
             }
         })
 
@@ -207,16 +203,12 @@ class CategoriesFragment : BaseFragment() {
         return passHandleBackToParent()
     }
 
-    private fun showLoadingDialog() {
-        activity?.let { ctx ->
-            loadingDialog = LoadingDialog(ctx)
-            loadingDialog?.show()
-        }
+    private fun showLoading() {
+        categories_loading?.show()
     }
 
-    private fun dismissLoadingDialog() {
-        loadingDialog?.takeIf { it.isShowing }?.dismiss()
-        loadingDialog?.cancel()
+    private fun hideLoadingg() {
+        categories_loading?.hide()
     }
 
 }
