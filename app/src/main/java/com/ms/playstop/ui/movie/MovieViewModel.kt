@@ -19,6 +19,8 @@ class MovieViewModel : ViewModel() {
     val movieError : MutableLiveData<GeneralResponse> = MutableLiveData()
     val sendComment : MutableLiveData<GeneralResponse> = MutableLiveData()
     val sendCommentError : MutableLiveData<GeneralResponse> = MutableLiveData()
+    val likeMovie : MutableLiveData<GeneralResponse> = MutableLiveData()
+    val likeMovieError : MutableLiveData<GeneralResponse> = MutableLiveData()
     private var movieId: Int = 0
 
     @SuppressLint("CheckResult")
@@ -61,5 +63,49 @@ class MovieViewModel : ViewModel() {
                     })
             }
         }
+    }
+
+    @SuppressLint("CheckResult")
+    fun likeOrDislikeMovie() {
+        movie.value?.let {
+            if(it.isLiked) {
+                movie.postValue(it.apply { isLiked = false })
+                ApiServiceGenerator.getApiService
+                    .dislikeMovie(movieId)
+                    ?.subscribeOn(Schedulers.io())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe({ response ->
+                        response?.let { res ->
+                            likeMovie.value = res
+                            movie.postValue(it.apply { isLiked = false })
+                        } ?: kotlin.run {
+                            likeMovieError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                            movie.postValue(it.apply { isLiked = true })
+                        }
+                    },{ throwable ->
+                        likeMovieError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                        movie.postValue(it.apply { isLiked = true })
+                    })
+            } else {
+                movie.postValue(it.apply { isLiked = true })
+                ApiServiceGenerator.getApiService
+                    .likeMovie(movieId)
+                    ?.subscribeOn(Schedulers.io())
+                    ?.observeOn(AndroidSchedulers.mainThread())
+                    ?.subscribe({ response ->
+                        response?.let { res ->
+                            likeMovie.value = res
+                            movie.postValue(it.apply { isLiked = true })
+                        } ?: kotlin.run {
+                            likeMovieError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                            movie.postValue(it.apply { isLiked = false })
+                        }
+                    },{ throwable ->
+                        likeMovieError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                        movie.postValue(it.apply { isLiked = false })
+                    })
+            }
+        }
+
     }
 }

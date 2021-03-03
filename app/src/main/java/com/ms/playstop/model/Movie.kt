@@ -50,5 +50,7 @@ data class Movie(
     @SerializedName("subtitles")
     val subtitles: List<Subtitle>?,
     @SerializedName("subtitle")
-    var subtitle: String?
+    var subtitle: String?,
+    @SerializedName("is_liked")
+    var isLiked: Boolean = false
 )

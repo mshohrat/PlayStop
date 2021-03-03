@@ -22,6 +22,8 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textview.MaterialTextView
+import com.google.firebase.appindexing.Action
+import com.google.firebase.appindexing.FirebaseUserActions
 import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
@@ -44,9 +46,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movie.*
-import java.text.NumberFormat
-import java.util.*
-import java.util.concurrent.Callable
 
 class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 
@@ -56,7 +55,6 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     }
 
     private lateinit var viewModel: MovieViewModel
-    private var movie: Movie? = null
     private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
@@ -91,6 +89,18 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     private fun subscribeToViewModel() {
         viewModel.movie.observe(viewLifecycleOwner, Observer {
             fillMovieData(it)
+//            val indexable = Indexable.Builder()
+//                .setName(" دانلود و تماشای فیلم ${it?.name} PlayStop.ir")
+//                .setUrl("//playstop.ir/دانلود-فیلم-${it?.name}/")
+//                .setKeywords("دانلود","تماشا","فیلم")
+//                .build()
+//            FirebaseAppIndex.getInstance().update(indexable)
+            FirebaseUserActions.getInstance().end(
+                Action.Builder(Action.Builder.VIEW_ACTION).setObject(
+                    " دانلود و تماشای فیلم ${it?.name} PlayStop.ir",
+                    "//playstop.ir/دانلود-فیلم-${it?.name}/")
+                    .setMetadata(Action.Metadata.Builder().setUpload(true))
+                    .build())
         })
 
         viewModel.movieError.observe(viewLifecycleOwner, Observer {
@@ -114,6 +124,16 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             showToast(it)
             dismissLoadingDialog()
         })
+
+        viewModel.likeMovie.observe(viewLifecycleOwner, Observer {
+            showToast(it)
+            handleMovieLikeAndDislike(viewModel.movie.value)
+        })
+
+        viewModel.likeMovieError.observe(viewLifecycleOwner, Observer {
+            showToast(it)
+            handleMovieLikeAndDislike(viewModel.movie.value)
+        })
     }
 
     @SuppressLint("CheckResult")
@@ -126,6 +146,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         movie_refresh_layout?.isRefreshing = false
 
         movie?.let { movie ->
+            handleMovieLikeAndDislike(movie)
             movie_name_tv?.text = movie.name
             movie_toolbar_name_tv?.text = movie.name
             movie.genres?.let { list ->
@@ -317,6 +338,21 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         }
     }
 
+    private fun handleMovieLikeAndDislike(movie: Movie?) {
+        if(isUserLoggedIn()) {
+            movie?.let {
+                if(it.isLiked) {
+                    movie_like_btn?.setImageResource(R.drawable.ic_like)
+                } else {
+                    movie_like_btn?.setImageResource(R.drawable.ic_dislike)
+                }
+            }
+            movie_like_btn?.show()
+        } else {
+            movie_like_btn?.hide()
+        }
+    }
+
     private fun hideAllLinks() {
         movie_seasons_title_tv?.hide()
         movie_seasons_divider?.hide()
@@ -362,7 +398,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         movie_show_comments_tv?.setOnClickListener {
             val commentsFragment = CommentsFragment.newInstance()
             commentsFragment.arguments = Bundle().apply {
-                this.putInt(CommentsFragment.COMMENTS_MOVIE_ID,movie?.id ?: -1)
+                this.putInt(CommentsFragment.COMMENTS_MOVIE_ID,viewModel.movie.value?.id ?: -1)
             }
             addToParent(commentsFragment)
         }
@@ -404,7 +440,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 
         movie_share_btn?.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
-            intent.putExtra(Intent.EXTRA_TEXT,"playstopapp.ir/open/movie".plus(movie?.id))
+            intent.putExtra(Intent.EXTRA_TEXT,"http://playstopapp.ir/open/movie".plus(viewModel.movie.value?.id))
             intent.type = "text/plain"
             activity?.startActivity(
                 Intent.createChooser(intent,activity?.getString(R.string.send_by))
@@ -426,6 +462,11 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             }
             enterPhoneNumberFragment.arguments = args
             addToParent(enterPhoneNumberFragment)
+        }
+
+        movie_like_btn?.setOnClickListener {
+            handleMovieLikeAndDislike(viewModel.movie.value)
+            viewModel.likeOrDislikeMovie()
         }
     }
 

@@ -3,11 +3,11 @@ package com.ms.playstop.ui.movies.adapter
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.ms.playstop.R
+import com.ms.playstop.extension.getErrorHttpModel
 import com.ms.playstop.extension.initSchedulers
 import com.ms.playstop.model.Movie
 import com.ms.playstop.network.base.ApiServiceGenerator
 import com.ms.playstop.network.model.GeneralResponse
-import java.util.concurrent.TimeUnit
 
 class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKeyedDataSource<Int, Movie>() {
 
@@ -41,7 +41,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                             }
                         },{
                             requestState.postValue(STATE_ERROR)
-                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                            it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                                networkError.postValue(it)
+                            } ?: kotlin.run {
+                                networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                            }
                         })
                 }
                 else if(requestId == -1) {
@@ -59,7 +63,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                             }
                         },{
                             requestState.postValue(STATE_ERROR)
-                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                            it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                                networkError.postValue(it)
+                            } ?: kotlin.run {
+                                networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                            }
                         })
                 } else {
                     requestState.postValue(STATE_LOADING)
@@ -76,7 +84,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                             }
                         },{
                             requestState.postValue(STATE_ERROR)
-                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                            it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                                networkError.postValue(it)
+                            } ?: kotlin.run {
+                                networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                            }
                         })
                 }
             }
@@ -95,7 +107,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                         }
                     },{
                         requestState.postValue(STATE_ERROR)
-                        networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                            networkError.postValue(it)
+                        } ?: kotlin.run {
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
                     })
             }
             RequestType.GENRE -> {
@@ -113,7 +129,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                         }
                     },{
                         requestState.postValue(STATE_ERROR)
-                        networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                            networkError.postValue(it)
+                        } ?: kotlin.run {
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
                     })
             }
             RequestType.SPECIAL -> {
@@ -131,7 +151,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                         }
                     },{
                         requestState.postValue(STATE_ERROR)
-                        networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                            networkError.postValue(it)
+                        } ?: kotlin.run {
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
                     })
             }
             RequestType.YEAR -> {
@@ -149,7 +173,33 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                         }
                     },{
                         requestState.postValue(STATE_ERROR)
-                        networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                            networkError.postValue(it)
+                        } ?: kotlin.run {
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    })
+            }
+            RequestType.LIKES -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getLikedMovies(1)
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        val nextKey = if(it?.currentPage == it?.totalPages) null else 2
+                        it?.movies?.let {
+                            requestState.postValue(STATE_SUCCESS)
+                            callback.onResult(it,null,nextKey)
+                        } ?: kotlin.run {
+                            requestState.postValue(STATE_ERROR)
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    },{
+                        requestState.postValue(STATE_ERROR)
+                        it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                            networkError.postValue(it)
+                        } ?: kotlin.run {
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
                     })
             }
             else -> {}
@@ -236,6 +286,18 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
             }
             RequestType.YEAR -> {
                 ApiServiceGenerator.getApiService.getYearMovies(requestId,params.key)
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        it?.movies?.let { movies ->
+                            val nextKey = if (params.key == it.totalPages) null else params.key+1;
+                            callback.onResult(movies,nextKey)
+                        } ?: kotlin.run {
+                        }
+                    },{
+                    })
+            }
+            RequestType.LIKES -> {
+                ApiServiceGenerator.getApiService.getLikedMovies(params.key)
                     ?.initSchedulers()
                     ?.subscribe({
                         it?.movies?.let { movies ->
