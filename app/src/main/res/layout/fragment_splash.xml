@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary"
     tools:context=".ui.splash.SplashFragment">
-    
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/splash_logo_iv"
-        android:layout_width="@dimen/splash_icon_size"
-        android:layout_height="@dimen/splash_icon_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintBottom_toTopOf="@id/splash_app_name_tv"
-        app:srcCompat="@drawable/ic_logo"/>
+
+    <include layout="@layout/layout_splash_logo"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/splash_app_name_tv"
@@ -53,6 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="نسخه ۱.۰.۰"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:mk_type="Worm"
-        app:mk_color="@color/gray"
+        app:mk_color="@color/white"
         app:layout_constraintBottom_toTopOf="@id/splash_version_tv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
