@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0E244C</color>
+    <color name="colorPrimaryDark">#091932</color>
+    <color name="colorPrimaryLightDark">#0B1D3A</color>
+    <color name="colorPrimaryLightDarkOpacity50">#800B1D3A</color>
+    <color name="colorAccent">#00C4E7</color>
+    <color name="colorAccentDark">#01B3D3</color>
+    <color name="colorAccentDarkOpacity50">#8001B3D3</color>
+    <color name="gray">#a6a6a6</color>
+    <color name="gray_opacity_50">#80A6A6A6</color>
+    <color name="gray_opacity_75">#BFA6A6A6</color>
+    <color name="white">#ffffff</color>
+    <color name="white_opacity_50">#80FFFFFF</color>
+    <color name="grayLight">#EDEEF1</color>
+    <color name="yellow">#ECAB00</color>
+    <color name="white_opacity_10">#1AFFFFFF</color>
+    <color name="purple">#7A4EE3</color>
+    <color name="purple_new">#4FE1E6</color>
+    <color name="blue">#2583EB</color>
+    <color name="redLight">#ffff4444</color>
+    <color name="pure_white">#ffffff</color>
+    <color name="pure_black_opacity_20">#33000000</color>
+    <color name="pure_dark_blue_opacity_75">#BF0D1F40</color>
+</resources>
