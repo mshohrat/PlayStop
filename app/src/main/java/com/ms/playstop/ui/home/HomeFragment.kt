@@ -7,13 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.ms.playstop.MainActivity
 
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.addOrShow
-import com.ms.playstop.model.Host
-import com.ms.playstop.model.Scheme
 import com.ms.playstop.ui.categories.CategoriesFragment
 import com.ms.playstop.ui.movieLists.MovieListsFragment
 import com.ms.playstop.ui.search.SearchFragment
@@ -125,13 +122,20 @@ class HomeFragment : BaseFragment() {
 
     override fun onHandleDeepLink() {
         super.onHandleDeepLink()
-        activity?.takeIf { it is MainActivity }?.let { act ->
-            (act as MainActivity).deepLink?.takeIf {
-                it.scheme == Scheme.PlayStop
-                        && it.host == Host.Open}?.let {
-                home_tab_layout?.getTabAt(2)?.select()
-            }
-        }
+//        activity?.takeIf { it is MainActivity }?.let { act ->
+//            (act as MainActivity).deepLink?.takeIf {
+//                it.scheme == Scheme.Http
+//                        && it.host == Host.PlayStopApp
+//                        && it.path1?.pathType == PathType.Open}?.let {
+//                home_tab_layout?.getTabAt(2)?.select()
+//            }
+//            act.deepLink?.takeIf {
+//                it.scheme == Scheme.Http
+//                        && it.host == Host.PlayStop
+//                        && it.path1?.pathType == PathType.Search}?.let {
+//                home_tab_layout?.getTabAt(0)?.select()
+//            }
+//        }
     }
 
 }
