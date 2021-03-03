@@ -192,4 +192,16 @@ interface ApiService {
 
     @POST("v1/password/reset")
     fun resetPassword(@Body resetPasswordRequest: ResetPasswordRequest) : Single<GeneralResponse?>?
+
+    @PUT("v1/likes/like/{id}")
+    fun likeMovie(@Path("id") movieId: Int) : Single<GeneralResponse?>?
+
+    @PUT("v1/likes/dislike/{id}")
+    fun dislikeMovie(@Path("id") movieId: Int) : Single<GeneralResponse?>?
+
+    @GET("v1/likes/{page}")
+    fun getLikedMovies(
+        @Path("page") page : Int
+    ) : Single<MoviePagedListResponse?>?
+
 }
