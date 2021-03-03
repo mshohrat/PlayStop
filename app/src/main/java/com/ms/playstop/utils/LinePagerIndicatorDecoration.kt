@@ -1,5 +1,6 @@
 package com.ms.playstop.utils
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -7,15 +8,20 @@ import android.graphics.Rect
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Interpolator
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ms.playstop.R
 import com.ms.playstop.extension.convertDpToPixel
 
 
 class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
 
-    private val colorActive = Color.parseColor("#0C2043")
-    private val colorInactive = Color.parseColor("#330D2040")
+    @ColorInt
+    private var colorActive : Int = Color.parseColor("#0C2043")
+    @ColorInt
+    private var colorInactive : Int = Color.parseColor("#330D1F40")
 
     private val mIndicatorHeight = convertDpToPixel(16f)
 
@@ -38,6 +44,8 @@ class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
 
     private val mPaint: Paint = Paint()
 
+    private var areColorsInitialized = false
+
     init {
         mPaint.strokeCap = Paint.Cap.ROUND;
         mPaint.strokeWidth = mIndicatorStrokeWidth;
@@ -47,6 +55,7 @@ class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(c, parent, state)
+        initColors(parent.context)
         val itemCount: Int = parent.adapter?.itemCount ?: 0
 
         // center horizontally, calculate width and subtract half from center
@@ -93,6 +102,15 @@ class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
             mInterpolator.getInterpolation(left / width.toFloat())
 
         drawHighlights(c, indicatorStartX, indicatorPosY, activePosition, progress, itemCount)
+    }
+
+    private fun initColors(context: Context?) {
+        if(areColorsInitialized) return
+        context?.let { ctx ->
+            colorActive = ContextCompat.getColor(ctx, R.color.white)
+            colorInactive = ContextCompat.getColor(ctx, R.color.gray_opacity_50)
+            areColorsInitialized = true
+        }
     }
 
     private fun drawInactiveIndicators(
