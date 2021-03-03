@@ -29,6 +29,13 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/account_settings_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_settings"
+                    android:layout_marginEnd="@dimen/margin_standard"
+                    android:background="?android:selectableItemBackground"/>
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -38,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceBody1"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/pure_white"
                     android:layout_marginEnd="@dimen/margin_standard"
                     android:text="@string/user_account"/>
 
@@ -177,6 +184,18 @@
         android:drawableStart="@drawable/ic_phone"
         tools:text="09123456789"
         android:paddingHorizontal="@dimen/padding_standard"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/account_liked_movies_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?textAppearanceBody1"
+        app:backgroundTint="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginVertical="@dimen/margin_large"
+        android:layout_marginHorizontal="@dimen/margin_standard"
+        app:layout_constraintTop_toBottomOf="@id/account_phone_bg_view"
+        android:text="@string/liked_movies"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/account_logout_btn"

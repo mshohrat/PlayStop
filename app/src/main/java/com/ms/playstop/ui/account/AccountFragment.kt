@@ -8,6 +8,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
+import com.ms.playstop.extension.addToParent
+import com.ms.playstop.ui.movies.MoviesFragment
+import com.ms.playstop.ui.movies.adapter.RequestType
+import com.ms.playstop.ui.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 
 class AccountFragment : BaseFragment() {
@@ -54,6 +58,19 @@ class AccountFragment : BaseFragment() {
         account_logout_btn?.setOnClickListener {
             viewModel.logout()
             activity?.onBackPressed()
+        }
+
+        account_settings_btn?.setOnClickListener {
+            addToParent(SettingsFragment.newInstance())
+        }
+
+        account_liked_movies_btn?.setOnClickListener {
+            val moviesFragment = MoviesFragment.newInstance()
+            moviesFragment.arguments = Bundle().apply {
+                this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE, RequestType.LIKES.type)
+                this.putString(MoviesFragment.MOVIES_REQUEST_NAME,getString(R.string.liked_movies))
+            }
+            addToParent(moviesFragment)
         }
     }
 
