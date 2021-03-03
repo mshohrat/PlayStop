@@ -39,7 +39,7 @@
                     android:id="@+id/movie_image_background_cover_iv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/gray_opacity_75"/>
+                    android:background="@color/pure_dark_blue_opacity_75"/>
 
                 <androidx.constraintlayout.widget.Group
                     android:id="@+id/movie_image_background_group"
@@ -86,7 +86,7 @@
                     android:layout_marginHorizontal="@dimen/margin_standard"
                     android:gravity="right|center_vertical"
                     android:maxLines="1"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/pure_white"
                     app:layout_constraintBottom_toTopOf="@id/movie_genre_tv"
                     app:layout_constraintEnd_toStartOf="@id/movie_image_iv"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -100,7 +100,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     style="?textAppearanceCaption"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/pure_white"
                     app:layout_constraintEnd_toEndOf="@id/movie_name_tv"
                     app:layout_constraintTop_toBottomOf="@id/movie_name_tv"
                     app:layout_constraintBottom_toTopOf="@id/movie_length_tv"
@@ -114,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceBody1"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/pure_white"
                     app:layout_constraintEnd_toEndOf="@id/movie_name_tv"
                     app:layout_constraintTop_toBottomOf="@id/movie_genre_tv"
                     app:layout_constraintBottom_toTopOf="@id/movie_length_tv"
@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceBody1"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/pure_white"
                     app:layout_constraintEnd_toEndOf="@id/movie_name_tv"
                     app:layout_constraintTop_toBottomOf="@id/movie_production_year_tv"
                     app:layout_constraintBottom_toTopOf="@id/movie_score_tv"
@@ -151,7 +151,7 @@
                     android:paddingEnd="@dimen/padding_medium"
                     android:paddingTop="@dimen/padding_small"
                     android:paddingBottom="@dimen/padding_small"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/pure_white"
                     tools:text="IMDB : 6.5"/>
 
                 <com.google.android.material.textview.MaterialTextView
@@ -163,7 +163,7 @@
                     app:layout_constraintTop_toTopOf="@id/movie_score_tv"
                     app:layout_constraintBottom_toBottomOf="@id/movie_score_tv"
                     android:layout_marginEnd="@dimen/padding_standard"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/pure_white"
                     tools:text="800 رای"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -187,6 +187,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_share"
+                        android:layout_marginEnd="@dimen/margin_standard"
+                        android:background="?android:selectableItemBackground"/>
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/movie_like_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        app:srcCompat="@drawable/ic_dislike"
                         android:background="?android:selectableItemBackground"/>
                     <Space
                         android:layout_width="0dp"
@@ -199,7 +208,7 @@
                         android:visibility="gone"
                         tools:visibility="visible"
                         style="?textAppearanceBody1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/pure_white"
                         android:layout_marginEnd="@dimen/margin_standard"
                         tools:text="@string/app_name"/>
 
