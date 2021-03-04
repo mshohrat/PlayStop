@@ -20,7 +20,7 @@ import com.ms.playstop.utils.MenuAdapter
 import kotlinx.android.synthetic.main.item_link_layout.view.*
 import java.util.ArrayList
 
-class LinkAdapter(private val urls: List<Url>,private val subtitles: List<Subtitle>? = null): RecyclerView.Adapter<LinkAdapter.ViewHolder>() {
+class LinkAdapter(private val urls: List<Url>,private val subtitles: List<Subtitle>? = null,private val movieName: String? = null): RecyclerView.Adapter<LinkAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_link_layout,parent,false))
@@ -111,6 +111,7 @@ class LinkAdapter(private val urls: List<Url>,private val subtitles: List<Subtit
         context?.let {
             val intent = Intent(context,PlayVideoActivity::class.java)
             intent.putExtra(PlayVideoActivity.PLAY_VIDEO_URL,url.link)
+            intent.putExtra(PlayVideoActivity.PLAY_VIDEO_NAME, movieName)
             val subtitles = subtitles?.let { list ->
                 ArrayList(list.map { it.link })
             }

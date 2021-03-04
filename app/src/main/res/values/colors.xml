@@ -40,4 +40,7 @@
     <color name="pure_white">#ffffff</color>
     <color name="pure_black_opacity_20">#33000000</color>
     <color name="pure_dark_blue_opacity_75">#BF0D1F40</color>
+    <color name="pure_dark_blue">#091932</color>
+    <color name="pure_black">#000000</color>
+    <color name="pure_light_gray">#DADADA</color>
 </resources>

@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:resize_mode="fit"
+        android:background="@color/pure_black"
         app:rewind_increment="15000"
         app:fastforward_increment="15000"/>
 

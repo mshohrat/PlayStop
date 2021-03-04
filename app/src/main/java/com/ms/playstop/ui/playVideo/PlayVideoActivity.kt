@@ -42,6 +42,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 
     companion object {
         const val PLAY_VIDEO_URL = "PLAY VIDEO URL"
+        const val PLAY_VIDEO_NAME = "PLAY VIDEO NAME"
         const val PLAY_VIDEO_SUBTITLES = "PLAY VIDEO SUBTITLES"
     }
 
@@ -52,6 +53,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     private var currentWindow = 0
     private var playbackPosition = 0L
     private lateinit var videoUrl : String
+    private var videoName : String? = null
     private var subtitles : ArrayList<String>? = null
     private var selectedSubtitle : String? = null
     private var showSubtitle = true
@@ -70,6 +72,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_video)
         videoUrl = intent?.takeIf { it.hasExtra(PLAY_VIDEO_URL) }?.getStringExtra(PLAY_VIDEO_URL) ?: ""
+        videoName = intent?.takeIf { it.hasExtra(PLAY_VIDEO_NAME) }?.getStringExtra(PLAY_VIDEO_NAME) ?: ""
         subtitles = intent?.takeIf { it.hasExtra(PLAY_VIDEO_SUBTITLES) }?.getStringArrayListExtra(PLAY_VIDEO_SUBTITLES)
         if(subtitles.isNullOrEmpty().not()) {
             selectedSubtitle = subtitles?.firstOrNull()
@@ -93,6 +96,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         play_subtitle?.setOnClickListener {
             showSubtitlesDialog()
         }
+        play_back?.text = videoName
     }
 
     private fun showSubtitlesDialog() {

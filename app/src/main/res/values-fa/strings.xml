@@ -87,6 +87,7 @@
     <string name="play">پخش</string>
     <string name="please_choose_play_or_download">مایل به پخش یا دانلود فایل هستید؟</string>
     <string name="trailer">پیش نمایش</string>
+    <string name="trailer_phrase">(پیش نمایش)</string>
     <string name="choose_subtitle">انتخاب زیرنویس</string>
     <string name="subtitle_x">زیرنویس %s</string>
     <string name="failed_in_playing_video">خطا در پخش ویدئو</string>

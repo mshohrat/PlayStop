@@ -43,7 +43,6 @@
                 android:id="@+id/movies_back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:rotation="180"
                 app:srcCompat="@drawable/ic_back"
                 android:background="?android:selectableItemBackground"/>
 

@@ -41,7 +41,7 @@ class SeasonAdapter(private val seasons: List<Season>,private val onItemClickLis
             nameTv?.text = season.name
             season.episodes?.let {
                 val layoutManager = LinearLayoutManager(itemView.context,RecyclerView.VERTICAL,false)
-                val adapter = EpisodeAdapter(it,onItemClickListener)
+                val adapter = EpisodeAdapter(it,onItemClickListener,season.name)
                 episodesRecycler?.layoutManager = layoutManager
                 episodesRecycler?.adapter = adapter
                 episodesRecycler?.hide()

@@ -258,6 +258,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                 movie_trailer_frame?.setOnClickListener {
                     val intent = Intent(context, PlayVideoActivity::class.java)
                     intent.putExtra(PlayVideoActivity.PLAY_VIDEO_URL, movie.trailer)
+                    intent.putExtra(PlayVideoActivity.PLAY_VIDEO_NAME, movie.name.plus(" ").plus(getString(R.string.trailer_phrase)))
                     activity?.startActivity(intent)
                 }
             } else {
@@ -304,7 +305,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                         movie_links_recycler?.show()
                         val linkLayoutManager =
                             LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                        val linkAdapter = LinkAdapter(it, movie.subtitles)
+                        val linkAdapter = LinkAdapter(it, movie.subtitles,movie.name)
                         movie_links_recycler?.layoutManager = linkLayoutManager
                         movie_links_recycler?.adapter = linkAdapter
                     } ?: kotlin.run {
@@ -470,11 +471,11 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         }
     }
 
-    override fun onItemClick(episode: Episode) {
-        showBottomSheetDialogForUrls(episode)
+    override fun onItemClick(episode: Episode,seasonName: String?) {
+        showBottomSheetDialogForUrls(episode,seasonName)
     }
 
-    private fun showBottomSheetDialogForUrls(episode: Episode) {
+    private fun showBottomSheetDialogForUrls(episode: Episode, seasonName: String?) {
         activity?.let { ctx ->
             episode.urls?.takeIf { it.isNotEmpty() }?.let { urls ->
                 val dialog = BottomSheetDialog(ctx)
@@ -489,7 +490,9 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                 }
                 val lm = LinearLayoutManager(ctx,RecyclerView.VERTICAL,false)
                 recycler?.layoutManager = lm
-                val adapter = LinkAdapter(urls,episode.subtitles)
+                val adapter = LinkAdapter(urls,
+                    episode.subtitles,
+                    viewModel.movie.value?.name?.plus(" - ")?.plus(seasonName)?.plus(" - ")?.plus(episode.name))
                 recycler?.adapter = adapter
                 dialog.show()
             }

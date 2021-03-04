@@ -8,7 +8,7 @@ import com.ms.playstop.R
 import com.ms.playstop.model.Episode
 import kotlinx.android.synthetic.main.item_episode_layout.view.*
 
-class EpisodeAdapter(private val episodes: List<Episode>,private val onItemClickListener: OnItemClickListener? = null): RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
+class EpisodeAdapter(private val episodes: List<Episode>,private val onItemClickListener: OnItemClickListener? = null,private val seasonName: String? = null): RecyclerView.Adapter<EpisodeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_episode_layout,parent,false))
@@ -30,12 +30,12 @@ class EpisodeAdapter(private val episodes: List<Episode>,private val onItemClick
         fun bind(episode: Episode) {
             nameTv?.text = episode.name
             rootView.setOnClickListener {
-                onItemClickListener?.onItemClick(episode)
+                onItemClickListener?.onItemClick(episode,seasonName)
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(episode: Episode)
+        fun onItemClick(episode: Episode,seasonName: String? = null)
     }
 }
