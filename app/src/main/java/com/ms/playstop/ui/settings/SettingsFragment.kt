@@ -35,6 +35,9 @@ class SettingsFragment : BaseFragment(), SettingNightModeAdapter.OnItemClickList
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                     }
                 }
+            } else {
+                Hawk.put(SETTING_DAY_NIGHT_MODE_KEY,SettingNightModeAdapter.TYPE_DAY_MODE)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
         }
     }
