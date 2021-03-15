@@ -47,7 +47,7 @@
                     style="?textAppearanceBody1"
                     android:textColor="@color/pure_white"
                     android:layout_marginEnd="@dimen/margin_standard"
-                    android:text="@string/login_to_account"/>
+                    android:text="@string/login_by_email"/>
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/login_back_btn"
@@ -144,26 +144,14 @@
         android:paddingHorizontal="@dimen/padding_standard"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_not_have_account_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_password_bg_view"
-        android:text="@string/not_have_account"
-        android:layout_marginTop="@dimen/margin_huge"
-        android:textAppearance="?textAppearanceCaption"
-        android:textColor="@color/white"/>
-
-    <com.google.android.material.button.MaterialButton
         android:id="@+id/login_forgot_password_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_not_have_account_btn"
+        app:layout_constraintTop_toBottomOf="@id/login_password_bg_view"
+        android:layout_marginTop="@dimen/margin_huge"
         android:text="@string/forgot_password"
         android:textAppearance="?textAppearanceCaption"
         android:textColor="@color/white"/>
@@ -201,19 +189,6 @@
         android:visibility="gone"
         tools:visibility="gone"
         />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_by_phone_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_btn"
-        android:layout_marginTop="@dimen/margin_small"
-        android:text="@string/login_by_phone_number"
-        android:textAppearance="?textAppearanceCaption"
-        android:textColor="@color/white"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

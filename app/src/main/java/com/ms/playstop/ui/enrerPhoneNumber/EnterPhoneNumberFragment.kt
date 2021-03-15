@@ -22,6 +22,7 @@ class EnterPhoneNumberFragment : BaseFragment() {
         const val ENTER_PHONE_NUMBER_STATE = "Enter Phone Number State"
         const val ENTER_PHONE_NUMBER_STATE_ADD = 101
         const val ENTER_PHONE_NUMBER_STATE_LOGIN = 102
+        const val ENTER_PHONE_NUMBER_STATE_EDIT = 103
     }
 
     private lateinit var viewModel: EnterPhoneNumberViewModel
@@ -58,13 +59,18 @@ class EnterPhoneNumberFragment : BaseFragment() {
         when(viewModel.state) {
             ENTER_PHONE_NUMBER_STATE_LOGIN -> {
                 enter_phone_number_toolbar_name_tv?.text = getString(R.string.login_with_phone_number)
+                enter_phone_number_btn_divider?.show()
+                enter_phone_number_login_with_email_btn?.show()
+            }
+            ENTER_PHONE_NUMBER_STATE_ADD -> {
+                enter_phone_number_toolbar_name_tv?.text = getString(R.string.add_phone_number)
                 enter_phone_number_btn_divider?.hide()
-                enter_phone_number_skip_btn?.hide()
+                enter_phone_number_login_with_email_btn?.hide()
             }
             else -> {
-                enter_phone_number_toolbar_name_tv?.text = getString(R.string.add_phone_number)
-                enter_phone_number_btn_divider?.show()
-                enter_phone_number_skip_btn?.show()
+                enter_phone_number_toolbar_name_tv?.text = getString(R.string.edit_phone_number)
+                enter_phone_number_btn_divider?.hide()
+                enter_phone_number_login_with_email_btn?.hide()
             }
         }
     }
@@ -107,17 +113,14 @@ class EnterPhoneNumberFragment : BaseFragment() {
             viewModel.submit(enter_phone_number_phone_et?.text?.toString())
         }
         enter_phone_number_back_btn?.setOnClickListener {
-            if(pushBack().not()) {
-                activity?.onBackPressed()
-            }
-        }
-        enter_phone_number_skip_btn?.setOnClickListener {
-            if(pushBack().not()) {
-                activity?.onBackPressed()
-            }
+            activity?.onBackPressed()
         }
         enter_phone_number_root?.setOnClickListener {
             it.hideSoftKeyboard()
+        }
+        enter_phone_number_login_with_email_btn?.setOnClickListener {
+            addToParent(LoginFragment.newInstance())
+            removeFromParent(this)
         }
     }
 
@@ -144,9 +147,9 @@ class EnterPhoneNumberFragment : BaseFragment() {
         }
     }
 
-    override fun handleBack(): Boolean {
-        return pushBack()
-    }
+//    override fun handleBack(): Boolean {
+//        return pushBack()
+//    }
 
     private fun showButtonLoading() {
         enter_phone_number_btn?.text = ""

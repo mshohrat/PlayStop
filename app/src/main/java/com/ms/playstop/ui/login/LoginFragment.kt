@@ -71,12 +71,6 @@ class LoginFragment : BaseFragment() {
             activity?.onBackPressed()
         }
 
-        login_not_have_account_btn?.setOnClickListener {
-            val signupFragment = SignupFragment.newInstance()
-            addToParent(signupFragment)
-            removeFromParent(this)
-        }
-
         login_btn?.setOnClickListener {
             showButtonLoading()
             viewModel.login(
@@ -88,15 +82,6 @@ class LoginFragment : BaseFragment() {
         login_forgot_password_btn?.setOnClickListener {
             val forgotPasswordFragment = ForgotPasswordFragment.newInstance()
             addToParent(forgotPasswordFragment)
-        }
-
-        login_by_phone_btn?.setOnClickListener {
-            val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
-            enterPhoneNumberFragment.arguments = Bundle().apply {
-                putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE, EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_LOGIN)
-            }
-            addToParent(enterPhoneNumberFragment)
-            removeFromParent(this)
         }
 
         login_root?.setOnClickListener {
@@ -124,5 +109,16 @@ class LoginFragment : BaseFragment() {
         login_btn_loading?.hide()
         login_btn?.setText(R.string.login)
         login_btn?.isEnabled = true
+    }
+
+    override fun handleBack(): Boolean {
+        val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
+        val args = Bundle().apply {
+            putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE, EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_LOGIN)
+        }
+        enterPhoneNumberFragment.arguments = args
+        addToParent(enterPhoneNumberFragment)
+        removeFromParent(this)
+        return true
     }
 }

@@ -111,12 +111,14 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/enter_phone_number_skip_btn"
+        android:id="@+id/enter_phone_number_login_with_email_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_gravity="center_horizontal"
-        android:text="@string/add_phone_number_later"
+        android:text="@string/login_by_email"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:layout_marginBottom="@dimen/margin_standard"
         android:textAppearance="?textAppearanceCaption"
         app:layout_constraintBottom_toTopOf="@id/enter_phone_number_btn_divider"
@@ -128,6 +130,8 @@
         android:id="@+id/enter_phone_number_btn_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_default_size"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:background="@drawable/shape_rectangle_gradient_transparent_to_gray"
         app:layout_constraintBottom_toTopOf="@id/enter_phone_number_btn"
         android:layout_marginBottom="@dimen/margin_large"/>

@@ -10,11 +10,9 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
-import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.hideSoftKeyboard
-import com.ms.playstop.extension.removeLastFromParent
-import com.ms.playstop.extension.show
+import com.ms.playstop.extension.*
 import com.ms.playstop.network.model.GeneralResponse
+import com.ms.playstop.ui.completeAccount.CompleteAccountFragment
 import kotlinx.android.synthetic.main.fragment_otp.*
 
 class OtpFragment : BaseFragment() {
@@ -76,8 +74,16 @@ class OtpFragment : BaseFragment() {
         })
         viewModel.loginOtp.observe(viewLifecycleOwner, Observer {
             hideButtonLoading()
-            showToast(it)
+            showToast(it.first)
             removeLastFromParent(2)
+            if(it.second) {
+                val completeAccountFragment = CompleteAccountFragment.newInstance()
+                completeAccountFragment.arguments = Bundle().apply {
+                    putInt(CompleteAccountFragment.COMPLETE_ACCOUNT_STATE
+                        ,CompleteAccountFragment.COMPLETE_ACCOUNT_STATE_ADD)
+                }
+                addToParent(completeAccountFragment)
+            }
         })
         viewModel.otpError.observe(viewLifecycleOwner, Observer {
             hideButtonLoading()

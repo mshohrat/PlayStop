@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers
 class OtpViewModel : ViewModel() {
 
     val verifyOtp : MutableLiveData<GeneralResponse> = MutableLiveData()
-    val loginOtp : MutableLiveData<GeneralResponse> = MutableLiveData()
+    val loginOtp : MutableLiveData<Pair<GeneralResponse,Boolean>> = MutableLiveData()
     val otpError : MutableLiveData<GeneralResponse> = MutableLiveData()
     val resendCode : MutableLiveData<GeneralResponse> = MutableLiveData()
     val resendCodeError : MutableLiveData<GeneralResponse> = MutableLiveData()
@@ -51,7 +51,7 @@ class OtpViewModel : ViewModel() {
                                         phone = phoneNumber
                                     )
                                     Hawk.put(Profile.SAVE_KEY, profile)
-                                    loginOtp.value = GeneralResponse(messageResId = R.string.logged_in_successfully)
+                                    loginOtp.value = GeneralResponse(messageResId = R.string.logged_in_successfully) to it.isNewUser
                                 } ?: kotlin.run {
                                     otpError.value = GeneralResponse(messageResId = R.string.entered_otp_is_invalid)
                                 }
@@ -76,8 +76,8 @@ class OtpViewModel : ViewModel() {
                             .verifyPhoneNumber(VerifyPhoneNumberRequest(phoneNumber,code))
                             ?.subscribeOn(Schedulers.io())
                             ?.observeOn(AndroidSchedulers.mainThread())
-                            ?.subscribe({ user ->
-                                user?.let {
+                            ?.subscribe({
+                                it?.user?.let { user ->
                                     val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
                                     profile?.apply {
                                         isPhoneVerified = true

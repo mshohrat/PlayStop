@@ -27,7 +27,7 @@ class EnterPhoneNumberViewModel : ViewModel() {
                     phoneNumber.isValidPhoneNumber().not() -> loginError.value = GeneralResponse(messageResId = R.string.entered_phone_number_is_invalid)
                     else -> {
                         ApiServiceGenerator.getApiService
-                            .sendPhoneNumber(PhoneNumberRequest(phoneNumber))
+                            .sendPhoneNumberV2(PhoneNumberRequest(phoneNumber))
                             ?.subscribeOn(Schedulers.io())
                             ?.observeOn(AndroidSchedulers.mainThread())
                             ?.subscribe({
@@ -44,7 +44,7 @@ class EnterPhoneNumberViewModel : ViewModel() {
                     }
                 }
             }
-            EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_ADD -> {
+            else -> {
                 when {
                     phoneNumber.isNullOrEmpty() -> verifyError.value = GeneralResponse(messageResId = R.string.phone_number_can_not_be_empty)
                     phoneNumber.isValidPhoneNumber().not() -> verifyError.value = GeneralResponse(messageResId = R.string.entered_phone_number_is_invalid)
@@ -67,7 +67,6 @@ class EnterPhoneNumberViewModel : ViewModel() {
                     }
                 }
             }
-            else -> {}
         }
     }
 }
