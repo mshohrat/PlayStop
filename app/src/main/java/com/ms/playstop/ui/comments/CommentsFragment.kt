@@ -17,7 +17,7 @@ import com.ms.playstop.extension.isUserLoggedIn
 import com.ms.playstop.extension.show
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.comments.adapter.CommentPagedAdapter
-import com.ms.playstop.ui.login.LoginFragment
+import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
 import com.ms.playstop.ui.movies.MoviesFragment
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movies.*
@@ -58,8 +58,12 @@ class CommentsFragment : BaseFragment() {
                 showLoading()
                 viewModel.sendComment(comments_submit_comment_et?.text?.toString())
             } else {
-                val loginFragment = LoginFragment.newInstance()
-                addToParent(loginFragment)
+                val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
+                val args = Bundle().apply {
+                    putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE, EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_LOGIN)
+                }
+                enterPhoneNumberFragment.arguments = args
+                addToParent(enterPhoneNumberFragment)
             }
         }
     }
