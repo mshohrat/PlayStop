@@ -2,7 +2,6 @@ package com.ms.playstop.network.model
 
 import com.google.gson.annotations.SerializedName
 import com.ms.playstop.model.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 data class RefreshTokenResponse(
@@ -32,7 +31,7 @@ data class ConfigResponse(
     @SerializedName("requires_token")
     val requiresToken: Boolean?,
     @SerializedName("user")
-    val user: UserResponse?,
+    val user: UserInfoResponse?,
     @SerializedName("update_app")
     val updateApp: UpdateApp?
 ) {
@@ -138,7 +137,9 @@ data class LoginResponse(
     @SerializedName("email_verified")
     val isEmailVerified: Boolean = false,
     @SerializedName("phone")
-    val phone: String? = null
+    val phone: String? = null,
+    @SerializedName("is_new_user")
+    val isNewUser: Boolean = false
 )
 
 data class AllSuggestionsMoviesResponse(
@@ -166,7 +167,7 @@ data class InvalidCredentialsData(
     val phoneErrors : List<String?>?
 )
 
-data class UserResponse(
+data class UserInfoResponse(
     @SerializedName("name")
     val name: String,
     @SerializedName("email")
@@ -175,6 +176,11 @@ data class UserResponse(
     val isPhoneVerified: Boolean = false,
     @SerializedName("phone")
     val phone: String?
+)
+
+data class UserResponse(
+    @SerializedName("user")
+    val user: UserInfoResponse?
 )
 
 data class EnterPhoneNumberResponse(
