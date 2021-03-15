@@ -48,7 +48,7 @@
         app:layout_constraintBottom_toBottomOf="@id/search_et"
         app:layout_constraintStart_toStartOf="@id/search_et"
         android:visibility="gone"
-        app:srcCompat="@drawable/ic_clear_dark_blue"
+        app:srcCompat="@drawable/ic_clear_white"
         android:background="?selectableItemBackground"/>
 
     <androidx.recyclerview.widget.RecyclerView
