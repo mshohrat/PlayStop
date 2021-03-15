@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.addToParent
+import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.isUserLoggedIn
+import com.ms.playstop.extension.show
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.comments.adapter.CommentPagedAdapter
 import com.ms.playstop.ui.login.LoginFragment
 import com.ms.playstop.ui.movies.MoviesFragment
-import com.ms.playstop.utils.LoadingDialog
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movies.*
 
@@ -29,7 +30,6 @@ class CommentsFragment : BaseFragment() {
     }
 
     private lateinit var viewModel: CommentsViewModel
-    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,7 +55,7 @@ class CommentsFragment : BaseFragment() {
         }
         comments_submit_comment_btn?.setOnClickListener {
             if(isUserLoggedIn()) {
-                showLoadingDialog()
+                showLoading()
                 viewModel.sendComment(comments_submit_comment_et?.text?.toString())
             } else {
                 val loginFragment = LoginFragment.newInstance()
@@ -78,11 +78,12 @@ class CommentsFragment : BaseFragment() {
         viewModel.sendComment.observe(viewLifecycleOwner, Observer {
             showToast(it)
             comments_submit_comment_et?.text = null
-            dismissLoadingDialog()
+            dismissLoading()
         })
 
         viewModel.sendCommentError.observe(viewLifecycleOwner, Observer {
             showToast(it)
+            dismissLoading()
         })
     }
 
@@ -101,16 +102,12 @@ class CommentsFragment : BaseFragment() {
         comments_recycler?.adapter = adapter
     }
 
-    private fun showLoadingDialog() {
-        activity?.let { ctx ->
-            loadingDialog = LoadingDialog(ctx)
-            loadingDialog?.show()
-        }
+    private fun showLoading() {
+        comments_loading?.show()
     }
 
-    private fun dismissLoadingDialog() {
-        loadingDialog?.takeIf { it.isShowing }?.dismiss()
-        loadingDialog?.cancel()
+    private fun dismissLoading() {
+        comments_loading?.hide()
     }
 
     private fun showToast(response: GeneralResponse) {
