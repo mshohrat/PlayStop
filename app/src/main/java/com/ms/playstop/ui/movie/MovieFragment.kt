@@ -440,7 +440,12 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         }
 
         movie_login_and_watch_btn?.setOnClickListener {
-            addToParent(LoginFragment.newInstance())
+            val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
+            val args = Bundle().apply {
+                putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE, EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_LOGIN)
+            }
+            enterPhoneNumberFragment.arguments = args
+            addToParent(enterPhoneNumberFragment)
         }
 
         movie_verify_phone_and_watch_btn?.setOnClickListener {

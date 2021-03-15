@@ -17,8 +17,8 @@ import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.model.*
 import com.ms.playstop.ui.account.AccountFragment
+import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
 import com.ms.playstop.ui.home.HomeFragment
-import com.ms.playstop.ui.login.LoginFragment
 import com.ms.playstop.ui.movie.MovieFragment
 import com.ms.playstop.ui.movieLists.adapter.MovieHeaderAdapter
 import com.ms.playstop.ui.movieLists.adapter.MovieListAdapter
@@ -137,7 +137,12 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
             if(isUserLoggedIn()) {
                 add(containerId(),AccountFragment.newInstance())
             } else {
-                add(containerId(),LoginFragment.newInstance())
+                val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
+                val args = Bundle().apply {
+                    putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE, EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_LOGIN)
+                }
+                enterPhoneNumberFragment.arguments = args
+                add(containerId(),enterPhoneNumberFragment)
             }
         }
 
