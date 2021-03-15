@@ -72,15 +72,15 @@
     <string name="x_MB">%s MB</string>
     <string name="subtitle">زیرنویس</string>
     <string name="download_subtitle">دریافت فایل زیرنویس</string>
-    <string name="new_version">نسخه جدید</string>
-    <string name="new_version_published">نسخه جدید برنامه منتشر شده است</string>
+    <string name="new_version">نسخه جدید !!</string>
+    <string name="new_version_published">نسخه جدید برنامه منتشر شده است.</string>
     <string name="download">دانلود</string>
     <string name="later">بعدا</string>
     <string name="cancel">لغو</string>
     <string name="production_year">سال انتشار</string>
     <string name="download_movie_and_series">دانلود فیلم و سریال</string>
     <string name="notice">توجه !!</string>
-    <string name="not_use_vpn">به منظور کارکرد بهتر برنامه بهتر است اتصال وی پی ان خود را قطع نمایید</string>
+    <string name="not_use_vpn">به منظور کارکرد بهتر برنامه بهتر است اتصال وی پی ان خود را قطع نمایید.</string>
     <string name="got_it">متوجه شدم</string>
     <string name="show_by">نمایش با ...</string>
     <string name="play">پخش</string>
@@ -119,5 +119,16 @@
     <string name="auto">خودکار</string>
     <string name="day_night_mode_auto_desc">تغییر خودکار حالت نمایش (حالت روشن در روز و حالت تاریک در شب)</string>
     <string name="liked_movies">فیلم‌های مورد علاقه</string>
+    <string name="see_your_account_data">اطلاعات و تنظیمات حساب کاربری خود را مشاهده کنید</string>
+    <string name="search_favorite_movies">فیلم‌های مورد نظر خود را جستجو کنید</string>
+    <string name="access_movies_by_categories">فیلم‌ها را با دسته‌بندی‌های مختلف ببینید</string>
+    <string name="complete_account_data">تکمیل اطلاعات کاربری</string>
+    <string name="email_optional">ایمیل (اختیاری)</string>
+    <string name="complete_later">بعداً تکمیل می‌کنم</string>
+    <string name="edit_phone_number">ویرایش شماره تلفن</string>
+    <string name="login_by_email">ورود با ایمیل</string>
+    <string name="login_to_account_by_email">ورود به حساب با ایمیل</string>
+    <string name="edit_account_data">ویرایش اطلاعات کاربری</string>
+    <string name="please_add_text_for_comment">لطفا متن نظر خود را وارد نمایید</string>
 
 </resources>
