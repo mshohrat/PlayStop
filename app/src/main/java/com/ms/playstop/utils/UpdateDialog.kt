@@ -1,13 +1,13 @@
 package com.ms.playstop.utils
 
-import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ms.playstop.R
 import kotlinx.android.synthetic.main.layout_update_dialog.*
 
-class UpdateDialog(context: Context,isCancelable: Boolean = true): Dialog(context) {
+class UpdateDialog(context: Context,isCancelable: Boolean = true): BottomSheetDialog(context) {
 
     var updateClickListener: OnUpdateClickListener? = null
 

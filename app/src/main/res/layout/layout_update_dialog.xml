@@ -1,68 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_large"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:background="@drawable/shape_rectangle_rounded_24dp_primary">
-
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/update_title_tv"
             style="?attr/textAppearanceHeadline3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
             android:text="@string/new_version"
-            android:gravity="center"
             android:paddingVertical="@dimen/padding_standard"
-            android:textColor="@color/colorPrimary"
-            android:background="@drawable/shape_rectangle_top_rounded_24dp_accent"/>
+            android:textColor="@color/pure_white"
+            android:gravity="center"
+            android:background="@drawable/shape_rectangle_top_rounded_10dp_accent"/>
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/update_desc_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="?attr/textAppearanceBody1"
             android:layout_margin="@dimen/margin_standard"
+            app:layout_constraintTop_toBottomOf="@id/update_title_tv"
             android:text="@string/new_version_published"
             android:textColor="@color/white"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/update_btn"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="@dimen/margin_standard"
-            android:layout_marginBottom="@dimen/margin_standard">
+            style="?textAppearanceBody1"
+            app:backgroundTint="@color/blue"
+            android:textColor="@color/pure_white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/update_cancel_btn"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintTop_toBottomOf="@id/update_desc_tv"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/margin_standard"
+            android:text="@string/download"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/update_cancel_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                style="?textAppearanceBody1"
-                app:backgroundTint="@color/redLight"
-                android:textColor="@color/colorPrimary"
-                android:text="@string/cancel"/>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/update_cancel_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="?textAppearanceBody1"
+            app:backgroundTint="@color/redLight"
+            android:textColor="@color/pure_white"
+            app:layout_constraintTop_toTopOf="@id/update_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/update_btn"
+            android:layout_marginStart="@dimen/margin_standard"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:text="@string/cancel"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/update_btn"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_standard"
-                style="?textAppearanceBody1"
-                app:backgroundTint="@color/blue"
-                android:textColor="@color/colorPrimary"
-                android:text="@string/download"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
