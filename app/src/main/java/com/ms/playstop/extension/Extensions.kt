@@ -24,6 +24,10 @@ import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.elconfidencial.bubbleshowcase.BubbleShowCase
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
+import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -255,6 +259,105 @@ fun Fragment.remove(destination: Fragment,withAnimation: Boolean = true) {
         Crashes.trackError(e)
     }
 
+}
+
+private fun saveGuideShown(key: String) {
+    Hawk.put(key,true)
+}
+
+private fun isGuideShown(key: String) : Boolean {
+    return Hawk.contains(key) && Hawk.get<Boolean>(key,false)
+}
+
+fun Fragment.showGuide(guidePair: Pair<Pair<Int,Int>,Pair<String,View?>>) {
+    try {
+        if(isGuideShown(guidePair.second.first)) {
+            return
+        }
+        activity?.let { ctx ->
+            guidePair.second.second?.let { target ->
+                BubbleShowCaseBuilder(ctx) //Activity instance
+                    .title(getString(guidePair.first.first)) //Any title for the bubble view
+                    .description(getString(guidePair.first.second))
+                    .backgroundColorResourceId(R.color.white)
+                    .textColorResourceId(R.color.colorPrimary)
+                    .closeActionImageResourceId(R.drawable.ic_clear_primary)
+                    .targetView(target) //View to point out
+                    .listener(object : BubbleShowCaseListener {
+                        override fun onBackgroundDimClick(bubbleShowCase: BubbleShowCase) {
+                            saveGuideShown(guidePair.second.first)
+                            bubbleShowCase.dismiss()
+                        }
+
+                        override fun onBubbleClick(bubbleShowCase: BubbleShowCase) {
+
+                        }
+
+                        override fun onCloseActionImageClick(bubbleShowCase: BubbleShowCase) {
+                            saveGuideShown(guidePair.second.first)
+                            bubbleShowCase.dismiss()
+                        }
+
+                        override fun onTargetClick(bubbleShowCase: BubbleShowCase) {
+                            saveGuideShown(guidePair.second.first)
+                            bubbleShowCase.dismiss()
+                        }
+
+                    })
+                    .show()
+            }
+        }
+    } catch (ex: java.lang.Exception) {
+        Crashes.trackError(ex)
+    }
+}
+
+fun Fragment.showSequenceGuide(guidePairList: List<Pair<Pair<Int,Int>,Pair<String,View?>>>) {
+    try {
+        activity?.let { ctx ->
+            val bubbleShowCaseSequence = BubbleShowCaseSequence()
+            for (pair in guidePairList) {
+                if(isGuideShown(pair.second.first)) {
+                    continue
+                }
+                pair.second.second?.let { target ->
+                    val bubbleShowCaseBuilder = BubbleShowCaseBuilder(ctx) //Activity instance
+                        .title(getString(pair.first.first)) //Any title for the bubble view
+                        .description(getString(pair.first.second))
+                        .backgroundColorResourceId(R.color.white)
+                        .textColorResourceId(R.color.colorPrimary)
+                        .closeActionImageResourceId(R.drawable.ic_clear_primary)
+                        .disableCloseAction(true)
+                        .targetView(target) //View to point out
+                        .listener(object : BubbleShowCaseListener {
+                            override fun onBackgroundDimClick(bubbleShowCase: BubbleShowCase) {
+                                saveGuideShown(pair.second.first)
+                                bubbleShowCase.dismiss()
+                            }
+
+                            override fun onBubbleClick(bubbleShowCase: BubbleShowCase) {
+
+                            }
+
+                            override fun onCloseActionImageClick(bubbleShowCase: BubbleShowCase) {
+                                saveGuideShown(pair.second.first)
+                                bubbleShowCase.dismiss()
+                            }
+
+                            override fun onTargetClick(bubbleShowCase: BubbleShowCase) {
+                                saveGuideShown(pair.second.first)
+                                bubbleShowCase.dismiss()
+                            }
+
+                        })
+                    bubbleShowCaseSequence.addShowCase(bubbleShowCaseBuilder)
+                }
+            }
+            bubbleShowCaseSequence.show()
+        }
+    } catch (ex: java.lang.Exception) {
+        Crashes.trackError(ex)
+    }
 }
 
 fun convertDpToPixel(dp: Float): Int {

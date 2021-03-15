@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
-import com.google.firebase.appindexing.Action
-import com.google.firebase.appindexing.FirebaseUserActions
+import com.google.android.material.tabs.TabLayout
 import com.ms.playstop.MainActivity
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
@@ -41,6 +40,9 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     companion object {
         fun newInstance() = MovieListsFragment()
         const val TAG = "Movie Lists Fragment"
+        const val SHOW_CASE_ACCOUNT_KEY = "Show Case Account Key"
+        const val SHOW_CASE_SEARCH_KEY = "Show Case Search Key"
+        const val SHOW_CASE_CATEGORIES_KEY = "Show Case Categories Key"
     }
 
     private lateinit var viewModel: MovieListsViewModel
@@ -74,6 +76,16 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
         movies_appbar?.post{
             appbarHeight = movies_appbar?.measuredHeight ?: 0
         }
+        showSequenceGuide(listOf(
+            (R.string.user_account to R.string.see_your_account_data) to (SHOW_CASE_ACCOUNT_KEY to movies_account_btn)
+            ,(R.string.search to R.string.search_favorite_movies) to (SHOW_CASE_SEARCH_KEY to movies_search_btn)
+            ,(R.string.categories to R.string.access_movies_by_categories) to (SHOW_CASE_CATEGORIES_KEY to getCategoriesTabButtonFromParent())
+        ))
+    }
+
+    private fun getCategoriesTabButtonFromParent() : View? {
+        val tabLayout = parentFragment?.view?.findViewById<TabLayout>(R.id.home_tab_layout)
+        return tabLayout?.getTabAt(0)?.view
     }
 
     private fun subscribeToViewModel() {
