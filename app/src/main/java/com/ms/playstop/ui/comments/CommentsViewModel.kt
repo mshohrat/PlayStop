@@ -44,7 +44,7 @@ class CommentsViewModel : ViewModel() {
 
     fun sendComment(text: String?) {
         when {
-            text.isNullOrEmpty() -> sendCommentError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+            text.isNullOrEmpty() -> sendCommentError.value = GeneralResponse(messageResId = R.string.please_add_text_for_comment)
             else -> {
                 ApiServiceGenerator.getApiService
                     .postComment(PostCommentRequest(text),movieId)
