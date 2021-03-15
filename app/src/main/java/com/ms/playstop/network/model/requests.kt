@@ -33,6 +33,13 @@ data class SignupRequest(
     val password: String
 )
 
+data class UpdateAccountRequest(
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("email")
+    val email: String?
+)
+
 data class LoginRequest(
     @SerializedName("email")
     val email: String? = null,
