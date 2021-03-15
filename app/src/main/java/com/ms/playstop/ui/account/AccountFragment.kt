@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.addToParent
+import com.ms.playstop.ui.completeAccount.CompleteAccountFragment
+import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
 import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
 import com.ms.playstop.ui.settings.SettingsFragment
@@ -72,6 +74,37 @@ class AccountFragment : BaseFragment() {
             }
             addToParent(moviesFragment)
         }
+
+        account_name_edit_ib?.setOnClickListener {
+            navigateToEditAccountFragment()
+        }
+
+        account_email_edit_ib?.setOnClickListener {
+            navigateToEditAccountFragment()
+        }
+
+        account_phone_edit_ib?.setOnClickListener {
+            navigateToEditPhoneFragment()
+        }
+    }
+
+    private fun navigateToEditAccountFragment() {
+        val completeAccountFragment = CompleteAccountFragment.newInstance()
+        completeAccountFragment.arguments = Bundle().apply {
+            putInt(
+                CompleteAccountFragment.COMPLETE_ACCOUNT_STATE
+                , CompleteAccountFragment.COMPLETE_ACCOUNT_STATE_EDIT)
+        }
+        addToParent(completeAccountFragment)
+    }
+
+    private fun navigateToEditPhoneFragment() {
+        val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
+        val args = Bundle().apply {
+            putInt(EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE, EnterPhoneNumberFragment.ENTER_PHONE_NUMBER_STATE_EDIT)
+        }
+        enterPhoneNumberFragment.arguments = args
+        addToParent(enterPhoneNumberFragment)
     }
 
     private fun restartApp() {
