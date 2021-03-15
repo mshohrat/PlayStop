@@ -177,12 +177,7 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
                 this.putInt(MovieFragment.MOVIE_ID_KEY,it.id)
             }
             add(containerId(),movieFragment)
-            FirebaseUserActions.getInstance().start(
-                Action.Builder(Action.Builder.VIEW_ACTION).setObject(
-                    " دانلود و تماشای فیلم ${it.name} PlayStop.ir",
-                    "//playstop.ir/دانلود-فیلم-${it.name}/")
-                    .setMetadata(Action.Metadata.Builder().setUpload(true))
-                    .build())
+            startLogMovie(it.name)
         }
     }
 

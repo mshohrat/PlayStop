@@ -22,8 +22,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textview.MaterialTextView
-import com.google.firebase.appindexing.Action
-import com.google.firebase.appindexing.FirebaseUserActions
 import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
@@ -89,18 +87,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     private fun subscribeToViewModel() {
         viewModel.movie.observe(viewLifecycleOwner, Observer {
             fillMovieData(it)
-//            val indexable = Indexable.Builder()
-//                .setName(" دانلود و تماشای فیلم ${it?.name} PlayStop.ir")
-//                .setUrl("//playstop.ir/دانلود-فیلم-${it?.name}/")
-//                .setKeywords("دانلود","تماشا","فیلم")
-//                .build()
-//            FirebaseAppIndex.getInstance().update(indexable)
-            FirebaseUserActions.getInstance().end(
-                Action.Builder(Action.Builder.VIEW_ACTION).setObject(
-                    " دانلود و تماشای فیلم ${it?.name} PlayStop.ir",
-                    "//playstop.ir/دانلود-فیلم-${it?.name}/")
-                    .setMetadata(Action.Metadata.Builder().setUpload(true))
-                    .build())
+            endLogAndIndexMovie(it?.name)
         })
 
         viewModel.movieError.observe(viewLifecycleOwner, Observer {

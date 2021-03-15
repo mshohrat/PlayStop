@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.appindexing.Action
-import com.google.firebase.appindexing.FirebaseUserActions
 
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.add
 import com.ms.playstop.extension.hide
+import com.ms.playstop.extension.startLogMovie
 import com.ms.playstop.model.Movie
 import com.ms.playstop.ui.movie.MovieFragment
 import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
@@ -22,7 +21,6 @@ import com.ms.playstop.ui.movies.adapter.MovieDateSource
 import com.ms.playstop.ui.movies.adapter.MoviePagedAdapter
 import com.ms.playstop.ui.movies.adapter.RequestType
 import com.ms.playstop.utils.GridSpacingItemDecoration
-import com.ms.playstop.utils.LoadingDialog
 import com.ms.playstop.utils.RtlGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_movies.*
 
@@ -148,12 +146,7 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
             parentFragment?.takeIf { it is BaseFragment }?.let {
                 (it as BaseFragment).add(it.containerId(),movieFragment)
             }
-            FirebaseUserActions.getInstance().start(
-                Action.Builder(Action.Builder.VIEW_ACTION).setObject(
-                " دانلود و تماشای فیلم ${it.name} PlayStop.ir",
-                "//playstop.ir/دانلود-فیلم-${it.name}/")
-                .setMetadata(Action.Metadata.Builder().setUpload(true))
-                .build())
+            startLogMovie(it.name)
         }
     }
 

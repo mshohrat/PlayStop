@@ -9,9 +9,6 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.appindexing.Action
-import com.google.firebase.appindexing.Action.Builder.VIEW_ACTION
-import com.google.firebase.appindexing.FirebaseUserActions
 import com.ms.playstop.MainActivity
 
 import com.ms.playstop.R
@@ -40,10 +37,6 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
         search_et?.text?.toString()?.takeIf { it.isNotEmpty() }?.let {
             showLoading()
             viewModel.searchMovie(it)
-            FirebaseUserActions.getInstance().end(Action.Builder(VIEW_ACTION).setObject(
-                    " دانلود و تماشای فیلم ${it} PlayStop.ir",
-                    "//playstop.ir/دانلود-فیلم-${it}/")
-                .build())
         }
     }
     private var searchPhraseFromDeepLink : String? = null
@@ -88,6 +81,7 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
                 }
                 val adapter = MovieAdapter(it,this,0,false)
                 search_recycler?.adapter = adapter
+                endLogAndIndexMovie(search_et?.text?.toString())
             }
         })
     }

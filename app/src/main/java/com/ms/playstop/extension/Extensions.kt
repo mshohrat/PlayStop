@@ -15,7 +15,6 @@ import android.util.DisplayMetrics
 import android.util.Patterns
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorInt
@@ -30,6 +29,10 @@ import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
 import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.appindexing.Action
+import com.google.firebase.appindexing.FirebaseAppIndex
+import com.google.firebase.appindexing.FirebaseUserActions
+import com.google.firebase.appindexing.Indexable
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.gson.Gson
 import com.microsoft.appcenter.crashes.Crashes
@@ -40,11 +43,9 @@ import com.ms.playstop.model.Profile
 import com.ms.playstop.network.model.InvalidCredentialsResponse
 import com.ms.playstop.ui.home.HomeFragment
 import com.orhanobut.hawk.Hawk
-import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.PublishSubject
 import retrofit2.HttpException
 import java.net.NetworkInterface
 import java.net.SocketException
@@ -704,4 +705,28 @@ fun String.convertToEnglishNumber(): String {
         .replace("۷", "7")
         .replace("۸", "8")
         .replace("۹", "9")
+}
+
+fun startLogMovie(movieName: String?) {
+    FirebaseUserActions.getInstance().start(
+        Action.Builder(Action.Builder.VIEW_ACTION).setObject(
+            " دانلود فیلم بدون سانسور ${movieName}",
+            "//playstop.ir/دانلود-فیلم-${movieName}/")
+            .setMetadata(Action.Metadata.Builder().setUpload(true))
+            .build())
+}
+
+fun endLogAndIndexMovie(movieName: String?) {
+    val indexable = Indexable.Builder()
+        .setName(" دانلود فیلم بدون سانسور ${movieName}")
+        .setUrl("//playstop.ir/دانلود-فیلم-${movieName}/")
+        .setKeywords("دانلود","تماشا","فیلم","بدون سانسور")
+        .build()
+    FirebaseAppIndex.getInstance().update(indexable)
+    FirebaseUserActions.getInstance().end(
+        Action.Builder(Action.Builder.VIEW_ACTION).setObject(
+            " دانلود فیلم بدون سانسور ${movieName}",
+            "//playstop.ir/دانلود-فیلم-${movieName}/")
+            .setMetadata(Action.Metadata.Builder().setUpload(true))
+            .build())
 }
