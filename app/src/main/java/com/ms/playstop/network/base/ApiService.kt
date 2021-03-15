@@ -160,7 +160,12 @@ interface ApiService {
     @POST("v1/register")
     fun signup(
         @Body signupRequest: SignupRequest?
-    ) : Single<GenreListResponse?>?
+    ) : Single<GeneralResponse?>?
+
+    @POST("v1/user/update")
+    fun updateAccount(
+        @Body updateAccountRequest: UpdateAccountRequest?
+    ) : Single<GeneralResponse?>?
 
     @POST("v1/auth/login")
     fun login(
@@ -169,6 +174,11 @@ interface ApiService {
 
     @POST("v1/auth/login/otp")
     fun sendPhoneNumber(
+        @Body phoneNumberRequest: PhoneNumberRequest?
+    ) : Single<EnterPhoneNumberResponse?>?
+
+    @POST("v2/auth/login/otp")
+    fun sendPhoneNumberV2(
         @Body phoneNumberRequest: PhoneNumberRequest?
     ) : Single<EnterPhoneNumberResponse?>?
 
