@@ -2,6 +2,8 @@
     <string name="app_name">PlayStop</string>
     <string name="app_name_fa">پلی‌ استپ</string>
     <string name="default_notification_channel_id">playstop_notification_channel_id</string>
+    <string name="default_notification_channel_name">default</string>
+    <string name="default_notification_channel_description">default channel for notifications</string>
     <string name="try_again">تلاش مجدد</string>
     <string name="account">حساب</string>
     <string name="category">دسته‌بندی</string>
@@ -130,5 +132,17 @@
     <string name="login_to_account_by_email">ورود به حساب با ایمیل</string>
     <string name="edit_account_data">ویرایش اطلاعات کاربری</string>
     <string name="please_add_text_for_comment">لطفا متن نظر خود را وارد نمایید</string>
+    <string name="change_sort">ترتیب نمایش</string>
+    <string name="sort_default">پبش‌فرض</string>
+    <string name="sort_newest">جدیدترین‌ (سال ساخت)</string>
+    <string name="sort_oldest">قدیمی‌ترین (سال ساخت)</string>
+    <string name="sort_imdb_score">بیشترین امتیاز (IMDB)</string>
+    <string name="top_score">بیشترین امتیاز</string>
+    <string name="newest">جدیدترین</string>
+    <string name="oldest">قدیمی‌ترین</string>
+    <string name="login_or_signup">ورود / ساخت حساب</string>
+    <string name="language">زبان</string>
+    <string name="country">کشور سازنده</string>
+    <string name="unknown">نامشخص</string>
 
 </resources>
