@@ -68,6 +68,10 @@ fun View.show() {
     visibility = View.VISIBLE
 }
 
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}
+
 @SuppressLint("WrongConstant")
 fun View.hideSoftKeyboard() {
     try {
@@ -260,6 +264,45 @@ fun Fragment.remove(destination: Fragment,withAnimation: Boolean = true) {
         Crashes.trackError(e)
     }
 
+}
+
+fun Fragment.removeAllChildren(withAnimation: Boolean = true) {
+    try {
+        val fragments = childFragmentManager.fragments
+        val size = fragments.size
+        for (i in 0 .. size){
+            val child = fragments[i]
+            child?.let {
+                if(withAnimation && i == size - 1) {
+                    if (child.isStateSaved) {
+                        childFragmentManager.beginTransaction()
+                            .initCustomAnimations()
+                            .remove(child)
+                            .commitAllowingStateLoss()
+                    } else {
+                        childFragmentManager.beginTransaction()
+                            .initCustomAnimations()
+                            .remove(child)
+                            .commit()
+                    }
+                } else {
+                    if (child.isStateSaved) {
+                        childFragmentManager.beginTransaction()
+                            .remove(child)
+                            .commitAllowingStateLoss()
+                    } else {
+                        childFragmentManager.beginTransaction()
+                            .remove(child)
+                            .commit()
+                    }
+                }
+            }
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        FirebaseCrashlytics.getInstance().recordException(e)
+        Crashes.trackError(e)
+    }
 }
 
 private fun saveGuideShown(key: String) {
