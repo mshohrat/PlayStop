@@ -28,6 +28,7 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
 
     companion object {
         fun newInstance() = SearchFragment()
+        const val TAG = "Search Fragment"
     }
 
     private lateinit var viewModel: SearchViewModel
@@ -49,7 +50,7 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
     }
 
     override fun tag(): String {
-        return "Search Fragment"
+        return TAG
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
