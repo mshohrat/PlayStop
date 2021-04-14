@@ -53,4 +53,12 @@ data class Movie(
     var subtitle: String?,
     @SerializedName("is_liked")
     var isLiked: Boolean = false
-)
+) {
+    companion object {
+        const val SORT_DEFAULT = 0
+        const val SORT_NEWEST = 1
+        const val SORT_OLDEST = 2
+        const val SORT_SCORE_IMDB = 3
+        const val SORT_SAVE_KEY = "Sort Save Key"
+    }
+}
