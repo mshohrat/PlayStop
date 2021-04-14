@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayout
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.addOrShow
+import com.ms.playstop.extension.removeAllChildren
 import com.ms.playstop.ui.categories.CategoriesFragment
 import com.ms.playstop.ui.movieLists.MovieListsFragment
 import com.ms.playstop.ui.search.SearchFragment
@@ -68,7 +69,7 @@ class HomeFragment : BaseFragment() {
         home_tab_layout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                handleReselectedTab(tab)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -76,25 +77,46 @@ class HomeFragment : BaseFragment() {
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.let {
-                    when(it.position) {
-                        0 -> {
-                            addOrShow(CategoriesFragment.newInstance())
-                        }
-                        1 -> {
-                            addOrShow(SearchFragment.newInstance())
-                        }
-                        2 -> {
-                            addOrShow(MovieListsFragment.newInstance())
-                        }
-                        else -> {}
-                    }
-                }
+                handleSelectedTab(tab)
             }
 
         })
 
         home_tab_layout?.getTabAt(2)?.select()
+    }
+
+    fun handleSelectedTab(tab: TabLayout.Tab?) {
+        tab?.let {
+            val destination = when(it.position) {
+                0 -> {
+                    CategoriesFragment.newInstance()
+                }
+                1 -> {
+                    SearchFragment.newInstance()
+                }
+                2 -> {
+                    MovieListsFragment.newInstance()
+                }
+                else -> {
+                    null
+                }
+            }
+            destination?.let {
+                addOrShow(it)
+            }
+        }
+    }
+
+    fun handleReselectedTab(tab: TabLayout.Tab?) {
+        tab?.let {
+            val destination = when(it.position) {
+                0 -> childFragmentManager.findFragmentByTag(CategoriesFragment.TAG)
+                1 -> childFragmentManager.findFragmentByTag(SearchFragment.TAG)
+                2 -> childFragmentManager.findFragmentByTag(MovieListsFragment.TAG)
+                else -> null
+            }
+            destination?.removeAllChildren()
+        }
     }
 
     fun selectTabBy(destination: Fragment) {
