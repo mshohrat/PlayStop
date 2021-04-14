@@ -1,19 +1,26 @@
 package com.ms.playstop.ui.playVideo
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.content.res.Configuration
 import android.graphics.Color
+import android.graphics.drawable.RippleDrawable
+import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
+import android.view.*
+import android.view.ViewTreeObserver.*
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.animation.doOnEnd
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +30,7 @@ import com.google.android.exoplayer2.source.dash.DashMediaSource
 import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.*
+import com.google.android.exoplayer2.ui.PlayerControlView
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
@@ -30,11 +38,13 @@ import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textview.MaterialTextView
 import com.ms.playstop.R
-import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.show
+import com.ms.playstop.extension.*
 import com.ms.playstop.ui.playVideo.adapter.RadioLinkAdapter
+import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_play_video.*
 import kotlinx.android.synthetic.main.exo_playback_control_view.*
+import kotlin.math.max
+import kotlin.math.min
 
 
 class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
@@ -44,6 +54,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         const val PLAY_VIDEO_URL = "PLAY VIDEO URL"
         const val PLAY_VIDEO_NAME = "PLAY VIDEO NAME"
         const val PLAY_VIDEO_SUBTITLES = "PLAY VIDEO SUBTITLES"
+        const val PLAY_VIDEO_BRIGHTNESS_KEY = "Play Video Brightness Key"
     }
 
     private var subtitleDialog: BottomSheetDialog? = null
@@ -61,11 +72,16 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     lateinit var trackSelector: DefaultTrackSelector
     private var hardSubHandled = false
     private var selectedPosition = 0
+    lateinit var gestureDetector : GestureDetector
+    private var playControllerVisibility = View.VISIBLE
+    private val isPlayControllerVisible = playControllerVisibility == View.VISIBLE
+    private var isLoading = true
+    lateinit var audioManager: AudioManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             val w = window
-            w.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+            //w.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
             w.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
             w.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
         }
@@ -73,19 +89,103 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         setContentView(R.layout.activity_play_video)
         videoUrl = intent?.takeIf { it.hasExtra(PLAY_VIDEO_URL) }?.getStringExtra(PLAY_VIDEO_URL) ?: ""
         videoName = intent?.takeIf { it.hasExtra(PLAY_VIDEO_NAME) }?.getStringExtra(PLAY_VIDEO_NAME) ?: ""
-        subtitles = intent?.takeIf { it.hasExtra(PLAY_VIDEO_SUBTITLES) }?.getStringArrayListExtra(PLAY_VIDEO_SUBTITLES)
+        subtitles = intent?.takeIf { it.hasExtra(PLAY_VIDEO_SUBTITLES) }?.getStringArrayListExtra(
+            PLAY_VIDEO_SUBTITLES
+        )
         if(subtitles.isNullOrEmpty().not()) {
             selectedSubtitle = subtitles?.firstOrNull()
         }
         viewModel = ViewModelProviders.of(this).get(PlayVideoViewModel::class.java)
+        audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         initViews()
         handleConfigurationChange()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initViews() {
+        gestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onDoubleTap(e: MotionEvent?): Boolean {
+                if (isTouchEventAtLeftOfScreen(e)) {
+                    play_rew_double_tap?.animation?.cancel()
+                    play_rew_double_tap?.animate()
+                        ?.alpha(1f)
+                        ?.setDuration(200)
+                        ?.withStartAction {
+                            play_rew_double_tap?.show()
+                        }
+                        ?.withEndAction {
+                            play_rew_double_tap?.forceRipple(e?.x ?: 0f, e?.y ?: 0f)
+                            play_rew_double_tap?.performClick()
+                        }
+                } else {
+                    play_ffwd_double_tap?.animation?.cancel()
+                    play_ffwd_double_tap?.animate()
+                        ?.alpha(1f)
+                        ?.setDuration(200)
+                        ?.withStartAction {
+                            play_ffwd_double_tap?.show()
+                        }
+                        ?.withEndAction {
+                            play_ffwd_double_tap?.forceRipple(e?.x ?: 0f, e?.y ?: 0f)
+                            play_ffwd_double_tap?.performClick()
+                        }
+                }
+                return true
+            }
+
+            override fun onDoubleTapEvent(e: MotionEvent?): Boolean {
+                return true
+            }
+
+            override fun onDown(e: MotionEvent?): Boolean {
+                return true
+            }
+
+            override fun onFling(
+                e1: MotionEvent?,
+                e2: MotionEvent?,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                return play_video_player?.onTouchEvent(e2) == true
+            }
+
+            override fun onScroll(
+                e1: MotionEvent?,
+                e2: MotionEvent?,
+                distanceX: Float,
+                distanceY: Float
+            ): Boolean {
+                return play_video_player?.onTouchEvent(e2) == true
+            }
+
+            override fun onContextClick(e: MotionEvent?): Boolean {
+                return play_video_player?.onTouchEvent(e) == true
+            }
+
+            override fun onSingleTapUp(e: MotionEvent?): Boolean {
+                return true
+            }
+
+            override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+                return play_video_player?.onTouchEvent(e) == true
+            }
+
+        })
+
+        play_video_player?.setOnTouchListener { v, event ->
+            if(gestureDetector.onTouchEvent(event)) {
+                return@setOnTouchListener true
+            } else {
+                return@setOnTouchListener play_video_player?.onTouchEvent(event) == true
+            }
+        }
+
         play_subtitle?.isEnabled = subtitles.isNullOrEmpty().not()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            play_subtitle?.imageTintList = if(subtitles.isNullOrEmpty().not()) ColorStateList.valueOf(Color.WHITE) else  ColorStateList.valueOf(Color.GRAY)
+            play_subtitle?.imageTintList = if(subtitles.isNullOrEmpty().not()) ColorStateList.valueOf(
+                Color.WHITE
+            ) else  ColorStateList.valueOf(Color.GRAY)
         }
         play_fullscreen?.setOnClickListener {
             changeOrientation()
@@ -97,6 +197,167 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
             showSubtitlesDialog()
         }
         play_back?.text = videoName
+
+        play_video_player?.setControllerVisibilityListener(object :
+            PlayerControlView.VisibilityListener {
+            override fun onVisibilityChange(visibility: Int) {
+                if (visibility != playControllerVisibility) {
+                    playControllerVisibility = visibility
+                    handleProgressOnPlayControllerVisibilityChange()
+                }
+                if (visibility != View.VISIBLE) {
+                    play_audio_seekbar?.hide()
+                    play_brightness_seekbar?.hide()
+                }
+            }
+
+        })
+
+        play_ffwd_double_tap?.setOnClickListener {
+            forwardVideo(1000)
+            play_ffwd_double_tap?.animation?.cancel()
+            play_ffwd_double_tap?.animate()
+                ?.alpha(0f)
+                ?.setDuration(200)
+                ?.setStartDelay(400)
+                ?.withEndAction {
+                    play_ffwd_double_tap?.invisible()
+                }
+        }
+
+        play_rew_double_tap?.setOnClickListener {
+            rewindVideo(1000)
+            play_rew_double_tap?.animation?.cancel()
+            play_rew_double_tap?.animate()
+                ?.alpha(0f)
+                ?.setDuration(200)
+                ?.setStartDelay(400)
+                ?.withEndAction {
+                    play_rew_double_tap?.invisible()
+                }
+        }
+
+        play_audio?.setOnClickListener {
+            if(play_audio_seekbar?.isVisible == true) {
+                play_audio_seekbar?.hide()
+            } else {
+                play_audio_seekbar?.show()
+            }
+        }
+
+        play_audio_seekbar?.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            private val animator = ValueAnimator.ofFloat(1f, 0f).apply {
+                duration = 400
+                startDelay = 2000
+                doOnEnd {
+                    play_audio_seekbar?.hide()
+                    play_audio_seekbar?.alpha = 1f
+                    play_video_player?.controllerShowTimeoutMs =
+                        PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS
+                }
+                addUpdateListener {
+                    val value = it.animatedValue as Float
+                    play_audio_seekbar?.alpha = value
+                }
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                audioManager.setStreamVolume(
+                    AudioManager.STREAM_MUSIC, castSeekbarValueToAudioVolume(
+                        progress
+                    ), 0
+                )
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                animator.cancel()
+                play_audio_seekbar?.alpha = 1f
+                play_audio_seekbar?.show()
+                play_video_player?.controllerShowTimeoutMs = 0
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                play_audio_seekbar?.alpha = 1f
+                animator.start()
+            }
+
+        })
+
+        play_audio_seekbar?.progress = castAudioVolumeToSeekbarValue(
+            audioManager.getStreamVolume(
+                AudioManager.STREAM_MUSIC
+            )
+        )
+
+        play_brightness?.setOnClickListener {
+            if(play_brightness_seekbar?.isVisible == true) {
+                play_brightness_seekbar?.hide()
+            } else {
+                play_brightness_seekbar?.show()
+            }
+        }
+
+        play_brightness_seekbar?.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+
+            private val animator = ValueAnimator.ofFloat(1f, 0f).apply {
+                duration = 400
+                startDelay = 2000
+                doOnEnd {
+                    play_brightness_seekbar?.hide()
+                    play_brightness_seekbar?.alpha = 1f
+                    play_video_player?.controllerShowTimeoutMs =
+                        PlayerControlView.DEFAULT_SHOW_TIMEOUT_MS
+                }
+                addUpdateListener {
+                    val value = it.animatedValue as Float
+                    play_brightness_seekbar?.alpha = value
+                }
+            }
+
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                updateBrightness(castSeekbarValueToBrightness(progress))
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                animator.cancel()
+                play_brightness_seekbar?.alpha = 1f
+                play_brightness_seekbar?.show()
+                play_video_player?.controllerShowTimeoutMs = 0
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                play_brightness_seekbar?.alpha = 1f
+                animator.start()
+            }
+
+        })
+
+        if(Hawk.contains(PLAY_VIDEO_BRIGHTNESS_KEY)) {
+            val brightness = Hawk.get<Float>(PLAY_VIDEO_BRIGHTNESS_KEY)
+            play_brightness_seekbar?.progress = castBrightnessToSeekbarValue(brightness)
+            play_brightness_view?.alpha = 1 - brightness
+        } else {
+            play_brightness_seekbar?.progress = castBrightnessToSeekbarValue(1f)
+        }
+    }
+
+    private fun updateBrightness(brightness: Float) {
+        play_brightness_view?.alpha = 1 - brightness
+        Hawk.put(PLAY_VIDEO_BRIGHTNESS_KEY,brightness)
+    }
+
+    private fun rewindVideo(duration: Int) {
+        exoPlayer?.let { player ->
+            player.seekTo(max(player.currentPosition.minus(duration), 0))
+        }
+    }
+
+    private fun forwardVideo(duration: Int) {
+        exoPlayer?.let { player ->
+            player.seekTo(min(player.currentPosition.plus(duration), player.duration))
+        }
     }
 
     private fun showSubtitlesDialog() {
@@ -111,9 +372,9 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
                 subtitleDialog?.takeIf { it.isShowing }?.dismiss()
                 subtitleDialog?.cancel()
             }
-            val lm = LinearLayoutManager(this, RecyclerView.VERTICAL,false)
+            val lm = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             recycler?.layoutManager = lm
-            val adapter = RadioLinkAdapter(it,selectedPosition,this)
+            val adapter = RadioLinkAdapter(it, selectedPosition, this)
             recycler?.adapter = adapter
             subtitleDialog?.show()
         }
@@ -126,6 +387,10 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         } else {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
+    }
+
+    private fun isOrientationLandscape() : Boolean {
+        return resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
     }
 
     override fun onResume() {
@@ -147,13 +412,23 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         val currentOrientation = resources.configuration.orientation
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             hideSystemUiFullScreen()
-            play_fullscreen?.setImageDrawable(AppCompatResources.getDrawable(this,R.drawable.ic_exit_fullscreen))
+            play_fullscreen?.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    this,
+                    R.drawable.ic_exit_fullscreen
+                )
+            )
 //            val params = play_video_player?.subtitleView?.layoutParams as? ViewGroup.MarginLayoutParams
 //            params?.bottomMargin = resources?.getDimensionPixelSize(R.dimen.margin_large)
 //            play_video_player?.subtitleView?.layoutParams = params
         } else {
             hideSystemUi()
-            play_fullscreen?.setImageDrawable(AppCompatResources.getDrawable(this,R.drawable.ic_fullscreen))
+            play_fullscreen?.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    this,
+                    R.drawable.ic_fullscreen
+                )
+            )
 //            val params = play_video_player?.subtitleView?.layoutParams as? ViewGroup.MarginLayoutParams
 //            params?.bottomMargin = resources?.getDimensionPixelSize(R.dimen.margin_large)
 //            play_video_player?.subtitleView?.layoutParams = params
@@ -196,11 +471,12 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
             for (i in subtitles.indices) {
                 subtitleSources[i] = buildSubtitleMediaSource(Uri.parse(subtitles[i]))
             }
-            val mergedDataSource = MergingMediaSource(mediaSource,*subtitleSources)
+            val mergedDataSource = MergingMediaSource(mediaSource, *subtitleSources)
             exoPlayer?.prepare(mergedDataSource)
         } ?: kotlin.run {
             exoPlayer?.prepare(mediaSource)
         }
+        play_video_player?.hideController()
         exoPlayer?.addListener(this)
         exoPlayer?.seekTo(currentWindow, playbackPosition)
         exoPlayer?.playWhenReady = playWhenReady
@@ -223,9 +499,12 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
                 .createMediaSource(uri)
         } else {
             val dashChunkSourceFactory = DefaultDashChunkSource.Factory(
-                DefaultHttpDataSourceFactory("ua", null))
+                DefaultHttpDataSourceFactory("ua", null)
+            )
             val manifestDataSourceFactory = DefaultHttpDataSourceFactory(userAgent)
-            DashMediaSource.Factory(dashChunkSourceFactory, manifestDataSourceFactory).createMediaSource(uri)
+            DashMediaSource.Factory(dashChunkSourceFactory, manifestDataSourceFactory).createMediaSource(
+                uri
+            )
         }
     }
 
@@ -233,11 +512,20 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 
         val userAgent = "exoplayer-playstop"
 
-        val subtitleFormat = Format.createTextSampleFormat(null,MimeTypes.APPLICATION_SUBRIP,Format.NO_VALUE,"en")
+        val subtitleFormat = Format.createTextSampleFormat(
+            null,
+            MimeTypes.APPLICATION_SUBRIP,
+            Format.NO_VALUE,
+            "en"
+        )
 
-        val dataSourceFactory = DefaultDataSourceFactory(this,userAgent,DefaultBandwidthMeter())
+        val dataSourceFactory = DefaultDataSourceFactory(this, userAgent, DefaultBandwidthMeter())
 
-        val subtitleSource = SingleSampleMediaSource.Factory(dataSourceFactory).createMediaSource(uri,subtitleFormat,C.TIME_UNSET)
+        val subtitleSource = SingleSampleMediaSource.Factory(dataSourceFactory).createMediaSource(
+            uri,
+            subtitleFormat,
+            C.TIME_UNSET
+        )
 
         return subtitleSource
     }
@@ -255,7 +543,9 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     }
 
     private fun hasHardSub(): Boolean {
-        return trackSelector.currentMappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_VIDEO)?.takeIf { it.isEmpty.not() }?.get(0)?.takeIf { it.length > 0 }?.getFormat(0)?.let {
+        return trackSelector.currentMappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_VIDEO)?.takeIf { it.isEmpty.not() }?.get(
+            0
+        )?.takeIf { it.length > 0 }?.getFormat(0)?.let {
             it.id != null
         } ?: false
     }
@@ -276,7 +566,11 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
             val textGroups = mappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_VIDEO) // list of captions
             val index = subtitles!!.indexOf(selectedSubtitle)
             val newIndex = if(hasHardSub()) index+1 else index
-            val override = MappingTrackSelector.SelectionOverride(FixedTrackSelection.Factory(), newIndex, 0)
+            val override = MappingTrackSelector.SelectionOverride(
+                FixedTrackSelection.Factory(),
+                newIndex,
+                0
+            )
             trackSelector.setSelectionOverride(C.TRACK_TYPE_VIDEO, textGroups, override)
         }
     }
@@ -312,7 +606,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     }
 
     override fun onPlayerError(error: ExoPlaybackException?) {
-        Toast.makeText(this,R.string.failed_in_playing_video,Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, R.string.failed_in_playing_video, Toast.LENGTH_SHORT).show()
         finish()
     }
 
@@ -334,33 +628,63 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         when (playbackState) {
-            Player.STATE_BUFFERING ->  {
+            Player.STATE_BUFFERING -> {
                 status = PlaybackStatus.LOADING
-                play_video_progress?.show()
+                showProgress()
             }
             Player.STATE_ENDED -> {
                 status = PlaybackStatus.STOPPED
-                play_video_progress?.hide()
+                hideProgress()
             }
             Player.STATE_IDLE -> {
                 status = PlaybackStatus.IDLE
-                play_video_progress?.hide()
+                hideProgress()
             }
             Player.STATE_READY -> {
                 handleHardSubtitle()
                 if (playWhenReady) {
                     status = PlaybackStatus.PLAYING
-                    play_video_progress?.hide()
-                }
-                else {
+                    hideProgress()
+                } else {
                     status = PlaybackStatus.PAUSED
-                    play_video_progress?.hide()
+                    hideProgress()
                 }
             }
             else -> {
                 status = PlaybackStatus.IDLE
-                play_video_progress?.hide()
+                hideProgress()
             }
+        }
+    }
+
+    private fun showProgress() {
+        isLoading = true
+        if(isPlayControllerVisible) {
+            exo_play?.hide()
+            exo_pause?.hide()
+        }
+        play_video_progress?.show()
+    }
+
+    private fun hideProgress() {
+        isLoading = false
+        play_video_progress?.hide()
+        if(isPlayControllerVisible) {
+            if(exoPlayer?.playWhenReady == true) {
+                exo_play?.hide()
+                exo_pause?.show()
+            } else {
+                exo_pause?.hide()
+                exo_play?.show()
+            }
+        }
+    }
+
+    private fun handleProgressOnPlayControllerVisibilityChange() {
+        if(isLoading) {
+            showProgress()
+        } else {
+            hideProgress()
         }
     }
 
@@ -371,6 +695,10 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     fun startPlayer() {
         exoPlayer?.playWhenReady = true
         exoPlayer?.playbackState
+    }
+
+    fun isPlaying() : Boolean {
+        return exoPlayer?.playWhenReady == true
     }
 
     override fun onItemClick(position: Int, item: String?) {
@@ -384,6 +712,89 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         }
         subtitleDialog?.takeIf { it.isShowing } ?.dismiss()
         subtitleDialog?.cancel()
+    }
+
+    fun isTouchEventAtLeftOfScreen(e: MotionEvent?): Boolean {
+        e?.let {
+            val halfScreenX = if (isOrientationLandscape()) {
+                heightOfDevice().div(2)
+            } else {
+                widthOfDevice().div(2)
+            }
+            return it.x < halfScreenX
+        } ?: return false
+    }
+
+    private fun getRippleBackgroundForClick(): Int {
+        val attrs = intArrayOf(R.attr.selectableItemBackground)
+        val typedArray = obtainStyledAttributes(attrs)
+        val resourceBackgroundId = typedArray.getResourceId(0, 0)
+        typedArray.recycle()
+        return resourceBackgroundId
+    }
+
+    fun View.forceRipple(x: Float, y: Float) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && background is RippleDrawable) {
+            background.setHotspot(x, y)
+        }
+        isPressed = true
+        // For a quick ripple, you can immediately set false.
+        postDelayed({
+            isPressed = false
+        }, 50)
+    }
+
+    private fun castAudioVolumeToSeekbarValue(audioVolume: Int) : Int {
+        val maxValue = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        return audioVolume.times(100).div(maxValue)
+    }
+
+    private fun castSeekbarValueToAudioVolume(progress: Int) : Int {
+        val maxValue = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+        return progress.times(maxValue).div(100)
+    }
+
+    private fun castBrightnessToSeekbarValue(brightness: Float) : Int {
+        return brightness.times(100).toInt()
+    }
+
+    private fun castSeekbarValueToBrightness(progress: Int) : Float {
+        return progress.toFloat().div(100)
+    }
+
+    override fun onBackPressed() {
+        if(isOrientationLandscape()) {
+            changeOrientation()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (event?.keyCode == KeyEvent.KEYCODE_VOLUME_DOWN){
+            play_audio_seekbar?.progress = castAudioVolumeToSeekbarValue(
+                audioManager.getStreamVolume(
+                    AudioManager.STREAM_MUSIC
+                )
+            )
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (event?.keyCode == KeyEvent.KEYCODE_VOLUME_UP){
+            play_audio_seekbar?.progress = castAudioVolumeToSeekbarValue(
+                audioManager.getStreamVolume(
+                    AudioManager.STREAM_MUSIC
+                )
+            )
+        }
+        return super.onKeyUp(keyCode, event)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        play_video_player?.setControllerVisibilityListener(null)
     }
 
 }

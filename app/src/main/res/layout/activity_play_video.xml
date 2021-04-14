@@ -13,14 +13,64 @@
         android:layout_height="match_parent"
         app:resize_mode="fit"
         android:background="@color/pure_black"
-        app:rewind_increment="15000"
-        app:fastforward_increment="15000"/>
+        app:rewind_increment="10000"
+        app:fastforward_increment="10000"/>
 
-    <ProgressBar
+    <View
+        android:id="@+id/play_brightness_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0"
+        android:background="@color/pure_black_opacity_40"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/play_rew_double_tap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/play_ffwd_double_tap"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:padding="@dimen/padding_standard"
+            android:layout_marginStart="@dimen/margin_huge"
+            android:background="@drawable/ripple_oval_light_gray"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/exo_controls_rewind_description"
+            app:srcCompat="@drawable/ic_rewind"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/play_ffwd_double_tap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintStart_toEndOf="@id/play_rew_double_tap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            android:layout_marginEnd="@dimen/margin_huge"
+            android:padding="@dimen/padding_standard"
+            android:background="@drawable/ripple_oval_light_gray"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:contentDescription="@string/exo_controls_fastforward_description"
+            app:srcCompat="@drawable/ic_fast_forward"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.tuyenmonkey.mkloader.MKLoader
         android:id="@+id/play_video_progress"
-        style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="@dimen/progress_bar_size"
         android:layout_height="@dimen/progress_bar_size"
+        android:visibility="gone"
+        app:mk_type="Worm"
+        app:mk_color="@color/pure_light_gray"
         android:layout_gravity="center"/>
 
 </FrameLayout>
