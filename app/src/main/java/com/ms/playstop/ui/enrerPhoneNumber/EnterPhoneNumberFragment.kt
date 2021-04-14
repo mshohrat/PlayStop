@@ -58,7 +58,7 @@ class EnterPhoneNumberFragment : BaseFragment() {
     private fun initViews() {
         when(viewModel.state) {
             ENTER_PHONE_NUMBER_STATE_LOGIN -> {
-                enter_phone_number_toolbar_name_tv?.text = getString(R.string.login_with_phone_number)
+                enter_phone_number_toolbar_name_tv?.text = getString(R.string.login_to_account)
                 enter_phone_number_btn_divider?.show()
                 enter_phone_number_login_with_email_btn?.show()
             }

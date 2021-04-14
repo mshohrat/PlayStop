@@ -48,7 +48,7 @@ class LoginFragment : BaseFragment() {
             hideButtonLoading()
             showToast(GeneralResponse(messageResId = it.second))
             if(it.first) {
-                activity?.onBackPressed()
+                removeFromParent(this)
             } else {
                 val enterPhoneNumberFragment = EnterPhoneNumberFragment.newInstance()
                 val args = Bundle().apply {
