@@ -1,13 +1,17 @@
 package com.ms.playstop.ui.home
 
-import androidx.lifecycle.ViewModelProviders
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.PorterDuff
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
-
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.addOrShow
@@ -16,6 +20,7 @@ import com.ms.playstop.ui.categories.CategoriesFragment
 import com.ms.playstop.ui.movieLists.MovieListsFragment
 import com.ms.playstop.ui.search.SearchFragment
 import kotlinx.android.synthetic.main.fragment_home.*
+
 
 class HomeFragment : BaseFragment() {
 
@@ -66,18 +71,26 @@ class HomeFragment : BaseFragment() {
     }
 
     private fun subscribeToViewEvents() {
-        home_tab_layout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+        home_tab_layout?.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 handleReselectedTab(tab)
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-
+                tab?.icon?.colorFilter = null
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 handleSelectedTab(tab)
+                activity?.let { ctx ->
+                    val tabIconColor = ContextCompat.getColor(ctx, R.color.purple_new)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        tab?.icon?.setColorFilter(BlendModeColorFilter(tabIconColor,BlendMode.SRC_IN))
+                    } else {
+                        tab?.icon?.setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN)
+                    }
+                }
             }
 
         })

@@ -22,8 +22,9 @@
         app:tabTextColor="@color/white"
         app:tabIconTint="@color/white"
         app:tabRippleColor="@color/gray"
-        app:tabIndicatorColor="@color/gray"
+        app:tabIndicatorColor="@color/purple_new"
         app:tabIndicatorGravity="top"
+        app:tabSelectedTextColor="@color/purple_new"
         app:tabMode="fixed"
         />
 
