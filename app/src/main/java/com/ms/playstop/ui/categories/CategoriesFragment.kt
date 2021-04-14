@@ -33,6 +33,7 @@ class CategoriesFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = CategoriesFragment()
+        const val TAG = "Categories Fragment"
     }
 
     private lateinit var viewModel: CategoriesViewModel
@@ -45,7 +46,7 @@ class CategoriesFragment : BaseFragment() {
     }
 
     override fun tag(): String {
-        return "Categories Fragment"
+        return TAG
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
