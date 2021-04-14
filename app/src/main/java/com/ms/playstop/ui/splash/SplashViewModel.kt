@@ -7,6 +7,7 @@ import com.ms.playstop.extension.initSchedulers
 import com.ms.playstop.network.base.ApiServiceGenerator
 import com.ms.playstop.network.model.ConfigResponse
 import com.ms.playstop.network.model.GeneralResponse
+import com.ms.playstop.network.model.RegisterFbTokenRequest
 
 class SplashViewModel : ViewModel() {
 
@@ -23,6 +24,15 @@ class SplashViewModel : ViewModel() {
             },{
                 configError.value = GeneralResponse(it.message)
             })
+    }
+
+    @SuppressLint("CheckResult")
+    fun registerFbToken(token: String) {
+        token.takeIf { it.isNotEmpty() }?.let {
+            ApiServiceGenerator.getApiService.registerFbToken(RegisterFbTokenRequest(token))
+                ?.initSchedulers()
+                ?.subscribe({},{})
+        }
     }
 
 }

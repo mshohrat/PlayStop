@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.google.firebase.iid.FirebaseInstanceId
 import com.ms.playstop.BuildConfig
 import com.ms.playstop.MainActivity
 
@@ -89,20 +90,17 @@ class SplashFragment : BaseFragment() {
                 }
                 Hawk.put(Profile.SAVE_KEY,profile)
             }
-            it?.updateApp?.let {
-                when {
-                    it.minVersion > BuildConfig.VERSION_CODE -> {
-                        showUpdateDialog(true)
-                    }
-                    it.lastVersion > BuildConfig.VERSION_CODE -> {
-                        showUpdateDialog(false)
-                    }
-                    else -> {
-                        navigate(HomeFragment.newInstance())
-                    }
+            if( true) {
+                FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceId ->
+                    val token = instanceId.token
+                    viewModel.registerFbToken(token)
+                    handleConfigDataFetched(it)
                 }
-            } ?: kotlin.run {
-                navigate(HomeFragment.newInstance())
+                FirebaseInstanceId.getInstance().instanceId.addOnFailureListener { instanceId ->
+                    handleConfigDataFetched(it)
+                }
+            } else {
+                handleConfigDataFetched(it)
             }
         })
 
@@ -113,7 +111,28 @@ class SplashFragment : BaseFragment() {
         })
     }
 
+    private fun handleConfigDataFetched(configResponse: ConfigResponse?) {
+        configResponse?.updateApp?.let {
+            when {
+                it.minVersion > BuildConfig.VERSION_CODE -> {
+                    showUpdateDialog(true)
+                }
+                it.lastVersion > BuildConfig.VERSION_CODE -> {
+                    showUpdateDialog(false)
+                }
+                else -> {
+                    navigate(HomeFragment.newInstance())
+                }
+            }
+        } ?: kotlin.run {
+            navigate(HomeFragment.newInstance())
+        }
+    }
+
     private fun showUpdateDialog(isForce: Boolean = false) {
+        if(updateDialog?.isShowing == true) {
+            return
+        }
         activity?.takeIf { it.isFinishing.not() }?.let { ctx ->
             updateDialog = UpdateDialog(ctx,isForce.not())
             updateDialog?.updateClickListener = object : UpdateDialog.OnUpdateClickListener {
