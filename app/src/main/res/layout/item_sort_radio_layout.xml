@@ -12,17 +12,16 @@
     android:orientation="horizontal">
 
     <com.google.android.material.radiobutton.MaterialRadioButton
-        android:id="@+id/link_radio"
+        android:id="@+id/sort_radio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:checked="true"
         app:buttonTint="@color/colorAccent"
         style="?textAppearanceCaption"
         android:layout_marginStart="@dimen/margin_standard"/>
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/link_name_tv"
+        android:id="@+id/sort_name_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -30,13 +29,6 @@
         android:textColor="@color/white"
         android:layout_marginEnd="@dimen/margin_standard"
         android:layout_marginStart="@dimen/margin_standard"
-        tools:text="web-dl"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_download"
-        app:tint="@color/colorAccentDark"
-        android:layout_marginEnd="@dimen/margin_standard"/>
+        tools:text="جدیدترین"/>
 
 </LinearLayout>

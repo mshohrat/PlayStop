@@ -84,6 +84,30 @@
         android:background="@drawable/shape_rectangle_rounded_6dp_gray"
         android:layout_marginTop="@dimen/margin_standard"/>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height_default"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="@color/colorAccent"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/shimmer_item_view_height"
+            android:background="@drawable/shape_rectangle_rounded_6dp_gray"
+            android:layout_marginTop="@dimen/margin_standard"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height_default"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="@color/colorAccent"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/shimmer_item_view_height"
+            android:background="@drawable/shape_rectangle_rounded_6dp_gray"
+            android:layout_marginTop="@dimen/margin_standard"/>
+
     </LinearLayout>
 
 </com.facebook.shimmer.ShimmerFrameLayout>
