@@ -215,6 +215,32 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             movie_writer_tv?.text = movie.writer
             movie_production_year_tv?.text = movie.productionYear.toString()
             movie_actors_tv?.text = movie.actors
+
+            movie.languages?.let { list ->
+                list.takeIf { it.isEmpty().not() }?.let {
+                    var languages = ""
+                    for (language in it) {
+                        languages = "$languages${language.name} - "
+                    }
+                    languages = languages.dropLast(3)
+                    movie_language_tv?.text = languages
+                } ?: kotlin.run {
+                    movie_language_tv?.setText(R.string.unknown)
+                }
+            }
+            movie.countries?.let { list ->
+                list.takeIf { it.isEmpty().not() }?.let {
+                    var countries = ""
+                    for (country in it) {
+                        countries = "$countries${country.name} - "
+                    }
+                    countries = countries.dropLast(3)
+                    movie_country_tv?.text = countries
+                } ?: kotlin.run {
+                    movie_country_tv?.setText(R.string.unknown)
+                }
+            }
+
             if (movie.trailer != null) {
                 movie_trailer_title_tv?.show()
                 movie_trailer_divider?.show()

@@ -339,6 +339,50 @@
                     tools:text="کریستوفر نولان"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/language"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_language_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    style="?textAppearanceCaption"
+                    tools:text="انگلیسی"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/country"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_country_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    style="?textAppearanceCaption"
+                    tools:text="امریکا"/>
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_trailer_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -375,7 +419,7 @@
                         android:id="@+id/movie_trailer_play_iv"
                         android:layout_width="@dimen/minimum_button_size"
                         android:layout_height="@dimen/minimum_button_size"
-                        app:srcCompat="@drawable/ic_play"
+                        app:srcCompat="@drawable/ic_play_large"
                         android:layout_gravity="center"
                         app:tint="@color/pure_light_gray"
                         android:visibility="gone"
