@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_sort_default"
+        app:showAsAction="collapseActionView"
+        android:title="@string/sort_default"/>
+    <item
+        android:id="@+id/action_sort_newest"
+        app:showAsAction="collapseActionView"
+        android:title="@string/sort_newest"/>
+    <item
+        android:id="@+id/action_sort_oldest"
+        app:showAsAction="collapseActionView"
+        android:title="@string/sort_oldest"/>
+    <item
+        android:id="@+id/action_sort_imdb_score"
+        app:showAsAction="collapseActionView"
+        android:title="@string/sort_imdb_score"/>
+
+</menu>
