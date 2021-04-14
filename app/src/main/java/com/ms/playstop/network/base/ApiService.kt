@@ -16,19 +16,22 @@ interface ApiService {
     ) : Single<AllSuggestionsMoviesResponse?>?
 
     @GET("v1/movies/{page}")
-    fun getLastMovies(
-        @Path("page") page : Int
+    fun getMovies(
+        @Path("page") page : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
     @GET("v1/movies/{page}/{suggestion_id}")
     fun getSuggestionMovies(
-        @Path("page") page : Int
-        ,@Path("suggestion_id") suggestionId : Int
+        @Path("page") page : Int,
+        @Path("suggestion_id") suggestionId : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
     @GET("v1/movies/special/1/{page}")
     fun getSpecialMovies(
-        @Path("page") page : Int
+        @Path("page") page : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
     @GET("v1/movies/director/{id}/{page}")
@@ -51,8 +54,9 @@ interface ApiService {
 
     @GET("v1/movies/category/{id}/{page}")
     fun getCategoryMovies(
-        @Path("page") page : Int
-        ,@Path("id") categoryId : Int
+        @Path("page") page : Int,
+        @Path("id") categoryId : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
     @GET("v1/movies/quality/{id}/{page}")
@@ -69,14 +73,16 @@ interface ApiService {
 
     @GET("v1/movies/genre/{id}/{page}")
     fun getGenreMovies(
-        @Path("page") page : Int
-        ,@Path("id") genreId : Int
+        @Path("page") page : Int,
+        @Path("id") genreId : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
     @GET("v1/movies/year/{year}/{page}")
     fun getYearMovies(
         @Path("year") year : Int,
-        @Path("page") page : Int
+        @Path("page") page : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
     @GET("v1/movie/{id}")
@@ -211,7 +217,8 @@ interface ApiService {
 
     @GET("v1/likes/{page}")
     fun getLikedMovies(
-        @Path("page") page : Int
+        @Path("page") page : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
 }
