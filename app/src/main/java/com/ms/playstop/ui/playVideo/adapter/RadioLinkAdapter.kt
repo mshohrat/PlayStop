@@ -34,6 +34,9 @@ class RadioLinkAdapter(urls: List<String>, selectedPosition: Int = 0, private va
                 items[i] = false to items[i].second
             }
         }
+        if(updateView) {
+            notifyDataSetChanged()
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
