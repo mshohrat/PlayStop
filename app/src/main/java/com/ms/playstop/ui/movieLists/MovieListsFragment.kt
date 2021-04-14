@@ -150,9 +150,9 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
             override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
                 appBarLayout?.let {
                     if (verticalOffset == 0) {
-                        movies_toolbar?.setBackgroundResource(android.R.color.transparent)
+                        movies_list_toolbar?.setBackgroundResource(android.R.color.transparent)
                     } else{
-                        movies_toolbar?.setBackgroundResource(R.color.colorAccentDarkOpacity50)
+                        movies_list_toolbar?.setBackgroundResource(R.color.colorAccentDarkOpacity50)
                     }
                 }
 

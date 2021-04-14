@@ -9,12 +9,13 @@ import com.ms.playstop.model.Movie
 import com.ms.playstop.network.base.ApiServiceGenerator
 import com.ms.playstop.network.model.GeneralResponse
 
-class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKeyedDataSource<Int, Movie>() {
+class MovieDateSource(val requestType: RequestType, val requestId: Int, var requestParams: Map<String,String>? = null): PageKeyedDataSource<Int, Movie>() {
 
     companion object {
         const val STATE_LOADING = 100
         const val STATE_SUCCESS = 101
         const val STATE_ERROR = 102
+        const val REQUEST_PARAM_SORT = "sort"
     }
 
     val requestState = MutableLiveData<Int>()
@@ -28,7 +29,10 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
             RequestType.SUGGESTION -> {
                 if(requestId == -2) {
                     requestState.postValue(STATE_LOADING)
-                    ApiServiceGenerator.getApiService.getSpecialMovies(1)
+                    ApiServiceGenerator.getApiService.getSpecialMovies(
+                        1,
+                        getSortRequestParam()
+                    )
                         ?.initSchedulers()
                         ?.subscribe({
                             val nextKey = if(it?.currentPage == it?.totalPages) null else 2
@@ -50,7 +54,10 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                 }
                 else if(requestId == -1) {
                     requestState.postValue(STATE_LOADING)
-                    ApiServiceGenerator.getApiService.getLastMovies(1)
+                    ApiServiceGenerator.getApiService.getMovies(
+                        1,
+                        getSortRequestParam()
+                    )
                         ?.initSchedulers()
                         ?.subscribe({
                             val nextKey = if(it?.currentPage == it?.totalPages) null else 2
@@ -71,7 +78,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                         })
                 } else {
                     requestState.postValue(STATE_LOADING)
-                    ApiServiceGenerator.getApiService.getSuggestionMovies(1,requestId)
+                    ApiServiceGenerator.getApiService.getSuggestionMovies(
+                        1,
+                        requestId,
+                        getSortRequestParam()
+                    )
                         ?.initSchedulers()
                         ?.subscribe({
                             val nextKey = if(it?.currentPage == it?.totalPages) null else 2
@@ -94,7 +105,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
             }
             RequestType.CATEGORY -> {
                 requestState.postValue(STATE_LOADING)
-                ApiServiceGenerator.getApiService.getCategoryMovies(1,requestId)
+                ApiServiceGenerator.getApiService.getCategoryMovies(
+                    1,
+                    requestId,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         val nextKey = if(it?.currentPage == it?.totalPages) null else 2
@@ -116,7 +131,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
             }
             RequestType.GENRE -> {
                 requestState.postValue(STATE_LOADING)
-                ApiServiceGenerator.getApiService.getGenreMovies(1,requestId)
+                ApiServiceGenerator.getApiService.getGenreMovies(
+                    1,
+                    requestId,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         val nextKey = if(it?.currentPage == it?.totalPages) null else 2
@@ -138,7 +157,10 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
             }
             RequestType.SPECIAL -> {
                 requestState.postValue(STATE_LOADING)
-                ApiServiceGenerator.getApiService.getSpecialMovies(1)
+                ApiServiceGenerator.getApiService.getSpecialMovies(
+                    1,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         val nextKey = if(it?.currentPage == it?.totalPages) null else 2
@@ -160,7 +182,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
             }
             RequestType.YEAR -> {
                 requestState.postValue(STATE_LOADING)
-                ApiServiceGenerator.getApiService.getYearMovies(requestId,1)
+                ApiServiceGenerator.getApiService.getYearMovies(
+                    requestId,
+                    1,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         val nextKey = if(it?.currentPage == it?.totalPages) null else 2
@@ -182,7 +208,10 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
             }
             RequestType.LIKES -> {
                 requestState.postValue(STATE_LOADING)
-                ApiServiceGenerator.getApiService.getLikedMovies(1)
+                ApiServiceGenerator.getApiService.getLikedMovies(
+                    1,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         val nextKey = if(it?.currentPage == it?.totalPages) null else 2
@@ -213,7 +242,10 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
         when(requestType) {
             RequestType.SUGGESTION -> {
                 if(requestId == -2) {
-                    ApiServiceGenerator.getApiService.getSpecialMovies(params.key)
+                    ApiServiceGenerator.getApiService.getSpecialMovies(
+                        params.key,
+                        getSortRequestParam()
+                    )
                         ?.initSchedulers()
                         ?.subscribe({
                             it?.movies?.let { movies ->
@@ -225,7 +257,10 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                         })
                 }
                 else if(requestId == -1) {
-                    ApiServiceGenerator.getApiService.getLastMovies(params.key)
+                    ApiServiceGenerator.getApiService.getMovies(
+                        params.key,
+                        getSortRequestParam()
+                    )
                         ?.initSchedulers()
                         ?.subscribe({
                             it?.movies?.let { movies ->
@@ -236,7 +271,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                         },{
                         })
                 } else {
-                    ApiServiceGenerator.getApiService.getSuggestionMovies(params.key,requestId)
+                    ApiServiceGenerator.getApiService.getSuggestionMovies(
+                        params.key,
+                        requestId,
+                        getSortRequestParam()
+                    )
                         ?.initSchedulers()
                         ?.subscribe({
                             it?.movies?.let { movies ->
@@ -249,7 +288,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                 }
             }
             RequestType.CATEGORY -> {
-                ApiServiceGenerator.getApiService.getCategoryMovies(params.key,requestId)
+                ApiServiceGenerator.getApiService.getCategoryMovies(
+                    params.key,
+                    requestId,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         it?.movies?.let { movies ->
@@ -261,7 +304,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                     })
             }
             RequestType.GENRE -> {
-                ApiServiceGenerator.getApiService.getGenreMovies(params.key,requestId)
+                ApiServiceGenerator.getApiService.getGenreMovies(
+                    params.key,
+                    requestId,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         it?.movies?.let { movies ->
@@ -273,7 +320,10 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                     })
             }
             RequestType.SPECIAL -> {
-                ApiServiceGenerator.getApiService.getSpecialMovies(params.key)
+                ApiServiceGenerator.getApiService.getSpecialMovies(
+                    params.key,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         it?.movies?.let { movies ->
@@ -285,7 +335,11 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                     })
             }
             RequestType.YEAR -> {
-                ApiServiceGenerator.getApiService.getYearMovies(requestId,params.key)
+                ApiServiceGenerator.getApiService.getYearMovies(
+                    requestId,
+                    params.key,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         it?.movies?.let { movies ->
@@ -297,7 +351,10 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
                     })
             }
             RequestType.LIKES -> {
-                ApiServiceGenerator.getApiService.getLikedMovies(params.key)
+                ApiServiceGenerator.getApiService.getLikedMovies(
+                    params.key,
+                    getSortRequestParam()
+                )
                     ?.initSchedulers()
                     ?.subscribe({
                         it?.movies?.let { movies ->
@@ -310,6 +367,13 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int): PageKey
             }
             else -> {}
         }
+    }
+
+    private fun getSortRequestParam(): String? {
+        return if (requestParams?.containsKey(REQUEST_PARAM_SORT) == true)
+            requestParams?.get(REQUEST_PARAM_SORT)
+        else
+            null
     }
 
     override fun loadBefore(
