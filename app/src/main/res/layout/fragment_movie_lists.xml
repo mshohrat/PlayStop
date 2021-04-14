@@ -78,7 +78,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <com.google.android.material.appbar.MaterialToolbar
-                    android:id="@+id/movies_toolbar"
+                    android:id="@+id/movies_list_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/action_bar_height"
                     app:title="@string/app_name_fa"
