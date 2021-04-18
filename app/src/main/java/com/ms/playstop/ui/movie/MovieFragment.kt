@@ -50,6 +50,8 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     companion object {
         fun newInstance() = MovieFragment()
         const val MOVIE_ID_KEY = "MOVIE ID KEY"
+        const val SHOW_CASE_SHARE_KEY = "Show Case Share Key"
+        const val SHOW_CASE_LIKE_KEY = "Show Case Like Key"
     }
 
     private lateinit var viewModel: MovieViewModel
@@ -86,6 +88,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
     @SuppressLint("CheckResult")
     private fun subscribeToViewModel() {
         viewModel.movie.observe(viewLifecycleOwner, Observer {
+            handleShowGuideToUser()
             fillMovieData(it)
             endLogAndIndexMovie(it?.name)
         })
@@ -121,6 +124,19 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             showToast(it)
             handleMovieLikeAndDislike(viewModel.movie.value)
         })
+    }
+
+    private fun handleShowGuideToUser() {
+        if(isUserLoggedIn()){
+            showSequenceGuide(listOf(
+                (R.string.share_movie to R.string.share_this_movie_link) to (SHOW_CASE_SHARE_KEY to movie_share_btn)
+                ,(R.string.like_movie to R.string.like_this_movie) to (SHOW_CASE_LIKE_KEY to movie_like_btn)
+            ))
+        } else {
+            showSequenceGuide(listOf(
+                (R.string.share_movie to R.string.share_this_movie_link) to (SHOW_CASE_SHARE_KEY to movie_share_btn)
+            ))
+        }
     }
 
     @SuppressLint("CheckResult")
