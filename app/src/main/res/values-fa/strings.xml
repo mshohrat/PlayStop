@@ -145,4 +145,12 @@
     <string name="language">زبان</string>
     <string name="country">کشور سازنده</string>
     <string name="unknown">نامشخص</string>
+    <string name="share_movie">اشتراک فیلم</string>
+    <string name="share_this_movie_link">از این طریق می‌توانید این فیلم را با دوستان خود به اشتراک بگذارید</string>
+    <string name="like_movie">علاقه‌مندی</string>
+    <string name="like_this_movie">این فیلم را به فهرست علاقه‌مندی‌های خود اضافه کنید و از بخش حساب کاربری به آن‌ها دسترسی داشته باشید</string>
+    <string name="fast_forward_video">جلو بردن سریع</string>
+    <string name="fast_forward_video_by_double_tap">با دو بار کلیک بر روی سمت راست صفحه، فیلم را ۱۰ ثانیه به جلو ببرید</string>
+    <string name="rewind_video">برگرداندن</string>
+    <string name="rewind_video_by_double_tap">با دو بار کلیک بر روی سمت چپ صفحه، فیلم را ۱۰ ثانیه به عقب برگردانید</string>
 </resources>
