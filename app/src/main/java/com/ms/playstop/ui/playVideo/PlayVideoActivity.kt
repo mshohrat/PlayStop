@@ -55,6 +55,8 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         const val PLAY_VIDEO_NAME = "PLAY VIDEO NAME"
         const val PLAY_VIDEO_SUBTITLES = "PLAY VIDEO SUBTITLES"
         const val PLAY_VIDEO_BRIGHTNESS_KEY = "Play Video Brightness Key"
+        const val SHOW_CASE_FAST_FORWARD_KEY = "Show Case Fast Forward Key"
+        const val SHOW_CASE_REWIND_KEY = "Show Case Rewind Key"
     }
 
     private var subtitleDialog: BottomSheetDialog? = null
@@ -99,6 +101,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         initViews()
         handleConfigurationChange()
+        handleShowGuideToUser()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -433,6 +436,13 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 //            params?.bottomMargin = resources?.getDimensionPixelSize(R.dimen.margin_large)
 //            play_video_player?.subtitleView?.layoutParams = params
         }
+    }
+
+    private fun handleShowGuideToUser() {
+        showSequenceGuide(listOf(
+            (R.string.fast_forward_video to R.string.fast_forward_video_by_double_tap) to (SHOW_CASE_FAST_FORWARD_KEY to play_ffwd_double_tap)
+            ,(R.string.rewind_video to R.string.rewind_video_by_double_tap) to (SHOW_CASE_REWIND_KEY to play_rew_double_tap)
+        ))
     }
 
     @SuppressLint("InlinedApi")
