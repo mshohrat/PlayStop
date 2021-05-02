@@ -217,7 +217,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         })
 
         play_ffwd_double_tap?.setOnClickListener {
-            forwardVideo(1000)
+            forwardVideo(10000)
             play_ffwd_double_tap?.animation?.cancel()
             play_ffwd_double_tap?.animate()
                 ?.alpha(0f)
@@ -229,7 +229,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         }
 
         play_rew_double_tap?.setOnClickListener {
-            rewindVideo(1000)
+            rewindVideo(10000)
             play_rew_double_tap?.animation?.cancel()
             play_rew_double_tap?.animate()
                 ?.alpha(0f)
