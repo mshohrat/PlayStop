@@ -41,7 +41,6 @@
             android:padding="@dimen/padding_standard"
             android:layout_marginStart="@dimen/margin_huge"
             android:background="@drawable/ripple_oval_light_gray"
-            android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/exo_controls_rewind_description"
             app:srcCompat="@drawable/ic_rewind"/>
 
@@ -58,7 +57,6 @@
             android:layout_marginEnd="@dimen/margin_huge"
             android:padding="@dimen/padding_standard"
             android:background="@drawable/ripple_oval_light_gray"
-            android:foreground="?android:attr/selectableItemBackground"
             android:contentDescription="@string/exo_controls_fastforward_description"
             app:srcCompat="@drawable/ic_fast_forward"/>
 
