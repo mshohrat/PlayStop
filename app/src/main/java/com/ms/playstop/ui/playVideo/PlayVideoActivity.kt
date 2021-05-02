@@ -552,16 +552,25 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         }
     }
 
-    private fun hasHardSub(): Boolean {
-        return trackSelector.currentMappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_VIDEO)?.takeIf { it.isEmpty.not() }?.get(
-            0
-        )?.takeIf { it.length > 0 }?.getFormat(0)?.let {
-            it.id != null
-        } ?: false
+    private fun getHardSubCount(): Int {
+        var hardSubCount = 0
+        trackSelector.currentMappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_VIDEO)?.takeIf { it.isEmpty.not() }
+            ?.takeIf { it.length > 0 }
+            ?.let { groupArray ->
+            for (i in 0 until groupArray.length){
+                val group = groupArray.get(i)
+                for (j in 0 until group.length) {
+                    if (group.getFormat(j).id != null) {
+                        hardSubCount++
+                    }
+                }
+            }
+        }
+        return hardSubCount
     }
 
     private fun handleHardSubtitle() {
-        if(hardSubHandled.not() && hasHardSub()) {
+        if(hardSubHandled.not() && getHardSubCount() != 0) {
             reloadSubtitle()
             hardSubHandled = true
             if(isSubtitleDisabled()) {
@@ -575,7 +584,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
             val mappedTrackInfo = trackSelector.currentMappedTrackInfo
             val textGroups = mappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_VIDEO) // list of captions
             val index = subtitles!!.indexOf(selectedSubtitle)
-            val newIndex = if(hasHardSub()) index+1 else index
+            val newIndex = index + getHardSubCount()
             val override = MappingTrackSelector.SelectionOverride(
                 FixedTrackSelection.Factory(),
                 newIndex,
