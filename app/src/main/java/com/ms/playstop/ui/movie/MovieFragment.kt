@@ -128,14 +128,20 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 
     private fun handleShowGuideToUser() {
         if(isUserLoggedIn()){
-            showSequenceGuide(listOf(
-                (R.string.share_movie to R.string.share_this_movie_link) to (SHOW_CASE_SHARE_KEY to movie_share_btn)
-                ,(R.string.like_movie to R.string.like_this_movie) to (SHOW_CASE_LIKE_KEY to movie_like_btn)
-            ))
+            if(isGuideShown(SHOW_CASE_SHARE_KEY)) {
+                showGuide(
+                    (R.string.like_movie to R.string.like_this_movie) to (SHOW_CASE_LIKE_KEY to movie_like_btn)
+                )
+            } else {
+                showSequenceGuide(listOf(
+                    (R.string.share_movie to R.string.share_this_movie_link) to (SHOW_CASE_SHARE_KEY to movie_share_btn)
+                    ,(R.string.like_movie to R.string.like_this_movie) to (SHOW_CASE_LIKE_KEY to movie_like_btn)
+                ))
+            }
         } else {
-            showSequenceGuide(listOf(
+            showGuide(
                 (R.string.share_movie to R.string.share_this_movie_link) to (SHOW_CASE_SHARE_KEY to movie_share_btn)
-            ))
+            )
         }
     }
 
@@ -276,7 +282,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                         movie_trailer_play_iv?.show()
                         movie_trailer_iv?.let {
                             context?.let { ctx ->
-                                Glide.with(ctx).load(bitmap).apply(
+                                Glide.with(ctx).load(bitmap).override(bitmap?.width?.div(3) ?: 400,bitmap?.height?.div(3) ?: 280).apply(
                                     RequestOptions.bitmapTransform(
                                         RoundedCornersTransformation(8, 0)
                                     )
