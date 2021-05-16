@@ -12,6 +12,7 @@ import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
 import android.view.ViewTreeObserver.*
 import android.widget.SeekBar
@@ -25,24 +26,28 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.ext.cronet.CronetDataSource
+import com.google.android.exoplayer2.ext.cronet.CronetEngineWrapper
 import com.google.android.exoplayer2.source.*
 import com.google.android.exoplayer2.source.dash.DashMediaSource
 import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.*
 import com.google.android.exoplayer2.ui.PlayerControlView
-import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textview.MaterialTextView
 import com.ms.playstop.R
 import com.ms.playstop.extension.*
+import com.ms.playstop.model.Movie
 import com.ms.playstop.ui.playVideo.adapter.RadioLinkAdapter
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_play_video.*
 import kotlinx.android.synthetic.main.exo_playback_control_view.*
+import org.chromium.net.CronetEngine
+import java.util.concurrent.Executors
 import kotlin.math.max
 import kotlin.math.min
 
@@ -79,6 +84,19 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     private val isPlayControllerVisible = playControllerVisibility == View.VISIBLE
     private var isLoading = true
     lateinit var audioManager: AudioManager
+    private val WATCHED_TIMES_DELAY = 15000L
+    private val watchedTimesHandler = Handler()
+    private val watchedTimesRunnable = Runnable {
+        if(Hawk.contains(Movie.WATCHED_ONLINE_TIMES)) {
+            val times = Hawk.get<Int>(Movie.WATCHED_ONLINE_TIMES)
+            when(times) {
+                1 -> Hawk.put(Movie.WATCHED_ONLINE_TIMES,2)
+                else -> {}
+            }
+        } else {
+            Hawk.put(Movie.WATCHED_ONLINE_TIMES,1)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -102,6 +120,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         initViews()
         handleConfigurationChange()
         handleShowGuideToUser()
+        handleWatchedTimesStore()
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -150,7 +169,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
                 velocityX: Float,
                 velocityY: Float
             ): Boolean {
-                return play_video_player?.onTouchEvent(e2) == true
+                return e2?.let { play_video_player?.onTouchEvent(it) } == true
             }
 
             override fun onScroll(
@@ -159,11 +178,11 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
                 distanceX: Float,
                 distanceY: Float
             ): Boolean {
-                return play_video_player?.onTouchEvent(e2) == true
+                return e2?.let { play_video_player?.onTouchEvent(it) } == true
             }
 
             override fun onContextClick(e: MotionEvent?): Boolean {
-                return play_video_player?.onTouchEvent(e) == true
+                return e?.let { play_video_player?.onTouchEvent(it) } == true
             }
 
             override fun onSingleTapUp(e: MotionEvent?): Boolean {
@@ -171,7 +190,8 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
             }
 
             override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-                return play_video_player?.onTouchEvent(e) == true
+                play_video_player?.performClick()
+                return true
             }
 
         })
@@ -466,25 +486,27 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 
     private fun initializePlayer(url: String) {
         if(exoPlayer == null) {
-            val bandwidthMeter = DefaultBandwidthMeter()
-            trackSelector = DefaultTrackSelector(AdaptiveTrackSelection.Factory(bandwidthMeter))
+            trackSelector = DefaultTrackSelector(this)
             val loadControl = DefaultLoadControl()
             val renderersFactory = DefaultRenderersFactory(this)
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(
-                renderersFactory, trackSelector, loadControl
-            )
+            exoPlayer = SimpleExoPlayer.Builder(this,renderersFactory)
+                .setLoadControl(loadControl)
+                .setTrackSelector(trackSelector)
+                .build()
             play_video_player?.player = exoPlayer
         }
         val mediaSource = buildMediaSource(Uri.parse(url))
         subtitles?.takeIf { it.isNotEmpty() }?.let { subtitles ->
-            val subtitleSources = arrayOfNulls<MediaSource>(subtitles.size)
-            for (i in subtitles.indices) {
-                subtitleSources[i] = buildSubtitleMediaSource(Uri.parse(subtitles[i]))
+            val subtitleSources = mutableListOf<MediaSource>()
+            for (subtitle in subtitles) {
+                subtitleSources.add(buildSubtitleMediaSource(Uri.parse(subtitle)))
             }
-            val mergedDataSource = MergingMediaSource(mediaSource, *subtitleSources)
-            exoPlayer?.prepare(mergedDataSource)
+            val mergedDataSource = MergingMediaSource(mediaSource, *subtitleSources.map { it }.toTypedArray())
+            exoPlayer?.setMediaSource(mergedDataSource)
+            exoPlayer?.prepare()
         } ?: kotlin.run {
-            exoPlayer?.prepare(mediaSource)
+            exoPlayer?.setMediaSource(mediaSource)
+            exoPlayer?.prepare()
         }
         play_video_player?.hideController()
         exoPlayer?.addListener(this)
@@ -501,19 +523,25 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 //            .setExtractorsFactory(DefaultExtractorsFactory())
 //            .createMediaSource(uri)
 
+        val cronetDataSourceFactory = CronetDataSource.Factory(
+            CronetEngineWrapper(
+                CronetEngine.Builder(this).build()
+            ),
+            Executors.newSingleThreadExecutor()
+        ).setFallbackFactory(DefaultHttpDataSource.Factory().setUserAgent(userAgent))
+        .setUserAgent(userAgent)
         return if (uri.lastPathSegment?.contains("mkv") == true || uri.lastPathSegment?.contains("mp4") == true) {
-            ExtractorMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent))
-                .createMediaSource(uri)
+            ProgressiveMediaSource.Factory(cronetDataSourceFactory)
+                .createMediaSource(MediaItem.fromUri(uri))
         } else if (uri.lastPathSegment?.contains("m3u8") == true) {
-            HlsMediaSource.Factory(DefaultHttpDataSourceFactory(userAgent))
-                .createMediaSource(uri)
+            HlsMediaSource.Factory(cronetDataSourceFactory)
+                .createMediaSource(MediaItem.fromUri(uri))
         } else {
             val dashChunkSourceFactory = DefaultDashChunkSource.Factory(
-                DefaultHttpDataSourceFactory("ua", null)
+                cronetDataSourceFactory
             )
-            val manifestDataSourceFactory = DefaultHttpDataSourceFactory(userAgent)
-            DashMediaSource.Factory(dashChunkSourceFactory, manifestDataSourceFactory).createMediaSource(
-                uri
+            DashMediaSource.Factory(dashChunkSourceFactory, cronetDataSourceFactory).createMediaSource(
+                MediaItem.fromUri(uri)
             )
         }
     }
@@ -522,22 +550,19 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 
         val userAgent = "exoplayer-playstop"
 
-        val subtitleFormat = Format.createTextSampleFormat(
-            null,
-            MimeTypes.APPLICATION_SUBRIP,
-            Format.NO_VALUE,
-            "en"
-        )
+//        val subtitleFormat = Format.Builder()
+//            .setId(null)
+//            .setSampleMimeType(MimeTypes.APPLICATION_SUBRIP)
+//            .setSelectionFlags(Format.NO_VALUE)
+//            .setLanguage("en")
+//            .build()
 
-        val dataSourceFactory = DefaultDataSourceFactory(this, userAgent, DefaultBandwidthMeter())
+        val dataSourceFactory = DefaultDataSourceFactory(this, userAgent)
 
-        val subtitleSource = SingleSampleMediaSource.Factory(dataSourceFactory).createMediaSource(
-            uri,
-            subtitleFormat,
+        return SingleSampleMediaSource.Factory(dataSourceFactory).createMediaSource(
+            MediaItem.Subtitle(uri,MimeTypes.APPLICATION_SUBRIP,"en",Format.NO_VALUE),
             C.TIME_UNSET
         )
-
-        return subtitleSource
     }
 
     private fun releasePlayer() {
@@ -585,31 +610,33 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
             val textGroups = mappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_VIDEO) // list of captions
             val index = subtitles!!.indexOf(selectedSubtitle)
             val newIndex = index + getHardSubCount()
-            val override = MappingTrackSelector.SelectionOverride(
-                FixedTrackSelection.Factory(),
+            val override = DefaultTrackSelector.SelectionOverride(
                 newIndex,
                 0
             )
-            trackSelector.setSelectionOverride(C.TRACK_TYPE_VIDEO, textGroups, override)
+            textGroups?.let {
+                trackSelector.parameters = trackSelector.buildUponParameters().setSelectionOverride(C.TRACK_TYPE_VIDEO,
+                    it, override).build()
+            }
         }
     }
 
     private fun disableSubtitle() {
-        trackSelector.setRendererDisabled(C.TRACK_TYPE_VIDEO, true)
-        trackSelector.clearSelectionOverrides()
+        trackSelector.parameters = trackSelector.buildUponParameters().setRendererDisabled(C.TRACK_TYPE_VIDEO, true).build()
+        trackSelector.parameters = trackSelector.buildUponParameters().clearSelectionOverrides().build()
         hardSubHandled = false
     }
 
     private fun enableSubtitle() {
-        trackSelector.setRendererDisabled(C.TRACK_TYPE_VIDEO, false)
+        trackSelector.parameters = trackSelector.buildUponParameters().setRendererDisabled(C.TRACK_TYPE_VIDEO, false).build()
         handleHardSubtitle()
     }
 
     private fun isSubtitleDisabled(): Boolean {
-        return trackSelector.getRendererDisabled(C.TRACK_TYPE_VIDEO)
+        return trackSelector.parameters.getRendererDisabled(C.TRACK_TYPE_VIDEO)
     }
 
-    override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters?) {
+    override fun onPlaybackParametersChanged(playbackParameters: PlaybackParameters) {
 
     }
 
@@ -618,13 +645,13 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     }
 
     override fun onTracksChanged(
-        trackGroups: TrackGroupArray?,
-        trackSelections: TrackSelectionArray?
+        trackGroups: TrackGroupArray,
+        trackSelections: TrackSelectionArray
     ) {
 
     }
 
-    override fun onPlayerError(error: ExoPlaybackException?) {
+    override fun onPlayerError(error: ExoPlaybackException) {
         Toast.makeText(this, R.string.failed_in_playing_video, Toast.LENGTH_SHORT).show()
         finish()
     }
@@ -642,7 +669,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     override fun onShuffleModeEnabledChanged(shuffleModeEnabled: Boolean) {
     }
 
-    override fun onTimelineChanged(timeline: Timeline?, manifest: Any?, reason: Int) {
+    override fun onTimelineChanged(timeline: Timeline, manifest: Any?, reason: Int) {
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
@@ -813,7 +840,12 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 
     override fun onDestroy() {
         super.onDestroy()
+        watchedTimesHandler.removeCallbacks(watchedTimesRunnable)
         play_video_player?.setControllerVisibilityListener(null)
+    }
+
+    private fun handleWatchedTimesStore() {
+        watchedTimesHandler.postDelayed(watchedTimesRunnable, WATCHED_TIMES_DELAY)
     }
 
 }

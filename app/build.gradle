@@ -22,6 +22,7 @@ final pinEntry = "2.0.6"
 final mkLoader = "1.4.0"
 final otpView = "2.1.2"
 final bubbleShowCase = "1.3.1"
+final googlePlayCore = "1.10.0"
 
 android {
     flavorDimensions "main"
@@ -141,7 +142,8 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'com.google.android.exoplayer:exoplayer:2.7.2'
+    implementation 'com.google.android.exoplayer:exoplayer:2.13.3'
+    implementation 'com.google.android.exoplayer:extension-cronet:2.13.3'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenter}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenter}"
 //    implementation ("com.alimuzaffar.lib:pinentryedittext:${pinEntry}") {
@@ -150,6 +152,7 @@ dependencies {
     implementation "com.tuyenmonkey:mkloader:${mkLoader}"
     implementation "com.github.mukeshsolanki:android-otpview-pinview:${otpView}"
     implementation "com.elconfidencial.bubbleshowcase:bubbleshowcase:${bubbleShowCase}"
+    implementation "com.google.android.play:core:${googlePlayCore}"
 }
 
 repositories {

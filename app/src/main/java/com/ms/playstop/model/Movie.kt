@@ -60,5 +60,7 @@ data class Movie(
         const val SORT_OLDEST = 2
         const val SORT_SCORE_IMDB = 3
         const val SORT_SAVE_KEY = "Sort Save Key"
+
+        const val WATCHED_ONLINE_TIMES = "Watched Online Times"
     }
 }
