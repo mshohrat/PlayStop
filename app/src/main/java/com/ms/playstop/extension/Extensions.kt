@@ -309,7 +309,7 @@ private fun saveGuideShown(key: String) {
     Hawk.put(key,true)
 }
 
-private fun isGuideShown(key: String) : Boolean {
+fun isGuideShown(key: String) : Boolean {
     return Hawk.contains(key) && Hawk.get<Boolean>(key,false)
 }
 
