@@ -6,11 +6,15 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.model.*
 import com.ms.playstop.ui.splash.SplashFragment
 import com.ms.playstop.utils.VpnDialog
+import com.orhanobut.hawk.Hawk
 import java.net.URLDecoder
 import java.util.*
 import kotlin.collections.ArrayList
@@ -24,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         return deepLink != null
     }
     private var vpnDialog: VpnDialog? = null
+    private lateinit var reviewManager : ReviewManager
+    private var reviewInfo: ReviewInfo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -37,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent))
+        initReviewManager()
         supportFragmentManager.fragments.size.takeIf { it == 0 }.let {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frame,
@@ -44,6 +51,20 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         handleDeepLink(intent)
+    }
+
+    private fun initReviewManager() {
+        reviewManager = ReviewManagerFactory.create(this)
+        val request = reviewManager.requestReviewFlow()
+        request.addOnCompleteListener { response ->
+            reviewInfo = if (response.isSuccessful) {
+                //Received ReviewInfo object
+                request.result
+            } else {
+                //Problem in receiving object
+                null
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -58,6 +79,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             dismissVpnDialog()
         }
+        handleInAppReview()
     }
 
     private fun handleDeepLink(intent: Intent?) {
@@ -253,16 +275,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun showVpnDialog() {
+        if(vpnDialog?.isShowing == true) {
+            return
+        }
         takeIf { isFinishing.not() }?.let { ctx ->
             vpnDialog = VpnDialog(ctx)
             vpnDialog?.show()
         }
-
     }
 
     fun dismissVpnDialog() {
         vpnDialog?.takeIf { it.isShowing }?.dismiss()
         vpnDialog?.cancel()
         vpnDialog = null
+    }
+
+    private fun handleInAppReview() {
+        if(Hawk.contains(Movie.IN_APP_REVIEW_SHOWN) && Hawk.get<Boolean>(Movie.IN_APP_REVIEW_SHOWN) == true) {
+            return
+        }
+        if(Hawk.contains(Movie.WATCHED_ONLINE_TIMES) && Hawk.get<Int>(Movie.WATCHED_ONLINE_TIMES) == 2) {
+            reviewInfo?.let {
+                val flow = reviewManager.launchReviewFlow(this@MainActivity, it)
+                flow.addOnCompleteListener {
+                    //Irrespective of the result, the app flow should continue
+                    Hawk.put(Movie.IN_APP_REVIEW_SHOWN,true)
+                }
+            }
+        }
     }
 }

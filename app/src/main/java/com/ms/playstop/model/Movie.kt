@@ -62,5 +62,6 @@ data class Movie(
         const val SORT_SAVE_KEY = "Sort Save Key"
 
         const val WATCHED_ONLINE_TIMES = "Watched Online Times"
+        const val IN_APP_REVIEW_SHOWN = "In App Review Shown"
     }
 }
