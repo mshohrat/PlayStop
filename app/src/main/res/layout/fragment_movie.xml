@@ -193,8 +193,6 @@
                         android:id="@+id/movie_like_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        tools:visibility="visible"
                         app:srcCompat="@drawable/ic_dislike"
                         android:background="?android:selectableItemBackground"/>
                     <Space

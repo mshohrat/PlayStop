@@ -23,10 +23,10 @@ import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.elconfidencial.bubbleshowcase.BubbleShowCase
-import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
-import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
-import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
+//import com.elconfidencial.bubbleshowcase.BubbleShowCase
+//import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
+//import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
+//import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.appindexing.Action
@@ -47,6 +47,10 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import retrofit2.HttpException
+import smartdevelop.ir.eram.showcaseviewlib.GuideView
+import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
+import smartdevelop.ir.eram.showcaseviewlib.config.Gravity
+import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener
 import java.net.NetworkInterface
 import java.net.SocketException
 import java.util.*
@@ -313,210 +317,55 @@ fun isGuideShown(key: String) : Boolean {
     return Hawk.contains(key) && Hawk.get<Boolean>(key,false)
 }
 
-fun Fragment.showGuide(guidePair: Pair<Pair<Int,Int>,Pair<String,View?>>) {
-    try {
-        if(isGuideShown(guidePair.second.first)) {
-            return
-        }
-        activity?.let { ctx ->
-            guidePair.second.second?.let { target ->
-                val currentVisibility = target.visibility
-                if(currentVisibility != View.VISIBLE) {
-                    target.visibility = View.VISIBLE
-                }
-                BubbleShowCaseBuilder(ctx) //Activity instance
-                    .title(getString(guidePair.first.first)) //Any title for the bubble view
-                    .description(getString(guidePair.first.second))
-                    .backgroundColorResourceId(R.color.white)
-                    .textColorResourceId(R.color.colorPrimary)
-                    .closeActionImageResourceId(R.drawable.ic_clear_primary)
-                    .targetView(target) //View to point out
-                    .listener(object : BubbleShowCaseListener {
-                        override fun onBackgroundDimClick(bubbleShowCase: BubbleShowCase) {
-                            saveGuideShown(guidePair.second.first)
-                            bubbleShowCase.dismiss()
-                            target.visibility = currentVisibility
-                        }
-
-                        override fun onBubbleClick(bubbleShowCase: BubbleShowCase) {
-
-                        }
-
-                        override fun onCloseActionImageClick(bubbleShowCase: BubbleShowCase) {
-                            saveGuideShown(guidePair.second.first)
-                            bubbleShowCase.dismiss()
-                            target.visibility = currentVisibility
-                        }
-
-                        override fun onTargetClick(bubbleShowCase: BubbleShowCase) {
-                            saveGuideShown(guidePair.second.first)
-                            bubbleShowCase.dismiss()
-                            target.visibility = currentVisibility
-                        }
-
-                    })
-                    .show()
-            }
-        }
-    } catch (ex: java.lang.Exception) {
-        Crashes.trackError(ex)
-    }
+fun Fragment.showGuide(guidePair: Pair<Pair<Int,Int>,Pair<String,View?>>, function:(()->(Unit))? = null) {
+    activity?.showGuide(guidePair,function)
 }
 
 fun Fragment.showSequenceGuide(guidePairList: List<Pair<Pair<Int,Int>,Pair<String,View?>>>) {
-    try {
-        activity?.let { ctx ->
-            val bubbleShowCaseSequence = BubbleShowCaseSequence()
-            for (pair in guidePairList) {
-                if(isGuideShown(pair.second.first)) {
-                    continue
-                }
-                pair.second.second?.let { target ->
-                    val currentVisibility = target.visibility
-                    if(currentVisibility != View.VISIBLE) {
-                        target.visibility = View.VISIBLE
-                    }
-                    val bubbleShowCaseBuilder = BubbleShowCaseBuilder(ctx) //Activity instance
-                        .title(getString(pair.first.first)) //Any title for the bubble view
-                        .description(getString(pair.first.second))
-                        .backgroundColorResourceId(R.color.white)
-                        .textColorResourceId(R.color.colorPrimary)
-                        .closeActionImageResourceId(R.drawable.ic_clear_primary)
-                        .disableCloseAction(true)
-                        .targetView(target) //View to point out
-                        .listener(object : BubbleShowCaseListener {
-                            override fun onBackgroundDimClick(bubbleShowCase: BubbleShowCase) {
-                                saveGuideShown(pair.second.first)
-                                bubbleShowCase.dismiss()
-                                target.visibility = currentVisibility
-                            }
-
-                            override fun onBubbleClick(bubbleShowCase: BubbleShowCase) {
-
-                            }
-
-                            override fun onCloseActionImageClick(bubbleShowCase: BubbleShowCase) {
-                                saveGuideShown(pair.second.first)
-                                bubbleShowCase.dismiss()
-                                target.visibility = currentVisibility
-                            }
-
-                            override fun onTargetClick(bubbleShowCase: BubbleShowCase) {
-                                saveGuideShown(pair.second.first)
-                                bubbleShowCase.dismiss()
-                                target.visibility = currentVisibility
-                            }
-
-                        })
-                    bubbleShowCaseSequence.addShowCase(bubbleShowCaseBuilder)
-                }
-            }
-            bubbleShowCaseSequence.show()
-        }
-    } catch (ex: java.lang.Exception) {
-        Crashes.trackError(ex)
-    }
+    activity?.showSequenceGuide(guidePairList)
 }
 
-fun Activity.showGuide(guidePair: Pair<Pair<Int,Int>,Pair<String,View?>>) {
+fun Activity.showGuide(guidePair: Pair<Pair<Int,Int>,Pair<String,View?>>, function:(()->(Unit))? = null) {
     try {
         if(isGuideShown(guidePair.second.first)) {
+            function?.invoke()
             return
         }
-            guidePair.second.second?.let { target ->
-                val currentVisibility = target.visibility
-                if(currentVisibility != View.VISIBLE) {
-                    target.visibility = View.VISIBLE
-                }
-                BubbleShowCaseBuilder(this) //Activity instance
-                    .title(getString(guidePair.first.first)) //Any title for the bubble view
-                    .description(getString(guidePair.first.second))
-                    .backgroundColorResourceId(R.color.white)
-                    .textColorResourceId(R.color.colorPrimary)
-                    .closeActionImageResourceId(R.drawable.ic_clear_primary)
-                    .targetView(target) //View to point out
-                    .listener(object : BubbleShowCaseListener {
-                        override fun onBackgroundDimClick(bubbleShowCase: BubbleShowCase) {
-                            saveGuideShown(guidePair.second.first)
-                            bubbleShowCase.dismiss()
-                            target.visibility = currentVisibility
-                        }
-
-                        override fun onBubbleClick(bubbleShowCase: BubbleShowCase) {
-
-                        }
-
-                        override fun onCloseActionImageClick(bubbleShowCase: BubbleShowCase) {
-                            saveGuideShown(guidePair.second.first)
-                            bubbleShowCase.dismiss()
-                            target.visibility = currentVisibility
-                        }
-
-                        override fun onTargetClick(bubbleShowCase: BubbleShowCase) {
-                            saveGuideShown(guidePair.second.first)
-                            bubbleShowCase.dismiss()
-                            target.visibility = currentVisibility
-                        }
-
-                    })
-                    .show()
+        guidePair.second.second?.let { target ->
+            val currentVisibility = target.visibility
+            if(currentVisibility != View.VISIBLE) {
+                target.visibility = View.VISIBLE
             }
+            GuideView.Builder(this) //Activity instance
+                .setTitle(getString(guidePair.first.first)) //Any title for the bubble view
+                .setContentText(getString(guidePair.first.second))
+                .setTargetView(target) //View to point out
+                .setDismissType(DismissType.anywhere)
+                .setGravity(Gravity.auto)
+                .setGuideListener {
+                    saveGuideShown(guidePair.second.first)
+                    target.visibility = currentVisibility
+                    function?.invoke()
+                }
+                .build()
+                .show()
+        }
     } catch (ex: java.lang.Exception) {
         Crashes.trackError(ex)
     }
 }
 
 fun Activity.showSequenceGuide(guidePairList: List<Pair<Pair<Int,Int>,Pair<String,View?>>>) {
-    try {
-            val bubbleShowCaseSequence = BubbleShowCaseSequence()
-            for (pair in guidePairList) {
-                if(isGuideShown(pair.second.first)) {
-                    continue
-                }
-                pair.second.second?.let { target ->
-                    val currentVisibility = target.visibility
-                    if(currentVisibility != View.VISIBLE) {
-                        target.visibility = View.VISIBLE
-                    }
-                    val bubbleShowCaseBuilder = BubbleShowCaseBuilder(this) //Activity instance
-                        .title(getString(pair.first.first)) //Any title for the bubble view
-                        .description(getString(pair.first.second))
-                        .backgroundColorResourceId(R.color.white)
-                        .textColorResourceId(R.color.colorPrimary)
-                        .closeActionImageResourceId(R.drawable.ic_clear_primary)
-                        .disableCloseAction(true)
-                        .targetView(target) //View to point out
-                        .listener(object : BubbleShowCaseListener {
-                            override fun onBackgroundDimClick(bubbleShowCase: BubbleShowCase) {
-                                saveGuideShown(pair.second.first)
-                                bubbleShowCase.dismiss()
-                                target.visibility = currentVisibility
-                            }
-
-                            override fun onBubbleClick(bubbleShowCase: BubbleShowCase) {
-
-                            }
-
-                            override fun onCloseActionImageClick(bubbleShowCase: BubbleShowCase) {
-                                saveGuideShown(pair.second.first)
-                                bubbleShowCase.dismiss()
-                                target.visibility = currentVisibility
-                            }
-
-                            override fun onTargetClick(bubbleShowCase: BubbleShowCase) {
-                                saveGuideShown(pair.second.first)
-                                bubbleShowCase.dismiss()
-                                target.visibility = currentVisibility
-                            }
-
-                        })
-                    bubbleShowCaseSequence.addShowCase(bubbleShowCaseBuilder)
-                }
+    var i = 0
+    val function = object : () -> (Unit) {
+        override fun invoke() {
+            if(i < guidePairList.size - 1) {
+                 i++
+                 showGuide(guidePairList[i],this)
             }
-            bubbleShowCaseSequence.show()
-    } catch (ex: java.lang.Exception) {
-        Crashes.trackError(ex)
+        }
     }
+    showGuide(guidePairList[i],function)
 }
 
 fun convertDpToPixel(dp: Float): Int {
