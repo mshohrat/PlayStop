@@ -42,3 +42,7 @@ gradle.xml
 proguard-merge-config.txt
 /.idea/libraries/
 /.idea/
+/app/googlePlay/
+/app/bazaar/
+/app/bazaar/release/
+/app/googlePlay/release/
