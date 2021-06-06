@@ -221,4 +221,10 @@ interface ApiService {
         @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
+    @GET("v1/movie/similar/{id}")
+    fun getSimilarMovies(
+        @Path("id") movieId : Int
+    ) : Single<MovieListResponse?>?
+
+
 }

@@ -36,9 +36,11 @@ import com.ms.playstop.ui.movie.adapter.CommentAdapter
 import com.ms.playstop.ui.movie.adapter.EpisodeAdapter
 import com.ms.playstop.ui.movie.adapter.LinkAdapter
 import com.ms.playstop.ui.movie.adapter.SeasonAdapter
+import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
 import com.ms.playstop.ui.playVideo.PlayVideoActivity
 import com.ms.playstop.utils.LoadingDialog
 import com.ms.playstop.utils.RoundedCornersTransformation
+import com.ms.playstop.utils.RtlLinearLayoutManager
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -90,6 +92,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         viewModel.movie.observe(viewLifecycleOwner, Observer {
             handleShowGuideToUser()
             fillMovieData(it)
+            handleFetchSimilarMovies()
             endLogAndIndexMovie(it?.name)
         })
 
@@ -123,6 +126,14 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
         viewModel.likeMovieError.observe(viewLifecycleOwner, Observer {
             showToast(it)
             handleMovieLikeAndDislike(viewModel.movie.value)
+        })
+
+        viewModel.similarMovies.observe(viewLifecycleOwner, Observer {
+            fillSimilarMovieData(it)
+        })
+
+        viewModel.similarMoviesError.observe(viewLifecycleOwner, Observer {
+            fillSimilarMovieData(null)
         })
     }
 
@@ -371,6 +382,36 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
                 movie_subtitle_divider?.hide()
                 movie_subtitle_btn?.hide()
             }
+        }
+    }
+
+    private fun handleFetchSimilarMovies() {
+        val adapter = MovieAdapter(emptyList(),null,6)
+        val layoutManager = RtlLinearLayoutManager(activity,RecyclerView.HORIZONTAL,false)
+        movie_similar_recycler?.layoutManager = layoutManager
+        movie_similar_recycler?.adapter = adapter
+        viewModel.fetchSimilarMovies()
+    }
+
+    private fun fillSimilarMovieData(movies: List<Movie>?) {
+        movies?.takeIf { it.isNotEmpty() }?.let {
+            movie_no_similar_tv?.hide()
+            movie_similar_recycler?.show()
+            val adapter = MovieAdapter(it,object : MovieAdapter.OnItemClickListener{
+                override fun onItemClick(movie: Movie?) {
+                    movie?.let {
+                        val movieFragment = newInstance()
+                        movieFragment.arguments = Bundle().apply {
+                            this.putInt(MOVIE_ID_KEY,it.id)
+                        }
+                        addToParent(movieFragment)
+                    }
+                }
+            })
+            movie_similar_recycler?.adapter = adapter
+        } ?: kotlin.run {
+            movie_similar_recycler?.hide()
+            movie_no_similar_tv?.show()
         }
     }
 

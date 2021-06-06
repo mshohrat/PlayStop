@@ -21,6 +21,8 @@ class MovieViewModel : ViewModel() {
     val sendCommentError : MutableLiveData<GeneralResponse> = MutableLiveData()
     val likeMovie : MutableLiveData<GeneralResponse> = MutableLiveData()
     val likeMovieError : MutableLiveData<GeneralResponse> = MutableLiveData()
+    val similarMovies : MutableLiveData<List<Movie>> = MutableLiveData()
+    val similarMoviesError : MutableLiveData<GeneralResponse> = MutableLiveData()
     private var movieId: Int = 0
 
     @SuppressLint("CheckResult")
@@ -107,5 +109,24 @@ class MovieViewModel : ViewModel() {
             }
         }
 
+    }
+
+    @SuppressLint("CheckResult")
+    fun fetchSimilarMovies() {
+        if(movieId == 0) {
+            similarMoviesError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+        }
+        ApiServiceGenerator.getApiService
+            .getSimilarMovies(movieId)
+            ?.initSchedulers()
+            ?.subscribe({
+                it?.let {
+                    similarMovies.value = it.movies
+                } ?: kotlin.run {
+                    movieError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
+                }
+            },{
+                movieError.value = GeneralResponse(it.message)
+            })
     }
 }

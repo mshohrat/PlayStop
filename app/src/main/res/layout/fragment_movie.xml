@@ -568,6 +568,40 @@
                     android:text="@string/download_subtitle"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_similar_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceHeadline3"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/similar_movies"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height_default"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/colorAccent"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_no_similar_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/action_bar_height"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:gravity="center"
+                    style="?textAppearanceCaption"
+                    android:textColor="@color/gray"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/no_similar"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movie_similar_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_marginTop="@dimen/margin_standard"/>
+
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_comments_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

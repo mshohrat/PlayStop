@@ -152,5 +152,7 @@
     <string name="fast_forward_video_by_double_tap">با دو بار کلیک بر روی سمت راست صفحه، فیلم را ۱۰ ثانیه به جلو ببرید</string>
     <string name="rewind_video">برگرداندن</string>
     <string name="rewind_video_by_double_tap">با دو بار کلیک بر روی سمت چپ صفحه، فیلم را ۱۰ ثانیه به عقب برگردانید</string>
+    <string name="similar_movies">فیلم‌های مشابه</string>
+    <string name="no_similar">مورد مشابه وجود ندارد</string>
 
 </resources>
