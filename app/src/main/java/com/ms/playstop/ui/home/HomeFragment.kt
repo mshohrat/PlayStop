@@ -121,6 +121,9 @@ class HomeFragment : BaseFragment() {
     }
 
     fun handleReselectedTab(tab: TabLayout.Tab?) {
+        if(childFragmentManager.fragments.isEmpty()) {
+            return
+        }
         tab?.let {
             val destination = when(it.position) {
                 0 -> childFragmentManager.findFragmentByTag(CategoriesFragment.TAG)
