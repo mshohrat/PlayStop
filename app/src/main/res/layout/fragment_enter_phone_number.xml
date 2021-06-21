@@ -42,7 +42,7 @@
                     style="?textAppearanceBody1"
                     android:textColor="@color/pure_white"
                     android:layout_marginEnd="@dimen/margin_standard"
-                    android:text="@string/add_phone_number"/>
+                    />
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/enter_phone_number_back_btn"
