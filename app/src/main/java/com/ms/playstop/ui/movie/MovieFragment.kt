@@ -11,7 +11,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -26,9 +28,12 @@ import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
+import com.ms.playstop.model.Character
 import com.ms.playstop.model.Episode
 import com.ms.playstop.model.Movie
 import com.ms.playstop.network.model.GeneralResponse
+import com.ms.playstop.ui.character.CharacterFragment
+import com.ms.playstop.ui.character.adapter.CharacterAdapter
 import com.ms.playstop.ui.comments.CommentsFragment
 import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
 import com.ms.playstop.ui.login.LoginFragment
@@ -38,16 +43,16 @@ import com.ms.playstop.ui.movie.adapter.LinkAdapter
 import com.ms.playstop.ui.movie.adapter.SeasonAdapter
 import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
 import com.ms.playstop.ui.playVideo.PlayVideoActivity
-import com.ms.playstop.utils.LoadingDialog
-import com.ms.playstop.utils.RoundedCornersTransformation
-import com.ms.playstop.utils.RtlLinearLayoutManager
+import com.ms.playstop.utils.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movie.*
+import kotlinx.android.synthetic.main.fragment_movies.*
 
-class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
+class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
+    CharacterAdapter.OnItemClickListener {
 
     companion object {
         fun newInstance() = MovieFragment()
@@ -222,12 +227,6 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             } ?: kotlin.run {
                 movie_score_number_tv?.hide()
             }
-//                movie.scoreVotes?.toString()?.takeIf { it.isNotEmpty() && it != "0" }?.let {
-//                    movie_score_number_tv?.text = String.format(getString(R.string.votes_x),it)
-//                } ?: kotlin.run {
-//                    movie_score_number_tv?.hide()
-//                }
-
             movie_image_iv?.let {
                 context?.let { ctx ->
                     Glide.with(ctx).load(movie.image).apply(
@@ -253,10 +252,83 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
             }
 
             movie_description_tv?.text = movie.description
-            movie_director_tv?.text = movie.director
-            movie_writer_tv?.text = movie.writer
             movie_production_year_tv?.text = movie.productionYear.toString()
-            movie_actors_tv?.text = movie.actors
+
+            movie.realActors?.takeIf { it.isNotEmpty() }?.let { list ->
+                val layoutManager = RtlGridLayoutManager(activity, 3, RecyclerView.VERTICAL, false)
+                movie_actors_recycler?.layoutManager = layoutManager
+                movie_actors_recycler?.itemDecorationCount?.takeIf { it == 0 }?.let {
+                    val spacing = activity?.resources?.getDimensionPixelSize(R.dimen.margin_medium) ?: 0
+                    movie_actors_recycler?.addItemDecoration(GridSpacingItemDecoration(3, spacing, true))
+                }
+                movie_actors_recycler?.adapter = CharacterAdapter(list,CharacterFragment.CHARACTER_TYPE_ACTOR,this)
+            } ?: kotlin.run {
+                movie_actors_recycler?.hide()
+                movie_actors_tv?.show()
+                movie_actors_tv?.text = movie.actors
+            }
+
+            val movieDirectorTitleParams = movie_director_title_tv?.layoutParams as? LinearLayout.LayoutParams
+            movie.realActors?.takeIf { it.isNotEmpty() }?.let {
+                movieDirectorTitleParams?.topMargin = activity?.resources?.getDimensionPixelSize(R.dimen.margin_medium) ?: 0
+            } ?: kotlin.run {
+                movieDirectorTitleParams?.topMargin = activity?.resources?.getDimensionPixelSize(R.dimen.margin_large) ?: 0
+            }
+            movie_director_title_tv?.layoutParams = movieDirectorTitleParams
+
+            movie.realDirector?.takeIf { it.name.isValidCharacterName() }?.let {
+                movie_director_avatar_iv?.let { iv ->
+                    iv.context?.let { ctx ->
+                        Glide.with(ctx).load(it.image)
+                            .placeholder(AppCompatResources.getDrawable(ctx,R.drawable.ic_person))
+                            .error(AppCompatResources.getDrawable(ctx,R.drawable.ic_person))
+                            .circleCrop()
+                            .into(iv)
+                    }
+                }
+                movie_director_name_tv?.text = it.name
+
+                val params = movie_director_layout?.layoutParams as? LinearLayout.LayoutParams
+                val margins = (activity?.resources?.getDimensionPixelSize(R.dimen.margin_medium) ?: 0 ) * 4
+                val outerMargins = (activity?.resources?.getDimensionPixelSize(R.dimen.padding_standard) ?: 0 ) * 2
+                val width = (widthOfDevice() - outerMargins - margins) / 3
+                params?.width = width
+                movie_director_layout?.layoutParams = params
+                movie_director_layout?.setOnClickListener { v ->
+                    onItemClick(it,CharacterFragment.CHARACTER_TYPE_DIRECTOR,-1)
+                }
+            } ?: kotlin.run {
+                movie_director_layout?.hide()
+                movie_director_tv?.show()
+                movie_director_tv?.text = movie.director
+            }
+
+            movie.realWriter?.takeIf { it.name.isValidCharacterName() }?.let {
+                movie_writer_avatar_iv?.let { iv ->
+                    iv.context?.let { ctx ->
+                        Glide.with(ctx).load(it.image)
+                            .placeholder(AppCompatResources.getDrawable(ctx,R.drawable.ic_person))
+                            .error(AppCompatResources.getDrawable(ctx,R.drawable.ic_person))
+                            .circleCrop()
+                            .into(iv)
+                    }
+                }
+                movie_writer_name_tv?.text = it.name
+
+                val params = movie_writer_layout?.layoutParams as? LinearLayout.LayoutParams
+                val margins = (activity?.resources?.getDimensionPixelSize(R.dimen.margin_medium) ?: 0 ) * 4
+                val outerMargins = (activity?.resources?.getDimensionPixelSize(R.dimen.padding_standard) ?: 0 ) * 2
+                val width = (widthOfDevice() - outerMargins - margins) / 3
+                params?.width = width
+                movie_writer_layout?.layoutParams = params
+                movie_writer_layout?.setOnClickListener { v ->
+                    onItemClick(it,CharacterFragment.CHARACTER_TYPE_WRITER,-1)
+                }
+            } ?: kotlin.run {
+                movie_writer_layout?.hide()
+                movie_writer_tv?.show()
+                movie_writer_tv?.text = movie.writer
+            }
 
             movie.languages?.let { list ->
                 list.takeIf { it.isEmpty().not() }?.let {
@@ -615,6 +687,15 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 
     override fun onSharedPreferencesChanged() {
         fillMovieData(viewModel.movie.value)
+    }
+
+    override fun onItemClick(character: Character,type: Int, position: Int) {
+        val characterFragment = CharacterFragment.newInstance()
+        characterFragment.arguments = Bundle().apply {
+            putInt(CharacterFragment.CHARACTER_TYPE_KEY,type)
+            putInt(CharacterFragment.CHARACTER_ID_KEY,character.id)
+        }
+        addToParent(characterFragment)
     }
 
 }

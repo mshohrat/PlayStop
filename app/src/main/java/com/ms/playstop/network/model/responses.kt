@@ -106,7 +106,7 @@ data class LanguageListResponse(
 
 data class ActorListResponse(
     @SerializedName("actors")
-    val actors : List<Actor?>?
+    val actors : List<Character?>?
 )
 
 data class WriterListResponse(
@@ -195,4 +195,19 @@ data class EnterPhoneNumberResult(
     val code: Int?,
     @SerializedName("message")
     val message: String?
+)
+
+data class ActorInfoResponse(
+    @SerializedName("actor")
+    val actor: Character?
+)
+
+data class DirectorInfoResponse(
+    @SerializedName("director")
+    val director: Character?
+)
+
+data class WriterInfoResponse(
+    @SerializedName("writer")
+    val writer: Character?
 )

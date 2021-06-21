@@ -52,7 +52,13 @@ data class Movie(
     @SerializedName("subtitle")
     var subtitle: String?,
     @SerializedName("is_liked")
-    var isLiked: Boolean = false
+    var isLiked: Boolean = false,
+    @SerializedName("directors_real")
+    val realDirector: Character?,
+    @SerializedName("writers_real")
+    val realWriter: Character?,
+    @SerializedName("actors_real")
+    val realActors: List<Character>??
 ) {
     companion object {
         const val SORT_DEFAULT = 0

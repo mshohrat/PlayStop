@@ -59,5 +59,9 @@
     <dimen name="play_movie_timebar_height">20dp</dimen>
     <dimen name="audio_seekbar_height">96dp</dimen>
     <dimen name="brightness_seekbar_height">96dp</dimen>
+    <dimen name="avatar_size">90dp</dimen>
+    <dimen name="avatar_size_medium">72dp</dimen>
+    <dimen name="avatar_size_small">48dp</dimen>
+    <dimen name="avatar_size_tiny">32dp</dimen>
 
 </resources>

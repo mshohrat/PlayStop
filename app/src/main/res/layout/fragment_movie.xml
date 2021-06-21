@@ -194,6 +194,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_dislike"
+                        android:visibility="gone"
                         android:background="?android:selectableItemBackground"/>
                     <Space
                         android:layout_width="0dp"
@@ -282,17 +283,24 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:background="@color/colorAccent"/>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movie_actors_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_actors_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/margin_standard"
                     style="?textAppearanceCaption"
                     tools:text="جانی دپ - برد پیت - آلپاچینو"/>
 
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_director_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceHeadline3"
@@ -305,10 +313,40 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:background="@color/colorAccent"/>
 
+                <LinearLayout
+                    android:id="@+id/movie_director_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/movie_director_avatar_iv"
+                        android:layout_width="@dimen/avatar_size_medium"
+                        android:layout_height="@dimen/avatar_size_medium"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/movie_director_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="@dimen/margin_standard"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        style="?textAppearanceCaption"
+                        tools:text="آلپاچینو"/>
+
+                </LinearLayout>
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_director_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:textColor="@color/white"
                     android:layout_marginTop="@dimen/margin_standard"
                     style="?textAppearanceCaption"
@@ -327,11 +365,41 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:background="@color/colorAccent"/>
 
+                <LinearLayout
+                    android:id="@+id/movie_writer_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_standard"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:orientation="vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/movie_writer_avatar_iv"
+                        android:layout_width="@dimen/avatar_size_medium"
+                        android:layout_height="@dimen/avatar_size_medium"
+                        android:layout_gravity="center_horizontal"/>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/movie_writer_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_marginTop="@dimen/margin_standard"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        style="?textAppearanceCaption"
+                        tools:text="آلپاچینو"/>
+
+                </LinearLayout>
+
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_writer_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/margin_standard"
                     style="?textAppearanceCaption"
                     tools:text="کریستوفر نولان"/>

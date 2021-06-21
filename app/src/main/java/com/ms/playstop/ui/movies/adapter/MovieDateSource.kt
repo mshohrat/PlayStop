@@ -231,6 +231,84 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int, var requ
                         }
                     })
             }
+            RequestType.ACTOR -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getActorMovies(
+                    1,
+                    requestId,
+                    getSortRequestParam()
+                )
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        val nextKey = if(it?.currentPage == it?.totalPages) null else 2
+                        it?.movies?.let {
+                            requestState.postValue(STATE_SUCCESS)
+                            callback.onResult(it,null,nextKey)
+                        } ?: kotlin.run {
+                            requestState.postValue(STATE_ERROR)
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    },{
+                        requestState.postValue(STATE_ERROR)
+                        it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                            networkError.postValue(it)
+                        } ?: kotlin.run {
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    })
+            }
+            RequestType.DIRECTOR -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getDirectorMovies(
+                    1,
+                    requestId,
+                    getSortRequestParam()
+                )
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        val nextKey = if(it?.currentPage == it?.totalPages) null else 2
+                        it?.movies?.let {
+                            requestState.postValue(STATE_SUCCESS)
+                            callback.onResult(it,null,nextKey)
+                        } ?: kotlin.run {
+                            requestState.postValue(STATE_ERROR)
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    },{
+                        requestState.postValue(STATE_ERROR)
+                        it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                            networkError.postValue(it)
+                        } ?: kotlin.run {
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    })
+            }
+            RequestType.WRITER -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getWriterMovies(
+                    1,
+                    requestId,
+                    getSortRequestParam()
+                )
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        val nextKey = if(it?.currentPage == it?.totalPages) null else 2
+                        it?.movies?.let {
+                            requestState.postValue(STATE_SUCCESS)
+                            callback.onResult(it,null,nextKey)
+                        } ?: kotlin.run {
+                            requestState.postValue(STATE_ERROR)
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    },{
+                        requestState.postValue(STATE_ERROR)
+                        it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                            networkError.postValue(it)
+                        } ?: kotlin.run {
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    })
+            }
             else -> {}
         }
     }
@@ -353,6 +431,57 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int, var requ
             RequestType.LIKES -> {
                 ApiServiceGenerator.getApiService.getLikedMovies(
                     params.key,
+                    getSortRequestParam()
+                )
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        it?.movies?.let { movies ->
+                            val nextKey = if (params.key == it.totalPages) null else params.key+1;
+                            callback.onResult(movies,nextKey)
+                        } ?: kotlin.run {
+                        }
+                    },{
+                    })
+            }
+            RequestType.ACTOR -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getActorMovies(
+                    params.key,
+                    requestId,
+                    getSortRequestParam()
+                )
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        it?.movies?.let { movies ->
+                            val nextKey = if (params.key == it.totalPages) null else params.key+1;
+                            callback.onResult(movies,nextKey)
+                        } ?: kotlin.run {
+                        }
+                    },{
+                    })
+            }
+            RequestType.DIRECTOR -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getDirectorMovies(
+                    params.key,
+                    requestId,
+                    getSortRequestParam()
+                )
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        it?.movies?.let { movies ->
+                            val nextKey = if (params.key == it.totalPages) null else params.key+1;
+                            callback.onResult(movies,nextKey)
+                        } ?: kotlin.run {
+                        }
+                    },{
+                    })
+            }
+            RequestType.WRITER -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getWriterMovies(
+                    params.key,
+                    requestId,
                     getSortRequestParam()
                 )
                     ?.initSchedulers()

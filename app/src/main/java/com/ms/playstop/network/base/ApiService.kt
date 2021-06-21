@@ -34,22 +34,25 @@ interface ApiService {
         @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
-    @GET("v1/movies/director/{id}/{page}")
+    @GET("v1/directors/{id}/movies/{page}")
     fun getDirectorMovies(
-        @Path("page") page : Int
-        ,@Path("id") directorId : Int
+        @Path("page") page : Int,
+        @Path("id") directorId : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
-    @GET("v1/movies/actor/{id}/{page}")
+    @GET("v1/actors/{id}/movies/{page}")
     fun getActorMovies(
-        @Path("page") page : Int
-        ,@Path("id") actorId : Int
+        @Path("page") page : Int,
+        @Path("id") actorId : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
-    @GET("v1/movies/writer/{id}/{page}")
+    @GET("v1/writers/{id}/movies/{page}")
     fun getWriterMovies(
-        @Path("page") page : Int
-        ,@Path("id") writerId : Int
+        @Path("page") page : Int,
+        @Path("id") writerId : Int,
+        @Query("sort") sort : String? = null
     ) : Single<MoviePagedListResponse?>?
 
     @GET("v1/movies/category/{id}/{page}")
@@ -226,5 +229,19 @@ interface ApiService {
         @Path("id") movieId : Int
     ) : Single<MovieListResponse?>?
 
+    @GET("v1/actors/{id}")
+    fun getActorInfo(
+        @Path("id") actorId : Int
+    ) : Single<ActorInfoResponse?>?
+
+    @GET("v1/directors/{id}")
+    fun getDirectorInfo(
+        @Path("id") directorId : Int
+    ) : Single<DirectorInfoResponse?>?
+
+    @GET("v1/writers/{id}")
+    fun getWriterInfo(
+        @Path("id") writerId : Int
+    ) : Single<WriterInfoResponse?>?
 
 }
