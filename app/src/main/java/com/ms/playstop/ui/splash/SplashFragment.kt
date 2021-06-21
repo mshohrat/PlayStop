@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.google.firebase.iid.FirebaseInstanceId
@@ -42,9 +44,21 @@ class SplashFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_splash, container, false)
     }
 
+    override fun isEnterAnimationEnabled(): Boolean {
+        return false
+    }
+
+    override fun getExitAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_out) }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SplashViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         initViews()
         subscribeToViewEvents()
         subscribeToViewModel()

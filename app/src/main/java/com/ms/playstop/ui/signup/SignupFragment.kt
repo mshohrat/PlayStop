@@ -38,6 +38,10 @@ class SignupFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SignupViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         subscribeToViewModel()
         subscribeToViewEvents()
     }

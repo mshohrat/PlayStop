@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.ms.playstop.R
@@ -38,9 +40,21 @@ class EnterPhoneNumberFragment : BaseFragment() {
         return "Enter Phone Number Fragment"
     }
 
+    override fun getExitAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_out) }
+    }
+
+    override fun getEnterAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_in) }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(EnterPhoneNumberViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         handleArguments()
         initViews()
         subscribeToViewModel()

@@ -72,7 +72,16 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        if(isUserLoggedIn()) {
+            movie_like_btn?.show()
+        } else {
+            movie_like_btn?.hide()
+        }
         viewModel = ViewModelProviders.of(this).get(MovieViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         initViews()
         subscribeToViewModel()
         subscribeToViewEvents()

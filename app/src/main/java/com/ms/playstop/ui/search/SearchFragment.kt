@@ -6,6 +6,8 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -42,6 +44,18 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
     }
     private var searchPhraseFromDeepLink : String? = null
 
+    override fun getEnterAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_in) } ?: kotlin.run { null }
+    }
+
+    override fun isExitAnimationEnabled(): Boolean {
+        return false
+    }
+
+    override fun isEnterAnimationEnabled(): Boolean {
+        return false
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -56,6 +70,11 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
+
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         subscribeToViewModel()
         subscribeToViewEvents()
         initViews()

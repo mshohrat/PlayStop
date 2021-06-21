@@ -54,8 +54,12 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initViews()
         viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
+        initViews()
         val moviesRequestId = arguments?.takeIf { it.containsKey(MOVIES_REQUEST_TYPE) }
             ?.getInt(MOVIES_REQUEST_ID) ?: -1
         var moviesRequestType : RequestType = RequestType.SUGGESTION

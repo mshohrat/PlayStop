@@ -42,10 +42,22 @@ class HomeFragment : BaseFragment() {
         return ""
     }
 
+    override fun isEnterAnimationEnabled(): Boolean {
+        return false
+    }
+
+    override fun isExitAnimationEnabled(): Boolean {
+        return false
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //activity?.updateStatusBarColor(R.color.purple)
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         initViews()
         subscribeToViewEvents()
     }

@@ -59,6 +59,10 @@ class SettingsFragment : BaseFragment(), SettingNightModeAdapter.OnItemClickList
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(SettingsViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         initViews()
         subscribeToViewModel()
         subscribeToViewEvents()

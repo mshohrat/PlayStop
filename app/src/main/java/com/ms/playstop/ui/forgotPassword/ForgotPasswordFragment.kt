@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.ms.playstop.R
@@ -36,9 +38,21 @@ class ForgotPasswordFragment : BaseFragment() {
         return "Forgot Password Fragment"
     }
 
+    override fun getExitAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_out) }
+    }
+
+    override fun getEnterAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_in) }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ForgotPasswordViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         subscribeToViewEvents()
         subscribeToViewModel()
     }

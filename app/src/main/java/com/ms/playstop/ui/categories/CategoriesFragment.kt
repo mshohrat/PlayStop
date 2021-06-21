@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -45,6 +47,18 @@ class CategoriesFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_categories, container, false)
     }
 
+    override fun getEnterAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_in) } ?: kotlin.run { null }
+    }
+
+    override fun isExitAnimationEnabled(): Boolean {
+        return false
+    }
+
+    override fun isEnterAnimationEnabled(): Boolean {
+        return false
+    }
+
     override fun tag(): String {
         return TAG
     }
@@ -52,6 +66,10 @@ class CategoriesFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(CategoriesViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         subscribeToViewModel()
         subscribeToViewEvents()
     }

@@ -38,6 +38,10 @@ class CompleteAccountFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CompleteAccountViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         handleArguments()
         subscribeToViewModel()
         subscribeToViewEvents()

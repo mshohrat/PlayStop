@@ -42,6 +42,10 @@ class CommentsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         initViews()
         viewModel = ViewModelProviders.of(this).get(CommentsViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         val movieId = arguments?.takeIf { it.containsKey(COMMENTS_MOVIE_ID) }
             ?.getInt(COMMENTS_MOVIE_ID) ?: -1
         viewModel.setMovieId(movieId)

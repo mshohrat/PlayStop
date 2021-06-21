@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -56,6 +58,18 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
         return inflater.inflate(R.layout.fragment_movie_lists, container, false)
     }
 
+    override fun getEnterAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_in) }
+    }
+
+    override fun isEnterAnimationEnabled(): Boolean {
+        return false
+    }
+
+    override fun isExitAnimationEnabled(): Boolean {
+        return false
+    }
+
     override fun tag(): String {
         return TAG
     }
@@ -63,6 +77,10 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MovieListsViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         initViews()
         subscribeToViewModel()
         subscribeToViewEvents()

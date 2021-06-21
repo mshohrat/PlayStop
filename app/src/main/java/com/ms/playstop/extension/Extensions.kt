@@ -452,7 +452,7 @@ fun Fragment.removeLastFromParent(numbers: Int = 1,skipNumbers: Int = 1) {
 }
 
 fun FragmentTransaction.initCustomAnimations() : FragmentTransaction {
-    return this.setCustomAnimations(android.R.anim.fade_in,android.R.anim.fade_out,android.R.anim.fade_in,android.R.anim.fade_out)
+    return this
 }
 
 fun isUserLoggedIn(): Boolean {
@@ -527,6 +527,10 @@ fun CharSequence.isValidEmail() : Boolean {
 
 fun CharSequence.isValidPhoneNumber() : Boolean {
     return !isNullOrEmpty() && PHONENUMBER_PATTERN.matcher(this.toString().convertToEnglishNumber()).matches()
+}
+
+fun CharSequence.isValidCharacterName(): Boolean {
+    return this.isNotEmpty() && (this == "مشخص نیست").not()
 }
 
 val Fragment.isGooglePlayServicesAvailable: Boolean
