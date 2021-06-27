@@ -41,6 +41,10 @@
                     android:host="playstop.ir"
                     android:pathPattern=".*"
                     android:scheme="https" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*"
+                    android:scheme="playstop" />
             </intent-filter>
         </activity>
 

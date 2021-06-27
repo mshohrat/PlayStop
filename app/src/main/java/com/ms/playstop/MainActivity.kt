@@ -12,6 +12,7 @@ import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.model.*
 import com.ms.playstop.ui.splash.SplashFragment
+import com.ms.playstop.utils.ReviewDialog
 import com.ms.playstop.utils.VpnDialog
 import com.orhanobut.hawk.Hawk
 import java.net.URLDecoder
@@ -82,6 +83,8 @@ class MainActivity : AppCompatActivity() {
                     val rest = schemeSplitted[1].replace("//", "")
                     val scheme = if (schemeString == Scheme.Http.type || schemeString == Scheme.Https.type) {
                         Scheme.Http
+                    } else if (schemeString == Scheme.PlayStop.type) {
+                        Scheme.PlayStop
                     } else {
                         null
                     }
@@ -92,6 +95,7 @@ class MainActivity : AppCompatActivity() {
                             val host = when(hostString) {
                                 Host.PlayStopApp.type -> Host.PlayStopApp
                                 Host.PlayStop.type -> Host.PlayStop
+                                Host.Open.type -> Host.Open
                                 else -> null
                             }
                             when (host) {
@@ -117,6 +121,12 @@ class MainActivity : AppCompatActivity() {
                                         scheme,
                                         host,
                                         path1String
+                                    )
+                                }
+                                Host.Open -> {
+                                    deepLink = DeepLink(
+                                        scheme,
+                                        host
                                     )
                                 }
                                 else -> {
