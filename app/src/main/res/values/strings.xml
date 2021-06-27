@@ -154,5 +154,9 @@
     <string name="rewind_video_by_double_tap">با دو بار کلیک بر روی سمت چپ صفحه، فیلم را ۱۰ ثانیه به عقب برگردانید</string>
     <string name="similar_movies">فیلم‌های مشابه</string>
     <string name="no_similar">مورد مشابه وجود ندارد</string>
+    <string name="send_review">امتیاز میدم</string>
+    <string name="discard">بیخیال</string>
+    <string name="review_desc">لطفا برای حمایت از برنامه و همچنین یاری ما در بهبود خدمات، نظرات خود را در صفحه‌ی برنامه با ما در میان بگذارید.</string>
+    <string name="scoring_app">امتیازدهی به برنامه</string>
 
 </resources>

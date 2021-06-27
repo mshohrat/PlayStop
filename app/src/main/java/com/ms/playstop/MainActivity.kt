@@ -1,14 +1,13 @@
 package com.ms.playstop
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManager
-import com.google.android.play.core.review.ReviewManagerFactory
+import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.model.*
@@ -28,8 +27,7 @@ class MainActivity : AppCompatActivity() {
         return deepLink != null
     }
     private var vpnDialog: VpnDialog? = null
-    private lateinit var reviewManager : ReviewManager
-    private var reviewInfo: ReviewInfo? = null
+    private var reviewDialog: ReviewDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -43,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent))
-        initReviewManager()
         supportFragmentManager.fragments.size.takeIf { it == 0 }.let {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frame,
@@ -51,20 +48,6 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         handleDeepLink(intent)
-    }
-
-    private fun initReviewManager() {
-        reviewManager = ReviewManagerFactory.create(this)
-        val request = reviewManager.requestReviewFlow()
-        request.addOnCompleteListener { response ->
-            reviewInfo = if (response.isSuccessful) {
-                //Received ReviewInfo object
-                request.result
-            } else {
-                //Problem in receiving object
-                null
-            }
-        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -80,6 +63,12 @@ class MainActivity : AppCompatActivity() {
             dismissVpnDialog()
         }
         handleInAppReview()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        dismissReviewDialog()
+        dismissVpnDialog()
     }
 
     private fun handleDeepLink(intent: Intent?) {
@@ -290,18 +279,49 @@ class MainActivity : AppCompatActivity() {
         vpnDialog = null
     }
 
+    private fun showReviewDialog() {
+        if(reviewDialog?.isShowing == true) {
+            return
+        }
+        takeIf { isFinishing.not() }?.let { ctx ->
+            reviewDialog = ReviewDialog(ctx,listener = object : ReviewDialog.OnVpnClickListener {
+                override fun onSendReviewClick() {
+                    try {
+                        val intent = Intent(Intent.ACTION_VIEW).apply {
+                            data = Uri.parse(
+                                "https://play.google.com/store/apps/details?id=${packageName}")
+                            setPackage("com.android.vending")
+                        }
+                        startActivity(intent)
+                    } catch (e: Exception) {
+                        Crashes.trackError(e)
+                    }
+
+                }
+
+                override fun onDiscardClick() {
+
+                }
+
+            })
+            reviewDialog?.show()
+        }
+    }
+
+    private fun dismissReviewDialog() {
+        reviewDialog?.takeIf { it.isShowing }?.dismiss()
+        reviewDialog?.cancel()
+        reviewDialog = null
+    }
+
+
     private fun handleInAppReview() {
         if(Hawk.contains(Movie.IN_APP_REVIEW_SHOWN) && Hawk.get<Boolean>(Movie.IN_APP_REVIEW_SHOWN) == true) {
             return
         }
         if(Hawk.contains(Movie.WATCHED_ONLINE_TIMES) && Hawk.get<Int>(Movie.WATCHED_ONLINE_TIMES) == 2) {
-            reviewInfo?.let {
-                val flow = reviewManager.launchReviewFlow(this@MainActivity, it)
-                flow.addOnCompleteListener {
-                    //Irrespective of the result, the app flow should continue
-                    Hawk.put(Movie.IN_APP_REVIEW_SHOWN,true)
-                }
-            }
+            showReviewDialog()
+            Hawk.put(Movie.IN_APP_REVIEW_SHOWN,true)
         }
     }
 }
