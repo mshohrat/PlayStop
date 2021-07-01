@@ -58,18 +58,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(isVpnActive()) {
-            showVpnDialog()
-        } else {
-            dismissVpnDialog()
-        }
+//        if(isVpnActive()) {
+//            showVpnDialog()
+//        } else {
+//            dismissVpnDialog()
+//        }
         handleInAppReview()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         dismissReviewDialog()
-        dismissVpnDialog()
+        //dismissVpnDialog()
     }
 
     private fun handleDeepLink(intent: Intent?) {
@@ -280,21 +280,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun showVpnDialog() {
-        if(vpnDialog?.isShowing == true) {
-            return
-        }
-        takeIf { isFinishing.not() }?.let { ctx ->
-            vpnDialog = VpnDialog(ctx)
-            vpnDialog?.show()
-        }
-    }
-
-    fun dismissVpnDialog() {
-        vpnDialog?.takeIf { it.isShowing }?.dismiss()
-        vpnDialog?.cancel()
-        vpnDialog = null
-    }
+//    fun showVpnDialog() {
+//        if(vpnDialog?.isShowing == true) {
+//            return
+//        }
+//        takeIf { isFinishing.not() }?.let { ctx ->
+//            vpnDialog = VpnDialog(ctx)
+//            vpnDialog?.show()
+//        }
+//    }
+//
+//    fun dismissVpnDialog() {
+//        vpnDialog?.takeIf { it.isShowing }?.dismiss()
+//        vpnDialog?.cancel()
+//        vpnDialog = null
+//    }
 
     private fun showReviewDialog() {
         if(reviewDialog?.isShowing == true) {

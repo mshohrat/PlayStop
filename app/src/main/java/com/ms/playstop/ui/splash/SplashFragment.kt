@@ -62,12 +62,12 @@ class SplashFragment : BaseFragment() {
         initViews()
         subscribeToViewEvents()
         subscribeToViewModel()
-        if(isVpnActive().not()) {
-            (activity as? MainActivity?)?.dismissVpnDialog()
-        }
-        else {
-            (activity as? MainActivity?)?.showVpnDialog()
-        }
+//        if(isVpnActive().not()) {
+//            (activity as? MainActivity?)?.dismissVpnDialog()
+//        }
+//        else {
+//            (activity as? MainActivity?)?.showVpnDialog()
+//        }
         viewModel.fetchConfig()
     }
 
@@ -77,15 +77,15 @@ class SplashFragment : BaseFragment() {
 
     private fun subscribeToViewEvents() {
         splash_try_again_btn?.setOnClickListener {
-            if(isVpnActive().not()) {
-                (activity as? MainActivity?)?.dismissVpnDialog()
+//            if(isVpnActive().not()) {
+//                (activity as? MainActivity?)?.dismissVpnDialog()
                 viewModel.fetchConfig()
                 splash_try_again_btn?.hide()
                 splash_progress?.show()
-            }
-            else {
-                (activity as? MainActivity?)?.showVpnDialog()
-            }
+//            }
+//            else {
+//                (activity as? MainActivity?)?.showVpnDialog()
+//            }
         }
     }
 
