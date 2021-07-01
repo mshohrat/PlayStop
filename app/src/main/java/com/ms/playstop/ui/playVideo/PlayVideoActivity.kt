@@ -26,8 +26,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.ext.cronet.CronetDataSource
-import com.google.android.exoplayer2.ext.cronet.CronetEngineWrapper
+//import com.google.android.exoplayer2.ext.cronet.CronetDataSource
+//import com.google.android.exoplayer2.ext.cronet.CronetEngineWrapper
 import com.google.android.exoplayer2.source.*
 import com.google.android.exoplayer2.source.dash.DashMediaSource
 import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource
@@ -46,8 +46,8 @@ import com.ms.playstop.ui.playVideo.adapter.RadioLinkAdapter
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_play_video.*
 import kotlinx.android.synthetic.main.exo_playback_control_view.*
-import org.chromium.net.CronetEngine
-import java.util.concurrent.Executors
+//import org.chromium.net.CronetEngine
+//import java.util.concurrent.Executors
 import kotlin.math.max
 import kotlin.math.min
 
@@ -523,24 +523,18 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 //            .setExtractorsFactory(DefaultExtractorsFactory())
 //            .createMediaSource(uri)
 
-        val cronetDataSourceFactory = CronetDataSource.Factory(
-            CronetEngineWrapper(
-                CronetEngine.Builder(this).build()
-            ),
-            Executors.newSingleThreadExecutor()
-        ).setFallbackFactory(DefaultHttpDataSource.Factory().setUserAgent(userAgent))
-        .setUserAgent(userAgent)
+        val dataSourceFactory = DefaultHttpDataSource.Factory().setUserAgent(userAgent)
         return if (uri.lastPathSegment?.contains("mkv") == true || uri.lastPathSegment?.contains("mp4") == true) {
-            ProgressiveMediaSource.Factory(cronetDataSourceFactory)
+            ProgressiveMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(MediaItem.fromUri(uri))
         } else if (uri.lastPathSegment?.contains("m3u8") == true) {
-            HlsMediaSource.Factory(cronetDataSourceFactory)
+            HlsMediaSource.Factory(dataSourceFactory)
                 .createMediaSource(MediaItem.fromUri(uri))
         } else {
             val dashChunkSourceFactory = DefaultDashChunkSource.Factory(
-                cronetDataSourceFactory
+                dataSourceFactory
             )
-            DashMediaSource.Factory(dashChunkSourceFactory, cronetDataSourceFactory).createMediaSource(
+            DashMediaSource.Factory(dashChunkSourceFactory, dataSourceFactory).createMediaSource(
                 MediaItem.fromUri(uri)
             )
         }
