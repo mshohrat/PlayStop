@@ -142,13 +142,13 @@ dependencies {
     implementation 'com.google.android:flexbox:2.0.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'com.google.android.exoplayer:exoplayer:2.13.3'
-    implementation 'com.google.android.exoplayer:extension-cronet:2.13.3'
+    //implementation 'com.google.android.exoplayer:extension-cronet:2.13.3'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenter}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenter}"
     implementation "com.tuyenmonkey:mkloader:${mkLoader}"
     implementation "com.github.mukeshsolanki:android-otpview-pinview:${otpView}"
     implementation "com.github.mreram:showcaseview:${showcaseview}"
-    implementation "com.google.android.play:core:${googlePlayCore}"
+//    implementation "com.google.android.play:core:${googlePlayCore}"
 }
 
 repositories {
