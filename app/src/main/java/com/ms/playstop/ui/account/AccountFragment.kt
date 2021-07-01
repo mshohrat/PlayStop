@@ -5,14 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
-import com.ms.playstop.extension.addToParent
+import com.ms.playstop.extension.*
 import com.ms.playstop.ui.completeAccount.CompleteAccountFragment
 import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
 import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
+import com.ms.playstop.ui.payment.PaymentFragment
 import com.ms.playstop.ui.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 
@@ -53,6 +55,24 @@ class AccountFragment : BaseFragment() {
                 account_name_tv?.text = it.name
                 account_email_tv?.text = it.email
                 account_phone_tv?.text = it.phone
+                if(isSubscriptionEnabled()) {
+                    account_subscription_group?.show()
+                    if(it.isSubscriptionExpired) {
+                        activity?.let {
+                            account_subscription_status_tv?.setTextColor(ContextCompat.getColor(it,R.color.pure_orange_dark))
+                        }
+                        account_subscription_status_tv?.setText(R.string.disabled)
+                        account_end_subscription_date_tv?.text = ""
+                    } else {
+                        activity?.let {
+                            account_subscription_status_tv?.setTextColor(ContextCompat.getColor(it,R.color.pure_green_dark))
+                        }
+                        account_subscription_status_tv?.setText(R.string.enabled)
+                        account_end_subscription_date_tv?.text = String.format(getString(R.string.until_date_x),getJalaliDate(it.endSubscriptionDate))
+                    }
+                } else {
+                    account_subscription_group?.hide()
+                }
             }
         })
     }
@@ -90,6 +110,10 @@ class AccountFragment : BaseFragment() {
         account_phone_edit_ib?.setOnClickListener {
             navigateToEditPhoneFragment()
         }
+
+        account_subscription_purchase_btn?.setOnClickListener {
+            navigateToPaymentFragment()
+        }
     }
 
     private fun navigateToEditAccountFragment() {
@@ -109,6 +133,11 @@ class AccountFragment : BaseFragment() {
         }
         enterPhoneNumberFragment.arguments = args
         addToParent(enterPhoneNumberFragment)
+    }
+
+    private fun navigateToPaymentFragment() {
+        val paymentFragment = PaymentFragment.newInstance()
+        addToParent(paymentFragment)
     }
 
     private fun restartApp() {

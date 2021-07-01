@@ -46,4 +46,6 @@
     <color name="pure_black">#000000</color>
     <color name="pure_light_gray">#DADADA</color>
     <color name="pure_light_gray_opacity30">#4DDADADA</color>
+    <color name="pure_green_dark">#2F7E32</color>
+    <color name="pure_orange_dark">#AC7B32</color>
 </resources>

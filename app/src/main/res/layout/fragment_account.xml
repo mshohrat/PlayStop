@@ -61,189 +61,279 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/account_avatar_iv"
-        android:layout_width="@dimen/account_avatar_size"
-        android:layout_height="@dimen/account_avatar_size"
-        app:layout_constraintTop_toBottomOf="@id/account_appbar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_user_avater"
-        android:layout_margin="@dimen/margin_large"/>
-
-    <View
-        android:id="@+id/account_name_bg_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
-        android:layout_marginHorizontal="@dimen/margin_standard"
-        android:layout_marginTop="@dimen/margin_huge"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/account_name_edit_ib"
-        app:layout_constraintTop_toBottomOf="@id/account_avatar_iv"
-        app:layout_constraintBottom_toBottomOf="@id/account_name_tv"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/account_name_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/account_name_bg_view"
-        app:layout_constraintTop_toTopOf="@id/account_name_bg_view"
-        android:layout_marginTop="@dimen/margin_standard"
-        android:layout_marginHorizontal="@dimen/margin_standard"
-        android:textColor="@color/colorAccentDark"
-        style="?textAppearanceCaption"
-        android:text="@string/name" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/account_name_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/account_name_bg_view"
-        app:layout_constraintEnd_toEndOf="@id/account_name_bg_view"
-        app:layout_constraintTop_toBottomOf="@id/account_name_title_tv"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_standard"
-        android:drawablePadding="@dimen/padding_standard"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:textAppearance="?textAppearanceBody1"
-        android:textColor="@color/white"
-        android:drawableStart="@drawable/ic_name"
-        tools:text="میثم قربانی"
-        android:paddingHorizontal="@dimen/padding_standard"/>
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/account_name_edit_ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_edit"
-        android:background="?selectableItemBackground"
-        android:layout_marginStart="@dimen/margin_standard"
-        app:layout_constraintTop_toTopOf="@id/account_name_bg_view"
-        app:layout_constraintBottom_toBottomOf="@id/account_name_bg_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/account_name_bg_view"/>
-
-    <View
-        android:id="@+id/account_email_bg_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
-        android:layout_marginHorizontal="@dimen/margin_standard"
-        android:layout_marginTop="@dimen/margin_standard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/account_email_edit_ib"
-        app:layout_constraintTop_toBottomOf="@id/account_name_bg_view"
-        app:layout_constraintBottom_toBottomOf="@id/account_email_tv"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/account_email_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/account_email_bg_view"
-        app:layout_constraintTop_toTopOf="@id/account_email_bg_view"
-        android:layout_marginTop="@dimen/margin_standard"
-        android:layout_marginHorizontal="@dimen/margin_standard"
-        android:textColor="@color/colorAccentDark"
-        style="?textAppearanceCaption"
-        android:text="@string/email" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/account_email_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/account_email_bg_view"
-        app:layout_constraintEnd_toEndOf="@id/account_email_bg_view"
-        app:layout_constraintTop_toBottomOf="@id/account_email_title_tv"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_standard"
-        android:textAppearance="?textAppearanceBody1"
-        android:textColor="@color/white"
-        android:drawableStart="@drawable/ic_email"
-        android:drawablePadding="@dimen/padding_standard"
-        tools:text="meysam.shohrat@gmail.com"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:paddingHorizontal="@dimen/padding_standard"/>
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/account_email_edit_ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_edit"
-        android:background="?selectableItemBackground"
-        android:layout_marginStart="@dimen/margin_standard"
-        app:layout_constraintTop_toTopOf="@id/account_email_bg_view"
-        app:layout_constraintBottom_toBottomOf="@id/account_email_bg_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/account_email_bg_view"/>
-
-    <View
-        android:id="@+id/account_phone_bg_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
-        android:layout_marginHorizontal="@dimen/margin_standard"
-        android:layout_marginTop="@dimen/margin_standard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/account_phone_edit_ib"
-        app:layout_constraintTop_toBottomOf="@id/account_email_bg_view"
-        app:layout_constraintBottom_toBottomOf="@id/account_phone_tv"/>
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/account_phone_title_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/account_phone_bg_view"
-        app:layout_constraintTop_toTopOf="@id/account_phone_bg_view"
-        android:layout_marginTop="@dimen/margin_standard"
-        android:layout_marginHorizontal="@dimen/margin_standard"
-        android:textColor="@color/colorAccentDark"
-        style="?textAppearanceCaption"
-        android:text="@string/phone_number" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/account_phone_tv"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/account_phone_bg_view"
-        app:layout_constraintEnd_toEndOf="@id/account_phone_bg_view"
-        app:layout_constraintTop_toBottomOf="@id/account_phone_title_tv"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_standard"
-        android:drawablePadding="@dimen/padding_standard"
-        android:ellipsize="end"
-        android:maxLines="1"
-        android:textAppearance="?textAppearanceBody1"
-        android:textColor="@color/white"
-        android:drawableStart="@drawable/ic_phone"
-        tools:text="09123456789"
-        android:paddingHorizontal="@dimen/padding_standard"/>
-
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/account_phone_edit_ib"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_edit"
-        android:background="?selectableItemBackground"
-        android:layout_marginStart="@dimen/margin_standard"
-        app:layout_constraintTop_toTopOf="@id/account_phone_bg_view"
-        app:layout_constraintBottom_toBottomOf="@id/account_phone_bg_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/account_phone_bg_view"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/account_liked_movies_btn"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="?textAppearanceBody1"
-        app:backgroundTint="@color/colorAccent"
-        android:textColor="@color/colorPrimary"
-        android:layout_marginVertical="@dimen/margin_large"
-        android:layout_marginHorizontal="@dimen/margin_standard"
-        app:layout_constraintTop_toBottomOf="@id/account_phone_bg_view"
-        android:text="@string/liked_movies"/>
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/account_appbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/account_avatar_iv"
+                android:layout_width="@dimen/account_avatar_size"
+                android:layout_height="@dimen/account_avatar_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/ic_user_avater"
+                android:layout_margin="@dimen/margin_standard"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/account_name_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="@id/account_name_bg_view"
+                app:layout_constraintTop_toTopOf="@id/account_name_edit_ib"
+                app:layout_constraintBottom_toBottomOf="@id/account_name_edit_ib"
+                android:gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                android:textColor="@color/colorAccentDark"
+                style="?textAppearanceCaption"
+                android:text="@string/name" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_name_edit_ib"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/account_name_bg_view"
+                app:layout_constraintTop_toBottomOf="@id/account_avatar_iv"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:textColor="@color/blue"
+                android:text="@string/edit" />
+
+            <View
+                android:id="@+id/account_name_bg_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/account_name_title_tv"
+                app:layout_constraintBottom_toBottomOf="@id/account_name_tv"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/account_name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/account_name_bg_view"
+                app:layout_constraintEnd_toEndOf="@id/account_name_bg_view"
+                app:layout_constraintTop_toTopOf="@id/account_name_bg_view"
+                android:paddingVertical="@dimen/padding_medium"
+                android:drawablePadding="@dimen/padding_standard"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="?textAppearanceBody1"
+                android:textColor="@color/white"
+                android:drawableStart="@drawable/ic_name"
+                tools:text="میثم قربانی"
+                android:paddingHorizontal="@dimen/padding_standard"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_email_edit_ib"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/account_name_bg_view"
+                app:layout_constraintTop_toBottomOf="@id/account_name_bg_view"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:textColor="@color/blue"
+                android:text="@string/edit" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/account_email_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="@id/account_email_bg_view"
+                app:layout_constraintTop_toTopOf="@id/account_email_edit_ib"
+                app:layout_constraintBottom_toBottomOf="@id/account_email_edit_ib"
+                android:gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                android:textColor="@color/colorAccentDark"
+                style="?textAppearanceCaption"
+                android:text="@string/email" />
+
+            <View
+                android:id="@+id/account_email_bg_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/account_email_edit_ib"
+                app:layout_constraintBottom_toBottomOf="@id/account_email_tv"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/account_email_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/account_email_bg_view"
+                app:layout_constraintEnd_toEndOf="@id/account_email_bg_view"
+                app:layout_constraintTop_toTopOf="@id/account_email_bg_view"
+                android:paddingVertical="@dimen/padding_medium"
+                android:textAppearance="?textAppearanceBody1"
+                android:textColor="@color/white"
+                android:drawableStart="@drawable/ic_email"
+                android:drawablePadding="@dimen/padding_standard"
+                tools:text="meysam.shohrat@gmail.com"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:paddingHorizontal="@dimen/padding_standard"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_phone_edit_ib"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/account_name_bg_view"
+                app:layout_constraintTop_toBottomOf="@id/account_email_bg_view"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:textColor="@color/blue"
+                android:text="@string/edit" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/account_phone_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="@id/account_phone_bg_view"
+                app:layout_constraintTop_toTopOf="@id/account_phone_edit_ib"
+                app:layout_constraintBottom_toBottomOf="@id/account_phone_edit_ib"
+                android:gravity="center_vertical"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                android:textColor="@color/colorAccentDark"
+                style="?textAppearanceCaption"
+                android:text="@string/phone_number" />
+
+            <View
+                android:id="@+id/account_phone_bg_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/account_phone_edit_ib"
+                app:layout_constraintBottom_toBottomOf="@id/account_phone_tv"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/account_phone_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/account_phone_bg_view"
+                app:layout_constraintEnd_toEndOf="@id/account_phone_bg_view"
+                app:layout_constraintTop_toBottomOf="@id/account_phone_title_tv"
+                android:paddingVertical="@dimen/padding_medium"
+                android:drawablePadding="@dimen/padding_standard"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="?textAppearanceBody1"
+                android:textColor="@color/white"
+                android:drawableStart="@drawable/ic_phone"
+                tools:text="09123456789"
+                android:paddingHorizontal="@dimen/padding_standard"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_subscription_purchase_btn"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Dialog.Flush"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/account_subscription_bg_view"
+                app:layout_constraintTop_toBottomOf="@id/account_phone_bg_view"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:textColor="@color/blue"
+                android:text="@string/purchase" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/account_subscription_title_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="@id/account_liked_movies_btn"
+                app:layout_constraintTop_toTopOf="@id/account_subscription_purchase_btn"
+                app:layout_constraintBottom_toBottomOf="@id/account_subscription_purchase_btn"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                android:textColor="@color/colorAccentDark"
+                android:gravity="center_vertical"
+                style="?textAppearanceCaption"
+                android:text="@string/subscription_status" />
+
+            <View
+                android:id="@+id/account_subscription_bg_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/account_subscription_title_tv"
+                app:layout_constraintBottom_toBottomOf="@id/account_subscription_status_tv"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/account_subscription_status_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/account_subscription_bg_view"
+                app:layout_constraintTop_toTopOf="@id/account_subscription_bg_view"
+                android:paddingVertical="@dimen/margin_medium"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAppearance="?textAppearanceBody1"
+                android:textColor="@color/white"
+                tools:text="@string/enabled"
+                android:paddingHorizontal="@dimen/padding_standard"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/account_end_subscription_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/account_subscription_bg_view"
+                app:layout_constraintTop_toTopOf="@id/account_subscription_status_tv"
+                app:layout_constraintBottom_toBottomOf="@id/account_subscription_status_tv"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:textAppearance="?textAppearanceCaption"
+                android:textColor="@color/white"
+                tools:text="@string/until_date_x"
+                android:paddingHorizontal="@dimen/padding_standard"/>
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/account_subscription_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:constraint_referenced_ids="account_subscription_bg_view,account_subscription_title_tv,account_subscription_purchase_btn,account_end_subscription_date_tv,account_subscription_status_tv"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_liked_movies_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?textAppearanceBody1"
+                app:backgroundTint="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginVertical="@dimen/margin_large"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                app:layout_constraintTop_toBottomOf="@id/account_subscription_bg_view"
+                android:text="@string/liked_movies"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/account_logout_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/colorPrimary"/>
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/account_logout_btn"

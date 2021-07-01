@@ -177,7 +177,11 @@ data class UserInfoResponse(
     @SerializedName("phone_verified")
     val isPhoneVerified: Boolean = false,
     @SerializedName("phone")
-    val phone: String?
+    val phone: String?,
+    @SerializedName("end_subscription_date")
+    val endSubscriptionDate: String?,
+    @SerializedName("is_subscription_expired")
+    val isSubscriptionExpired: Boolean = false
 )
 
 data class UserResponse(

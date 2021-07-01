@@ -42,6 +42,7 @@ import com.ms.playstop.ui.movie.adapter.EpisodeAdapter
 import com.ms.playstop.ui.movie.adapter.LinkAdapter
 import com.ms.playstop.ui.movie.adapter.SeasonAdapter
 import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
+import com.ms.playstop.ui.payment.PaymentFragment
 import com.ms.playstop.ui.playVideo.PlayVideoActivity
 import com.ms.playstop.utils.*
 import io.reactivex.Single
@@ -49,7 +50,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movie.*
-import kotlinx.android.synthetic.main.fragment_movies.*
 
 class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
     CharacterAdapter.OnItemClickListener {
@@ -397,47 +397,33 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
             when {
                 isUserLoggedIn().not() -> {
                     hideAllLinks()
-                    movie_login_and_watch_btn?.show()
                     movie_verify_phone_and_watch_btn?.hide()
+                    movie_purchase_subscription_and_watch_btn?.hide()
+                    movie_login_and_watch_btn?.show()
                 }
                 isUserPhoneVerified().not() -> {
                     hideAllLinks()
                     movie_login_and_watch_btn?.hide()
+                    movie_purchase_subscription_and_watch_btn?.hide()
                     movie_verify_phone_and_watch_btn?.show()
                 }
-                movie.isSeries -> {
-                    movie_login_and_watch_btn?.hide()
-                    movie_verify_phone_and_watch_btn?.hide()
-                    movie_seasons_title_tv?.show()
-                    movie_seasons_divider?.show()
-                    movie.seasons?.takeIf { it.isNotEmpty() }?.let {
-                        movie_no_seasons_tv?.hide()
-                        movie_seasons_recycler?.show()
-                        val seasonLayoutManager =
-                            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                        val seasonAdapter = SeasonAdapter(it, this)
-                        movie_seasons_recycler?.layoutManager = seasonLayoutManager
-                        movie_seasons_recycler?.adapter = seasonAdapter
-                    } ?: kotlin.run {
-                        movie_no_seasons_tv?.show()
+                isSubscriptionEnabled() && movie.isUserSubscriptionExpired -> {
+                    when {
+                        movie.isSeries && movie.seasons?.isNotEmpty() == true -> handleMovieSeasonsAndEpisodes(movie)
+                        movie.urls?.isNotEmpty() == true -> handleMovieUrls(movie)
+                        else -> {
+                            hideAllLinks()
+                            movie_login_and_watch_btn?.hide()
+                            movie_verify_phone_and_watch_btn?.hide()
+                            movie_purchase_subscription_and_watch_btn?.show()
+                        }
                     }
                 }
+                movie.isSeries -> {
+                    handleMovieSeasonsAndEpisodes(movie)
+                }
                 else -> {
-                    movie_login_and_watch_btn?.hide()
-                    movie_verify_phone_and_watch_btn?.hide()
-                    movie_links_title_tv?.show()
-                    movie_links_divider?.show()
-                    movie.urls?.takeIf { it.isNotEmpty() }?.let {
-                        movie_no_links_tv?.hide()
-                        movie_links_recycler?.show()
-                        val linkLayoutManager =
-                            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-                        val linkAdapter = LinkAdapter(it, movie.subtitles,movie.name)
-                        movie_links_recycler?.layoutManager = linkLayoutManager
-                        movie_links_recycler?.adapter = linkAdapter
-                    } ?: kotlin.run {
-                        movie_no_links_tv?.show()
-                    }
+                    handleMovieUrls(movie)
                 }
             }
             movie.comments?.takeIf { it.isNotEmpty() }?.let {
@@ -463,6 +449,42 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
                 movie_subtitle_divider?.hide()
                 movie_subtitle_btn?.hide()
             }
+        }
+    }
+
+    private fun handleMovieUrls(movie: Movie) {
+        movie_login_and_watch_btn?.hide()
+        movie_verify_phone_and_watch_btn?.hide()
+        movie_links_title_tv?.show()
+        movie_links_divider?.show()
+        movie.urls?.takeIf { it.isNotEmpty() }?.let {
+            movie_no_links_tv?.hide()
+            movie_links_recycler?.show()
+            val linkLayoutManager =
+                LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            val linkAdapter = LinkAdapter(it, movie.subtitles,movie.name)
+            movie_links_recycler?.layoutManager = linkLayoutManager
+            movie_links_recycler?.adapter = linkAdapter
+        } ?: kotlin.run {
+            movie_no_links_tv?.show()
+        }
+    }
+
+    private fun handleMovieSeasonsAndEpisodes(movie: Movie) {
+        movie_login_and_watch_btn?.hide()
+        movie_verify_phone_and_watch_btn?.hide()
+        movie_seasons_title_tv?.show()
+        movie_seasons_divider?.show()
+        movie.seasons?.takeIf { it.isNotEmpty() }?.let {
+            movie_no_seasons_tv?.hide()
+            movie_seasons_recycler?.show()
+            val seasonLayoutManager =
+                LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            val seasonAdapter = SeasonAdapter(it, this)
+            movie_seasons_recycler?.layoutManager = seasonLayoutManager
+            movie_seasons_recycler?.adapter = seasonAdapter
+        } ?: kotlin.run {
+            movie_no_seasons_tv?.show()
         }
     }
 
@@ -627,6 +649,11 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
             addToParent(enterPhoneNumberFragment)
         }
 
+        movie_purchase_subscription_and_watch_btn?.setOnClickListener {
+            val paymentFragment = PaymentFragment.newInstance()
+            addToParent(paymentFragment)
+        }
+
         movie_like_btn?.setOnClickListener {
             handleMovieLikeAndDislike(viewModel.movie.value)
             viewModel.likeOrDislikeMovie()
@@ -686,7 +713,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
     }
 
     override fun onSharedPreferencesChanged() {
-        fillMovieData(viewModel.movie.value)
+        viewModel.refresh()
     }
 
     override fun onItemClick(character: Character,type: Int, position: Int) {

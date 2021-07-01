@@ -58,7 +58,9 @@ data class Movie(
     @SerializedName("writers_real")
     val realWriter: Character?,
     @SerializedName("actors_real")
-    val realActors: List<Character>??
+    val realActors: List<Character>?,
+    @SerializedName("is_subscription_expired")
+    val isUserSubscriptionExpired : Boolean = true
 ) {
     companion object {
         const val SORT_DEFAULT = 0

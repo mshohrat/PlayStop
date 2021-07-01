@@ -526,6 +526,18 @@
                     tools:visibility="visible"
                     android:text="@string/verify_phone_and_watch"/>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/movie_purchase_subscription_and_watch_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="?textAppearanceBody1"
+                    app:backgroundTint="@color/colorAccent"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:text="@string/purchase_subscription_and_watch"/>
+
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/movie_links_title_tv"

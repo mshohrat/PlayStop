@@ -1,5 +1,7 @@
 package com.ms.playstop.model
 
+import java.sql.Date
+
 
 data class Profile(
     var name : String? = null,
@@ -11,8 +13,10 @@ data class Profile(
     var isActive: Boolean = true,
     var phone: String? = null,
     var isPhoneVerified: Boolean = false,
-    var isEmailVerified: Boolean = false) {
-
+    var isEmailVerified: Boolean = false,
+    var endSubscriptionDate: String? = null,
+    var isSubscriptionExpired: Boolean = false
+) {
     companion object {
         val SAVE_KEY = "Profile Save Key"
         const val GENDER_MAIL = 1
