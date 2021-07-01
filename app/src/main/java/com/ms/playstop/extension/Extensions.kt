@@ -23,6 +23,7 @@ import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import cab.snapp.extensions.calendar.JalaliCalendarTool
 //import com.elconfidencial.bubbleshowcase.BubbleShowCase
 //import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 //import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
@@ -40,8 +41,8 @@ import com.ms.playstop.App
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.model.Profile
+import com.ms.playstop.network.model.ConfigResponse
 import com.ms.playstop.network.model.InvalidCredentialsResponse
-import com.ms.playstop.ui.home.HomeFragment
 import com.orhanobut.hawk.Hawk
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -50,7 +51,6 @@ import retrofit2.HttpException
 import smartdevelop.ir.eram.showcaseviewlib.GuideView
 import smartdevelop.ir.eram.showcaseviewlib.config.DismissType
 import smartdevelop.ir.eram.showcaseviewlib.config.Gravity
-import smartdevelop.ir.eram.showcaseviewlib.listener.GuideListener
 import java.net.NetworkInterface
 import java.net.SocketException
 import java.util.*
@@ -82,7 +82,6 @@ fun View.hideSoftKeyboard() {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
     } catch (e: Exception) {
-        //ReportManager.getInstance().sendFirebaseNonFatal(e)
         e.printStackTrace()
     }
 }
@@ -94,7 +93,6 @@ fun View.showSoftKeyboard() {
         this.requestFocus()
         imm.showSoftInput(this, 0)
     } catch (e: java.lang.Exception) {
-        //ReportManager.getInstance().sendFirebaseNonFatal(e)
         e.printStackTrace()
     }
 }
@@ -133,7 +131,6 @@ fun Fragment.navigate(destination: Fragment,replace: Boolean = true) {
 
 fun Fragment.addOrShow(destination: Fragment) {
     try {
-        var done = false
         if (destination is BaseFragment) {
             val f = childFragmentManager.findFragmentByTag(destination.tag())
             if (f != null) {
@@ -143,11 +140,9 @@ fun Fragment.addOrShow(destination: Fragment) {
                             childFragmentManager.beginTransaction().initCustomAnimations()
                                 .show(fragment).commitAllowingStateLoss()
                         }
-                        done = true
                     } else {
                         childFragmentManager.beginTransaction().hide(fragment)
                             .commitAllowingStateLoss()
-                        done = true
                     }
                 }
             } else {
@@ -159,13 +154,11 @@ fun Fragment.addOrShow(destination: Fragment) {
                         .initCustomAnimations()
                         .add(R.id.home_frame, destination, destination.tag())
                         .commitAllowingStateLoss()
-                    done = true
                 } else {
                     childFragmentManager.beginTransaction()
                         .initCustomAnimations()
                         .add(R.id.home_frame, destination, destination.tag())
                         .commit()
-                    done = true
                 }
             }
         } else {
@@ -174,18 +167,12 @@ fun Fragment.addOrShow(destination: Fragment) {
                     .initCustomAnimations()
                     .add(R.id.home_frame, destination)
                     .commitAllowingStateLoss()
-                done = true
             } else {
                 childFragmentManager.beginTransaction()
                     .initCustomAnimations()
                     .add(R.id.home_frame, destination)
                     .commit()
-                done = true
             }
-        }
-
-        if (done && this is HomeFragment) {
-            this.selectTabBy(destination)
         }
 
     } catch (e: Exception) {
@@ -482,6 +469,16 @@ fun isUserActive(): Boolean {
     }
 }
 
+fun isSubscriptionEnabled(): Boolean {
+    return true
+    return if (Hawk.contains(ConfigResponse.SAVE_KEY)) {
+        val config = Hawk.get<ConfigResponse?>(ConfigResponse.SAVE_KEY)
+        config?.features?.isSubscriptionEnabled ?: false
+    } else {
+        false
+    }
+}
+
 fun isDeviceOnline(): Boolean {
     val cm = App.appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
     if (Build.VERSION.SDK_INT < 23) {
@@ -530,7 +527,7 @@ fun CharSequence.isValidPhoneNumber() : Boolean {
 }
 
 fun CharSequence.isValidCharacterName(): Boolean {
-    return this.isNotEmpty() && (this == "مشخص نیست").not()
+    return this.isNotEmpty() && (this == "مشخص نیست").not() && (this == "مشخص نشده").not()
 }
 
 val Fragment.isGooglePlayServicesAvailable: Boolean
@@ -740,4 +737,52 @@ fun endLogAndIndexMovie(movieName: String?) {
             "//playstop.ir/دانلود-فیلم-${movieName}/")
             .setMetadata(Action.Metadata.Builder().setUpload(true))
             .build())
+}
+
+fun getJalaliDateTime(gregorianDate: String?): String {
+    try {
+        gregorianDate?.let {
+            val splitData =
+                gregorianDate.split(" ".toRegex()).toTypedArray()
+            val date = splitData[0]
+            val time = splitData[1]
+            val splitDate = date.split("-".toRegex()).toTypedArray()
+            val splitTime = time.split(":".toRegex()).toTypedArray()
+            val jalaliCalendarTool =
+                JalaliCalendarTool(
+                    splitDate[0].toInt(),
+                    splitDate[1].toInt(),
+                    splitDate[2].toInt()
+                )
+            return jalaliCalendarTool.iranianDate + " " + splitTime[0] + ":" + splitTime[1]
+        } ?: run {
+            return ""
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return ""
+}
+
+fun getJalaliDate(gregorianDate: String?): String {
+    try {
+        gregorianDate?.let {
+            val splitData =
+                gregorianDate.split(" ".toRegex()).toTypedArray()
+            val date = splitData[0]
+            val splitDate = date.split("-".toRegex()).toTypedArray()
+            val jalaliCalendarTool =
+                JalaliCalendarTool(
+                    splitDate[0].toInt(),
+                    splitDate[1].toInt(),
+                    splitDate[2].toInt()
+                )
+            return jalaliCalendarTool.iranianDate
+        } ?: run {
+            return ""
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return ""
 }
