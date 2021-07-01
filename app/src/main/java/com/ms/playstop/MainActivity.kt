@@ -124,9 +124,13 @@ class MainActivity : AppCompatActivity() {
                                     )
                                 }
                                 Host.Open -> {
+                                    val path1String = slashSeparated.takeIf { it.size > 1 }?.let {
+                                        extractFirstPath(it[1])
+                                    }
                                     deepLink = DeepLink(
                                         scheme,
-                                        host
+                                        host,
+                                        path1String
                                     )
                                 }
                                 else -> {
@@ -158,10 +162,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun extractFirstPath(pathString: String?): Path? {
         pathString?.takeIf { it.isNotEmpty() }?.toLowerCase(Locale.getDefault())?.let {
-            return if(it.startsWith(PathType.Open.type)) {
-                Path(PathType.Open,"")
-            } else {
-                null
+            return when{
+                it.startsWith(PathType.Open.type) -> Path(PathType.Open,"")
+                it.startsWith(PathType.Payment.type) -> {
+                    val valueString = it.replaceFirst(PathType.Payment.type,"")
+                    Path(PathType.Payment,valueString)
+                }
+                else -> null
             }
         } ?: kotlin.run {
             return null
