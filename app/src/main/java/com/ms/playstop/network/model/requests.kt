@@ -94,3 +94,8 @@ data class VerifySignupOtpRequest(
     @SerializedName("code")
     val code: String
 )
+
+data class VerifyPaymentRequest(
+    @SerializedName("transaction_id")
+    val transactionId: String
+)

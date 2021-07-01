@@ -213,3 +213,13 @@ data class WriterInfoResponse(
     @SerializedName("writer")
     val writer: Character?
 )
+
+data class ProductListResponse(
+    @SerializedName("products")
+    val products: List<Product>?
+)
+
+data class StartPaymentResponse(
+    @SerializedName("payment_url")
+    val paymentUrl: String?
+)

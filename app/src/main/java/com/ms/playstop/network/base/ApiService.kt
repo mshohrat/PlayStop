@@ -244,4 +244,20 @@ interface ApiService {
         @Path("id") writerId : Int
     ) : Single<WriterInfoResponse?>?
 
+    @GET("v1/user")
+    fun getUserInfo() : Single<UserResponse?>?
+
+    @GET("v1/products")
+    fun getProducts() : Single<ProductListResponse?>?
+
+    @POST("v1/payment/pay/{id}")
+    fun startPayment(
+        @Path("id") productId: Int
+    ) : Single<StartPaymentResponse?>?
+
+    @POST("v1/payment/verify")
+    fun verifyPayment(
+        @Body verifyPaymentRequest: VerifyPaymentRequest
+    ) : Single<GeneralResponse?>?
+
 }

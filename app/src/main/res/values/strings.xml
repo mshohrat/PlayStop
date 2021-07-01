@@ -158,5 +158,18 @@
     <string name="discard">بیخیال</string>
     <string name="review_desc">لطفا برای حمایت از برنامه و همچنین یاری ما در بهبود خدمات، نظرات خود را در صفحه‌ی برنامه با ما در میان بگذارید.</string>
     <string name="scoring_app">امتیازدهی به برنامه</string>
+    <string name="subscription_status">وضعیت اشتراک</string>
+    <string name="enabled">فعال</string>
+    <string name="purchase">خرید</string>
+    <string name="until_date_x">تا تاریخ %s</string>
+    <string name="edit">ویرایش</string>
+    <string name="purchase_subscription">خرید اشتراک</string>
+    <string name="x_toman">%s تومان</string>
+    <string name="no_products">محصولی برای خرید وجود ندارد</string>
+    <string name="purchase_subscription_and_watch">خرید اشتراک و تماشا</string>
+    <string name="payment_was_successful">پرداخت با موفقیت انجام شد</string>
+    <string name="payment_was_not_successful">خطا در فرایند پرداخت</string>
+    <string name="payment_description">مبلغ پرداختی از سوی شما تنها برای حمایت از مجموعه پلی استپ در جهت تداوم خدمات و رفع بیش از پبش نیازهای شما کاربران عزیز در خصوص فیلم و سریال است. از اینکه حامی ما هستید بسیار سپاسگزاریم.</string>
+    <string name="disabled">غیر فعال</string>
 
 </resources>
