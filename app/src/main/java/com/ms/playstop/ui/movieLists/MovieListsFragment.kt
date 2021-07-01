@@ -149,7 +149,9 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
 
     private fun subscribeToViewEvents() {
         movies_search_btn?.setOnClickListener {
-            parentFragment?.takeIf { it is HomeFragment }?.addOrShow(SearchFragment.newInstance())
+            parentFragment?.takeIf { it is HomeFragment }?.let {
+                (it as HomeFragment).selectTabBy(SearchFragment.newInstance())
+            }
         }
         movies_account_btn?.setOnClickListener {
             if(isUserLoggedIn()) {
