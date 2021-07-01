@@ -41,11 +41,19 @@ class EnterPhoneNumberFragment : BaseFragment() {
     }
 
     override fun getExitAnimation(): Animation? {
-        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_out) }
+        return if(arguments?.containsKey(ENTER_PHONE_NUMBER_STATE) == true && arguments?.getInt(ENTER_PHONE_NUMBER_STATE) == ENTER_PHONE_NUMBER_STATE_EDIT) {
+            activity?.let { AnimationUtils.loadAnimation(it,R.anim.slide_out_right) }
+        } else {
+            activity?.let { AnimationUtils.loadAnimation(it, R.anim.fade_out) }
+        }
     }
 
     override fun getEnterAnimation(): Animation? {
-        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_in) }
+        return if(arguments?.containsKey(ENTER_PHONE_NUMBER_STATE) == true && arguments?.getInt(ENTER_PHONE_NUMBER_STATE) == ENTER_PHONE_NUMBER_STATE_EDIT) {
+            activity?.let { AnimationUtils.loadAnimation(it,R.anim.slide_in_right) }
+        } else {
+            activity?.let { AnimationUtils.loadAnimation(it, R.anim.fade_in) }
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
