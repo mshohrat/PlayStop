@@ -470,7 +470,6 @@ fun isUserActive(): Boolean {
 }
 
 fun isSubscriptionEnabled(): Boolean {
-    return true
     return if (Hawk.contains(ConfigResponse.SAVE_KEY)) {
         val config = Hawk.get<ConfigResponse?>(ConfigResponse.SAVE_KEY)
         config?.features?.isSubscriptionEnabled ?: false
