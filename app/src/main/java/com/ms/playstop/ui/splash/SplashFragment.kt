@@ -101,6 +101,8 @@ class SplashFragment : BaseFragment() {
                     email = user.email
                     isPhoneVerified = user.isPhoneVerified
                     phone = user.phone
+                    endSubscriptionDate = user.endSubscriptionDate
+                    isSubscriptionExpired = user.isSubscriptionExpired
                 }
                 Hawk.put(Profile.SAVE_KEY,profile)
             }
