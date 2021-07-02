@@ -181,8 +181,9 @@
 -keep class okhttp3.* { *; }
 -keep interface okhttp3.* { *; }
 -dontwarn okhttp3.
--keep class cab.snapp.driver.data_access_layer.models.** { *; }
--keep class cab.snapp.driver.data_access_layer.headers.oauth.** { *; }
+-keep class com.ms.playstop.model.** { *; }
+-keep class com.ms.playstop.network.model.requests.** { *; }
+-keep class com.ms.playstop.network.model.responses.** { *; }
 -dontwarn retrofit2.-KotlinExtensions
 -dontwarn kotlin.Unit
 -dontnote retrofit2.Platform
@@ -245,6 +246,8 @@
  public <init>(android.content.Context, android.util.AttributeSet, int);
  public void set*(...);
 }
+
+-keep class com.microsoft.appcenter.utils.storage.** { *; }
 
 -dontwarn org.slf4j.**
 
