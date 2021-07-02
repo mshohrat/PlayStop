@@ -106,7 +106,7 @@ class SplashFragment : BaseFragment() {
                 }
                 Hawk.put(Profile.SAVE_KEY,profile)
             }
-            if( true) {
+            if(it?.requiresToken == true) {
                 FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceId ->
                     val token = instanceId.token
                     viewModel.registerFbToken(token)

@@ -1,7 +1,5 @@
 package com.ms.playstop.model
 
-import java.sql.Date
-
 
 data class Profile(
     var name : String? = null,
