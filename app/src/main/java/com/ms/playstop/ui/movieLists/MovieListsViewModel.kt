@@ -32,7 +32,7 @@ class MovieListsViewModel : ViewModel() {
 
     init {
         if(Hawk.contains(ConfigResponse.SAVE_KEY)) {
-            val config = Hawk.get<ConfigResponse?>(ConfigResponse.SAVE_KEY)
+            val config = Hawk.get(ConfigResponse.SAVE_KEY) as? ConfigResponse
             config?.suggestions?.let {
                 val list = ArrayList<Suggestion>()
                 for (suggestion in it) {

@@ -42,7 +42,9 @@ class LoginViewModel : ViewModel() {
                                 isActive = it.isUserActive,
                                 isPhoneVerified = it.isPhoneVerified,
                                 isEmailVerified = it.isEmailVerified,
-                                phone = it.phone
+                                phone = it.phone,
+                                endSubscriptionDate = it.endSubscriptionDate,
+                                isSubscriptionExpired = it.isSubscriptionExpired
                             )
                             Hawk.put(Profile.SAVE_KEY,profile)
                             login.value = it.isPhoneVerified to R.string.logged_in_successfully

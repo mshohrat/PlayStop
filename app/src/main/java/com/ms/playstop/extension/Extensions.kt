@@ -444,7 +444,7 @@ fun FragmentTransaction.initCustomAnimations() : FragmentTransaction {
 
 fun isUserLoggedIn(): Boolean {
     return if (Hawk.contains(Profile.SAVE_KEY)) {
-        val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+        val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
         profile != null
     } else {
         false
@@ -453,7 +453,7 @@ fun isUserLoggedIn(): Boolean {
 
 fun isUserPhoneVerified(): Boolean {
     return if (Hawk.contains(Profile.SAVE_KEY)) {
-        val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+        val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
         profile != null && profile.isPhoneVerified
     } else {
         false
@@ -462,7 +462,7 @@ fun isUserPhoneVerified(): Boolean {
 
 fun isUserActive(): Boolean {
     return if (Hawk.contains(Profile.SAVE_KEY)) {
-        val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+        val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
         profile != null && profile.isActive
     } else {
         false
@@ -471,7 +471,7 @@ fun isUserActive(): Boolean {
 
 fun isSubscriptionEnabled(): Boolean {
     return if (Hawk.contains(ConfigResponse.SAVE_KEY)) {
-        val config = Hawk.get<ConfigResponse?>(ConfigResponse.SAVE_KEY)
+        val config = Hawk.get(ConfigResponse.SAVE_KEY) as? ConfigResponse
         config?.features?.isSubscriptionEnabled ?: false
     } else {
         false

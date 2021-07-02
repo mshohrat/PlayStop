@@ -100,7 +100,7 @@ class ApiServiceGenerator {
                 private val token: String
                     private get() {
                         if (Hawk.contains(Profile.SAVE_KEY) && Hawk.get<Profile?>(Profile.SAVE_KEY) is Profile) {
-                            val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+                            val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
                             return profile?.token?.let { it } ?: ""
                         }
                         return ""
@@ -109,7 +109,7 @@ class ApiServiceGenerator {
                 private val refreshToken: String
                     private get() {
                         if (Hawk.contains(Profile.SAVE_KEY) && Hawk.get<Profile?>(Profile.SAVE_KEY) is Profile) {
-                            val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+                            val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
                             return profile?.refreshToken?.let { it } ?: ""
                         }
                         return ""

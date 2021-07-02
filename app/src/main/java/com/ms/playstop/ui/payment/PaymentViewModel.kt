@@ -87,13 +87,14 @@ class PaymentViewModel : ViewModel() {
             ?.initSchedulers()
             ?.subscribe({
                 it?.user?.let { user ->
-                    val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+                    val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
                     profile?.apply {
                         name = user.name
                         email = user.email
                         isPhoneVerified = user.isPhoneVerified
                         phone = user.phone
                         endSubscriptionDate = user.endSubscriptionDate
+                        isSubscriptionExpired = user.isSubscriptionExpired
                     }
                     Hawk.put(Profile.SAVE_KEY, profile)
                 }

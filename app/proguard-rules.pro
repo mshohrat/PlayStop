@@ -247,8 +247,6 @@
  public void set*(...);
 }
 
--keep class com.microsoft.appcenter.utils.storage.** { *; }
-
 -dontwarn org.slf4j.**
 
 -repackageclasses 'o'

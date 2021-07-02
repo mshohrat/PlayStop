@@ -48,7 +48,9 @@ class OtpViewModel : ViewModel() {
                                         isActive = it.isUserActive,
                                         isPhoneVerified = it.isPhoneVerified,
                                         isEmailVerified = it.isEmailVerified,
-                                        phone = phoneNumber
+                                        phone = phoneNumber,
+                                        endSubscriptionDate = it.endSubscriptionDate,
+                                        isSubscriptionExpired = it.isSubscriptionExpired
                                     )
                                     Hawk.put(Profile.SAVE_KEY, profile)
                                     loginOtp.value = GeneralResponse(messageResId = R.string.logged_in_successfully) to it.isNewUser
@@ -78,7 +80,7 @@ class OtpViewModel : ViewModel() {
                             ?.observeOn(AndroidSchedulers.mainThread())
                             ?.subscribe({
                                 it?.user?.let { user ->
-                                    val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+                                    val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
                                     profile?.apply {
                                         isPhoneVerified = true
                                         phone = user.phone

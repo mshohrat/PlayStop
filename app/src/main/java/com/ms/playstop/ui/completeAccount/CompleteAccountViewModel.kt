@@ -43,7 +43,7 @@ class CompleteAccountViewModel : ViewModel() {
                     ?.subscribeOn(Schedulers.io())
                     ?.observeOn(AndroidSchedulers.mainThread())
                     ?.subscribe({
-                        val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+                        val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
                         profile?.apply {
                             this.name = name
                             this.email = email

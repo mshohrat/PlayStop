@@ -70,7 +70,9 @@ class SignupViewModel : ViewModel() {
                                 isActive = it.isUserActive,
                                 isPhoneVerified = it.isPhoneVerified,
                                 isEmailVerified = it.isEmailVerified,
-                                phone = it.phone
+                                phone = it.phone,
+                                endSubscriptionDate = it.endSubscriptionDate,
+                                isSubscriptionExpired = it.isSubscriptionExpired
                             )
                             Hawk.put(Profile.SAVE_KEY, profile)
                         }

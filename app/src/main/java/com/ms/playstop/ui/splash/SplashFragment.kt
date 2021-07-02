@@ -95,7 +95,7 @@ class SplashFragment : BaseFragment() {
                 Hawk.put(ConfigResponse.SAVE_KEY,it)
             }
             it?.user?.let { user ->
-                val profile = Hawk.get<Profile?>(Profile.SAVE_KEY)
+                val profile = Hawk.get(Profile.SAVE_KEY) as? Profile
                 profile?.apply {
                     name = user.name
                     email = user.email

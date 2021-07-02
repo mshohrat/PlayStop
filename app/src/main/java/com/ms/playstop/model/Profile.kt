@@ -13,7 +13,7 @@ data class Profile(
     var isPhoneVerified: Boolean = false,
     var isEmailVerified: Boolean = false,
     var endSubscriptionDate: String? = null,
-    var isSubscriptionExpired: Boolean = false
+    var isSubscriptionExpired: Boolean? = null
 ) {
     companion object {
         val SAVE_KEY = "Profile Save Key"

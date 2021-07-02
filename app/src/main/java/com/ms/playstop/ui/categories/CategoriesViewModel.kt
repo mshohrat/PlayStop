@@ -20,7 +20,7 @@ class CategoriesViewModel : ViewModel() {
     init {
         Handler().postDelayed({
             if(Hawk.contains(ConfigResponse.SAVE_KEY)) {
-                val config = Hawk.get<ConfigResponse?>(ConfigResponse.SAVE_KEY)
+                val config = Hawk.get(ConfigResponse.SAVE_KEY) as? ConfigResponse
                 config?.categories?.let {
                     categories.value = categories.value?.apply {
                         this.addAll(it)

@@ -57,7 +57,7 @@ class AccountFragment : BaseFragment() {
                 account_phone_tv?.text = it.phone
                 if(isSubscriptionEnabled()) {
                     account_subscription_group?.show()
-                    if(it.isSubscriptionExpired) {
+                    if(it.isSubscriptionExpired == true) {
                         activity?.let {
                             account_subscription_status_tv?.setTextColor(ContextCompat.getColor(it,R.color.pure_orange_dark))
                         }
@@ -68,7 +68,7 @@ class AccountFragment : BaseFragment() {
                             account_subscription_status_tv?.setTextColor(ContextCompat.getColor(it,R.color.pure_green_dark))
                         }
                         account_subscription_status_tv?.setText(R.string.enabled)
-                        account_end_subscription_date_tv?.text = String.format(getString(R.string.until_date_x),getJalaliDate(it.endSubscriptionDate))
+                        //account_end_subscription_date_tv?.text = String.format(getString(R.string.until_date_x),getJalaliDate(it.endSubscriptionDate))
                     }
                 } else {
                     account_subscription_group?.hide()

@@ -141,7 +141,11 @@ data class LoginResponse(
     @SerializedName("phone")
     val phone: String? = null,
     @SerializedName("is_new_user")
-    val isNewUser: Boolean = false
+    val isNewUser: Boolean = false,
+    @SerializedName("end_subscription_date")
+    val endSubscriptionDate: String?,
+    @SerializedName("is_subscription_expired")
+    val isSubscriptionExpired: Boolean = false
 )
 
 data class AllSuggestionsMoviesResponse(
