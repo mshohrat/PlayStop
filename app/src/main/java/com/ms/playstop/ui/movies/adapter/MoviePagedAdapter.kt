@@ -11,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.show
 import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
 import com.ms.playstop.utils.RoundedCornersTransformation
@@ -48,7 +47,6 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
         val genreTv = itemView.movie_genre_tv
         val scoreTv = itemView.movie_score_tv
         val freeTv = itemView.movie_free_tv
-        val borderGroup = itemView.movie_border_group
 
         fun bind(item: Movie?) {
             imageIv?.let {
@@ -84,8 +82,7 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
             params?.width = width
             params?.height = height
             imageIv?.layoutParams = params
-            //borderGroup?.show()
-            //rootView.animate().alpha(1f).setDuration(250).start()
+            rootView.animate().alpha(1f).setDuration(250).start()
         }
     }
 

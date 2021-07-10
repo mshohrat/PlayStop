@@ -77,49 +77,4 @@
         app:layout_constraintTop_toBottomOf="@id/movie_genre_tv"
         android:text="@string/imdb_score_x"/>
 
-    <View
-        android:id="@+id/movie_top_border"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height_default"
-        android:background="@color/grayLight"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <View
-        android:id="@+id/movie_bottom_border"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/divider_height_default"
-        android:background="@color/grayLight"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <View
-        android:id="@+id/movie_start_border"
-        android:layout_width="@dimen/divider_height_default"
-        android:layout_height="0dp"
-        android:background="@color/grayLight"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <View
-        android:id="@+id/movie_end_border"
-        android:layout_width="@dimen/divider_height_default"
-        android:layout_height="0dp"
-        android:background="@color/grayLight"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/movie_border_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:visibility="visible"
-        app:constraint_referenced_ids="movie_bottom_border,movie_end_border,movie_start_border,movie_top_border"/>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
