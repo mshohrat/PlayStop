@@ -1,5 +1,8 @@
 package com.ms.playstop.ui.otp
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -7,7 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
@@ -42,6 +48,28 @@ class OtpFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(OtpViewModel::class.java)
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            view?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+            otp_appbar?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorAccentDark))
+            otp_desc_tv?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+            otp_pin_entry?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+            otp_pin_entry?.setLineColor(ContextCompat.getColor(ctx,R.color.blue))
+            otp_timer_tv?.setTextColor(ContextCompat.getColor(ctx,R.color.gray))
+            otp_resend_btn?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+            otp_wrong_number_btn?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+            otp_btn_divider?.background = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                intArrayOf(Color.TRANSPARENT,ContextCompat.getColor(ctx,R.color.gray),Color.TRANSPARENT)
+            )
+            otp_btn?.background = LayerDrawable(
+                arrayOf(MaterialShapeDrawable(ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.button_radius).toFloat())
+                    .build()), GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                    intArrayOf(ContextCompat.getColor(ctx,R.color.purple),ContextCompat.getColor(ctx,R.color.blue))
+                )))
+        }
     }
 
     override fun onViewLoaded() {
