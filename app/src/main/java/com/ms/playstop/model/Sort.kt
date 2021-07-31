@@ -1,24 +1,17 @@
 package com.ms.playstop.model
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 import com.ms.playstop.ui.search.filter.adapter.FilterItem
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
-data class Category(
-    @SerializedName("id")
-    val id: Int,
-    @SerializedName("name")
+data class Sort(
+    val type: Int,
     val name: String,
     override var isSelected: Boolean = false
-) : FilterItem,Parcelable {
-
+) : FilterItem {
     override fun getFilterName(): String {
         return name
     }
 
     override fun getFilterId(): String {
-        return name
+        return type.toString()
     }
 }
