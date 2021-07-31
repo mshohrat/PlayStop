@@ -1,6 +1,7 @@
 package com.ms.playstop.ui.splash
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -10,23 +11,23 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.Observer
 import com.google.firebase.iid.FirebaseInstanceId
 import com.ms.playstop.BuildConfig
-import com.ms.playstop.MainActivity
 
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
-import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.isVpnActive
 import com.ms.playstop.extension.navigate
-import com.ms.playstop.extension.show
 import com.ms.playstop.model.Profile
 import com.ms.playstop.network.model.ConfigResponse
 import com.ms.playstop.ui.home.HomeFragment
+import com.ms.playstop.ui.settings.adapter.SettingNightModeAdapter
 import com.ms.playstop.utils.UpdateDialog
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.fragment_splash.*
+import kotlinx.android.synthetic.main.layout_splash_logo.*
 
 class SplashFragment : BaseFragment() {
 
@@ -55,6 +56,27 @@ class SplashFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SplashViewModel::class.java)
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            with(ContextCompat.getColor(ctx,R.color.colorPrimary)){
+                view?.setBackgroundColor(this)
+                splash_try_again_btn?.setTextColor(this)
+            }
+            splash_version_tv?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+            with(ContextCompat.getColor(ctx,R.color.purple_new)){
+                splash_app_name_tv?.setTextColor(this)
+                splash_desc_tv?.setTextColor(this)
+            }
+            splash_logo_iv?.let { iv ->
+                if(type == SettingNightModeAdapter.TYPE_DAY_MODE) {
+                    ImageViewCompat.setImageTintList(iv, null)
+                } else if(type == SettingNightModeAdapter.TYPE_NIGHT_MODE) {
+                    ImageViewCompat.setImageTintList(iv, ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.purple_new)))
+                }
+            }
+        }
     }
 
     override fun onViewLoaded() {
