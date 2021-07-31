@@ -18,17 +18,17 @@ import com.google.android.flexbox.JustifyContent
 import com.google.android.material.button.MaterialButton
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
-import com.ms.playstop.extension.add
-import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.passHandleBackToParent
-import com.ms.playstop.extension.show
+import com.ms.playstop.extension.*
 import com.ms.playstop.model.Category
 import com.ms.playstop.model.Genre
 import com.ms.playstop.model.Year
 import com.ms.playstop.ui.categories.adapter.ChipAdapter
 import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
+import com.ms.playstop.utils.DayNightModeAwareAdapter
 import kotlinx.android.synthetic.main.fragment_categories.*
+import kotlinx.android.synthetic.main.fragment_movie_lists.*
+import kotlinx.android.synthetic.main.fragment_search.*
 
 
 class CategoriesFragment : BaseFragment() {
@@ -72,6 +72,41 @@ class CategoriesFragment : BaseFragment() {
         super.onViewLoaded()
         subscribeToViewModel()
         subscribeToViewEvents()
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            view?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+            categories_appbar?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorAccentDark))
+            with(ctx.getResourceFromThemeAttribute(R.attr.textAppearanceHeadline4,R.style.Headline4_FixSize)){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    categories_category_title_tv?.setTextAppearance(this)
+                    categories_genre_title_tv?.setTextAppearance(this)
+                    categories_year_title_tv?.setTextAppearance(this)
+                } else {
+                    categories_category_title_tv?.setTextAppearance(ctx,this)
+                    categories_genre_title_tv?.setTextAppearance(ctx,this)
+                    categories_year_title_tv?.setTextAppearance(ctx,this)
+                }
+            }
+
+            categories_category_chip_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+
+            categories_genre_chip_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+
+            categories_year_chip_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+
+            with(ContextCompat.getColor(ctx,R.color.grayLight)){
+                categories_genre_divider?.setBackgroundColor(this)
+                categories_suggestion_divider?.setBackgroundColor(this)
+            }
+        }
     }
 
     private fun subscribeToViewModel() {
