@@ -1,5 +1,9 @@
 package com.ms.playstop.ui.enrerPhoneNumber
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +12,11 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
@@ -59,6 +67,44 @@ class EnterPhoneNumberFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(EnterPhoneNumberViewModel::class.java)
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            view?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+            with(ContextCompat.getColor(ctx,R.color.colorAccentDark)){
+                enter_phone_number_appbar?.setBackgroundColor(this)
+                enter_phone_number_phone_title_tv?.setTextColor(this)
+            }
+            with(ContextCompat.getColor(ctx,R.color.white)){
+                enter_phone_number_phone_et?.setTextColor(this)
+                enter_phone_number_desc_tv?.setTextColor(this)
+                enter_phone_number_login_with_email_btn?.setTextColor(this)
+            }
+            enter_phone_number_btn?.background = LayerDrawable(
+                arrayOf(
+                    MaterialShapeDrawable(
+                        ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.button_radius).toFloat())
+                    .build()), GradientDrawable(
+                    GradientDrawable.Orientation.LEFT_RIGHT,
+                    intArrayOf(ContextCompat.getColor(ctx,R.color.purple),ContextCompat.getColor(ctx,R.color.blue))
+                )
+            ))
+            enter_phone_number_phone_et?.setHintTextColor(ContextCompat.getColor(ctx,R.color.gray))
+            enter_phone_number_phone_bg_view?.background = MaterialShapeDrawable(
+                ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.background_card_radius).toFloat())
+                    .build()
+            ).apply {
+                fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white_opacity_10))
+            }
+            enter_phone_number_phone_et?.setCompoundDrawablesRelativeWithIntrinsicBounds(AppCompatResources.getDrawable(ctx,R.drawable.ic_phone),null,null,null)
+            enter_phone_number_btn_divider?.background = GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                intArrayOf(Color.TRANSPARENT,ContextCompat.getColor(ctx,R.color.gray), Color.TRANSPARENT)
+            )
+        }
     }
 
     override fun onViewLoaded() {
