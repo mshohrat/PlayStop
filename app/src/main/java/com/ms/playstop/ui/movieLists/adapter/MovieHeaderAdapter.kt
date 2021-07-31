@@ -1,26 +1,34 @@
 package com.ms.playstop.ui.movieLists.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.show
 import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
+import com.ms.playstop.utils.DayNightModeAwareAdapter
+import com.ms.playstop.utils.DayNightModeAwareViewHolder
 import com.ms.playstop.utils.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.item_movie_header_layout.view.*
+import kotlinx.android.synthetic.main.item_movie_header_place_holder_layout.view.*
 
 class MovieHeaderAdapter(
     private val movies: List<Movie>,
     private val onItemClickListener: OnItemClickListener? = null
-): RecyclerView.Adapter<MovieHeaderAdapter.ViewHolder>() {
+): RecyclerView.Adapter<MovieHeaderAdapter.ViewHolder>(), DayNightModeAwareAdapter {
 
     private val TYPE_PLACE_HOLDER = 1
     private val TYPE_NORMAL = 2
+    private var recyclerView: RecyclerView? = null
+    private val boundViewHolders = mutableListOf<ViewHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return if(viewType == TYPE_PLACE_HOLDER) {
@@ -46,6 +54,22 @@ class MovieHeaderAdapter(
         }
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        this.recyclerView = null
+        this.boundViewHolders.clear()
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        boundViewHolders.takeIf { it.contains(holder) }?.remove(holder)
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(movies.size > position) {
             val movie = movies[position]
@@ -54,9 +78,10 @@ class MovieHeaderAdapter(
         else {
             holder.bind(null)
         }
+        boundViewHolders.takeIf { it.contains(holder).not() }?.add(holder)
     }
 
-    open inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    open inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), DayNightModeAwareViewHolder {
         open fun bind (item: Movie?) {
             val width = widthOfDevice()
             val height = width.times(3).div(5)
@@ -65,6 +90,18 @@ class MovieHeaderAdapter(
             params?.height = height
             params?.let {
                 itemView.layoutParams = it
+            }
+        }
+
+        override fun onDayNightModeChanged(type: Int) {
+            itemView.context?.let { ctx ->
+                itemView.item_movie_header_place_holder_view?.background = MaterialShapeDrawable(
+                    ShapeAppearanceModel.builder()
+                        .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.shimmer_radius).toFloat())
+                        .build()
+                ).apply {
+                    fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.gray))
+                }
             }
         }
     }
@@ -100,9 +137,44 @@ class MovieHeaderAdapter(
             }
             rootView.animate().alpha(1f).setDuration(250).start()
         }
+
+        override fun onDayNightModeChanged(type: Int) {
+            rootView.context?.let { ctx ->
+                nameTv?.setTextColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+                scoreTv?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+                nameTv?.background = MaterialShapeDrawable(
+                    ShapeAppearanceModel.builder()
+                        .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.badge_radius).toFloat())
+                        .build()
+                ).apply {
+                    fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.grayLight))
+                }
+                scoreTv?.background = MaterialShapeDrawable(
+                    ShapeAppearanceModel.builder()
+                        .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.shimmer_radius).toFloat())
+                        .build()
+                ).apply {
+                    fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.yellow))
+                }
+                freeTv?.background = MaterialShapeDrawable(
+                    ShapeAppearanceModel.builder()
+                        .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.badge_radius).toFloat())
+                        .build()
+                ).apply {
+                    fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.redLight))
+                }
+                freeTv?.setTextColor(ContextCompat.getColor(ctx,R.color.colorPrimaryDark))
+            }
+        }
     }
 
     interface OnItemClickListener {
         fun onMovieClick(movie: Movie?)
+    }
+
+    override fun onDayNightModeChanged(type: Int) {
+        for (item in boundViewHolders) {
+            item.onDayNightModeChanged(type)
+        }
     }
 }
