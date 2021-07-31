@@ -2,7 +2,9 @@ package com.ms.playstop.ui.movie
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.drawable.ColorDrawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
@@ -15,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +26,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.textview.MaterialTextView
 import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.R
@@ -48,7 +53,6 @@ import com.ms.playstop.utils.*
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 
 class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
@@ -92,6 +96,129 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
         subscribeToViewEvents()
         val movieId = arguments?.takeIf { it.containsKey(MOVIE_ID_KEY) }?.getInt(MOVIE_ID_KEY) ?: -1
         viewModel.fetchMovie(movieId)
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            with(ctx.getResourceFromThemeAttribute(R.attr.textAppearanceHeadline3,R.style.Headline3_FixSize)) {
+                movie_collapsing_toolbar_layout?.setCollapsedTitleTextAppearance(this)
+                movie_collapsing_toolbar_layout?.setExpandedTitleTextAppearance(this)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    movie_description_title_tv?.setTextAppearance(this)
+                    movie_actors_title_tv?.setTextAppearance(this)
+                    movie_director_title_tv?.setTextAppearance(this)
+                    movie_writer_title_tv?.setTextAppearance(this)
+                    movie_language_title_tv?.setTextAppearance(this)
+                    movie_country_title_tv?.setTextAppearance(this)
+                    movie_trailer_title_tv?.setTextAppearance(this)
+                    movie_links_title_tv?.setTextAppearance(this)
+                    movie_seasons_title_tv?.setTextAppearance(this)
+                    movie_subtitle_title_tv?.setTextAppearance(this)
+                    movie_similar_title_tv?.setTextAppearance(this)
+                    movie_comments_title_tv?.setTextAppearance(this)
+                } else {
+                    movie_description_title_tv?.setTextAppearance(ctx,this)
+                    movie_actors_title_tv?.setTextAppearance(ctx,this)
+                    movie_director_title_tv?.setTextAppearance(ctx,this)
+                    movie_writer_title_tv?.setTextAppearance(ctx,this)
+                    movie_language_title_tv?.setTextAppearance(ctx,this)
+                    movie_country_title_tv?.setTextAppearance(ctx,this)
+                    movie_trailer_title_tv?.setTextAppearance(ctx,this)
+                    movie_links_title_tv?.setTextAppearance(ctx,this)
+                    movie_seasons_title_tv?.setTextAppearance(ctx,this)
+                    movie_subtitle_title_tv?.setTextAppearance(ctx,this)
+                    movie_similar_title_tv?.setTextAppearance(ctx,this)
+                    movie_comments_title_tv?.setTextAppearance(ctx,this)
+                }
+            }
+            with(ContextCompat.getColor(ctx,R.color.colorAccentDark)){
+                movie_collapsing_toolbar_layout?.contentScrim = ColorDrawable(this)
+                movie_collapsing_toolbar_root?.setBackgroundColor(this)
+            }
+            movie_shimmer_image?.background = MaterialShapeDrawable(
+                ShapeAppearanceModel.builder()
+                .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.shimmer_radius).toFloat())
+                .build()
+            ).apply {
+                fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white))
+            }
+            movie_score_tv?.background = MaterialShapeDrawable(
+                ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.shimmer_radius).toFloat())
+                    .build()
+            ).apply {
+                fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.yellow))
+            }
+            with(ContextCompat.getColor(ctx,R.color.colorAccent)){
+                movie_description_divider?.setBackgroundColor(this)
+                movie_actors_divider?.setBackgroundColor(this)
+                movie_director_divider?.setBackgroundColor(this)
+                movie_writer_divider?.setBackgroundColor(this)
+                movie_language_divider?.setBackgroundColor(this)
+                movie_country_divider?.setBackgroundColor(this)
+                movie_trailer_divider?.setBackgroundColor(this)
+                movie_links_divider?.setBackgroundColor(this)
+                movie_seasons_divider?.setBackgroundColor(this)
+                movie_subtitle_divider?.setBackgroundColor(this)
+                movie_similar_movies_divider?.setBackgroundColor(this)
+                movie_comments_divider?.setBackgroundColor(this)
+                movie_login_and_watch_btn?.backgroundTintList = ColorStateList.valueOf(this)
+                movie_verify_phone_and_watch_btn?.backgroundTintList = ColorStateList.valueOf(this)
+                movie_purchase_subscription_and_watch_btn?.backgroundTintList = ColorStateList.valueOf(this)
+                movie_subtitle_btn?.backgroundTintList = ColorStateList.valueOf(this)
+                movie_submit_comment_btn?.backgroundTintList = ColorStateList.valueOf(this)
+                movie_show_comments_tv?.backgroundTintList = ColorStateList.valueOf(this)
+            }
+            with(ContextCompat.getColor(ctx,R.color.colorPrimary)){
+                movie_nested_scroll_view?.setBackgroundColor(this)
+                movie_show_comments_tv?.setTextColor(this)
+                movie_subtitle_btn?.setTextColor(this)
+                movie_purchase_subscription_and_watch_btn?.setTextColor(this)
+                movie_verify_phone_and_watch_btn?.setTextColor(this)
+                movie_login_and_watch_btn?.setTextColor(this)
+            }
+            with(ContextCompat.getColor(ctx,R.color.white)){
+                movie_description_tv?.setTextColor(this)
+                movie_actors_tv?.setTextColor(this)
+                movie_director_name_tv?.setTextColor(this)
+                movie_director_tv?.setTextColor(this)
+                movie_writer_name_tv?.setTextColor(this)
+                movie_writer_tv?.setTextColor(this)
+                movie_language_tv?.setTextColor(this)
+                movie_country_tv?.setTextColor(this)
+                movie_submit_comment_btn?.setTextColor(this)
+                movie_submit_comment_et?.setTextColor(this)
+            }
+            with(ContextCompat.getColor(ctx,R.color.gray)){
+                movie_submit_comment_et?.setHintTextColor(this)
+                movie_no_comments_tv?.setTextColor(this)
+                movie_no_similar_tv?.setTextColor(this)
+                movie_no_seasons_tv?.setTextColor(this)
+                movie_no_links_tv?.setTextColor(this)
+            }
+            movie_submit_comment_et?.background = MaterialShapeDrawable(ShapeAppearanceModel.builder()
+                .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.shimmer_radius).toFloat())
+                .build()
+            ).apply {
+                strokeColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white))
+                strokeWidth = convertDpToPixel(1f).toFloat()
+            }
+            movie_actors_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+            movie_comments_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+            movie_similar_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+            movie_links_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+            movie_seasons_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+        }
     }
 
     private fun initViews() {
