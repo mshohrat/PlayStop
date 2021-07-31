@@ -1,5 +1,7 @@
 package com.ms.playstop.ui.search
 
+import android.content.res.ColorStateList
+import android.os.Build
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.os.Handler
@@ -8,9 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.core.widget.doOnTextChanged
+import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.MainActivity
 
 import com.ms.playstop.R
@@ -22,6 +28,8 @@ import com.ms.playstop.model.PathType
 import com.ms.playstop.model.Scheme
 import com.ms.playstop.ui.movie.MovieFragment
 import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
+import com.ms.playstop.ui.search.filter.SearchFilterFragment
+import com.ms.playstop.utils.DayNightModeAwareAdapter
 import com.ms.playstop.utils.GridSpacingItemDecoration
 import com.ms.playstop.utils.RtlGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_search.*
@@ -78,6 +86,38 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
         subscribeToViewModel()
         subscribeToViewEvents()
         initViews()
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            view?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+            with(MaterialShapeDrawable(ShapeAppearanceModel.builder()
+                .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.background_card_radius).toFloat())
+                .build()
+            ).apply {
+                fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white_opacity_10))
+            }) {
+                search_et?.background = this
+            }
+            search_et?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+            search_et?.setHintTextColor(ContextCompat.getColor(ctx,R.color.gray))
+            search_et?.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                null,
+                null,
+                AppCompatResources.getDrawable(ctx,R.drawable.ic_search_dark_blue),
+                null
+            )
+            search_filter_btn?.setImageDrawable(AppCompatResources.getDrawable(ctx,R.drawable.ic_filter))
+            search_clear_btn?.setImageDrawable(AppCompatResources.getDrawable(ctx,R.drawable.ic_clear_white))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                search_no_result_tv?.setTextAppearance(ctx.getResourceFromThemeAttribute(R.attr.textAppearanceCaption,R.style.Caption_FixSize))
+            } else {
+                search_no_result_tv?.setTextAppearance(ctx,ctx.getResourceFromThemeAttribute(R.attr.textAppearanceCaption,R.style.Caption_FixSize))
+            }
+            search_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+        }
     }
 
     private fun initViews() {
