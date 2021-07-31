@@ -41,6 +41,16 @@
     />
 
     <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/search_filter_btn"
+        android:layout_width="@dimen/minimum_button_size"
+        android:layout_height="@dimen/minimum_button_size"
+        app:srcCompat="@drawable/ic_filter"
+        app:layout_constraintStart_toEndOf="@id/search_clear_btn"
+        app:layout_constraintTop_toTopOf="@id/search_et"
+        app:layout_constraintBottom_toBottomOf="@id/search_et"
+        android:background="?attr/selectableItemBackgroundBorderless"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/search_clear_btn"
         android:layout_width="@dimen/minimum_button_size"
         android:layout_height="@dimen/minimum_button_size"
@@ -49,7 +59,7 @@
         app:layout_constraintStart_toStartOf="@id/search_et"
         android:visibility="gone"
         app:srcCompat="@drawable/ic_clear_white"
-        android:background="?selectableItemBackground"/>
+        android:background="?selectableItemBackgroundBorderless"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler"
