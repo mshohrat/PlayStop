@@ -24,6 +24,7 @@
             app:scrimAnimationDuration="200">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/movie_collapsing_toolbar_root"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorAccentDark"
@@ -172,10 +173,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/action_bar_height"
                 android:layout_marginTop="@dimen/status_bar_height"
-                app:contentInsetEnd="@dimen/margin_standard"
-                app:contentInsetStart="@dimen/margin_standard"
-                app:contentInsetStartWithNavigation="@dimen/margin_standard"
-                app:contentInsetEndWithActions="@dimen/margin_standard"
+                app:contentInsetEnd="@dimen/margin_small"
+                app:contentInsetStart="@dimen/margin_small"
+                app:contentInsetStartWithNavigation="@dimen/margin_small"
+                app:contentInsetEndWithActions="@dimen/margin_small"
                 app:layout_collapseMode="pin">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -184,18 +185,17 @@
                     android:orientation="horizontal">
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/movie_share_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/minimum_button_size"
+                        android:layout_height="@dimen/minimum_button_size"
                         app:srcCompat="@drawable/ic_share"
-                        android:layout_marginEnd="@dimen/margin_standard"
-                        android:background="?android:selectableItemBackground"/>
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/movie_like_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/minimum_button_size"
+                        android:layout_height="@dimen/minimum_button_size"
                         app:srcCompat="@drawable/ic_dislike"
-                        android:visibility="gone"
-                        android:background="?android:selectableItemBackground"/>
+                        android:visibility="visible"
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
                     <Space
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -208,15 +208,15 @@
                         tools:visibility="visible"
                         style="?textAppearanceBody1"
                         android:textColor="@color/pure_white"
-                        android:layout_marginEnd="@dimen/margin_standard"
+                        android:layout_marginEnd="@dimen/margin_small"
                         tools:text="@string/app_name"/>
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/movie_back_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="@dimen/minimum_button_size"
+                        android:layout_height="@dimen/minimum_button_size"
                         app:srcCompat="@drawable/ic_back"
-                        android:background="?android:selectableItemBackground"/>
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
 
                 </LinearLayout>
             </com.google.android.material.appbar.MaterialToolbar>
@@ -230,6 +230,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/movie_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
@@ -250,12 +251,14 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_description_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceHeadline3"
                     android:text="@string/description"/>
 
                 <View
+                    android:id="@+id/movie_description_divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height_default"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -271,6 +274,7 @@
                     tools:text=" یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم یک متن طولانی برای توضیحات فیلم"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_actors_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceHeadline3"
@@ -278,6 +282,7 @@
                     android:text="@string/actors"/>
 
                 <View
+                    android:id="@+id/movie_actors_divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height_default"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -308,6 +313,7 @@
                     android:text="@string/director"/>
 
                 <View
+                    android:id="@+id/movie_director_divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height_default"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -353,6 +359,7 @@
                     tools:text="کریستوفر نولان"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_writer_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceHeadline3"
@@ -360,6 +367,7 @@
                     android:text="@string/writer"/>
 
                 <View
+                    android:id="@+id/movie_writer_divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height_default"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -405,6 +413,7 @@
                     tools:text="کریستوفر نولان"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_language_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceHeadline3"
@@ -412,6 +421,7 @@
                     android:text="@string/language"/>
 
                 <View
+                    android:id="@+id/movie_language_divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height_default"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -427,6 +437,7 @@
                     tools:text="انگلیسی"/>
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/movie_country_title_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="?textAppearanceHeadline3"
@@ -434,6 +445,7 @@
                     android:text="@string/country"/>
 
                 <View
+                    android:id="@+id/movie_country_divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height_default"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -656,6 +668,7 @@
                     android:text="@string/similar_movies"/>
 
                 <View
+                    android:id="@+id/movie_similar_movies_divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height_default"
                     android:layout_marginTop="@dimen/margin_medium"
@@ -690,6 +703,7 @@
                     android:text="@string/comments"/>
 
                 <View
+                    android:id="@+id/movie_comments_divider"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/divider_height_default"
                     android:layout_marginTop="@dimen/margin_medium"
