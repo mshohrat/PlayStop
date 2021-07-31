@@ -10,16 +10,22 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.microsoft.appcenter.analytics.Analytics
 import com.ms.playstop.R
-import com.ms.playstop.extension.hideSoftKeyboard
+import com.ms.playstop.utils.OnDayNightModeChangeListener
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : Fragment(), OnDayNightModeChangeListener {
 
     abstract fun tag() : String
 
     private val SHARED_PREFERENCES_TAG = "Hawk2"
-    private val sharedPreferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { preferences, key -> onSharedPreferencesChanged() }
+    private val sharedPreferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { preferences, key ->
+        onSharedPreferencesChanged()
+    }
     private var isActivityCreated = false
     private var isViewLoadedCalled = false
+
+    open fun stickyChildrenCount() : Int {
+        return 0
+    }
 
     protected open fun onSharedPreferencesChanged() {
 
