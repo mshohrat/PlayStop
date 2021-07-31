@@ -129,4 +129,8 @@
         <item name="android:popupBackground">@color/colorPrimary</item>
     </style>
 
+    <style name="RangeSliderTooltip" parent="Widget.MaterialComponents.Tooltip">
+        <item name="android:textAppearance">@style/Body1.FixSize</item>
+    </style>
+
 </resources>
