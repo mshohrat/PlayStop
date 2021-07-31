@@ -1,6 +1,7 @@
 package com.ms.playstop.network.base
 
 import android.annotation.SuppressLint
+import android.os.Build
 import com.ms.playstop.BuildConfig
 import com.ms.playstop.MainActivity
 import com.ms.playstop.model.Profile
@@ -15,6 +16,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import java.util.*
 
 class ApiServiceGenerator {
 
@@ -45,18 +47,23 @@ class ApiServiceGenerator {
                 @Throws(IOException::class)
                 override fun intercept(chain: Interceptor.Chain): Response {
                     val original = chain.request()
-                    val request: Request
-                    request = if (token.isEmpty()) {
+                    val request: Request = if (token.isEmpty()) {
                         original.newBuilder()
                             .method(original.method(), original.body())
                             .header("Accept","application/json")
                             .header("Content-Type","application/json")
+                            .header("User-Agent",userAgent)
+                            .header("Version-Name",appVersionName)
+                            .header("Version-Code",appVersionCode)
                             .build()
                     } else {
                         original.newBuilder()
                             .header("Authorization", "Bearer $token")
                             .header("Accept","application/json")
                             .header("Content-Type","application/json")
+                            .header("User-Agent",userAgent)
+                            .header("Version-Name",appVersionName)
+                            .header("Version-Code",appVersionCode)
                             .method(original.method(), original.body())
                             .build()
                     }
@@ -113,6 +120,36 @@ class ApiServiceGenerator {
                             return profile?.refreshToken?.let { it } ?: ""
                         }
                         return ""
+                    }
+
+                private val userAgent: String
+                    get() {
+                        var userAgent = "Android "
+                        val androidV = Build.VERSION.RELEASE
+                        val appV = BuildConfig.VERSION_NAME
+                        userAgent += "$androidV/$deviceName ; App/$appV"
+                        return userAgent.trim { it <= ' ' }
+                    }
+
+                private val appVersionName: String
+                    get() {
+                        return BuildConfig.VERSION_NAME
+                    }
+
+                private val appVersionCode: String
+                    get() {
+                        return BuildConfig.VERSION_CODE.toString()
+                    }
+
+                private val deviceName: String
+                    get() {
+                        val manufacturer = Build.MANUFACTURER
+                        val model = Build.MODEL
+                        return if (model.startsWith(manufacturer)) {
+                            model.capitalize(Locale.US)
+                        } else {
+                            manufacturer.capitalize(Locale.US) + " " + model
+                        }
                     }
             })
 
