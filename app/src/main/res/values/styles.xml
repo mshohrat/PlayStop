@@ -19,6 +19,7 @@
         <item name="otpViewStyle">@style/OtpWidget.OtpView</item>
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialog</item>
         <item name="popupMenuStyle">@style/PopupMenu</item>
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button.UnelevatedButton</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
