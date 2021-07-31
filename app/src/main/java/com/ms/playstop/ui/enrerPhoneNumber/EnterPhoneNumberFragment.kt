@@ -22,6 +22,7 @@ import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.login.LoginFragment
+import com.ms.playstop.ui.mainAccount.MainAccountFragment
 import com.ms.playstop.ui.otp.OtpFragment
 import kotlinx.android.synthetic.main.fragment_enter_phone_number.*
 
@@ -33,6 +34,7 @@ class EnterPhoneNumberFragment : BaseFragment() {
         const val ENTER_PHONE_NUMBER_STATE_ADD = 101
         const val ENTER_PHONE_NUMBER_STATE_LOGIN = 102
         const val ENTER_PHONE_NUMBER_STATE_EDIT = 103
+        const val TAG = "Enter Phone Number Fragment"
     }
 
     private lateinit var viewModel: EnterPhoneNumberViewModel
@@ -45,7 +47,7 @@ class EnterPhoneNumberFragment : BaseFragment() {
     }
 
     override fun tag(): String {
-        return "Enter Phone Number Fragment"
+        return TAG
     }
 
     override fun getExitAnimation(): Animation? {
@@ -215,10 +217,6 @@ class EnterPhoneNumberFragment : BaseFragment() {
         }
     }
 
-//    override fun handleBack(): Boolean {
-//        return pushBack()
-//    }
-
     private fun showButtonLoading() {
         enter_phone_number_btn?.text = ""
         enter_phone_number_btn?.isEnabled = false
@@ -229,6 +227,20 @@ class EnterPhoneNumberFragment : BaseFragment() {
         enter_phone_number_btn_loading?.hide()
         enter_phone_number_btn?.setText(R.string.submit)
         enter_phone_number_btn?.isEnabled = true
+    }
+
+    override fun handleBack(): Boolean {
+        return when(viewModel.state) {
+            ENTER_PHONE_NUMBER_STATE_LOGIN -> {
+                parentFragment?.takeIf { it is MainAccountFragment }?.let {
+                    passHandleBackToParent()
+                } ?: kotlin.run {
+                    super.handleBack()
+                }
+            }
+            else -> super.handleBack()
+        }
+
     }
 
 }
