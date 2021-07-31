@@ -1,18 +1,24 @@
 package com.ms.playstop.ui.movies.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
+import com.ms.playstop.utils.DayNightModeAwareAdapter
+import com.ms.playstop.utils.DayNightModeAwareViewHolder
 import com.ms.playstop.utils.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.item_movie_layout.view.*
 
@@ -28,7 +34,11 @@ val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
 
 }
 
-class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = null): PagedListAdapter<Movie,MoviePagedAdapter.ViewHolder>(DIFF_CALLBACK) {
+class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = null)
+    : PagedListAdapter<Movie,MoviePagedAdapter.ViewHolder>(DIFF_CALLBACK),DayNightModeAwareAdapter {
+
+    private var recyclerView: RecyclerView? = null
+    private val boundViewHolders = mutableListOf<ViewHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_movie_layout,parent,false))
@@ -37,9 +47,26 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = getItem(position)
         holder.bind(movie)
+        boundViewHolders.takeIf { it.contains(holder).not() }?.add(holder)
     }
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        this.recyclerView = null
+        this.boundViewHolders.clear()
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        boundViewHolders.takeIf { it.contains(holder) }?.remove(holder)
+    }
+
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), DayNightModeAwareViewHolder {
 
         val rootView = itemView
         val imageIv = itemView.movie_image_iv
@@ -84,9 +111,40 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
             imageIv?.layoutParams = params
             rootView.animate().alpha(1f).setDuration(250).start()
         }
+
+        override fun onDayNightModeChanged(type: Int) {
+            rootView.context?.let { ctx ->
+                with(ContextCompat.getColor(ctx,R.color.white)){
+                    nameTv?.setTextColor(this)
+                    genreTv?.setTextColor(this)
+                    scoreTv?.setTextColor(this)
+                }
+                scoreTv?.background = MaterialShapeDrawable(
+                    ShapeAppearanceModel.builder()
+                        .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.shimmer_radius).toFloat())
+                        .build()
+                ).apply {
+                    fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.yellow))
+                }
+                freeTv?.background = MaterialShapeDrawable(
+                    ShapeAppearanceModel.builder()
+                        .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.badge_radius).toFloat())
+                        .build()
+                ).apply {
+                    fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx, R.color.redLight))
+                }
+                freeTv?.setTextColor(ContextCompat.getColor(ctx,R.color.colorPrimaryDark))
+            }
+        }
     }
 
     interface OnItemClickListener {
         fun onItemClick(movie: Movie?)
+    }
+
+    override fun onDayNightModeChanged(type: Int) {
+        for (item in boundViewHolders) {
+            item.onDayNightModeChanged(type)
+        }
     }
 }
