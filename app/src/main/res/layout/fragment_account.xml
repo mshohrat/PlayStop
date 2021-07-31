@@ -20,10 +20,10 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="@dimen/action_bar_height"
-            app:contentInsetEnd="@dimen/margin_standard"
-            app:contentInsetStart="@dimen/margin_standard"
-            app:contentInsetStartWithNavigation="@dimen/margin_standard"
-            app:contentInsetEndWithActions="@dimen/margin_standard">
+            app:contentInsetEnd="@dimen/margin_small"
+            app:contentInsetStart="@dimen/margin_small"
+            app:contentInsetStartWithNavigation="@dimen/margin_small"
+            app:contentInsetEndWithActions="@dimen/margin_small">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -31,11 +31,11 @@
                 android:orientation="horizontal">
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/account_settings_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/minimum_button_size"
+                    android:layout_height="@dimen/minimum_button_size"
                     app:srcCompat="@drawable/ic_settings"
-                    android:layout_marginEnd="@dimen/margin_standard"
-                    android:background="?android:selectableItemBackground"/>
+                    android:layout_marginEnd="@dimen/margin_small"
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -46,15 +46,15 @@
                     android:layout_height="wrap_content"
                     style="?textAppearanceBody1"
                     android:textColor="@color/pure_white"
-                    android:layout_marginEnd="@dimen/margin_standard"
+                    android:layout_marginEnd="@dimen/margin_small"
                     android:text="@string/user_account"/>
 
                 <androidx.appcompat.widget.AppCompatImageButton
                     android:id="@+id/account_back_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/minimum_button_size"
+                    android:layout_height="@dimen/minimum_button_size"
                     app:srcCompat="@drawable/ic_back"
-                    android:background="?android:selectableItemBackground"/>
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
 
             </LinearLayout>
         </com.google.android.material.appbar.MaterialToolbar>
@@ -78,7 +78,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/ic_user_avater"
+                app:tint="@color/colorAccentDarkOpacity50"
+                app:srcCompat="@drawable/ic_user_avater_without_background"
                 android:layout_margin="@dimen/margin_standard"/>
 
             <com.google.android.material.textview.MaterialTextView
@@ -328,6 +329,7 @@
     </androidx.core.widget.NestedScrollView>
 
     <View
+        android:id="@+id/account_bottom_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="@id/account_logout_btn"
