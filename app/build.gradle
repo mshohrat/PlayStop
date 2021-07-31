@@ -41,6 +41,10 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
 
+    androidExtensions {
+        experimental = true
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
