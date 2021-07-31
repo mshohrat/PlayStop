@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/minimum_button_size"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginTop="@dimen/margin_small"
+    android:layout_marginHorizontal="@dimen/margin_medium"
+    app:cardBackgroundColor="@color/colorPrimaryDark"
+    app:cardCornerRadius="@dimen/shimmer_radius"
+    app:strokeWidth="@dimen/divider_height_default"
+    app:strokeColor="@color/white"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/item_search_filter_header_arrow_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_arrow"
+        android:rotation="270"
+        app:tint="@color/white"
+        android:layout_marginStart="@dimen/margin_standard"
+        android:layout_gravity="start|center_vertical"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_search_filter_header_title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?attr/textAppearanceBody1"
+        android:textColor="@color/white"
+        tools:text="سال ساخت"
+        android:layout_gravity="end|center_vertical"
+        android:layout_marginEnd="@dimen/margin_standard"/>
+
+</com.google.android.material.card.MaterialCardView>
