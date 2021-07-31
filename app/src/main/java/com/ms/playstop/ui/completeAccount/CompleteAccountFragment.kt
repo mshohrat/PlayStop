@@ -18,6 +18,7 @@ import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.network.model.GeneralResponse
+import com.ms.playstop.ui.mainAccount.MainAccountFragment
 import kotlinx.android.synthetic.main.fragment_complete_account.*
 
 class CompleteAccountFragment : BaseFragment() {
@@ -117,7 +118,11 @@ class CompleteAccountFragment : BaseFragment() {
         viewModel.completeAccount.observe(viewLifecycleOwner, Observer {
             hideButtonLoading()
             showToast(it)
-            removeFromParent(this)
+            parentFragment?.takeIf { it is MainAccountFragment }?.let {
+                (it as MainAccountFragment).handleAccountAdded()
+            } ?: kotlin.run {
+                removeFromParent(this)
+            }
         })
 
         viewModel.completeAccountError.observe(viewLifecycleOwner, Observer {
