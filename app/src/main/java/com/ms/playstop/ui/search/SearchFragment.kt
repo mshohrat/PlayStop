@@ -22,10 +22,8 @@ import com.ms.playstop.MainActivity
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
-import com.ms.playstop.model.Host
-import com.ms.playstop.model.Movie
-import com.ms.playstop.model.PathType
-import com.ms.playstop.model.Scheme
+import com.ms.playstop.model.*
+import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.movie.MovieFragment
 import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
 import com.ms.playstop.ui.search.filter.SearchFilterFragment
@@ -78,7 +76,6 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
-
     }
 
     override fun onViewLoaded() {
@@ -144,6 +141,10 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
                 endLogAndIndexMovie(search_et?.text?.toString())
             }
         })
+        viewModel.searchError.observe(viewLifecycleOwner, Observer {
+            dismissLoading()
+            showToast(it)
+        })
     }
 
     private fun subscribeToViewEvents() {
@@ -162,6 +163,23 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
         search_clear_btn?.setOnClickListener {
             search_et?.text = null
         }
+        search_filter_btn?.setOnClickListener {
+            add(containerId(),SearchFilterFragment.newInstance().apply {
+                arguments = Bundle().apply {
+                    putParcelable(SearchFilterFragment.PARAM_SEARCH_FILTER,viewModel.searchFilter)
+                }
+            })
+        }
+    }
+
+    private fun showToast(response: GeneralResponse) {
+        response.message?.takeIf { it.isNotEmpty() }?.let {
+            Toast.makeText(activity,it, Toast.LENGTH_SHORT).show()
+        } ?: kotlin.run {
+            response.messageResId?.let {
+                Toast.makeText(activity,it, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onItemClick(movie: Movie?) {
@@ -176,11 +194,9 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-//        if(hidden){
-//            search_et?.text.takeIf { it.isNullOrEmpty() }?.let {
-//                search_no_result_group?.hide()
-//            }
-//        }
+        if(hidden){
+            search_et?.hideSoftKeyboard()
+        }
     }
 
     override fun handleBack(): Boolean {
@@ -225,6 +241,15 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
                 }
             }
         }
+    }
+
+    fun updateSearchFilter(searchFilter: SearchFilter) {
+        viewModel.searchFilter = searchFilter
+        search_et?.text = search_et?.text
+    }
+
+    fun getSearchFilter() : SearchFilter? {
+        return viewModel.searchFilter
     }
 
 }
