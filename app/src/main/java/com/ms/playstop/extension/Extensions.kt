@@ -13,10 +13,12 @@ import android.net.Uri
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Patterns
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.IdRes
@@ -114,12 +116,12 @@ fun Fragment.navigate(destination: Fragment,replace: Boolean = true) {
         if (replace) {
             activity?.supportFragmentManager
                 ?.beginTransaction()
-                ?.replace(R.id.main_frame, destination)
+                ?.replace(R.id.main_frame, destination,if(destination is BaseFragment) destination.tag() else "")
                 ?.commit()
         } else {
             activity?.supportFragmentManager
                 ?.beginTransaction()
-                ?.add(R.id.main_frame, destination)
+                ?.add(R.id.main_frame, destination,if(destination is BaseFragment) destination.tag() else "")
                 ?.commit()
         }
     } catch (e: Exception) {
@@ -182,17 +184,17 @@ fun Fragment.addOrShow(destination: Fragment) {
     }
 }
 
-fun Fragment.add(@IdRes containerId: Int,destination: Fragment,transitionElement: View? = null) {
+fun Fragment.add(@IdRes containerId: Int,destination: Fragment,withAnimation: Boolean = true) {
     try {
         if (destination.isStateSaved) {
             childFragmentManager.beginTransaction()
                 .initCustomAnimations()
-                .add(containerId, destination)
+                .add(containerId, destination, if(destination is BaseFragment) destination.tag() else "")
                 .commitAllowingStateLoss()
         } else {
             childFragmentManager.beginTransaction()
                 .initCustomAnimations()
-                .add(containerId, destination)
+                .add(containerId, destination, if(destination is BaseFragment) destination.tag() else "")
                 .commit()
         }
     } catch (e: Exception) {
@@ -203,17 +205,17 @@ fun Fragment.add(@IdRes containerId: Int,destination: Fragment,transitionElement
 
 }
 
-fun Fragment.replace(@IdRes containerId: Int,destination: Fragment,transitionElement: View? = null) {
+fun Fragment.replace(@IdRes containerId: Int,destination: Fragment,withAnimation: Boolean = true) {
     try {
         if (destination.isStateSaved) {
             childFragmentManager.beginTransaction()
                 .initCustomAnimations()
-                .replace(containerId, destination)
+                .replace(containerId, destination, if(destination is BaseFragment) destination.tag() else "")
                 .commitAllowingStateLoss()
         } else {
             childFragmentManager.beginTransaction()
                 .initCustomAnimations()
-                .replace(containerId, destination)
+                .replace(containerId, destination, if(destination is BaseFragment) destination.tag() else "")
                 .commit()
         }
     } catch (e: Exception) {
@@ -257,9 +259,20 @@ fun Fragment.remove(destination: Fragment,withAnimation: Boolean = true) {
 
 }
 
-fun Fragment.removeAllChildren(withAnimation: Boolean = true) {
+fun Fragment.hasChild(tag: String): Boolean {
+    return childFragmentManager.findFragmentByTag(tag) != null
+}
+
+fun Fragment.removeAllChildren(withAnimation: Boolean = true,skipStickyChildren: Boolean = true) {
     try {
         val fragments = childFragmentManager.fragments
+        if(this is BaseFragment && skipStickyChildren) {
+            if(fragments.size >= this.stickyChildrenCount()) {
+                for (i in 0 until this.stickyChildrenCount()) {
+                    fragments.removeFirstOrNull()
+                }
+            }
+        }
         val size = fragments.size
         for (i in 0 .. size){
             val child = fragments[i]
@@ -784,4 +797,11 @@ fun getJalaliDate(gregorianDate: String?): String {
         e.printStackTrace()
     }
     return ""
+}
+
+fun Context.getResourceFromThemeAttribute(@AttrRes attributeResId: Int, defaultValue: Int): Int {
+    val typedValue = TypedValue()
+    return if (theme.resolveAttribute(attributeResId, typedValue, true)) {
+        typedValue.resourceId
+    } else defaultValue
 }
