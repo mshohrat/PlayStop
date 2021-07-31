@@ -1,6 +1,8 @@
 package com.ms.playstop.ui.character
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.graphics.drawable.ColorDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.Gravity
@@ -9,10 +11,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
@@ -22,9 +27,12 @@ import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
 import com.ms.playstop.ui.movies.adapter.MovieDateSource
 import com.ms.playstop.ui.movies.adapter.MoviePagedAdapter
 import com.ms.playstop.ui.movies.adapter.RequestType
+import com.ms.playstop.utils.DayNightModeAwareAdapter
 import com.ms.playstop.utils.GridSpacingItemDecoration
 import com.ms.playstop.utils.RtlGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_character.*
+import kotlinx.android.synthetic.main.fragment_movie.*
+import kotlin.math.max
 
 class CharacterFragment : BaseFragment(), MovieAdapter.OnItemClickListener,
     MoviePagedAdapter.OnItemClickListener {
@@ -55,6 +63,40 @@ class CharacterFragment : BaseFragment(), MovieAdapter.OnItemClickListener,
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CharacterViewModel::class.java)
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            with(ctx.getResourceFromThemeAttribute(R.attr.textAppearanceHeadline3,R.style.Headline3_FixSize)) {
+                character_collapsing_toolbar_layout?.setCollapsedTitleTextAppearance(this)
+                character_collapsing_toolbar_layout?.setExpandedTitleTextAppearance(this)
+            }
+            with(ContextCompat.getColor(ctx,R.color.colorAccentDark)){
+                character_collapsing_toolbar_layout?.contentScrim = ColorDrawable(this)
+                character_collapsing_toolbar_root?.setBackgroundColor(this)
+            }
+            character_shimmer_name_tv?.background = MaterialShapeDrawable(
+                ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.shimmer_radius).toFloat())
+                    .build()
+            ).apply {
+                fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.gray))
+            }
+            character_movies_frame?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+            character_shimmer_image?.background = MaterialShapeDrawable(
+                ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(max(character_shimmer_image?.measuredWidth ?: 0 , character_shimmer_image?.measuredHeight ?: 0).toFloat().div(2))
+                    .build()
+            ).apply {
+                fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white))
+            }
+            character_movies_recycler.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+            character_movies_loading_recycler.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+        }
     }
 
     override fun onViewLoaded() {
