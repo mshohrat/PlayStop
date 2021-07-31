@@ -19,6 +19,7 @@ import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.ui.completeAccount.CompleteAccountFragment
 import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
+import com.ms.playstop.ui.mainAccount.MainAccountFragment
 import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
 import com.ms.playstop.ui.payment.PaymentFragment
@@ -43,6 +44,14 @@ class AccountFragment : BaseFragment() {
 
     override fun tag(): String {
         return TAG
+    }
+
+    override fun getEnterAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_in) } ?: kotlin.run { null }
+    }
+
+    override fun getExitAnimation(): Animation? {
+        return activity?.let { AnimationUtils.loadAnimation(it,R.anim.fade_out) } ?: kotlin.run { null }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -151,7 +160,9 @@ class AccountFragment : BaseFragment() {
         }
         account_logout_btn?.setOnClickListener {
             viewModel.logout()
-            activity?.onBackPressed()
+//            parentFragment?.takeIf { it is MainAccountFragment }?.let {
+//                (it as MainAccountFragment).handleAccountRemoved()
+//            }
         }
 
         account_settings_btn?.setOnClickListener {
@@ -214,6 +225,14 @@ class AccountFragment : BaseFragment() {
 
     override fun onSharedPreferencesChanged() {
         viewModel.loadAccountData()
+    }
+
+    override fun handleBack(): Boolean {
+        parentFragment?.takeIf { it is MainAccountFragment }?.let {
+            return passHandleBackToParent()
+        } ?: kotlin.run {
+            return super.handleBack()
+        }
     }
 
 }
