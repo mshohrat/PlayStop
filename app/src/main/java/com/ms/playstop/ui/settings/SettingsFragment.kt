@@ -1,12 +1,13 @@
 package com.ms.playstop.ui.settings
 
+import android.os.Build
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,7 @@ class SettingsFragment : BaseFragment(), SettingNightModeAdapter.OnItemClickList
     companion object {
         fun newInstance() = SettingsFragment()
         const val SETTING_DAY_NIGHT_MODE_KEY = "Setting Day Night Mode"
+        const val SETTING_DAY_NIGHT_MODE_HANDLED_KEY = "Setting Day Night Mode Handled"
         fun initDarkModeFromSetting() {
             if(Hawk.contains(SETTING_DAY_NIGHT_MODE_KEY)) {
                 val type = Hawk.get<Int>(SETTING_DAY_NIGHT_MODE_KEY)
@@ -50,6 +52,20 @@ class SettingsFragment : BaseFragment(), SettingNightModeAdapter.OnItemClickList
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_settings, container, false)
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        super.onDayNightModeApplied(type)
+        activity?.let { ctx ->
+            view?.setBackgroundColor(ContextCompat.getColor(ctx, R.color.colorPrimary))
+            settings_appbar?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorAccentDark))
+            settings_night_mode_recycler?.adapter = settings_night_mode_recycler?.adapter
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                settings_night_mode_title_tv?.setTextAppearance(ctx,ctx.getResourceFromThemeAttribute(R.attr.textAppearanceHeadline4,R.style.Headline4_FixSize))
+            } else {
+                settings_night_mode_title_tv?.setTextAppearance(ctx,ctx.getResourceFromThemeAttribute(R.attr.textAppearanceHeadline4,R.style.Headline4_FixSize))
+            }
+        }
     }
 
     override fun tag(): String {
