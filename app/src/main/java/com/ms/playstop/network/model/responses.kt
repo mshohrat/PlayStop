@@ -35,7 +35,11 @@ data class ConfigResponse(
     @SerializedName("update_app")
     val updateApp: UpdateApp?,
     @SerializedName("features")
-    val features: Features?
+    val features: Features?,
+    @SerializedName("languages")
+    val languages: List<Language>?,
+    @SerializedName("countries")
+    val countries: List<Country>?
 ) {
     companion object {
         const val SAVE_KEY = "Config Response Save Key"
