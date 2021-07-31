@@ -8,20 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ms.playstop.MainActivity
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
-import com.ms.playstop.extension.hide
-import com.ms.playstop.extension.show
 import com.ms.playstop.model.Host
 import com.ms.playstop.model.PathType
 import com.ms.playstop.model.Product
 import com.ms.playstop.model.Scheme
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.payment.adapter.ProductAdapter
+import com.ms.playstop.utils.DayNightModeAwareAdapter
 import com.ms.playstop.utils.LoadingDialog
 import kotlinx.android.synthetic.main.fragment_payment.*
 
@@ -53,6 +53,18 @@ class PaymentFragment : BaseFragment(), ProductAdapter.OnItemClickListener {
         initViews()
         subscribeToViewEvents()
         subscribeToViewModel()
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            view?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+            payment_appbar?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorAccentDark))
+            payment_no_products_tv?.setTextColor(ContextCompat.getColor(ctx,R.color.gray))
+            payment_desc_tv?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+            payment_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+        }
     }
 
     private fun initViews() {
