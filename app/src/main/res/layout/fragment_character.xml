@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.character.CharacterFragment">
 
@@ -24,6 +26,7 @@
             app:scrimAnimationDuration="200">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/character_collapsing_toolbar_root"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorAccentDark"
@@ -196,14 +199,14 @@
                         android:layout_marginEnd="@dimen/margin_standard"
                         android:visibility="gone"
                         tools:visibility="visible"
-                        app:srcCompat="@drawable/ic_user_avater"/>
+                        app:srcCompat="@drawable/ic_person_pure_white"/>
 
                     <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/character_back_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:srcCompat="@drawable/ic_back"
-                        android:background="?android:selectableItemBackground"/>
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
 
                 </LinearLayout>
             </com.google.android.material.appbar.MaterialToolbar>
@@ -220,6 +223,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <FrameLayout
+            android:id="@+id/character_movies_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorPrimary">
