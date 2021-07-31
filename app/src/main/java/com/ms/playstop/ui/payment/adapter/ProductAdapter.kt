@@ -1,19 +1,27 @@
 package com.ms.playstop.ui.payment.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.ms.playstop.R
 import com.ms.playstop.extension.convertToPersianNumber
 import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.show
 import com.ms.playstop.model.Product
+import com.ms.playstop.utils.DayNightModeAwareAdapter
+import com.ms.playstop.utils.DayNightModeAwareViewHolder
 import kotlinx.android.synthetic.main.item_product_layout.view.*
 
-class ProductAdapter(private var products: List<Product> = listOf(), private val onItemClickListener: OnItemClickListener? = null): RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+class ProductAdapter(private var products: List<Product> = listOf(), private val onItemClickListener: OnItemClickListener? = null)
+    : RecyclerView.Adapter<ProductAdapter.ViewHolder>(), DayNightModeAwareAdapter {
 
     private var recycler: RecyclerView? = null
+    private var boundViewHolders = mutableListOf<ViewHolder>()
     companion object {
         private const val VIEW_TYPE_LOADING = 0
         private const val VIEW_TYPE_PRODUCT = 1
@@ -46,6 +54,7 @@ class ProductAdapter(private var products: List<Product> = listOf(), private val
                 holder.isLoading = true
                 onItemClickListener?.onItemClick(position, product)
             }
+            boundViewHolders.takeIf { it.contains(holder).not() }?.add(holder)
         }
     }
 
@@ -61,6 +70,12 @@ class ProductAdapter(private var products: List<Product> = listOf(), private val
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
         super.onDetachedFromRecyclerView(recyclerView)
         this.recycler = null
+        this.boundViewHolders.clear()
+    }
+
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        boundViewHolders.takeIf { it.contains(holder) }?.remove(holder)
     }
 
     fun setLoadingForPosition(position: Int,isLoading: Boolean) {
@@ -68,9 +83,13 @@ class ProductAdapter(private var products: List<Product> = listOf(), private val
         viewHolder?.isLoading = isLoading
     }
 
-    abstract class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    abstract class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), DayNightModeAwareViewHolder
 
-    class LoadingViewHolder(itemView: View): ViewHolder(itemView)
+    class LoadingViewHolder(itemView: View): ViewHolder(itemView) {
+        override fun onDayNightModeChanged(type: Int) {
+
+        }
+    }
 
     class ProductViewHolder(itemView: View): ViewHolder(itemView) {
         val root = itemView
@@ -98,9 +117,29 @@ class ProductAdapter(private var products: List<Product> = listOf(), private val
                 String.format(it,String.format("%,d", product.price).convertToPersianNumber())
             }
         }
+
+        override fun onDayNightModeChanged(type: Int) {
+            root.context?.let { ctx ->
+                with(ContextCompat.getColor(ctx,R.color.colorAccentDark)){
+                    iconIv?.let {
+                        ImageViewCompat.setImageTintList(it, ColorStateList.valueOf(this@with))
+                    }
+                    (root as MaterialCardView).strokeColor = this
+                }
+                (root as MaterialCardView).setCardBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.colorAccentDark)))
+                nameTv?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+                priceTv?.setTextColor(ContextCompat.getColor(ctx,R.color.purple_new))
+            }
+        }
     }
 
     interface OnItemClickListener {
         fun onItemClick(position:Int,product: Product)
+    }
+
+    override fun onDayNightModeChanged(type: Int) {
+        for (item in boundViewHolders) {
+            item.onDayNightModeChanged(type)
+        }
     }
 }
