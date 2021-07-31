@@ -15,9 +15,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.tabs.TabLayout
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
-import com.ms.playstop.extension.addOrShow
-import com.ms.playstop.extension.removeAllChildren
+import com.ms.playstop.extension.*
 import com.ms.playstop.ui.categories.CategoriesFragment
+import com.ms.playstop.ui.mainAccount.MainAccountFragment
 import com.ms.playstop.ui.movieLists.MovieListsFragment
 import com.ms.playstop.ui.search.SearchFragment
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -89,6 +89,11 @@ class HomeFragment : BaseFragment() {
         home_tab_layout?.let {
             it.addTab(
                 it.newTab()
+                    .setText(R.string.account)
+                    .setIcon(R.drawable.ic_avatar)
+            )
+            it.addTab(
+                it.newTab()
                     .setText(R.string.category)
                     .setIcon(R.drawable.ic_category)
             )
@@ -130,19 +135,22 @@ class HomeFragment : BaseFragment() {
 
         })
 
-        home_tab_layout?.getTabAt(2)?.select()
+        home_tab_layout?.getTabAt(3)?.select()
     }
 
     fun handleSelectedTab(tab: TabLayout.Tab?) {
         tab?.let {
             val destination = when(it.position) {
                 0 -> {
-                    CategoriesFragment.newInstance()
+                    MainAccountFragment.newInstance()
                 }
                 1 -> {
-                    SearchFragment.newInstance()
+                    CategoriesFragment.newInstance()
                 }
                 2 -> {
+                    SearchFragment.newInstance()
+                }
+                3 -> {
                     MovieListsFragment.newInstance()
                 }
                 else -> {
@@ -161,9 +169,10 @@ class HomeFragment : BaseFragment() {
         }
         tab?.let {
             val destination = when(it.position) {
-                0 -> childFragmentManager.findFragmentByTag(CategoriesFragment.TAG)
-                1 -> childFragmentManager.findFragmentByTag(SearchFragment.TAG)
-                2 -> childFragmentManager.findFragmentByTag(MovieListsFragment.TAG)
+                0 -> childFragmentManager.findFragmentByTag(MainAccountFragment.TAG)
+                1 -> childFragmentManager.findFragmentByTag(CategoriesFragment.TAG)
+                2 -> childFragmentManager.findFragmentByTag(SearchFragment.TAG)
+                3 -> childFragmentManager.findFragmentByTag(MovieListsFragment.TAG)
                 else -> null
             }
             destination?.removeAllChildren()
@@ -172,16 +181,17 @@ class HomeFragment : BaseFragment() {
 
     fun selectTabBy(destination: Fragment) {
         when (destination) {
-            is MovieListsFragment -> home_tab_layout?.getTabAt(2)?.select()
-            is SearchFragment -> home_tab_layout?.getTabAt(1)?.select()
-            is CategoriesFragment -> home_tab_layout?.getTabAt(0)?.select()
+            is MovieListsFragment -> home_tab_layout?.getTabAt(3)?.select()
+            is SearchFragment -> home_tab_layout?.getTabAt(2)?.select()
+            is CategoriesFragment -> home_tab_layout?.getTabAt(1)?.select()
+            is MainAccountFragment -> home_tab_layout?.getTabAt(0)?.select()
             else -> {}
         }
     }
 
     override fun handleBack(): Boolean {
-        if(home_tab_layout?.selectedTabPosition == 0 || home_tab_layout?.selectedTabPosition == 1 ) {
-            home_tab_layout?.getTabAt(2)?.select()
+        if(home_tab_layout?.selectedTabPosition == 0 || home_tab_layout?.selectedTabPosition == 1 || home_tab_layout?.selectedTabPosition == 2) {
+            home_tab_layout?.getTabAt(3)?.select()
         }
         else {
             activity?.finish()
