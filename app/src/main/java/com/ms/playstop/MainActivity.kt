@@ -1,6 +1,7 @@
 package com.ms.playstop
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.ViewGroup
@@ -11,6 +12,8 @@ import com.microsoft.appcenter.crashes.Crashes
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
 import com.ms.playstop.model.*
+import com.ms.playstop.ui.settings.SettingsFragment
+import com.ms.playstop.ui.settings.adapter.SettingNightModeAdapter
 import com.ms.playstop.ui.splash.SplashFragment
 import com.ms.playstop.utils.ReviewDialog
 import com.ms.playstop.utils.VpnDialog
@@ -41,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 //        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccent))
+        setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccentDark))
         supportFragmentManager.fragments.size.takeIf { it == 0 }.let {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frame,
@@ -49,6 +52,55 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
         handleDeepLink(intent)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        val nightMode = if(Hawk.contains(SettingsFragment.SETTING_DAY_NIGHT_MODE_KEY)) {
+            Hawk.get<Int>(SettingsFragment.SETTING_DAY_NIGHT_MODE_KEY)
+        } else {
+            SettingNightModeAdapter.TYPE_DAY_NIGHT_MODE_AUTO
+        }
+        val nightModeHandled = if(Hawk.contains(SettingsFragment.SETTING_DAY_NIGHT_MODE_HANDLED_KEY)) {
+            Hawk.get<Int>(SettingsFragment.SETTING_DAY_NIGHT_MODE_HANDLED_KEY)
+        } else {
+            SettingNightModeAdapter.TYPE_DAY_NIGHT_MODE_AUTO
+        }
+        if(nightMode != nightModeHandled) {
+            Hawk.put(SettingsFragment.SETTING_DAY_NIGHT_MODE_HANDLED_KEY,nightMode)
+            callDayNightModeChangedForFragments(nightMode)
+        } else{
+            if(nightMode == SettingNightModeAdapter.TYPE_DAY_NIGHT_MODE_AUTO) {
+                val uiMode = newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK
+                if(uiMode == Configuration.UI_MODE_NIGHT_NO) {
+                    callDayNightModeChangedForFragments(SettingNightModeAdapter.TYPE_DAY_MODE)
+                } else if(uiMode == Configuration.UI_MODE_NIGHT_YES) {
+                    callDayNightModeChangedForFragments(SettingNightModeAdapter.TYPE_NIGHT_MODE)
+                }
+            }
+        }
+    }
+
+    private fun callDayNightModeChangedForFragments(type: Int) {
+        val fragments = ArrayList<Fragment>()
+        val baseFragments = supportFragmentManager.fragments
+        baseFragments.takeIf { it.isNotEmpty() }?.let {
+            for (i in 0 until it.size) {
+                val fragment = it[i]
+                if (fragment is BaseFragment) {
+                    fragments.add(fragment)
+                    if (hasNestedFragments(fragment)) {
+                        putFragments(fragment, fragments,false)
+                    }
+                }
+            }
+        }
+        fragments.reverse()
+        for (fragment in fragments) {
+            if(fragment is BaseFragment) {
+                fragment.onDayNightModeApplied(type)
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -267,11 +319,11 @@ class MainActivity : AppCompatActivity() {
         return fragment.childFragmentManager.fragments.isNotEmpty()
     }
 
-    private fun putFragments(fragment: Fragment,fragmentList: MutableList<Fragment>) {
+    private fun putFragments(fragment: Fragment, fragmentList: MutableList<Fragment>, onlyAddVisibleFragments: Boolean = true) {
         val fragments = fragment.childFragmentManager.fragments
         for (j in 0 until fragments.size){
             val f = fragments[j]
-            if(f is BaseFragment && f.isVisible) {
+            if(f is BaseFragment && (f.isVisible || onlyAddVisibleFragments.not())) {
                 fragmentList.add(f)
                 if(hasNestedFragments(f)) {
                     putFragments(f, fragmentList)
