@@ -1,5 +1,6 @@
 package com.ms.playstop.ui.movieLists
 
+import android.graphics.drawable.ColorDrawable
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -27,6 +29,7 @@ import com.ms.playstop.ui.movieLists.adapter.MovieListAdapter
 import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
 import com.ms.playstop.ui.search.SearchFragment
+import com.ms.playstop.utils.DayNightModeAwareAdapter
 import com.ms.playstop.utils.LinePagerIndicatorDecoration
 import com.ms.playstop.utils.RtlLinearLayoutManager
 import io.reactivex.Observable
@@ -50,6 +53,7 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     private lateinit var viewModel: MovieListsViewModel
     private var appbarHeight = 0
     private val disposables = CompositeDisposable()
+    private var topRecyclerItemDecoration = LinePagerIndicatorDecoration()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,9 +90,26 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
         subscribeToViewEvents()
     }
 
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            movies_appbar?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+            movies_collapsing_toolbar?.contentScrim = ColorDrawable(ContextCompat.getColor(ctx,R.color.colorAccentDark))
+
+            movies_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+            movies_top_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+            movies_top_recycler?.takeIf { it.itemDecorationCount > 0 }?.removeItemDecoration(topRecyclerItemDecoration)
+            topRecyclerItemDecoration = LinePagerIndicatorDecoration()
+            movies_top_recycler?.addItemDecoration(topRecyclerItemDecoration)
+        }
+    }
+
     private fun initViews() {
         movies_top_recycler?.layoutManager = RtlLinearLayoutManager(activity,RecyclerView.HORIZONTAL,false)
-        movies_top_recycler?.addItemDecoration(LinePagerIndicatorDecoration())
+        movies_top_recycler?.addItemDecoration(topRecyclerItemDecoration)
         PagerSnapHelper().attachToRecyclerView(movies_top_recycler)
 
         movies_appbar?.post{
