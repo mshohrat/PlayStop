@@ -230,14 +230,14 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
 
     @SuppressLint("CheckResult")
     private fun subscribeToViewModel() {
-        viewModel.movie.observe(viewLifecycleOwner, Observer {
+        viewModel.movie.observe(viewLifecycleOwner, {
             handleShowGuideToUser()
             fillMovieData(it)
             handleFetchSimilarMovies()
             endLogAndIndexMovie(it?.name)
         })
 
-        viewModel.movieError.observe(viewLifecycleOwner, Observer {
+        viewModel.movieError.observe(viewLifecycleOwner, {
             movie_shimmer_image?.hide()
             movie_shimmer_detail?.hide()
             movie_refresh_layout?.isRefreshing = false
@@ -248,32 +248,32 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
             }
         })
 
-        viewModel.sendComment.observe(viewLifecycleOwner, Observer {
+        viewModel.sendComment.observe(viewLifecycleOwner, {
             showToast(it)
-            comments_submit_comment_et?.text = null
+            movie_submit_comment_et?.text = null
             dismissLoadingDialog()
         })
 
-        viewModel.sendCommentError.observe(viewLifecycleOwner, Observer {
+        viewModel.sendCommentError.observe(viewLifecycleOwner, {
             showToast(it)
             dismissLoadingDialog()
         })
 
-        viewModel.likeMovie.observe(viewLifecycleOwner, Observer {
+        viewModel.likeMovie.observe(viewLifecycleOwner, {
             showToast(it)
             handleMovieLikeAndDislike(viewModel.movie.value)
         })
 
-        viewModel.likeMovieError.observe(viewLifecycleOwner, Observer {
+        viewModel.likeMovieError.observe(viewLifecycleOwner, {
             showToast(it)
             handleMovieLikeAndDislike(viewModel.movie.value)
         })
 
-        viewModel.similarMovies.observe(viewLifecycleOwner, Observer {
+        viewModel.similarMovies.observe(viewLifecycleOwner, {
             fillSimilarMovieData(it)
         })
 
-        viewModel.similarMoviesError.observe(viewLifecycleOwner, Observer {
+        viewModel.similarMoviesError.observe(viewLifecycleOwner, {
             fillSimilarMovieData(null)
         })
     }

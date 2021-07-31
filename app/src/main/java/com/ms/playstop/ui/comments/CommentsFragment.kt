@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.addToParent
+import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.isUserLoggedIn
+import com.ms.playstop.extension.show
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.comments.adapter.CommentPagedAdapter
 import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ms.playstop.MainActivity
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
+import com.ms.playstop.extension.hide
+import com.ms.playstop.extension.show
 import com.ms.playstop.model.Host
 import com.ms.playstop.model.PathType
 import com.ms.playstop.model.Product

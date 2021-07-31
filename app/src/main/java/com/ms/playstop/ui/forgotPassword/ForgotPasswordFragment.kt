@@ -18,6 +18,9 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
+import com.ms.playstop.extension.hide
+import com.ms.playstop.extension.hideSoftKeyboard
+import com.ms.playstop.extension.show
 import com.ms.playstop.network.model.GeneralResponse
 import kotlinx.android.synthetic.main.fragment_forgot_password.*
 import kotlinx.android.synthetic.main.fragment_login.*

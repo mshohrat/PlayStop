@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
+import com.ms.playstop.extension.getResourceFromThemeAttribute
 import com.ms.playstop.ui.settings.adapter.SettingNightModeAdapter
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.fragment_settings.*

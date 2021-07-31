@@ -10,6 +10,7 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import com.microsoft.appcenter.analytics.Analytics
 import com.ms.playstop.R
+import com.ms.playstop.extension.hideSoftKeyboard
 import com.ms.playstop.utils.OnDayNightModeChangeListener
 
 abstract class BaseFragment : Fragment(), OnDayNightModeChangeListener {

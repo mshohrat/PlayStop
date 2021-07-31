@@ -19,7 +19,9 @@ import com.ms.playstop.BuildConfig
 
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
+import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.navigate
+import com.ms.playstop.extension.show
 import com.ms.playstop.model.Profile
 import com.ms.playstop.network.model.ConfigResponse
 import com.ms.playstop.ui.home.HomeFragment
