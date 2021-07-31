@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +19,7 @@ import com.ms.playstop.ui.movieLists.adapter.MovieAdapter
 import com.ms.playstop.ui.movies.adapter.MovieDateSource
 import com.ms.playstop.ui.movies.adapter.MoviePagedAdapter
 import com.ms.playstop.ui.movies.adapter.RequestType
+import com.ms.playstop.utils.DayNightModeAwareAdapter
 import com.ms.playstop.utils.GridSpacingItemDecoration
 import com.ms.playstop.utils.RtlGridLayoutManager
 import kotlinx.android.synthetic.main.fragment_movies.*
@@ -55,6 +57,19 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            view?.setBackgroundColor(ContextCompat.getColor(ctx, R.color.colorPrimary))
+            movies_top_appbar?.setBackgroundColor(ContextCompat.getColor(ctx, R.color.colorAccentDark))
+            movies_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+            movies_loading_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+        }
     }
 
     override fun onViewLoaded() {
