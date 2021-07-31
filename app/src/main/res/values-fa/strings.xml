@@ -172,4 +172,14 @@
     <string name="payment_was_not_successful">خطا در فرایند پرداخت</string>
     <string name="payment_description">مبلغ پرداختی از سوی شما تنها برای حمایت از مجموعه پلی استپ در جهت تداوم خدمات و رفع بیش از پبش نیازهای شما کاربران عزیز در خصوص فیلم و سریال است. از اینکه حامی ما هستید بسیار سپاسگزاریم.</string>
     <string name="disabled">غیر فعال</string>
+    <string name="search_filter">فیلتر جستجو</string>
+    <string name="clear_filters">حذف فیلترها</string>
+    <string name="submit_filters">اعمال فیلترها</string>
+    <string name="filter_categories_title">دسته‌بندی</string>
+    <string name="filter_genres_title">ژانر</string>
+    <string name="filter_sort_title">ترتیب نمایش</string>
+    <string name="filter_languages_title">زبان</string>
+    <string name="filter_years_title">سال ساخت</string>
+    <string name="filter_score_title">امتیاز</string>
+    <string name="filter_countries_title">کشور سازنده</string>
 </resources>
