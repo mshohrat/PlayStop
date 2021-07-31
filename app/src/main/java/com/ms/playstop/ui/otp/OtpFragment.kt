@@ -29,6 +29,7 @@ class OtpFragment : BaseFragment() {
         const val VERIFY_STATE = "Verify State"
         const val VERIFY_STATE_LOGIN = 2
         const val VERIFY_STATE_NONE = 0
+        const val TAG = "Otp Fragment"
     }
 
     private lateinit var viewModel: OtpViewModel
@@ -42,7 +43,7 @@ class OtpFragment : BaseFragment() {
     }
 
     override fun tag(): String {
-        return "Otp Fragment"
+        return TAG
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -102,13 +103,22 @@ class OtpFragment : BaseFragment() {
         viewModel.verifyOtp.observe(viewLifecycleOwner, Observer {
             hideButtonLoading()
             showToast(it)
-            removeLastFromParent(2)
+//            parentFragment?.takeIf { it is MainAccountFragment }?.let {
+//                (it as MainAccountFragment).handleAccountAdded()
+//            } ?: kotlin.run {
+                removeLastFromParent(2)
+//            }
         })
         viewModel.loginOtp.observe(viewLifecycleOwner, Observer {
             hideButtonLoading()
             showToast(it.first)
-            removeLastFromParent(2)
+//            parentFragment?.takeIf { it is MainAccountFragment }?.let {
+//                (it as MainAccountFragment).handleAccountAdded()
+//            } ?: kotlin.run {
+                removeLastFromParent(2)
+//            }
             if(it.second) {
+                //removeLastFromParent(2)
                 val completeAccountFragment = CompleteAccountFragment.newInstance()
                 completeAccountFragment.arguments = Bundle().apply {
                     putInt(CompleteAccountFragment.COMPLETE_ACCOUNT_STATE
