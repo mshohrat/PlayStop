@@ -1,24 +1,25 @@
 package com.ms.playstop.ui.comments
 
+import android.content.res.ColorStateList
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.addToParent
-import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.isUserLoggedIn
-import com.ms.playstop.extension.show
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.comments.adapter.CommentPagedAdapter
 import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
 import com.ms.playstop.ui.movies.MoviesFragment
+import com.ms.playstop.utils.DayNightModeAwareAdapter
 import kotlinx.android.synthetic.main.fragment_comments.*
 import kotlinx.android.synthetic.main.fragment_movies.*
 
@@ -42,6 +43,23 @@ class CommentsFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         initViews()
         viewModel = ViewModelProviders.of(this).get(CommentsViewModel::class.java)
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            with(ContextCompat.getColor(ctx,R.color.colorPrimary)){
+                view?.setBackgroundColor(this)
+                comments_submit_comment_btn?.setBackgroundColor(this)
+            }
+            comments_appbar?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorAccentDark))
+            comments_submit_comment_btn?.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.colorAccent))
+            comments_submit_comment_et?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+            comments_submit_comment_et?.setHintTextColor(ContextCompat.getColor(ctx,R.color.gray))
+            comments_loading?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.white_opacity_10))
+            comments_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+            }
+        }
     }
 
     override fun onViewLoaded() {
