@@ -156,9 +156,9 @@ interface ApiService {
         @Query("query") query: String?
     ) : Single<WriterListResponse?>?
 
-    @GET("v1/search/movie")
+    @POST("v1/search/movie")
     fun searchMovie(
-        @Query("query") query: String?
+        @Body searchMovieRequest: SearchMovieRequest?
     ) : Single<MovieListResponse?>?
 
     @POST("v1/comment/{movie_id}")
