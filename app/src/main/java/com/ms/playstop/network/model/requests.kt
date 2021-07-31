@@ -99,3 +99,24 @@ data class VerifyPaymentRequest(
     @SerializedName("transaction_id")
     val transactionId: String
 )
+
+data class SearchMovieRequest(
+    @SerializedName("query")
+    val query: String?,
+    @SerializedName("sort")
+    val sort: String? = null,
+    @SerializedName("categories")
+    val categories: List<Int>? = null,
+    @SerializedName("genres")
+    val genres: List<Int>? = null,
+    @SerializedName("languages")
+    val languages: List<Int>? = null,
+    @SerializedName("years")
+    val years: List<Int>? = null,
+    @SerializedName("countries")
+    val countries: List<Int>? = null,
+    @SerializedName("minimum_score")
+    val minimumScore: Float? = null,
+    @SerializedName("maximum_score")
+    val maximumScore: Float? = null
+)
