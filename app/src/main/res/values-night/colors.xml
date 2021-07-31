@@ -5,6 +5,7 @@
     <color name="colorPrimaryLightDark">#0B1D3A</color>
     <color name="colorPrimaryLightDarkOpacity50">#800B1D3A</color>
     <color name="colorAccent">#00C4E7</color>
+    <color name="colorAccentOpacity20">#3300C4E7</color>
     <color name="colorAccentDark">#01B3D3</color>
     <color name="colorAccentDarkOpacity50">#8001B3D3</color>
     <color name="gray">#a6a6a6</color>
