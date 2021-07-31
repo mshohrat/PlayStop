@@ -1,5 +1,6 @@
 package com.ms.playstop.ui.home
 
+import android.content.res.ColorStateList
 import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
@@ -60,6 +61,28 @@ class HomeFragment : BaseFragment() {
         super.onViewLoaded()
         initViews()
         subscribeToViewEvents()
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        super.onDayNightModeApplied(type)
+        activity?.let { ctx ->
+            ctx.setStatusBarColor(ContextCompat.getColor(ctx,R.color.colorAccentDark))
+            view?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+            val white = ContextCompat.getColor(ctx,R.color.white)
+            val purple = ContextCompat.getColor(ctx,R.color.purple_new)
+            home_tab_layout?.setTabTextColors(white,purple)
+            home_tab_layout?.setSelectedTabIndicatorColor(purple)
+            home_tab_layout?.tabRippleColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.gray))
+            home_tab_layout?.tabIconTint = ColorStateList.valueOf(white)
+            home_tab_layout?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimaryLightDarkOpacity50))
+            home_tab_layout?.selectedTabPosition?.let { position ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    home_tab_layout?.getTabAt(position)?.icon?.setColorFilter(BlendModeColorFilter(purple,BlendMode.SRC_IN))
+                } else {
+                    home_tab_layout?.getTabAt(position)?.icon?.setColorFilter(purple, PorterDuff.Mode.SRC_IN)
+                }
+            }
+        }
     }
 
     private fun initViews() {
