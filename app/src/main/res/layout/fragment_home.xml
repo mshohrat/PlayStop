@@ -26,6 +26,7 @@
         app:tabIndicatorGravity="top"
         app:tabSelectedTextColor="@color/purple_new"
         app:tabMode="fixed"
+        app:tabTextAppearance="?attr/textAppearanceCaption"
         />
 
 </LinearLayout>
