@@ -1,12 +1,19 @@
 package com.ms.playstop.ui.account
 
+import android.content.res.ColorStateList
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.Observer
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
@@ -47,6 +54,67 @@ class AccountFragment : BaseFragment() {
         super.onViewLoaded()
         subscribeToViewModel()
         subscribeToViewEvents()
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        super.onDayNightModeApplied(type)
+        activity?.let { ctx ->
+
+            with(ContextCompat.getColor(ctx,R.color.colorAccent)){
+                account_liked_movies_btn?.backgroundTintList = ColorStateList.valueOf(this)
+                account_logout_btn?.setTextColor(this)
+            }
+
+            account_avatar_iv?.let { iv ->
+                ImageViewCompat.setImageTintList(iv,ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.colorAccentDarkOpacity50)))
+            }
+
+            with(ContextCompat.getColor(ctx, R.color.colorPrimary)){
+                view?.setBackgroundColor(this)
+                account_liked_movies_btn?.setTextColor(this)
+                account_bottom_view?.setBackgroundColor(this)
+            }
+
+            with(ContextCompat.getColor(ctx,R.color.white)){
+                account_name_tv?.setTextColor(this)
+                account_email_tv?.setTextColor(this)
+                account_phone_tv?.setTextColor(this)
+                account_subscription_status_tv?.setTextColor(this)
+                account_end_subscription_date_tv?.setTextColor(this)
+            }
+
+            account_name_tv?.setCompoundDrawablesRelativeWithIntrinsicBounds(AppCompatResources.getDrawable(ctx,R.drawable.ic_name),null,null,null)
+            account_email_tv?.setCompoundDrawablesRelativeWithIntrinsicBounds(AppCompatResources.getDrawable(ctx,R.drawable.ic_email),null,null,null)
+            account_phone_tv?.setCompoundDrawablesRelativeWithIntrinsicBounds(AppCompatResources.getDrawable(ctx,R.drawable.ic_phone),null,null,null)
+
+            with(ContextCompat.getColor(ctx,R.color.colorAccentDark)) {
+                account_appbar?.setBackgroundColor(this)
+                account_name_title_tv?.setTextColor(this)
+                account_email_title_tv?.setTextColor(this)
+                account_phone_title_tv?.setTextColor(this)
+                account_subscription_title_tv?.setTextColor(this)
+            }
+
+            with(ContextCompat.getColor(ctx,R.color.blue)){
+                account_name_edit_ib?.setTextColor(this)
+                account_email_edit_ib?.setTextColor(this)
+                account_phone_edit_ib?.setTextColor(this)
+                account_subscription_purchase_btn?.setTextColor(this)
+            }
+
+            with(MaterialShapeDrawable(ShapeAppearanceModel.builder()
+                .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.background_card_radius).toFloat())
+                .build()
+            ).apply {
+                fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white_opacity_10))
+            }) {
+                account_name_bg_view?.background = this
+                account_email_bg_view?.background = this
+                account_phone_bg_view?.background = this
+                account_subscription_bg_view?.background = this
+            }
+
+        }
     }
 
     private fun subscribeToViewModel() {
