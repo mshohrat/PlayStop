@@ -1,22 +1,27 @@
 package com.ms.playstop.ui.movie.adapter
 
-import android.view.Gravity
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
-import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.show
 import com.ms.playstop.model.Season
+import com.ms.playstop.utils.DayNightModeAwareAdapter
+import com.ms.playstop.utils.DayNightModeAwareViewHolder
 import kotlinx.android.synthetic.main.item_season_layout.view.*
 
-class SeasonAdapter(private val seasons: List<Season>,private val onItemClickListener: EpisodeAdapter.OnItemClickListener): RecyclerView.Adapter<SeasonAdapter.ViewHolder>() {
+class SeasonAdapter(private val seasons: List<Season>,private val onItemClickListener: EpisodeAdapter.OnItemClickListener)
+    : RecyclerView.Adapter<SeasonAdapter.ViewHolder>(), DayNightModeAwareAdapter {
+
+    private var recyclerView: RecyclerView? = null
+    private var boundViewHolders = mutableListOf<ViewHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_season_layout,parent,false))
@@ -26,12 +31,29 @@ class SeasonAdapter(private val seasons: List<Season>,private val onItemClickLis
         return seasons.size
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
+
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        this.recyclerView = null
+        this.boundViewHolders.clear()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val season = seasons[position]
         holder.bind(season)
+        boundViewHolders.takeIf { it.contains(holder).not() }?.add(holder)
     }
 
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    override fun onViewRecycled(holder: ViewHolder) {
+        super.onViewRecycled(holder)
+        boundViewHolders.takeIf { it.contains(holder) }?.remove(holder)
+    }
+
+    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), DayNightModeAwareViewHolder {
 
         val rootView = itemView as ViewGroup
         val nameTv = itemView.season_name_tv
@@ -55,6 +77,22 @@ class SeasonAdapter(private val seasons: List<Season>,private val onItemClickLis
                     episodesRecycler.hide()
                 }
             }
+        }
+
+        override fun onDayNightModeChanged(type: Int) {
+            rootView.context?.let { ctx ->
+                nameTv?.setTextColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+                nameTv?.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.colorAccent))
+                episodesRecycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
+                    (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
+                }
+            }
+        }
+    }
+
+    override fun onDayNightModeChanged(type: Int) {
+        for (item in boundViewHolders) {
+            item.onDayNightModeChanged(type)
         }
     }
 }
