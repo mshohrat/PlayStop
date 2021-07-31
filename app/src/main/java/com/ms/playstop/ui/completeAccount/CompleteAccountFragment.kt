@@ -1,12 +1,19 @@
 package com.ms.playstop.ui.completeAccount
 
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
@@ -45,6 +52,43 @@ class CompleteAccountFragment : BaseFragment() {
         handleArguments()
         subscribeToViewModel()
         subscribeToViewEvents()
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        activity?.let { ctx ->
+            view?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
+            with(ContextCompat.getColor(ctx,R.color.colorAccentDark)){
+                complete_account_appbar?.setBackgroundColor(this)
+                complete_account_name_title_tv?.setTextColor(this)
+                complete_account_email_title_tv?.setTextColor(this)
+            }
+            with(ContextCompat.getColor(ctx,R.color.white)){
+                complete_account_name_et?.setTextColor(this)
+                complete_account_email_et?.setTextColor(this)
+                complete_account_skip_btn?.setTextColor(this)
+            }
+            complete_account_btn_divider?.background = GradientDrawable(
+                GradientDrawable.Orientation.LEFT_RIGHT,
+                intArrayOf(Color.TRANSPARENT,ContextCompat.getColor(ctx,R.color.gray), Color.TRANSPARENT)
+            )
+            with(ContextCompat.getColor(ctx,R.color.gray)){
+                complete_account_email_et?.setHintTextColor(this)
+                complete_account_name_et?.setHintTextColor(this)
+            }
+            complete_account_name_et?.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                AppCompatResources.getDrawable(ctx,R.drawable.ic_name),null,null,null)
+            complete_account_email_et?.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                AppCompatResources.getDrawable(ctx,R.drawable.ic_email),null,null,null)
+
+            complete_account_btn?.background = LayerDrawable(
+                arrayOf(
+                    MaterialShapeDrawable(
+                        ShapeAppearanceModel.builder()
+                    .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.button_radius).toFloat())
+                    .build()), GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
+                    intArrayOf(ContextCompat.getColor(ctx,R.color.purple),ContextCompat.getColor(ctx,R.color.blue))
+            )))
+        }
     }
 
     private fun handleArguments() {
