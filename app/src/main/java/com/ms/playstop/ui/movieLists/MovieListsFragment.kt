@@ -165,9 +165,9 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
             appbarHeight = movies_list_toolbar?.measuredHeight ?: 0
         }
         showSequenceGuide(listOf(
-            (R.string.user_account to R.string.see_your_account_data) to (SHOW_CASE_ACCOUNT_KEY to getAccountTabButtonFromParent())
-            ,(R.string.search to R.string.search_favorite_movies) to (SHOW_CASE_SEARCH_KEY to movies_search_btn)
+            (R.string.search to R.string.search_favorite_movies) to (SHOW_CASE_SEARCH_KEY to getSearchTabButtonFromParent())
             ,(R.string.categories to R.string.access_movies_by_categories) to (SHOW_CASE_CATEGORIES_KEY to getCategoriesTabButtonFromParent())
+            ,(R.string.user_account to R.string.see_your_account_data) to (SHOW_CASE_ACCOUNT_KEY to getAccountTabButtonFromParent())
         ))
     }
 
@@ -179,6 +179,11 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     private fun getAccountTabButtonFromParent() : View? {
         val tabLayout = parentFragment?.view?.findViewById<TabLayout>(R.id.home_tab_layout)
         return tabLayout?.getTabAt(0)?.view
+    }
+
+    private fun getSearchTabButtonFromParent() : View? {
+        val tabLayout = parentFragment?.view?.findViewById<TabLayout>(R.id.home_tab_layout)
+        return tabLayout?.getTabAt(2)?.view
     }
 
     private fun subscribeToViewModel() {
