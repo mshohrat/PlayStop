@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 //        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setStatusBarColor(ContextCompat.getColor(this,R.color.colorAccentDark))
+        setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary))
         supportFragmentManager.fragments.size.takeIf { it == 0 }.let {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frame,
@@ -301,7 +301,11 @@ class MainActivity : AppCompatActivity() {
                         if (f is BaseFragment && f.handleBack()) {
                             break
                         } else {
-                            f.parentFragment?.childFragmentManager?.beginTransaction()
+                            val parent = f.parentFragment
+                            parent?.takeIf { it is BaseFragment }?.let {
+                                (it as BaseFragment).onChildIsRemoving(f)
+                            }
+                            parent?.childFragmentManager?.beginTransaction()
                                 ?.initCustomAnimations()
                                 ?.remove(f)
                                 ?.commit()
