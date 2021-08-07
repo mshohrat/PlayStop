@@ -15,6 +15,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
+import com.ms.playstop.extension.loadImage
 import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
 import com.ms.playstop.utils.DayNightModeAwareAdapter
@@ -76,12 +77,12 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
         val freeTv = itemView.movie_free_tv
 
         fun bind(item: Movie?) {
-            imageIv?.let {
-                Glide.with(it).load(item?.image).apply(
-                    RequestOptions.bitmapTransform(
-                        RoundedCornersTransformation(16,0)
-                    )).into(it)
-            }
+            loadImage(
+                imageIv,
+                item?.image,
+                listOf(RequestOptions.bitmapTransform(RoundedCornersTransformation(16,0))),
+                3
+            )
             nameTv?.text = item?.name
             item?.genres?.takeIf { it.isNotEmpty() }?.let {
                 genreTv?.text = it.first().name

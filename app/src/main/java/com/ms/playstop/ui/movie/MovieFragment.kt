@@ -18,7 +18,6 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -354,26 +353,20 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
             } ?: kotlin.run {
                 movie_score_number_tv?.hide()
             }
-            movie_image_iv?.let {
-                context?.let { ctx ->
-                    Glide.with(ctx).load(movie.image).apply(
-                        RequestOptions.bitmapTransform(
-                            RoundedCornersTransformation(16, 0)
-                        )
-                    ).into(it)
-                }
-            }
+            loadImage(
+                movie_image_iv,
+                movie.image,
+                listOf(RequestOptions.bitmapTransform(RoundedCornersTransformation(16,0))),
+                3
+            )
             movie.header?.let { header ->
                 movie_image_background_group?.show()
-                movie_image_background_iv?.let {
-                    context?.let { ctx ->
-                        Glide.with(ctx).load(header).apply(
-                            RequestOptions.bitmapTransform(
-                                RoundedCornersTransformation(16, 0)
-                            )
-                        ).into(it)
-                    }
-                }
+                loadImage(
+                    movie_image_background_iv,
+                    header,
+                    listOf(RequestOptions.bitmapTransform(RoundedCornersTransformation(16,0))),
+                    3
+                )
             } ?: kotlin.run {
                 movie_image_background_group?.hide()
             }

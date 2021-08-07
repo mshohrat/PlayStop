@@ -12,6 +12,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
+import com.ms.playstop.extension.loadImage
 import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
 import com.ms.playstop.utils.DayNightModeAwareAdapter
@@ -115,9 +116,11 @@ class MovieHeaderAdapter(
 
         override fun bind(item: Movie?) {
             super.bind(item)
-            imageIv?.let {
-                Glide.with(it).load(item?.header).apply(RequestOptions.bitmapTransform(RoundedCornersTransformation(16,0))).into(it)
-            }
+            loadImage(
+                imageIv,
+                item?.header,
+                retryCount = 3
+            )
             nameTv?.text = item?.name
             item?.score?.toString()?.takeIf { it.isNotEmpty() && it != "0" }?.let {
                 itemView.context?.getString(R.string.imdb_score_x)?.let { string ->
