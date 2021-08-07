@@ -2,15 +2,13 @@
 <com.facebook.shimmer.ShimmerFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginVertical="@dimen/margin_medium"
-    android:paddingHorizontal="@dimen/padding_standard">
+    android:layout_height="wrap_content">
 
     <View
         android:id="@+id/item_movie_header_place_holder_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/shape_rectangle_rounded_6dp_gray"
+        android:background="@color/gray"
         />
 
 </com.facebook.shimmer.ShimmerFrameLayout>

@@ -6,83 +6,122 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/movies_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/movies_appbar"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/movies_nested_scroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/movies_collapsing_toolbar"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:collapsedTitleGravity="end|center_vertical"
-                app:collapsedTitleTextAppearance="?textAppearanceHeadline3"
-                app:expandedTitleGravity="end|center_vertical"
-                app:expandedTitleMargin="@dimen/margin_standard"
-                app:contentScrim="@color/colorAccentDark"
-                app:expandedTitleTextAppearance="?textAppearanceHeadline3"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movies_top_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_home_header"
-                    android:scaleType="fitXY"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_collapseMode="parallax"/>
+                    app:layout_constraintTop_toTopOf="parent"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/movies_top_layout"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/movies_recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/status_bar_and_action_bar_height"
-                    android:visibility="gone"
-                    tools:visibility="visible">
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-<!--                    <com.google.android.material.textview.MaterialTextView-->
-<!--                        android:id="@+id/movies_top_title_tv"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        android:layout_marginEnd="@dimen/margin_standard"-->
-<!--                        app:layout_constraintBottom_toBottomOf="@id/movies_top_show_all_btn"-->
-<!--                        style="?textAppearanceHeadline3"-->
-<!--                        tools:text="test" />-->
+            </LinearLayout>
 
-<!--                    <com.google.android.material.button.MaterialButton-->
-<!--                        android:id="@+id/movies_top_show_all_btn"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        style="@style/Widget.MaterialComponents.Button.TextButton"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="parent"-->
-<!--                        android:text="@string/show_all"-->
-<!--                        android:textAppearance="?textAppearanceCaption"-->
-<!--                        android:textColor="@color/colorAccent"-->
-<!--                        app:icon="@drawable/ic_arrow"-->
-<!--                        app:iconGravity="start"-->
-<!--                        app:iconTint="@color/colorAccent"-->
-<!--                        app:iconPadding="@dimen/margin_medium"-->
-<!--                        android:layout_marginStart="@dimen/margin_medium"/>-->
+        </androidx.core.widget.NestedScrollView>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/movies_top_recycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+<!--    <androidx.coordinatorlayout.widget.CoordinatorLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent">-->
+
+<!--        <com.google.android.material.appbar.AppBarLayout-->
+<!--            android:id="@+id/movies_appbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="top"-->
+<!--            android:alpha="0"-->
+<!--            tools:alpha="1"-->
+<!--            android:background="@color/colorAccentDark">-->
+<!--            <com.google.android.material.appbar.CollapsingToolbarLayout-->
+<!--                android:id="@+id/movies_collapsing_toolbar"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:collapsedTitleGravity="end|center_vertical"-->
+<!--                app:collapsedTitleTextAppearance="?textAppearanceHeadline3"-->
+<!--                app:expandedTitleGravity="end|center_vertical"-->
+<!--                app:expandedTitleMargin="@dimen/margin_standard"-->
+<!--                app:contentScrim="@color/colorAccentDark"-->
+<!--                app:expandedTitleTextAppearance="?textAppearanceHeadline3"-->
+<!--                app:layout_scrollFlags="scroll|exitUntilCollapsed">-->
+
+<!--                <androidx.appcompat.widget.AppCompatImageView-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:srcCompat="@drawable/ic_home_header"-->
+<!--                    android:scaleType="fitXY"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_collapseMode="parallax"/>-->
+
+<!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                    android:id="@+id/movies_top_layout"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="@dimen/status_bar_and_action_bar_height"-->
+<!--                    android:visibility="gone"-->
+<!--                    tools:visibility="visible">-->
+
+<!--&lt;!&ndash;                    <com.google.android.material.textview.MaterialTextView&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:id="@+id/movies_top_title_tv"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:layout_constraintTop_toTopOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginEnd="@dimen/margin_standard"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:layout_constraintBottom_toBottomOf="@id/movies_top_show_all_btn"&ndash;&gt;-->
+<!--&lt;!&ndash;                        style="?textAppearanceHeadline3"&ndash;&gt;-->
+<!--&lt;!&ndash;                        tools:text="test" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                    <com.google.android.material.button.MaterialButton&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:id="@+id/movies_top_show_all_btn"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                        style="@style/Widget.MaterialComponents.Button.TextButton"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:layout_constraintTop_toTopOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:text="@string/show_all"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:textAppearance="?textAppearanceCaption"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:textColor="@color/colorAccent"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:icon="@drawable/ic_arrow"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:iconGravity="start"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:iconTint="@color/colorAccent"&ndash;&gt;-->
+<!--&lt;!&ndash;                        app:iconPadding="@dimen/margin_medium"&ndash;&gt;-->
+<!--&lt;!&ndash;                        android:layout_marginStart="@dimen/margin_medium"/>&ndash;&gt;-->
+
+<!--                    -->
+
+<!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/movies_list_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/action_bar_height"
                     app:title="@string/app_name_fa"
+                    android:layout_gravity="top"
+                    android:alpha="0"
+                    tools:alpha="1"
+                    android:background="@color/colorAccentDark"
                     android:layout_marginTop="@dimen/status_bar_height"
                     app:contentInsetEnd="@dimen/margin_standard"
                     app:contentInsetStart="@dimen/margin_small"
@@ -120,27 +159,13 @@
                             android:text="@string/app_name_fa"/>
                     </LinearLayout>
                 </com.google.android.material.appbar.MaterialToolbar>
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/movies_refresh_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/movies_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:layout_marginTop="@dimen/margin_large"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+<!--            </com.google.android.material.appbar.CollapsingToolbarLayout>-->
+<!--        </com.google.android.material.appbar.AppBarLayout>-->
 
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+<!--    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
 
     <FrameLayout
         android:id="@+id/movie_list_frame"

@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
@@ -17,7 +15,6 @@ import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
 import com.ms.playstop.utils.DayNightModeAwareAdapter
 import com.ms.playstop.utils.DayNightModeAwareViewHolder
-import com.ms.playstop.utils.RoundedCornersTransformation
 import kotlinx.android.synthetic.main.item_movie_header_layout.view.*
 import kotlinx.android.synthetic.main.item_movie_header_place_holder_layout.view.*
 
@@ -85,7 +82,7 @@ class MovieHeaderAdapter(
     open inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), DayNightModeAwareViewHolder {
         open fun bind (item: Movie?) {
             val width = widthOfDevice()
-            val height = width.times(3).div(5)
+            val height = width.times(35).div(50)
             val params = itemView.layoutParams as? RecyclerView.LayoutParams
             params?.width = width
             params?.height = height
@@ -96,13 +93,7 @@ class MovieHeaderAdapter(
 
         override fun onDayNightModeChanged(type: Int) {
             itemView.context?.let { ctx ->
-                itemView.item_movie_header_place_holder_view?.background = MaterialShapeDrawable(
-                    ShapeAppearanceModel.builder()
-                        .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.shimmer_radius).toFloat())
-                        .build()
-                ).apply {
-                    fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.gray))
-                }
+                itemView.item_movie_header_place_holder_view?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.gray))
             }
         }
     }
@@ -138,7 +129,7 @@ class MovieHeaderAdapter(
             rootView.setOnClickListener {
                 onItemClickListener?.onMovieClick(item)
             }
-            rootView.animate().alpha(1f).setDuration(250).start()
+            //rootView.animate().alpha(1f).setDuration(250).start()
         }
 
         override fun onDayNightModeChanged(type: Int) {

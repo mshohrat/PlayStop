@@ -83,8 +83,8 @@ class MovieListsViewModel : ViewModel() {
                     } ?: kotlin.run {
                         moviesError.value = GeneralResponse(messageResId = R.string.failed_in_communication_with_server)
                     }
-                    response?.specialMovies?.movies?.takeIf { it.size > 5 }?.let {
-                        specialMoviesList.value = ArrayList(it.take(5))
+                    response?.specialMovies?.movies?.takeIf { it.size > 8 }?.let {
+                        specialMoviesList.value = ArrayList(it.take(8))
                     } ?: kotlin.run {
                         response?.specialMovies?.movies?.takeIf { it.isNotEmpty() }?.let {
                             specialMoviesList.value = it
