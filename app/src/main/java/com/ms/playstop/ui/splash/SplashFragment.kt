@@ -21,6 +21,7 @@ import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.navigate
+import com.ms.playstop.extension.setStatusBarColor
 import com.ms.playstop.extension.show
 import com.ms.playstop.model.Profile
 import com.ms.playstop.network.model.ConfigResponse
@@ -58,6 +59,12 @@ class SplashFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SplashViewModel::class.java)
+    }
+
+    override fun onSetStatusBarColor() {
+        activity?.let { ctx ->
+            ctx.setStatusBarColor(ContextCompat.getColor(ctx, R.color.colorPrimary))
+        }
     }
 
     override fun onDayNightModeApplied(type: Int) {

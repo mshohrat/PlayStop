@@ -254,4 +254,10 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
         return viewModel.searchFilter
     }
 
+    override fun onSetStatusBarColor() {
+        activity?.let { ctx ->
+            ctx.setStatusBarColor(ContextCompat.getColor(ctx, R.color.colorPrimary))
+        }
+    }
+
 }
