@@ -119,7 +119,7 @@
         android:textAppearance="?textAppearanceCaption"
         android:textColor="@color/white"/>
 
-    <com.tuyenmonkey.mkloader.MKLoader
+    <com.ms.playstop.utils.MKLoader
         android:id="@+id/otp_resend_btn_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -189,7 +189,7 @@
             android:textColor="@color/pure_white"
             android:background="@drawable/shape_rectangle_rounded_28dp_gradient_purple_to_blue"/>
 
-    <com.tuyenmonkey.mkloader.MKLoader
+    <com.ms.playstop.utils.MKLoader
         android:id="@+id/otp_btn_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

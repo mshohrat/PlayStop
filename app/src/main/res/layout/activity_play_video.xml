@@ -63,7 +63,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.tuyenmonkey.mkloader.MKLoader
+    <com.ms.playstop.utils.MKLoader
         android:id="@+id/play_video_progress"
         android:layout_width="@dimen/progress_bar_size"
         android:layout_height="@dimen/progress_bar_size"

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginBottom="@dimen/margin_standard">
+    android:layout_marginBottom="@dimen/margin_medium">
 
     <com.google.android.material.radiobutton.MaterialRadioButton
         android:id="@+id/setting_night_mode_radio"
@@ -18,7 +18,7 @@
         android:id="@+id/setting_night_mode_title_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="?textAppearanceBody1"
+        style="?textAppearanceCaption"
         android:textColor="@color/white"
         android:clickable="false"
         android:gravity="right"
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height_default"
         app:layout_constraintTop_toBottomOf="@id/setting_night_mode_desc_tv"
-        android:layout_marginTop="@dimen/margin_standard"
+        android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginHorizontal="@dimen/margin_standard"
         android:background="@color/grayLight"/>
 

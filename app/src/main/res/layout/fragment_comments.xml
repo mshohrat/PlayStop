@@ -109,7 +109,8 @@
         android:visibility="gone"
         tools:visibility="visible">
 
-        <com.tuyenmonkey.mkloader.MKLoader
+        <com.ms.playstop.utils.MKLoader
+            android:id="@+id/comments_progress"
             android:layout_width="@dimen/progress_bar_size"
             android:layout_height="@dimen/progress_bar_size"
             app:mk_type="Worm"

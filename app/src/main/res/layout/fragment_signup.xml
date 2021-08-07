@@ -254,7 +254,7 @@
         android:textColor="@color/pure_white"
         android:background="@drawable/shape_rectangle_rounded_28dp_gradient_purple_to_blue"/>
 
-    <com.tuyenmonkey.mkloader.MKLoader
+    <com.ms.playstop.utils.MKLoader
         android:id="@+id/signup_btn_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
