@@ -7,10 +7,12 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.annotation.CallSuper
 import androidx.annotation.IdRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.microsoft.appcenter.analytics.Analytics
 import com.ms.playstop.R
 import com.ms.playstop.extension.hideSoftKeyboard
+import com.ms.playstop.extension.setStatusBarColor
 import com.ms.playstop.utils.OnDayNightModeChangeListener
 
 abstract class BaseFragment : Fragment(), OnDayNightModeChangeListener {
@@ -26,6 +28,34 @@ abstract class BaseFragment : Fragment(), OnDayNightModeChangeListener {
 
     open fun stickyChildrenCount() : Int {
         return 0
+    }
+
+    open fun onChildIsRemoving(removingChild: Fragment) {
+        if(hasChild()) {
+            getLastSkipOneChild()?.takeIf { it is BaseFragment }?.let {
+                (it as BaseFragment).onSetStatusBarColor()
+            } ?: kotlin.run {
+                onSetStatusBarColor()
+            }
+        } else {
+            onSetStatusBarColor()
+        }
+    }
+
+    protected fun getLastSkipOneChild() : Fragment? {
+        return childFragmentManager.fragments.takeIf { it.size > 1  }?.let {
+            it[it.lastIndex - 1]
+        }
+    }
+
+    protected fun hasChild() : Boolean {
+        return childFragmentManager.fragments.isNotEmpty()
+    }
+
+    protected open fun onSetStatusBarColor() {
+        activity?.let { ctx ->
+            ctx.setStatusBarColor(ContextCompat.getColor(ctx, R.color.colorAccentDark))
+        }
     }
 
     protected open fun onSharedPreferencesChanged() {
@@ -46,6 +76,10 @@ abstract class BaseFragment : Fragment(), OnDayNightModeChangeListener {
 
     protected open fun isExitAnimationEnabled() : Boolean {
         return true
+    }
+
+    override fun onDayNightModeApplied(type: Int) {
+        onSetStatusBarColor()
     }
 
     @CallSuper
@@ -71,6 +105,18 @@ abstract class BaseFragment : Fragment(), OnDayNightModeChangeListener {
         super.onHiddenChanged(hidden)
         if(hidden.not()) {
             onHandleDeepLink()
+            onSetStatusBarColor()
+            if(hasChild()) {
+                callOnSetStatusBarColorForChildren()
+            }
+        }
+    }
+
+    private fun callOnSetStatusBarColorForChildren() {
+        for (fragment in childFragmentManager.fragments){
+            if(fragment is BaseFragment) {
+                (fragment as BaseFragment).onSetStatusBarColor()
+            }
         }
     }
 
@@ -85,6 +131,7 @@ abstract class BaseFragment : Fragment(), OnDayNightModeChangeListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         isActivityCreated = true
+        onSetStatusBarColor()
     }
 
     override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation? {
