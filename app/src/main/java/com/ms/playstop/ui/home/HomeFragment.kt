@@ -39,6 +39,12 @@ class HomeFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    override fun onSetStatusBarColor() {
+        activity?.let { ctx ->
+            ctx.setStatusBarColor(ContextCompat.getColor(ctx, R.color.colorPrimary))
+        }
+    }
+    
     override fun tag(): String {
         return ""
     }
@@ -66,7 +72,7 @@ class HomeFragment : BaseFragment() {
     override fun onDayNightModeApplied(type: Int) {
         super.onDayNightModeApplied(type)
         activity?.let { ctx ->
-            ctx.setStatusBarColor(ContextCompat.getColor(ctx,R.color.colorAccentDark))
+            //ctx.setStatusBarColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
             view?.setBackgroundColor(ContextCompat.getColor(ctx,R.color.colorPrimary))
             val white = ContextCompat.getColor(ctx,R.color.white)
             val purple = ContextCompat.getColor(ctx,R.color.purple_new)
