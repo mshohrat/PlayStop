@@ -25,13 +25,13 @@ final googlePlayCore = "1.10.0"
 
 android {
     flavorDimensions "main"
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.ms.playstop"
         minSdkVersion 17
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode VERSION_CODE
         versionName "$VERSION_NAME"
         multiDexEnabled true
