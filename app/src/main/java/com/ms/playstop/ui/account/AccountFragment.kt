@@ -3,11 +3,13 @@ package com.ms.playstop.ui.account
 import android.content.res.ColorStateList
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.PopupMenu
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
@@ -70,8 +72,8 @@ class AccountFragment : BaseFragment() {
         activity?.let { ctx ->
 
             with(ContextCompat.getColor(ctx,R.color.colorAccent)){
-                account_liked_movies_btn?.backgroundTintList = ColorStateList.valueOf(this)
-                account_logout_btn?.setTextColor(this)
+                //account_liked_movies_btn?.backgroundTintList = ColorStateList.valueOf(this)
+                //account_logout_btn?.setTextColor(this)
             }
 
             account_avatar_iv?.let { iv ->
@@ -80,7 +82,7 @@ class AccountFragment : BaseFragment() {
 
             with(ContextCompat.getColor(ctx, R.color.colorPrimary)){
                 view?.setBackgroundColor(this)
-                account_liked_movies_btn?.setTextColor(this)
+                //account_liked_movies_btn?.setTextColor(this)
                 account_bottom_view?.setBackgroundColor(this)
             }
 
@@ -88,27 +90,39 @@ class AccountFragment : BaseFragment() {
                 account_name_tv?.setTextColor(this)
                 account_email_tv?.setTextColor(this)
                 account_phone_tv?.setTextColor(this)
-                account_subscription_status_tv?.setTextColor(this)
-                account_end_subscription_date_tv?.setTextColor(this)
+                account_subscription_title_tv?.setTextColor(this)
+                account_liked_movies_btn?.setTextColor(this)
+                account_subscription_purchase_btn?.setTextColor(this)
+                account_settings_btn?.setTextColor(this)
             }
 
-            account_name_tv?.setCompoundDrawablesRelativeWithIntrinsicBounds(AppCompatResources.getDrawable(ctx,R.drawable.ic_name),null,null,null)
-            account_email_tv?.setCompoundDrawablesRelativeWithIntrinsicBounds(AppCompatResources.getDrawable(ctx,R.drawable.ic_email),null,null,null)
-            account_phone_tv?.setCompoundDrawablesRelativeWithIntrinsicBounds(AppCompatResources.getDrawable(ctx,R.drawable.ic_phone),null,null,null)
+            account_email_tv?.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ctx,R.drawable.ic_email_16dp),null)
+            account_phone_tv?.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ctx,R.drawable.ic_phone_16dp),null)
 
             with(ContextCompat.getColor(ctx,R.color.colorAccentDark)) {
                 account_appbar?.setBackgroundColor(this)
-                account_name_title_tv?.setTextColor(this)
-                account_email_title_tv?.setTextColor(this)
-                account_phone_title_tv?.setTextColor(this)
-                account_subscription_title_tv?.setTextColor(this)
+            }
+
+            account_end_subscription_date_tv?.setTextColor(ContextCompat.getColor(ctx,R.color.white_opacity_50))
+
+            with(ContextCompat.getColor(ctx,R.color.colorAccentOpacity20)) {
+                account_purchase_divider?.setBackgroundColor(this)
+                account_top_divider?.setBackgroundColor(this)
+                account_bottom_divider.setBackgroundColor(this)
             }
 
             with(ContextCompat.getColor(ctx,R.color.blue)){
-                account_name_edit_ib?.setTextColor(this)
-                account_email_edit_ib?.setTextColor(this)
-                account_phone_edit_ib?.setTextColor(this)
-                account_subscription_purchase_btn?.setTextColor(this)
+                account_liked_movies_btn?.iconTint = ColorStateList.valueOf(this)
+                account_subscription_purchase_btn?.iconTint = ColorStateList.valueOf(this)
+                account_settings_btn?.iconTint = ColorStateList.valueOf(this)
+            }
+
+            account_logout_btn?.rippleColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white_opacity_10))
+
+            with(ContextCompat.getColor(ctx,R.color.blue_opacity20)) {
+                account_liked_movies_btn?.rippleColor = ColorStateList.valueOf(this)
+                account_subscription_purchase_btn?.rippleColor = ColorStateList.valueOf(this)
+                account_settings_btn?.rippleColor = ColorStateList.valueOf(this)
             }
 
             with(MaterialShapeDrawable(ShapeAppearanceModel.builder()
@@ -117,10 +131,7 @@ class AccountFragment : BaseFragment() {
             ).apply {
                 fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white_opacity_10))
             }) {
-                account_name_bg_view?.background = this
-                account_email_bg_view?.background = this
-                account_phone_bg_view?.background = this
-                account_subscription_bg_view?.background = this
+
             }
 
         }
@@ -138,16 +149,19 @@ class AccountFragment : BaseFragment() {
                         activity?.let {
                             account_subscription_status_tv?.setTextColor(ContextCompat.getColor(it,R.color.pure_orange_dark))
                         }
+                        account_end_subscription_date_tv?.hide()
                         account_subscription_status_tv?.setText(R.string.disabled)
                         account_end_subscription_date_tv?.text = ""
                     } else {
                         activity?.let {
                             account_subscription_status_tv?.setTextColor(ContextCompat.getColor(it,R.color.pure_green_dark))
                         }
+                        account_end_subscription_date_tv?.show()
                         account_subscription_status_tv?.setText(R.string.enabled)
-                        //account_end_subscription_date_tv?.text = String.format(getString(R.string.until_date_x),getJalaliDate(it.endSubscriptionDate))
+                        account_end_subscription_date_tv?.text = String.format(getString(R.string.until_date_x),getJalaliDate(it.endSubscriptionDate))
                     }
                 } else {
+                    account_end_subscription_date_tv?.hide()
                     account_subscription_group?.hide()
                 }
             }
@@ -178,16 +192,8 @@ class AccountFragment : BaseFragment() {
             addToParent(moviesFragment)
         }
 
-        account_name_edit_ib?.setOnClickListener {
-            navigateToEditAccountFragment()
-        }
-
-        account_email_edit_ib?.setOnClickListener {
-            navigateToEditAccountFragment()
-        }
-
-        account_phone_edit_ib?.setOnClickListener {
-            navigateToEditPhoneFragment()
+        account_edit_btn?.setOnClickListener {
+            showEditProfileDialog()
         }
 
         account_subscription_purchase_btn?.setOnClickListener {
@@ -219,8 +225,31 @@ class AccountFragment : BaseFragment() {
         addToParent(paymentFragment)
     }
 
-    private fun restartApp() {
-        activity?.recreate()
+    private fun showEditProfileDialog() {
+        activity?.let { ctx ->
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
+                PopupMenu(ctx, account_toolbar, Gravity.START,R.attr.popupMenuStyle ,0)
+            } else {
+                PopupMenu(ctx, account_toolbar)
+            }.apply {
+                setOnMenuItemClickListener { item ->
+                    when(item.itemId) {
+                        R.id.action_edit_info -> {
+                            navigateToEditAccountFragment()
+                            true
+                        }
+                        R.id.action_edit_phone -> {
+                            navigateToEditPhoneFragment()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                inflate(R.menu.menu_edit_profile)
+                show()
+            }
+        }
     }
 
     override fun onSharedPreferencesChanged() {
