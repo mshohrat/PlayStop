@@ -1,10 +1,8 @@
 package com.ms.playstop.utils
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Rect
+import android.graphics.*
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.Interpolator
@@ -23,7 +21,7 @@ class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
     @ColorInt
     private var colorInactive : Int = Color.parseColor("#330D1F40")
 
-    private val mIndicatorHeight = convertDpToPixel(16f)
+    private val mIndicatorHeight = convertDpToPixel(24f)
 
     /**
      * Indicator stroke width.
@@ -33,24 +31,30 @@ class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
     /**
      * Indicator width.
      */
-    private val mIndicatorItemLength = convertDpToPixel(16f).toFloat()
+    private val mIndicatorItemLength = convertDpToPixel(10f).toFloat()
 
     /**
      * Padding between indicators.
      */
-    private val mIndicatorItemPadding = convertDpToPixel(4f).toFloat()
+    private val mIndicatorItemPadding = convertDpToPixel(6f).toFloat()
 
     private val mInterpolator: Interpolator = AccelerateDecelerateInterpolator()
 
-    private val mPaint: Paint = Paint()
+    private val mStrokePaint: Paint = Paint()
+    private val mInnerPaint: Paint = Paint()
 
     private var areColorsInitialized = false
 
     init {
-        mPaint.strokeCap = Paint.Cap.ROUND;
-        mPaint.strokeWidth = mIndicatorStrokeWidth;
-        mPaint.style = Paint.Style.STROKE;
-        mPaint.isAntiAlias = true;
+        mStrokePaint.strokeCap = Paint.Cap.ROUND
+        mStrokePaint.strokeWidth = mIndicatorStrokeWidth
+        mStrokePaint.style = Paint.Style.STROKE
+        mStrokePaint.isAntiAlias = true
+
+        mInnerPaint.strokeCap = Paint.Cap.ROUND
+        mInnerPaint.strokeWidth = mIndicatorStrokeWidth
+        mInnerPaint.style = Paint.Style.FILL_AND_STROKE
+        mInnerPaint.isAntiAlias = true
     }
 
     override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
@@ -119,14 +123,15 @@ class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
         indicatorPosY: Float,
         itemCount: Int
     ) {
-        mPaint.color = colorInactive
+        mStrokePaint.color = colorInactive
 
         // width of item indicator including padding
         val itemWidth = mIndicatorItemLength + mIndicatorItemPadding
+        val radius = mIndicatorItemLength / 2f
         var start = indicatorStartX
         for (i in 0 until itemCount) {
             // draw the line for every item
-            c.drawLine(start, indicatorPosY, start + mIndicatorItemLength, indicatorPosY, mPaint)
+            c.drawCircle(start + radius, indicatorPosY, radius, mStrokePaint)
             start += itemWidth
         }
     }
@@ -135,35 +140,46 @@ class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
         c: Canvas, indicatorStartX: Float, indicatorPosY: Float,
         highlightPosition: Int, progress: Float, itemCount: Int
     ) {
-        mPaint.color = colorActive
+        Log.i("ttttt",progress.toString())
+        mStrokePaint.color = colorActive
+        mInnerPaint.color = colorActive
 
         // width of item indicator including padding
         val itemWidth = mIndicatorItemLength + mIndicatorItemPadding
         if (progress == 0f) {
             // no swipe, draw a normal indicator
             val highlightStart = indicatorStartX + (itemWidth * (itemCount - 1 - highlightPosition))
-            c.drawLine(
-                highlightStart, indicatorPosY,
-                highlightStart + mIndicatorItemLength , indicatorPosY, mPaint
+            val radius = mIndicatorItemLength / 2f
+            c.drawCircle(
+                highlightStart + radius, indicatorPosY,
+                radius , mInnerPaint
             )
         } else {
             var highlightStart = indicatorStartX + (itemWidth * (itemCount - 1 - highlightPosition))
+            val radius = mIndicatorItemLength / 2f
+
             // calculate partial highlight
             val partialLength = mIndicatorItemLength * progress
 
             // draw the cut off highlight
-            c.drawLine(
-                highlightStart, indicatorPosY,
-                highlightStart + mIndicatorItemLength - partialLength, indicatorPosY, mPaint
+            c.drawCircle(
+                highlightStart - radius + mIndicatorItemLength.times(1 - progress), indicatorPosY,
+                radius, mInnerPaint
             )
 
             // draw the highlight overlapping to the next item as well
             if (highlightPosition in 0 until itemCount) {
-                highlightStart -= itemWidth
-                c.drawLine(
-                    highlightStart + mIndicatorItemLength - partialLength, indicatorPosY,
-                    highlightStart + mIndicatorItemLength, indicatorPosY, mPaint
+                highlightStart = highlightStart - radius + mIndicatorItemLength.times(1 - progress) - radius
+                c.drawCircle(
+                    highlightStart, indicatorPosY, radius, mInnerPaint
                 )
+                val path = Path()
+                path.moveTo(highlightStart,indicatorPosY - radius)
+                path.lineTo(highlightStart + radius,indicatorPosY - radius)
+                path.lineTo(highlightStart + radius,indicatorPosY + radius)
+                path.lineTo(highlightStart,indicatorPosY + radius)
+                path.close()
+                c.drawPath(path,mInnerPaint)
             }
         }
     }
@@ -175,6 +191,6 @@ class LinePagerIndicatorDecoration: RecyclerView.ItemDecoration() {
         state: RecyclerView.State
     ) {
         super.getItemOffsets(outRect, view, parent, state)
-        outRect.bottom = mIndicatorHeight;
+        outRect.bottom = mIndicatorHeight
     }
 }
