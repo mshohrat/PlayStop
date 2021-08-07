@@ -60,6 +60,7 @@ class OtpFragment : BaseFragment() {
             otp_pin_entry?.setLineColor(ContextCompat.getColor(ctx,R.color.blue))
             otp_timer_tv?.setTextColor(ContextCompat.getColor(ctx,R.color.gray))
             otp_resend_btn?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
+            otp_resend_btn_loading?.setColor(ContextCompat.getColor(ctx,R.color.white))
             otp_wrong_number_btn?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
             otp_btn_divider?.background = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,
                 intArrayOf(Color.TRANSPARENT,ContextCompat.getColor(ctx,R.color.gray),Color.TRANSPARENT)

@@ -61,6 +61,7 @@ class CommentsFragment : BaseFragment() {
             comments_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
                 (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
             }
+            comments_progress?.setColor(ContextCompat.getColor(ctx,R.color.grayLight))
         }
     }
 

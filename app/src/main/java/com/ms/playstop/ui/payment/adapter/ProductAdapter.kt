@@ -125,8 +125,9 @@ class ProductAdapter(private var products: List<Product> = listOf(), private val
                         ImageViewCompat.setImageTintList(it, ColorStateList.valueOf(this@with))
                     }
                     (root as MaterialCardView).strokeColor = this
+                    progress?.setColor(this)
+                    root.setCardBackgroundColor(ColorStateList.valueOf(this))
                 }
-                (root as MaterialCardView).setCardBackgroundColor(ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.colorAccentDark)))
                 nameTv?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
                 priceTv?.setTextColor(ContextCompat.getColor(ctx,R.color.purple_new))
             }

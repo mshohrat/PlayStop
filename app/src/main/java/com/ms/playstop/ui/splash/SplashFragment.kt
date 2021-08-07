@@ -78,6 +78,7 @@ class SplashFragment : BaseFragment() {
                     ImageViewCompat.setImageTintList(iv, ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.purple_new)))
                 }
             }
+            splash_progress?.setColor(ContextCompat.getColor(ctx,R.color.white))
         }
     }
 

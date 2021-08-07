@@ -97,6 +97,7 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
             }) {
                 search_et?.background = this
             }
+            search_loading?.setColor(ContextCompat.getColor(ctx,R.color.white_opacity_50))
             search_et?.setTextColor(ContextCompat.getColor(ctx,R.color.white))
             search_et?.setHintTextColor(ContextCompat.getColor(ctx,R.color.gray))
             search_et?.setCompoundDrawablesRelativeWithIntrinsicBounds(

@@ -27,8 +27,6 @@ import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
 import com.ms.playstop.utils.DayNightModeAwareAdapter
 import kotlinx.android.synthetic.main.fragment_categories.*
-import kotlinx.android.synthetic.main.fragment_movie_lists.*
-import kotlinx.android.synthetic.main.fragment_search.*
 
 
 class CategoriesFragment : BaseFragment() {
@@ -105,6 +103,7 @@ class CategoriesFragment : BaseFragment() {
             with(ContextCompat.getColor(ctx,R.color.grayLight)){
                 categories_genre_divider?.setBackgroundColor(this)
                 categories_suggestion_divider?.setBackgroundColor(this)
+                categories_progress?.setColor(this)
             }
         }
     }
