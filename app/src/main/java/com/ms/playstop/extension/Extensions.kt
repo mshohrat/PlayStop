@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
@@ -18,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
@@ -26,6 +28,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import cab.snapp.extensions.calendar.JalaliCalendarTool
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.BaseRequestOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 //import com.elconfidencial.bubbleshowcase.BubbleShowCase
 //import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
 //import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
@@ -483,6 +491,7 @@ fun isUserActive(): Boolean {
 }
 
 fun isSubscriptionEnabled(): Boolean {
+    return true
     return if (Hawk.contains(ConfigResponse.SAVE_KEY)) {
         val config = Hawk.get(ConfigResponse.SAVE_KEY) as? ConfigResponse
         config?.features?.isSubscriptionEnabled ?: false
@@ -804,4 +813,49 @@ fun Context.getResourceFromThemeAttribute(@AttrRes attributeResId: Int, defaultV
     return if (theme.resolveAttribute(attributeResId, typedValue, true)) {
         typedValue.resourceId
     } else defaultValue
+}
+
+fun loadImage(imageView: ImageView?, imageUrl: String?, requestOptionsList: List<BaseRequestOptions<*>>? = null, retryCount: Int = 1) {
+    imageView?.let { iv ->
+        imageUrl?.takeIf { it.isNotEmpty() }?.let { url ->
+            iv.context?.let { ctx ->
+                val requestBuilder = Glide.with(ctx)
+                    .asDrawable()
+                    .load(url)
+                    .addListener(object : RequestListener<Drawable>{
+                        override fun onLoadFailed(
+                            e: GlideException?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+                            return if(retryCount > 1) {
+                                loadImage(iv,url,requestOptionsList,retryCount - 1)
+                                false
+                            } else {
+                                true
+                            }
+                        }
+
+                        override fun onResourceReady(
+                            resource: Drawable?,
+                            model: Any?,
+                            target: Target<Drawable>?,
+                            dataSource: DataSource?,
+                            isFirstResource: Boolean
+                        ): Boolean {
+//                            iv.setImageDrawable(resource)
+                            return false
+                        }
+
+                    })
+                requestOptionsList?.takeIf { it.isNotEmpty() }?.let {
+                    for (option in it){
+                        requestBuilder.apply(option)
+                    }
+                }
+                requestBuilder.into(iv)
+            }
+        }
+    }
 }
