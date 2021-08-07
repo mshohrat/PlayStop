@@ -39,6 +39,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
 import com.google.android.exoplayer2.util.MimeTypes
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textview.MaterialTextView
+import com.microsoft.appcenter.analytics.Analytics
 import com.ms.playstop.R
 import com.ms.playstop.extension.*
 import com.ms.playstop.model.Movie
@@ -62,6 +63,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         const val PLAY_VIDEO_BRIGHTNESS_KEY = "Play Video Brightness Key"
         const val SHOW_CASE_FAST_FORWARD_KEY = "Show Case Fast Forward Key"
         const val SHOW_CASE_REWIND_KEY = "Show Case Rewind Key"
+        const val TAG = "Play Video Activity"
     }
 
     private var subtitleDialog: BottomSheetDialog? = null
@@ -121,6 +123,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         handleConfigurationChange()
         handleShowGuideToUser()
         handleWatchedTimesStore()
+        Analytics.trackEvent(TAG)
     }
 
     @SuppressLint("ClickableViewAccessibility")
