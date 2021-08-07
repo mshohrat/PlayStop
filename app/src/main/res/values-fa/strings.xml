@@ -182,4 +182,6 @@
     <string name="filter_years_title">سال ساخت</string>
     <string name="filter_score_title">امتیاز</string>
     <string name="filter_countries_title">کشور سازنده</string>
+    <string name="subscription">اشتراک</string>
+    <string name="edit_profile_info">ویرایش اطلاعات کاربری</string>
 </resources>
