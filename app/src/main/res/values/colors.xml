@@ -37,6 +37,8 @@
     <color name="purple">#7A4EE3</color>
     <color name="purple_new">#9527B3</color>
     <color name="blue">#2583EB</color>
+    <color name="blue_opacity20">#332583EB</color>
+    <color name="redDark">#CD3A3A</color>
     <color name="redLight">#ffff4444</color>
     <color name="pure_white">#ffffff</color>
     <color name="pure_white_opacity_50">#99FFFFFF</color>
@@ -47,6 +49,6 @@
     <color name="pure_black">#000000</color>
     <color name="pure_light_gray">#DADADA</color>
     <color name="pure_light_gray_opacity30">#4DDADADA</color>
-    <color name="pure_green_dark">#2F7E32</color>
-    <color name="pure_orange_dark">#AC7B32</color>
+    <color name="pure_green_dark">#3A9E3E</color>
+    <color name="pure_orange_dark">#F6BD13</color>
 </resources>
