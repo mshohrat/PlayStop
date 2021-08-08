@@ -40,6 +40,10 @@ class RequestMovieFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RequestMovieViewModel::class.java)
+    }
+
+    override fun onViewLoaded() {
+        super.onViewLoaded()
         subscribeToViewModel()
         subscribeToViewEvents()
     }
@@ -47,6 +51,7 @@ class RequestMovieFragment : BaseFragment() {
     private fun subscribeToViewModel() {
         viewModel.submitRequest.observe(viewLifecycleOwner, {
             hideLoading()
+            request_movie_text_et?.text = null
             showToast(it)
         })
         viewModel.submitRequestError.observe(viewLifecycleOwner, {
