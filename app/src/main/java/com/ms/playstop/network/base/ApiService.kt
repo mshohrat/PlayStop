@@ -260,4 +260,9 @@ interface ApiService {
         @Body verifyPaymentRequest: VerifyPaymentRequest
     ) : Single<GeneralResponse?>?
 
+    @POST("v1/movie/request/create")
+    fun requestMovie(
+        @Body requestMovieRequest: RequestMovieRequest
+    ) : Single<GeneralResponse?>?
+
 }

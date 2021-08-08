@@ -120,3 +120,8 @@ data class SearchMovieRequest(
     @SerializedName("maximum_score")
     val maximumScore: Float? = null
 )
+
+data class RequestMovieRequest(
+    @SerializedName("text")
+    val text: String?
+)
