@@ -257,6 +257,27 @@
                 app:iconTint="@color/blue"
                 android:text="@string/settings" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_request_movie_btn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/default_button_size"
+                app:layout_constraintStart_toStartOf="@id/account_liked_movies_btn"
+                app:layout_constraintTop_toBottomOf="@id/account_settings_btn"
+                app:layout_constraintEnd_toEndOf="@id/account_liked_movies_btn"
+                android:textAppearance="?attr/textAppearanceBody1"
+                android:textColor="@color/white"
+                app:rippleColor="@color/blue_opacity20"
+                android:gravity="right|center_vertical"
+                android:insetBottom="0dp"
+                android:insetTop="0dp"
+                android:paddingHorizontal="@dimen/padding_large"
+                app:icon="@drawable/ic_movie_20dp"
+                app:iconGravity="end"
+                app:iconPadding="@dimen/padding_standard"
+                app:iconTint="@color/blue"
+                android:text="@string/request_movie" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

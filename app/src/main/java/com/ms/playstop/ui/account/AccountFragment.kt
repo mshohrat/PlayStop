@@ -25,6 +25,7 @@ import com.ms.playstop.ui.mainAccount.MainAccountFragment
 import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
 import com.ms.playstop.ui.payment.PaymentFragment
+import com.ms.playstop.ui.requestMovie.RequestMovieFragment
 import com.ms.playstop.ui.settings.SettingsFragment
 import kotlinx.android.synthetic.main.fragment_account.*
 
@@ -94,6 +95,7 @@ class AccountFragment : BaseFragment() {
                 account_liked_movies_btn?.setTextColor(this)
                 account_subscription_purchase_btn?.setTextColor(this)
                 account_settings_btn?.setTextColor(this)
+                account_request_movie_btn?.setTextColor(this)
             }
 
             account_email_tv?.setCompoundDrawablesRelativeWithIntrinsicBounds(null,null,AppCompatResources.getDrawable(ctx,R.drawable.ic_email_16dp),null)
@@ -115,6 +117,7 @@ class AccountFragment : BaseFragment() {
                 account_liked_movies_btn?.iconTint = ColorStateList.valueOf(this)
                 account_subscription_purchase_btn?.iconTint = ColorStateList.valueOf(this)
                 account_settings_btn?.iconTint = ColorStateList.valueOf(this)
+                account_request_movie_btn?.iconTint = ColorStateList.valueOf(this)
             }
 
             account_logout_btn?.rippleColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white_opacity_10))
@@ -123,16 +126,17 @@ class AccountFragment : BaseFragment() {
                 account_liked_movies_btn?.rippleColor = ColorStateList.valueOf(this)
                 account_subscription_purchase_btn?.rippleColor = ColorStateList.valueOf(this)
                 account_settings_btn?.rippleColor = ColorStateList.valueOf(this)
+                account_request_movie_btn?.rippleColor = ColorStateList.valueOf(this)
             }
 
-            with(MaterialShapeDrawable(ShapeAppearanceModel.builder()
-                .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.background_card_radius).toFloat())
-                .build()
-            ).apply {
-                fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white_opacity_10))
-            }) {
-
-            }
+//            with(MaterialShapeDrawable(ShapeAppearanceModel.builder()
+//                .setAllCornerSizes(ctx.resources.getDimensionPixelSize(R.dimen.background_card_radius).toFloat())
+//                .build()
+//            ).apply {
+//                fillColor = ColorStateList.valueOf(ContextCompat.getColor(ctx,R.color.white_opacity_10))
+//            }) {
+//
+//            }
 
         }
     }
@@ -198,6 +202,10 @@ class AccountFragment : BaseFragment() {
 
         account_subscription_purchase_btn?.setOnClickListener {
             navigateToPaymentFragment()
+        }
+
+        account_request_movie_btn?.setOnClickListener {
+            addToParent(RequestMovieFragment.newInstance())
         }
     }
 
