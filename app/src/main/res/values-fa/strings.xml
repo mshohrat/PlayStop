@@ -184,4 +184,9 @@
     <string name="filter_countries_title">کشور سازنده</string>
     <string name="subscription">اشتراک</string>
     <string name="edit_profile_info">ویرایش اطلاعات کاربری</string>
+    <string name="request_movie">درخواست فیلم</string>
+    <string name="enter_your_request_text">متن درخواست خود را وارد کنید ...</string>
+    <string name="request_text_can_not_be_empty">متن درخواست نمی‌تواند خالی باشد</string>
+    <string name="request_posted_successfully">درخواست شما با موفقیت ثبت شد</string>
+    <string name="request_movie_desc">در صورتی که فیلم یا سریال مشخصی مد نظر شماست و در پلی‌استپ وجود ندارد، لطفا مشخصات و نام آن را در این صفحه برای ما ارسال کنید تا در کوتاه‌ترین زمان ممکن آن را به محتوای برنامه اضافه کنیم. از اینکه همراه ما هستید سپاسگزاریم.</string>
 </resources>
