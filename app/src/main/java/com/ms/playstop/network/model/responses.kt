@@ -159,6 +159,15 @@ data class AllSuggestionsMoviesResponse(
     val specialMovies: SpecialMovies?
 )
 
+data class GenresSuggestionMoviesResponse(
+    @SerializedName("suggestion_movies")
+    val genresSuggestionMovies : ArrayList<GenresSuggestionMovies>?,
+    @SerializedName("current_page")
+    val currentPage: Int,
+    @SerializedName("total_pages")
+    val totalPages: Int
+)
+
 data class InvalidCredentialsResponse(
     @SerializedName("message")
     val message: String?,
