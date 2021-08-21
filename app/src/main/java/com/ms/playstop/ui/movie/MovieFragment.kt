@@ -582,7 +582,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
             movie_links_recycler?.show()
             val linkLayoutManager =
                 LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            val linkAdapter = LinkAdapter(it, movie.subtitles,movie.name)
+            val linkAdapter = LinkAdapter(it, movie.subtitles,movie.name,movie.id)
             movie_links_recycler?.layoutManager = linkLayoutManager
             movie_links_recycler?.adapter = linkAdapter
         } ?: kotlin.run {

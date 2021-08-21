@@ -29,7 +29,10 @@ import com.ms.playstop.utils.MenuAdapter
 import kotlinx.android.synthetic.main.item_link_layout.view.*
 import java.util.ArrayList
 
-class LinkAdapter(private val urls: List<Url>,private val subtitles: List<Subtitle>? = null,private val movieName: String? = null)
+class LinkAdapter(private val urls: List<Url>,
+                  private val subtitles: List<Subtitle>? = null,
+                  private val movieName: String? = null,
+                  private val movieId: Int? = null)
     : RecyclerView.Adapter<LinkAdapter.ViewHolder>(), DayNightModeAwareAdapter {
 
     private var recyclerView: RecyclerView? = null
@@ -161,6 +164,7 @@ class LinkAdapter(private val urls: List<Url>,private val subtitles: List<Subtit
     private fun tryToPlay(context: Context?,url: Url) {
         context?.let {
             val intent = Intent(context,PlayVideoActivity::class.java)
+            intent.putExtra(PlayVideoActivity.PLAY_VIDEO_ID,movieId)
             intent.putExtra(PlayVideoActivity.PLAY_VIDEO_URL,url.link)
             intent.putExtra(PlayVideoActivity.PLAY_VIDEO_NAME, movieName)
             val subtitles = subtitles?.let { list ->
