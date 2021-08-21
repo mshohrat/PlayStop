@@ -8,13 +8,14 @@ import com.ms.playstop.model.Movie
 class MovieDataFactory(
     private val requestType: RequestType,
     private val requestId: Int,
-    private var requestParams: Map<String,String>? = null
+    private var requestParams: Map<String, String>? = null,
+    private val requestIds: IntArray = intArrayOf()
 ) : DataSource.Factory<Int, Movie>() {
 
     private var mutableLiveData: MutableLiveData<MovieDateSource> = MutableLiveData()
 
     override fun create(): DataSource<Int, Movie> {
-        val movieDateSource = MovieDateSource(requestType,requestId,requestParams)
+        val movieDateSource = MovieDateSource(requestType,requestId,requestParams,requestIds)
         mutableLiveData.postValue(movieDateSource)
         return movieDateSource
     }

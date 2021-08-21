@@ -33,6 +33,7 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
         fun newInstance() = MoviesFragment()
         const val MOVIES_REQUEST_TYPE = "MOVIES REQUEST TYPE"
         const val MOVIES_REQUEST_ID = "MOVIES REQUEST ID"
+        const val MOVIES_REQUEST_IDS = "MOVIES REQUEST IDS"
         const val MOVIES_REQUEST_NAME = "MOVIES REQUEST NAME"
     }
 
@@ -75,8 +76,10 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
     override fun onViewLoaded() {
         super.onViewLoaded()
         initViews()
-        val moviesRequestId = arguments?.takeIf { it.containsKey(MOVIES_REQUEST_TYPE) }
+        val moviesRequestId = arguments?.takeIf { it.containsKey(MOVIES_REQUEST_ID) }
             ?.getInt(MOVIES_REQUEST_ID) ?: -1
+        val moviesRequestIds = arguments?.takeIf { it.containsKey(MOVIES_REQUEST_IDS) }
+            ?.getIntArray(MOVIES_REQUEST_IDS) ?: intArrayOf()
         var moviesRequestType : RequestType = RequestType.SUGGESTION
         arguments?.takeIf { it.containsKey(MOVIES_REQUEST_TYPE) }?.let {
             when(it.getInt(MOVIES_REQUEST_TYPE)) {
@@ -98,10 +101,13 @@ class MoviesFragment : BaseFragment(), MoviePagedAdapter.OnItemClickListener,
                 RequestType.LIKES.type -> {
                     moviesRequestType = RequestType.LIKES
                 }
+                RequestType.GENRES_SUGGESTION.type -> {
+                    moviesRequestType = RequestType.GENRES_SUGGESTION
+                }
                 else -> {}
             }
         }
-        viewModel.setRequestType(moviesRequestType, moviesRequestId)
+        viewModel.setRequestType(moviesRequestType, moviesRequestId,moviesRequestIds)
         subscribeToViewEvents()
         subscribeToViewModel()
     }

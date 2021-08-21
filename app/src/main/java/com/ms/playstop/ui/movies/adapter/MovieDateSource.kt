@@ -8,8 +8,9 @@ import com.ms.playstop.extension.initSchedulers
 import com.ms.playstop.model.Movie
 import com.ms.playstop.network.base.ApiServiceGenerator
 import com.ms.playstop.network.model.GeneralResponse
+import com.ms.playstop.network.model.GenresSuggestionMoviesRequest
 
-class MovieDateSource(val requestType: RequestType, val requestId: Int, var requestParams: Map<String,String>? = null): PageKeyedDataSource<Int, Movie>() {
+class MovieDateSource(val requestType: RequestType, val requestId: Int, var requestParams: Map<String,String>? = null, var requestIds: IntArray = intArrayOf()): PageKeyedDataSource<Int, Movie>() {
 
     companion object {
         const val STATE_LOADING = 100
@@ -309,6 +310,34 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int, var requ
                         }
                     })
             }
+            RequestType.GENRES_SUGGESTION -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getGenresSuggestionMovies(
+                    1,
+                    GenresSuggestionMoviesRequest(
+                        requestIds.toList(),
+                        getSortRequestParam()
+                    )
+                )
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        val nextKey = if(it?.currentPage == it?.totalPages) null else 2
+                        it?.movies?.let {
+                            requestState.postValue(STATE_SUCCESS)
+                            callback.onResult(it,null,nextKey)
+                        } ?: kotlin.run {
+                            requestState.postValue(STATE_ERROR)
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    },{
+                        requestState.postValue(STATE_ERROR)
+                        it.getErrorHttpModel(GeneralResponse::class.java)?.let {
+                            networkError.postValue(it)
+                        } ?: kotlin.run {
+                            networkError.postValue(GeneralResponse(messageResId = R.string.failed_in_communication_with_server))
+                        }
+                    })
+            }
             else -> {}
         }
     }
@@ -483,6 +512,25 @@ class MovieDateSource(val requestType: RequestType, val requestId: Int, var requ
                     params.key,
                     requestId,
                     getSortRequestParam()
+                )
+                    ?.initSchedulers()
+                    ?.subscribe({
+                        it?.movies?.let { movies ->
+                            val nextKey = if (params.key == it.totalPages) null else params.key+1;
+                            callback.onResult(movies,nextKey)
+                        } ?: kotlin.run {
+                        }
+                    },{
+                    })
+            }
+            RequestType.GENRES_SUGGESTION -> {
+                requestState.postValue(STATE_LOADING)
+                ApiServiceGenerator.getApiService.getGenresSuggestionMovies(
+                    params.key,
+                    GenresSuggestionMoviesRequest(
+                        requestIds.toList(),
+                        getSortRequestParam()
+                    )
                 )
                     ?.initSchedulers()
                     ?.subscribe({

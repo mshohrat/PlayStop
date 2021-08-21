@@ -37,11 +37,11 @@ class MoviesViewModel : ViewModel() {
 //        }
     }
 
-    fun setRequestType(requestType: RequestType,requestId: Int) {
+    fun setRequestType(requestType: RequestType, requestId: Int, requestIds: IntArray) {
         if(requestType == RequestType.YEAR) {
             isYearMovies = true
         }
-        movieDataFactory = MovieDataFactory(requestType,requestId,getRequestParams())
+        movieDataFactory = MovieDataFactory(requestType,requestId,getRequestParams(),requestIds)
         movieDataFactory?.let { factory ->
             moviesError = Transformations.switchMap(factory.getMutableLiveData(),
                 Function {
