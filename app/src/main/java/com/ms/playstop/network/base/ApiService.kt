@@ -276,4 +276,15 @@ interface ApiService {
         @Body requestMovieRequest: RequestMovieRequest
     ) : Single<GeneralResponse?>?
 
+    @PUT("v1/user/seen/{movie_id}")
+    fun updateSeenMovie(
+        @Path("movie_id") movieId: Int,
+        @Body seenMovieRequest: SeenMovieRequest
+    ) : Single<GeneralResponse?>?
+
+    @GET("v1/user/seen/{movie_id}")
+    fun getSeenMovie(
+        @Path("movie_id") movieId: Int
+    ) : Single<SeenMovieResponse?>?
+
 }
