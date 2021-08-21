@@ -1,22 +1,17 @@
 package com.ms.playstop.ui.movieLists
 
-import android.graphics.drawable.ColorDrawable
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.ms.playstop.MainActivity
 import com.ms.playstop.R
@@ -33,16 +28,11 @@ import com.ms.playstop.ui.movies.MoviesFragment
 import com.ms.playstop.ui.movies.adapter.RequestType
 import com.ms.playstop.ui.search.SearchFragment
 import com.ms.playstop.utils.DayNightModeAwareAdapter
-import com.ms.playstop.utils.LinePagerIndicatorDecoration
-import com.ms.playstop.utils.RtlLinearLayoutManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_movie_lists.*
-import kotlinx.android.synthetic.main.fragment_movie_lists.movies_recycler
-import kotlinx.android.synthetic.main.fragment_movie_lists.movies_refresh_layout
-import kotlinx.android.synthetic.main.fragment_movies.*
 import java.util.concurrent.TimeUnit
 
 class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
@@ -58,9 +48,7 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
 
     private lateinit var viewModel: MovieListsViewModel
     private var appbarHeight = 0
-    private val disposables = CompositeDisposable()
-    private var topRecyclerItemDecoration = LinePagerIndicatorDecoration()
-    private var isTopMovieListLoaded = false
+    private var loadingExtraMovies = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -105,18 +93,9 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
                 val background = ContextCompat.getColor(ctx,R.color.colorPrimary)
                 ctx.setStatusBarColor(ColorUtils.compositeColors(foreground,background))
             }
-
-            //movies_collapsing_toolbar?.contentScrim = ColorDrawable(ContextCompat.getColor(ctx,R.color.colorAccentDark))
-
             movies_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
                 (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
             }
-            movies_top_recycler?.adapter?.takeIf { it is DayNightModeAwareAdapter }?.let {
-                (it as DayNightModeAwareAdapter).onDayNightModeChanged(type)
-            }
-            movies_top_recycler?.takeIf { it.itemDecorationCount > 0 }?.removeItemDecoration(topRecyclerItemDecoration)
-            topRecyclerItemDecoration = LinePagerIndicatorDecoration()
-            movies_top_recycler?.addItemDecoration(topRecyclerItemDecoration)
         }
     }
 
@@ -129,38 +108,6 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     }
 
     private fun initViews() {
-        movies_top_recycler?.layoutManager = object : RtlLinearLayoutManager(activity,RecyclerView.HORIZONTAL,false) {
-            override fun canScrollVertically(): Boolean {
-                return false
-            }
-        }
-        movies_top_recycler?.addItemDecoration(topRecyclerItemDecoration)
-        movies_top_recycler?.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
-
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                when(e.action) {
-                    MotionEvent.ACTION_DOWN -> cancelAutoScrollOfHeaderRecycler()
-                    MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                        if(isTopMovieListLoaded){
-                            initAutoScrollForHeaderRecycler()
-                        }
-                    }
-                    else -> {}
-                }
-                return false
-            }
-
-            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-
-            }
-
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-
-            }
-
-        })
-        PagerSnapHelper().attachToRecyclerView(movies_top_recycler)
-
         movies_list_toolbar?.post{
             appbarHeight = movies_list_toolbar?.measuredHeight ?: 0
         }
@@ -187,37 +134,26 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
     }
 
     private fun subscribeToViewModel() {
-//        viewModel.suggestions.observe(viewLifecycleOwner, Observer {
-//            for (suggestion in it) {
-//                viewModel.fetchMovies(suggestion)
-//            }
-//        })
-
         viewModel.moviesList.observe(viewLifecycleOwner, Observer { list ->
             movies_refresh_layout?.isRefreshing = false
             movies_recycler?.adapter?.takeIf { it is MovieListAdapter }?.let {
                 (it as MovieListAdapter).updateData(list)
             } ?: kotlin.run {
-                movies_recycler?.layoutManager = object :LinearLayoutManager(activity,RecyclerView.VERTICAL,false){
-                    override fun canScrollVertically(): Boolean {
-                        return false
-                    }
-                }
-                val adapter = MovieListAdapter(list,this)
+                movies_recycler?.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
+                val adapter = MovieListAdapter(list,onItemClickListener = this)
                 movies_recycler?.adapter = adapter
             }
-            isTopMovieListLoaded = true
         })
 
-        viewModel.specialMoviesList.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                //movies_top_layout?.show()
-                val adapter = MovieHeaderAdapter(it,this)
-                movies_top_recycler?.adapter = adapter
-                initAutoScrollForHeaderRecycler()
-            } ?: kotlin.run {
-                //movies_top_layout?.hide()
-                cancelAutoScrollOfHeaderRecycler()
+        viewModel.specialMoviesList.observe(viewLifecycleOwner, Observer { headerList ->
+            headerList?.let {
+                movies_recycler?.adapter?.takeIf { it is MovieListAdapter }?.let {
+                    (it as MovieListAdapter).updateHeaderData(headerList)
+                } ?: kotlin.run {
+                    movies_recycler?.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
+                    val adapter = MovieListAdapter(viewModel.moviesList.value ?: listOf(),headerList,onItemClickListener = this)
+                    movies_recycler?.adapter = adapter
+                }
             }
         })
 
@@ -227,8 +163,18 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
 //                Toast.makeText(activity,it, Toast.LENGTH_SHORT).show()
 //            }
             movies_recycler?.hide()
-            //movies_top_layout?.hide()
             movies_refresh_layout?.isRefreshing = false
+        })
+
+        viewModel.moviesExtraList.observe(viewLifecycleOwner, { data ->
+            loadingExtraMovies = true
+            movies_recycler?.adapter?.takeIf { it is MovieListAdapter }?.let {
+                (it as MovieListAdapter).addData(data)
+            } ?: kotlin.run {
+                movies_recycler?.layoutManager = LinearLayoutManager(activity,RecyclerView.VERTICAL,false)
+                val adapter = MovieListAdapter(data,viewModel.specialMoviesList.value ?: arrayListOf(),this@MovieListsFragment)
+                movies_recycler?.adapter = adapter
+            }
         })
     }
 
@@ -251,39 +197,38 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
             }
         }
 
-//        movies_appbar?.addOnOffsetChangedListener(object : AppBarLayout.OnOffsetChangedListener {
-//            override fun onOffsetChanged(appBarLayout: AppBarLayout?, verticalOffset: Int) {
-//                appBarLayout?.let {
-//                    if (verticalOffset == 0) {
-//                        movies_list_toolbar?.setBackgroundResource(android.R.color.transparent)
-//                    } else{
-//                        movies_list_toolbar?.setBackgroundResource(R.color.colorAccentDarkOpacity50)
-//                    }
-//                }
-//
-//            }
-//
-//        })
-
         movies_refresh_layout?.setOnRefreshListener {
             viewModel.refresh()
         }
 
-        movies_nested_scroll?.setOnScrollChangeListener(object : NestedScrollView.OnScrollChangeListener {
-            override fun onScrollChange(
-                v: NestedScrollView?,
-                scrollX: Int,
-                scrollY: Int,
-                oldScrollX: Int,
-                oldScrollY: Int
-            ) {
-                movies_top_recycler?.measuredHeight?.times(8)?.div(10)?.let { height ->
-                    val alpha = if (scrollY >= height) 1f else (scrollY.toFloat()/height.toFloat())
-                    movies_list_toolbar?.alpha = alpha
-                    activity?.let { ctx ->
-                        val foreground = ColorUtils.setAlphaComponent(ContextCompat.getColor(ctx,R.color.colorAccentDark),alpha.times(255f).toInt())
-                        val background = ContextCompat.getColor(ctx,R.color.colorPrimary)
-                        ctx.setStatusBarColor(ColorUtils.compositeColors(foreground,background))
+        movies_recycler?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            private var pastVisibleItems = 0
+            private var visibleItemCount:Int = 0
+            private var totalItemCount:Int = 0
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val width = widthOfDevice()
+                val height = width.times(35).div(50)
+                val y = recyclerView.computeVerticalScrollOffset()
+                val alpha = if (y >= height) 1f else (y.toFloat()/height.toFloat())
+                movies_list_toolbar?.alpha = alpha
+                activity?.let { ctx ->
+                    val foreground = ColorUtils.setAlphaComponent(ContextCompat.getColor(ctx,R.color.colorAccentDark),alpha.times(255f).toInt())
+                    val background = ContextCompat.getColor(ctx,R.color.colorPrimary)
+                    ctx.setStatusBarColor(ColorUtils.compositeColors(foreground,background))
+                }
+
+                if(dy > 0) {
+                    visibleItemCount = movies_recycler?.layoutManager?.childCount ?: 0
+                    totalItemCount = movies_recycler?.layoutManager?.itemCount ?: 0
+                    pastVisibleItems = (movies_recycler?.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition() ?: 0
+
+                    if (loadingExtraMovies) {
+                        if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                            loadingExtraMovies = false
+                            viewModel.fetchMovies()
+                        }
                     }
                 }
             }
@@ -291,12 +236,24 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
         })
     }
 
-    override fun onShowAllClick(suggestion: Suggestion) {
+    override fun onShowAllClick(movieListItem: MovieListItem) {
         val moviesFragment = MoviesFragment.newInstance()
-        moviesFragment.arguments = Bundle().apply {
-            this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE,RequestType.SUGGESTION.type)
-            this.putInt(MoviesFragment.MOVIES_REQUEST_ID,suggestion.id)
-            this.putString(MoviesFragment.MOVIES_REQUEST_NAME,suggestion.name)
+        when (movieListItem) {
+            is SuggestionMovies -> {
+                moviesFragment.arguments = Bundle().apply {
+                    this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE,RequestType.SUGGESTION.type)
+                    this.putInt(MoviesFragment.MOVIES_REQUEST_ID,movieListItem.suggestion.id)
+                    this.putString(MoviesFragment.MOVIES_REQUEST_NAME, movieListItem.suggestion.name)
+                }
+            }
+            is GenresSuggestionMovies -> {
+                moviesFragment.arguments = Bundle().apply {
+                    this.putInt(MoviesFragment.MOVIES_REQUEST_TYPE,RequestType.GENRES_SUGGESTION.type)
+                    this.putIntArray(MoviesFragment.MOVIES_REQUEST_IDS,movieListItem.genresSuggestion.genreIds.toIntArray())
+                    this.putString(MoviesFragment.MOVIES_REQUEST_NAME, movieListItem.genresSuggestion.name)
+                }
+            }
+            else -> {}
         }
         add(containerId(),moviesFragment)
     }
@@ -345,34 +302,4 @@ class MovieListsFragment : BaseFragment(), MovieListAdapter.OnItemClickListener,
             }
         }
     }
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        disposables.takeIf { it.isDisposed.not() }?.dispose()
-//    }
-
-
-    private fun initAutoScrollForHeaderRecycler() {
-        cancelAutoScrollOfHeaderRecycler()
-        disposables.add(Observable.interval(5L,TimeUnit.SECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                movies_top_recycler?.layoutManager?.takeIf { it is LinearLayoutManager }?.let {
-                    val pos = (it as LinearLayoutManager).findFirstCompletelyVisibleItemPosition()
-                    if(pos == movies_top_recycler?.adapter?.itemCount?.minus(1) ?: 0) {
-                        movies_top_recycler?.scrollToPosition(0)
-                    } else {
-                        movies_top_recycler?.smoothScrollToPosition(pos+1)
-                    }
-                }
-            },{
-
-            }))
-    }
-
-    private fun cancelAutoScrollOfHeaderRecycler() {
-        disposables.clear()
-    }
-
 }
