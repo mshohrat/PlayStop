@@ -29,15 +29,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import cab.snapp.extensions.calendar.JalaliCalendarTool
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.BaseRequestOptions
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
-//import com.elconfidencial.bubbleshowcase.BubbleShowCase
-//import com.elconfidencial.bubbleshowcase.BubbleShowCaseBuilder
-//import com.elconfidencial.bubbleshowcase.BubbleShowCaseListener
-//import com.elconfidencial.bubbleshowcase.BubbleShowCaseSequence
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.appindexing.Action
@@ -818,42 +810,18 @@ fun loadImage(imageView: ImageView?, imageUrl: String?, requestOptionsList: List
     imageView?.let { iv ->
         imageUrl?.takeIf { it.isNotEmpty() }?.let { url ->
             iv.context?.let { ctx ->
-                val requestBuilder = Glide.with(ctx)
-                    .asDrawable()
-                    .load(url)
-                    .addListener(object : RequestListener<Drawable>{
-                        override fun onLoadFailed(
-                            e: GlideException?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-                            return if(retryCount > 1) {
-                                loadImage(iv,url,requestOptionsList,retryCount - 1)
-                                false
-                            } else {
-                                true
-                            }
+                try {
+                    val requestBuilder = Glide.with(ctx)
+                        .load(url)
+                    requestOptionsList?.takeIf { it.isNotEmpty() }?.let {
+                        for (option in it){
+                            requestBuilder.apply(option)
                         }
-
-                        override fun onResourceReady(
-                            resource: Drawable?,
-                            model: Any?,
-                            target: Target<Drawable>?,
-                            dataSource: DataSource?,
-                            isFirstResource: Boolean
-                        ): Boolean {
-//                            iv.setImageDrawable(resource)
-                            return false
-                        }
-
-                    })
-                requestOptionsList?.takeIf { it.isNotEmpty() }?.let {
-                    for (option in it){
-                        requestBuilder.apply(option)
                     }
+                    requestBuilder.into(iv)
+                } catch (e: Exception) {
+                    Crashes.trackError(e)
                 }
-                requestBuilder.into(iv)
             }
         }
     }
