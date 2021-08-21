@@ -57,6 +57,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     RadioLinkAdapter.OnItemClickListener {
 
     companion object {
+        const val PLAY_VIDEO_ID = "PLAY VIDEO ID"
         const val PLAY_VIDEO_URL = "PLAY VIDEO URL"
         const val PLAY_VIDEO_NAME = "PLAY VIDEO NAME"
         const val PLAY_VIDEO_SUBTITLES = "PLAY VIDEO SUBTITLES"
@@ -118,12 +119,22 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
             selectedSubtitle = subtitles?.firstOrNull()
         }
         viewModel = ViewModelProviders.of(this).get(PlayVideoViewModel::class.java)
+        subscribeToViewModel()
+        val videoId = intent?.takeIf { it.hasExtra(PLAY_VIDEO_ID) }?.getIntExtra(PLAY_VIDEO_ID,-1)
+        viewModel.setMovieId(videoId)
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         initViews()
         handleConfigurationChange()
         handleShowGuideToUser()
         handleWatchedTimesStore()
         Analytics.trackEvent(TAG)
+    }
+
+    private fun subscribeToViewModel() {
+        viewModel.savedMovieSeenPosition.observe(this,{
+            playbackPosition = it
+            exoPlayer?.seekTo(currentWindow, playbackPosition)
+        })
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -427,6 +438,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     override fun onPause() {
         super.onPause()
         releasePlayer()
+        viewModel.setSeenMoviePosition(playbackPosition)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -839,6 +851,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         super.onDestroy()
         watchedTimesHandler.removeCallbacks(watchedTimesRunnable)
         play_video_player?.setControllerVisibilityListener(null)
+        viewModel.updateSeenMovie()
     }
 
     private fun handleWatchedTimesStore() {
