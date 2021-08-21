@@ -9,5 +9,6 @@ enum class RequestType(val type: Int) {
     LIKES(6),
     ACTOR(7),
     DIRECTOR(8),
-    WRITER(9)
+    WRITER(9),
+    GENRES_SUGGESTION(10),
 }
