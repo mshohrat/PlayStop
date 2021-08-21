@@ -7,4 +7,4 @@ data class SuggestionMovies(
     val suggestion: Suggestion,
     @SerializedName("movies")
     val movies: List<Movie>
-)
+) : MovieListItem()
