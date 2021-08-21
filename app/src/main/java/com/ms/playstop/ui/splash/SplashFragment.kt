@@ -5,6 +5,8 @@ import android.content.res.ColorStateList
 import android.net.Uri
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -189,7 +191,9 @@ class SplashFragment : BaseFragment() {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(BuildConfig.DOWNLOAD_URL)
                     activity?.startActivity(intent)
-                    activity?.finish()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        activity?.finish()
+                    },2000)
                 }
 
                 override fun onCancelClick() {
