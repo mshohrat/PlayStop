@@ -125,3 +125,10 @@ data class RequestMovieRequest(
     @SerializedName("text")
     val text: String?
 )
+
+data class GenresSuggestionMoviesRequest(
+    @SerializedName("genre_ids")
+    val genreIds : List<Int>,
+    @SerializedName("sort")
+    val sort : String? = null
+)
