@@ -43,7 +43,7 @@ class CharacterViewModel : ViewModel() {
     fun setRequestType(requestType: RequestType, requestId: Int) {
         this.requestType = requestType
         this.characterId = requestId
-        movieDataFactory = MovieDataFactory(requestType,requestId,getRequestParams())
+        movieDataFactory = MovieDataFactory(requestType, requestId, getRequestParams())
         movieDataFactory?.let { factory ->
             moviesError = Transformations.switchMap(factory.getMutableLiveData(),
                 Function {
