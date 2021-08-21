@@ -60,7 +60,9 @@ data class Movie(
     @SerializedName("actors_real")
     val realActors: List<Character>?,
     @SerializedName("is_subscription_expired")
-    val isUserSubscriptionExpired : Boolean = true
+    val isUserSubscriptionExpired : Boolean = true,
+    @SerializedName("seen_position")
+    val userSeenPosition : Long = 0L
 ) {
     companion object {
         const val SORT_DEFAULT = 0
