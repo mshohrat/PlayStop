@@ -244,3 +244,8 @@ data class StartPaymentResponse(
     @SerializedName("payment_url")
     val paymentUrl: String?
 )
+
+data class SeenMovieResponse(
+    @SerializedName("position")
+    val position: Long?
+)

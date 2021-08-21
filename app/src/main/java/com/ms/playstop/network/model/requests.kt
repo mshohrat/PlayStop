@@ -132,3 +132,8 @@ data class GenresSuggestionMoviesRequest(
     @SerializedName("sort")
     val sort : String? = null
 )
+
+data class SeenMovieRequest(
+    @SerializedName("position")
+    val position: Long
+)
