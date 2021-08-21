@@ -15,6 +15,11 @@ interface ApiService {
         @Body getAllSuggestionsMoviesRequest: GetAllSuggestionsMoviesRequest
     ) : Single<AllSuggestionsMoviesResponse?>?
 
+    @GET("v1/suggestions/movies/{page}")
+    fun getAllGenresSuggestionsMovies(
+        @Path("page") page: Int
+    ) : Single<GenresSuggestionMoviesResponse?>?
+
     @GET("v1/movies/{page}")
     fun getMovies(
         @Path("page") page : Int,
@@ -26,6 +31,12 @@ interface ApiService {
         @Path("page") page : Int,
         @Path("suggestion_id") suggestionId : Int,
         @Query("sort") sort : String? = null
+    ) : Single<MoviePagedListResponse?>?
+
+    @POST("v1/genres_suggestions/movies/{page}")
+    fun getGenresSuggestionMovies(
+        @Path("page") page : Int,
+        @Body genresSuggestionMoviesRequest: GenresSuggestionMoviesRequest
     ) : Single<MoviePagedListResponse?>?
 
     @GET("v1/movies/special/1/{page}")
