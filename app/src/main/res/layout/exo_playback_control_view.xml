@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/play_root"
-    android:background="@color/pure_light_gray_opacity30"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -152,6 +151,10 @@
         android:id="@id/exo_progress"
         android:layout_width="0dp"
         android:layout_height="@dimen/play_movie_timebar_height"
+        app:scrubber_color="@color/yellow"
+        app:played_color="@color/yellow_opacity_60"
+        app:buffered_color="@android:color/darker_gray"
+        app:scrubber_dragged_size="@dimen/play_movie_timebar_height"
         app:layout_constraintStart_toEndOf="@id/exo_position"
         app:layout_constraintEnd_toStartOf="@id/exo_duration"
         app:layout_constraintBottom_toTopOf="@id/play_subtitle"

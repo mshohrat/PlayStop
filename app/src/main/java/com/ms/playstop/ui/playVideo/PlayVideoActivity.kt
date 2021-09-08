@@ -20,14 +20,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.*
-//import com.google.android.exoplayer2.ext.cronet.CronetDataSource
-//import com.google.android.exoplayer2.ext.cronet.CronetEngineWrapper
 import com.google.android.exoplayer2.source.*
 import com.google.android.exoplayer2.source.dash.DashMediaSource
 import com.google.android.exoplayer2.source.dash.DefaultDashChunkSource
@@ -47,8 +48,6 @@ import com.ms.playstop.ui.playVideo.adapter.RadioLinkAdapter
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_play_video.*
 import kotlinx.android.synthetic.main.exo_playback_control_view.*
-//import org.chromium.net.CronetEngine
-//import java.util.concurrent.Executors
 import kotlin.math.max
 import kotlin.math.min
 
@@ -222,7 +221,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             play_subtitle?.imageTintList = if(subtitles.isNullOrEmpty().not()) ColorStateList.valueOf(
                 Color.WHITE
-            ) else  ColorStateList.valueOf(Color.GRAY)
+            ) else  ColorStateList.valueOf(ColorUtils.setAlphaComponent(Color.GRAY,200))
         }
         play_fullscreen?.setOnClickListener {
             changeOrientation()
@@ -374,14 +373,23 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         if(Hawk.contains(PLAY_VIDEO_BRIGHTNESS_KEY)) {
             val brightness = Hawk.get<Float>(PLAY_VIDEO_BRIGHTNESS_KEY)
             play_brightness_seekbar?.progress = castBrightnessToSeekbarValue(brightness)
-            play_brightness_view?.alpha = 1 - brightness
+            play_video_player?.overlayFrameLayout?.alpha = 1 - brightness
         } else {
             play_brightness_seekbar?.progress = castBrightnessToSeekbarValue(1f)
         }
+
+        val exoPositionParams = exo_position?.layoutParams as? ConstraintLayout.LayoutParams
+        exoPositionParams?.let {
+            it.width = exo_duration?.measuredWidth ?: ConstraintLayout.LayoutParams.WRAP_CONTENT
+            exo_position?.layoutParams = it
+        }
+
+        play_video_player?.overlayFrameLayout?.setBackgroundColor(ContextCompat.getColor(this,R.color.pure_black_opacity_40))
+        play_video_player?.overlayFrameLayout?.alpha = 0f
     }
 
     private fun updateBrightness(brightness: Float) {
-        play_brightness_view?.alpha = 1 - brightness
+        play_video_player?.overlayFrameLayout?.alpha = 1 - brightness
         Hawk.put(PLAY_VIDEO_BRIGHTNESS_KEY,brightness)
     }
 
@@ -714,25 +722,25 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 
     private fun showProgress() {
         isLoading = true
-        if(isPlayControllerVisible) {
-            exo_play?.hide()
-            exo_pause?.hide()
-        }
+//        if(isPlayControllerVisible) {
+            exo_play?.alpha = 0f
+            exo_pause?.alpha = 0f
+//        }
         play_video_progress?.show()
     }
 
     private fun hideProgress() {
         isLoading = false
         play_video_progress?.hide()
-        if(isPlayControllerVisible) {
+//        if(isPlayControllerVisible) {
             if(exoPlayer?.playWhenReady == true) {
-                exo_play?.hide()
-                exo_pause?.show()
+                exo_play?.alpha = 0f
+                exo_pause?.alpha = 1f
             } else {
-                exo_pause?.hide()
-                exo_play?.show()
+                exo_pause?.alpha = 0f
+                exo_play?.alpha = 1f
             }
-        }
+//        }
     }
 
     private fun handleProgressOnPlayControllerVisibilityChange() {

@@ -17,13 +17,6 @@
         app:fastforward_increment="10000"
         app:controller_layout_id="@layout/exo_playback_control_view"/>
 
-    <View
-        android:id="@+id/play_brightness_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0"
-        android:background="@color/pure_black_opacity_40"/>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
