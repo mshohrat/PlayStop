@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/play_root"
+    tools:background="@color/pure_black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -110,15 +111,26 @@
         app:layout_constraintStart_toEndOf="@id/play_subtitle"
         app:layout_constraintTop_toTopOf="@id/play_subtitle"
         app:layout_constraintBottom_toBottomOf="@id/play_subtitle"
-        app:layout_constraintEnd_toStartOf="@id/play_brightness"
+        app:layout_constraintEnd_toStartOf="@id/play_language"
         app:srcCompat="@drawable/ic_audio"/>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/play_language"
+        android:layout_width="@dimen/minimum_button_size"
+        android:layout_height="@dimen/minimum_button_size"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintStart_toEndOf="@id/play_audio"
+        app:layout_constraintTop_toTopOf="@id/play_subtitle"
+        app:layout_constraintBottom_toBottomOf="@id/play_subtitle"
+        app:layout_constraintEnd_toStartOf="@id/play_brightness"
+        app:srcCompat="@drawable/ic_language"/>
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/play_brightness"
         android:layout_width="@dimen/minimum_button_size"
         android:layout_height="@dimen/minimum_button_size"
         android:background="?android:attr/selectableItemBackground"
-        app:layout_constraintStart_toEndOf="@id/play_audio"
+        app:layout_constraintStart_toEndOf="@id/play_language"
         app:layout_constraintTop_toTopOf="@id/play_subtitle"
         app:layout_constraintBottom_toBottomOf="@id/play_subtitle"
         app:layout_constraintEnd_toStartOf="@id/play_fullscreen"
@@ -207,7 +219,7 @@
         android:progressBackgroundTint="@color/pure_white_opacity_50"
         android:progressTint="@color/pure_white"
         android:background="@drawable/shape_rectangle_rounded_5dp_pure_light_gray_opacity30"
-        android:paddingVertical="@dimen/padding_small"
+        android:paddingVertical="@dimen/padding_medium"
         android:progress="0"/>
 
     <androidx.appcompat.widget.AppCompatSeekBar
@@ -225,7 +237,7 @@
         android:progressBackgroundTint="@color/pure_white_opacity_50"
         android:progressTint="@color/pure_white"
         android:background="@drawable/shape_rectangle_rounded_5dp_pure_light_gray_opacity30"
-        android:paddingVertical="@dimen/padding_small"
+        android:paddingVertical="@dimen/padding_medium"
         android:progress="0"/>
 
 
