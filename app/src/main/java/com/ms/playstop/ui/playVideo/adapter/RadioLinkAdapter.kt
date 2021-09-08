@@ -5,18 +5,35 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ms.playstop.R
+import com.ms.playstop.extension.hide
 import kotlinx.android.synthetic.main.item_link_radio_layout.view.*
+import kotlinx.android.synthetic.main.item_link_radio_layout.view.link_name_tv
 
-class RadioLinkAdapter(urls: List<String>, selectedPosition: Int = 0, private val onItemClickListener: OnItemClickListener? = null) : RecyclerView.Adapter<RadioLinkAdapter.ViewHolder>() {
+class RadioLinkAdapter(private val type: Int, urls: List<String>, selectedPosition: Int = 0, private val onItemClickListener: OnItemClickListener? = null) : RecyclerView.Adapter<RadioLinkAdapter.ViewHolder>() {
+
+    companion object {
+        const val TYPE_SUBTITLE = 101
+        const val TYPE_AUDIO = 102
+    }
 
     private val items =  mutableListOf<Pair<Boolean,String>>()
     private val DISABLED = "غیر فعال"
     init {
-        items.add(0,false to DISABLED)
-        for (i in urls.indices) {
-            items.add(i+1,false to urls[i])
+        when(type) {
+            TYPE_SUBTITLE -> {
+                items.add(0,false to DISABLED)
+                for (i in urls.indices) {
+                    items.add(i+1,false to urls[i])
+                }
+                selectPosition(selectedPosition + 1)
+            }
+            TYPE_AUDIO -> {
+                for (i in urls.indices) {
+                    items.add(i,false to urls[i])
+                }
+                selectPosition(selectedPosition)
+            }
         }
-        selectPosition(selectedPosition + 1)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_link_radio_layout,parent,false))
@@ -50,19 +67,33 @@ class RadioLinkAdapter(urls: List<String>, selectedPosition: Int = 0, private va
         val rootView = itemView
         val nameTv = itemView.link_name_tv
         val radio = itemView.link_radio
+        val icon = itemView.link_icon_iv
         fun bind(position: Int,item: Pair<Boolean, String>) {
-            if(position == 0) {
-                nameTv?.text = item.second
-            } else {
-                rootView.context?.getString(R.string.subtitle_x)?.let {
-                    nameTv?.text = String.format(it,position)
+            icon?.hide()
+            when(type) {
+                TYPE_SUBTITLE -> {
+                    if(position == 0) {
+                        nameTv?.text = item.second
+                    } else {
+                        rootView.context?.getString(R.string.subtitle_x)?.let {
+                            nameTv?.text = String.format(it,position)
+                        }
+                    }
+                }
+                TYPE_AUDIO -> {
+                    nameTv?.text = item.second
                 }
             }
             radio?.isChecked = item.first
             rootView.setOnClickListener {
                 selectPosition(position,true)
+                val finalPosition = when (type) {
+                    TYPE_AUDIO -> position
+                    else -> position - 1
+                }
                 onItemClickListener?.onItemClick(
-                    position - 1,
+                    type,
+                    finalPosition,
                     if(item.second == DISABLED) null else item.second
                 )
             }
@@ -70,6 +101,6 @@ class RadioLinkAdapter(urls: List<String>, selectedPosition: Int = 0, private va
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int,item: String? = null)
+        fun onItemClick(type: Int,position: Int,item: String? = null)
     }
 }

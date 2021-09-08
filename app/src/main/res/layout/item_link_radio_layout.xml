@@ -33,6 +33,7 @@
         tools:text="web-dl"/>
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/link_icon_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_download"
