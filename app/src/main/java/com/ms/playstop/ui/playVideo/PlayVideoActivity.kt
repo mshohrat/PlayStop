@@ -25,6 +25,7 @@ import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
+import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -67,6 +68,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     }
 
     private var subtitleDialog: BottomSheetDialog? = null
+    private var selectAudioDialog: BottomSheetDialog? = null
     private lateinit var viewModel: PlayVideoViewModel
     private var exoPlayer: ExoPlayer? = null
     private var playWhenReady = true
@@ -75,6 +77,8 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     private lateinit var videoUrl : String
     private var videoName : String? = null
     private var subtitles : ArrayList<String>? = null
+    private var audioTracks : HashMap<String,Int> = hashMapOf()
+    private var selectedAudioTrack : Int = -1
     private var selectedSubtitle : String? = null
     private var showSubtitle = true
     private var status: String? = null
@@ -232,6 +236,9 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         play_subtitle?.setOnClickListener {
             showSubtitlesDialog()
         }
+        play_language?.setOnClickListener {
+            showSelectAudioDialog()
+        }
         play_back?.text = videoName
 
         play_video_player?.setControllerVisibilityListener(object :
@@ -274,6 +281,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         }
 
         play_audio?.setOnClickListener {
+            play_brightness_seekbar?.hide()
             if(play_audio_seekbar?.isVisible == true) {
                 play_audio_seekbar?.hide()
             } else {
@@ -327,6 +335,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         )
 
         play_brightness?.setOnClickListener {
+            play_audio_seekbar?.hide()
             if(play_brightness_seekbar?.isVisible == true) {
                 play_brightness_seekbar?.hide()
             } else {
@@ -419,9 +428,63 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
             }
             val lm = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
             recycler?.layoutManager = lm
-            val adapter = RadioLinkAdapter(it, selectedPosition, this)
+            val adapter = RadioLinkAdapter(RadioLinkAdapter.TYPE_SUBTITLE,it, selectedPosition, this)
             recycler?.adapter = adapter
             subtitleDialog?.show()
+        }
+    }
+
+    private fun fillAudioTracks() {
+        trackSelector.currentMappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_AUDIO)?.takeIf { it.length > 1 }?.let { audioGroups ->
+            audioTracks.clear()
+            for (i in 0 until audioGroups.length) {
+                val format = audioGroups.get(i).getFormat(0)
+                audioTracks[getLanguageName(format.language)] = i
+            }
+            play_language?.isEnabled = true
+            play_language?.let { ib ->
+                ImageViewCompat.setImageTintList(ib,ColorStateList.valueOf(Color.WHITE))
+            }
+        } ?: kotlin.run {
+            play_language?.isEnabled = false
+            play_language?.let { ib ->
+                ImageViewCompat.setImageTintList(ib, ColorStateList.valueOf(ColorUtils.setAlphaComponent(Color.GRAY,200)))
+            }
+        }
+    }
+
+    private fun showSelectAudioDialog() {
+        audioTracks.takeIf { it.isNotEmpty() }?.let {
+            selectAudioDialog = BottomSheetDialog(this)
+            selectAudioDialog?.setContentView(R.layout.layout_bottom_sheet_recycler)
+            val titleTv = selectAudioDialog?.findViewById<MaterialTextView>(R.id.bottom_sheet_recycler_title_tv)
+            val closeIb = selectAudioDialog?.findViewById<AppCompatImageButton>(R.id.bottom_sheet_recycler_close_ib)
+            val recycler = selectAudioDialog?.findViewById<RecyclerView>(R.id.bottom_sheet_recycler_recycler)
+            titleTv?.text = getString(R.string.choose_audio)
+            closeIb?.setOnClickListener {
+                selectAudioDialog?.takeIf { it.isShowing }?.dismiss()
+                selectAudioDialog?.cancel()
+            }
+            val lm = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            recycler?.layoutManager = lm
+            val adapter = RadioLinkAdapter(RadioLinkAdapter.TYPE_AUDIO,it.keys.toList(), selectedAudioTrack, this)
+            recycler?.adapter = adapter
+            selectAudioDialog?.show()
+        }
+    }
+
+    private fun reloadAudioTrack() {
+        trackSelector.currentMappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_AUDIO)?.takeIf { it.isEmpty.not() }?.let { audioGroups ->
+            val mappedTrackInfo = trackSelector.currentMappedTrackInfo
+            val textGroups = mappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_AUDIO) // list of captions
+            val override = DefaultTrackSelector.SelectionOverride(
+                selectedAudioTrack,
+                0
+            )
+            textGroups?.let {
+                trackSelector.parameters = trackSelector.buildUponParameters().setSelectionOverride(C.TRACK_TYPE_AUDIO,
+                    it, override).build()
+            }
         }
     }
 
@@ -611,6 +674,21 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         return hardSubCount
     }
 
+    private fun getAudioTracks() {
+        val mappedTrackInfo = trackSelector.currentMappedTrackInfo
+        val audioGroups = mappedTrackInfo?.getTrackGroups(C.TRACK_TYPE_AUDIO) // list of captions
+        val index = 0
+        val override = DefaultTrackSelector.SelectionOverride(
+            0,
+            0
+        )
+        audioGroups?.let {
+            trackSelector.parameters = trackSelector.buildUponParameters().setSelectionOverride(C.TRACK_TYPE_AUDIO,
+                it, override).build()
+        }
+        Toast.makeText(this,audioGroups?.get(0)?.getFormat(0)?.language?.toString() + " " + audioGroups?.get(0)?.getFormat(0)?.bitrate,Toast.LENGTH_SHORT).show()
+    }
+
     private fun handleHardSubtitle() {
         if(hardSubHandled.not() && getHardSubCount() != 0) {
             reloadSubtitle()
@@ -705,6 +783,11 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
             }
             Player.STATE_READY -> {
                 handleHardSubtitle()
+                fillAudioTracks()
+                if(selectedAudioTrack == -1) {
+                    selectedAudioTrack = 0
+                    reloadAudioTrack()
+                }
                 if (playWhenReady) {
                     status = PlaybackStatus.PLAYING
                     hideProgress()
@@ -764,17 +847,28 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         return exoPlayer?.playWhenReady == true
     }
 
-    override fun onItemClick(position: Int, item: String?) {
-        selectedPosition = position
-        if(position == -1) {
-            disableSubtitle()
-        } else {
-            enableSubtitle()
-            selectedSubtitle = item
-            reloadSubtitle()
+    override fun onItemClick(type: Int,position: Int, item: String?) {
+        when(type) {
+            RadioLinkAdapter.TYPE_SUBTITLE -> {
+                selectedPosition = position
+                if(position == -1) {
+                    disableSubtitle()
+                } else {
+                    enableSubtitle()
+                    selectedSubtitle = item
+                    reloadSubtitle()
+                }
+                subtitleDialog?.takeIf { it.isShowing } ?.dismiss()
+                subtitleDialog?.cancel()
+            }
+            RadioLinkAdapter.TYPE_AUDIO -> {
+                selectedAudioTrack = position
+                reloadAudioTrack()
+                selectAudioDialog?.takeIf { it.isShowing } ?.dismiss()
+                selectAudioDialog?.cancel()
+            }
         }
-        subtitleDialog?.takeIf { it.isShowing } ?.dismiss()
-        subtitleDialog?.cancel()
+
     }
 
     fun isTouchEventAtLeftOfScreen(e: MotionEvent?): Boolean {
@@ -864,6 +958,28 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
 
     private fun handleWatchedTimesStore() {
         watchedTimesHandler.postDelayed(watchedTimesRunnable, WATCHED_TIMES_DELAY)
+    }
+
+    private fun getLanguageName(languageLocale: String?): String {
+        val language =  when(languageLocale) {
+            "en" -> R.string.english
+            "fa" -> R.string.persian
+            "ar" -> R.string.arabic
+            "hi" -> R.string.hindi
+            "ja" -> R.string.japanese
+            "fr" -> R.string.french
+            "ru" -> R.string.russian
+            "es" -> R.string.spanish
+            "it" -> R.string.italian
+            "tr" -> R.string.turkish
+            "az" -> R.string.azeri
+            "zh" -> R.string.chinese
+            "de" -> R.string.german
+            "ko" -> R.string.korean
+            "la" -> R.string.latin
+            else -> R.string.unknown
+        }
+        return getString(language)
     }
 
 }
