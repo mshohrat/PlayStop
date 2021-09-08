@@ -186,6 +186,7 @@ class SearchFragment : BaseFragment(), MovieAdapter.OnItemClickListener {
 
     override fun onItemClick(movie: Movie?) {
         movie?.let {
+            view?.hideSoftKeyboard()
             val movieFragment = MovieFragment.newInstance()
             movieFragment.arguments = Bundle().apply {
                 this.putInt(MovieFragment.MOVIE_ID_KEY,it.id)
