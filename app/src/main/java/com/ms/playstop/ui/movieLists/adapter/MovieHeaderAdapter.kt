@@ -11,6 +11,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
 import com.ms.playstop.extension.loadImage
+import com.ms.playstop.extension.show
 import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
 import com.ms.playstop.utils.DayNightModeAwareAdapter
@@ -121,11 +122,11 @@ class MovieHeaderAdapter(
                 //scoreTv?.text = itemView.context?.getString(R.string.imdb_empty)
                 scoreTv?.hide()
             }
-//            if(item?.price == 0f && item.isSeries.not()) {
-//                freeTv?.show()
-//            } else {
-//                freeTv?.hide()
-//            }
+            if(item?.price == 0f && item.isSeries.not()) {
+                freeTv?.show()
+            } else {
+                freeTv?.hide()
+            }
             rootView.setOnClickListener {
                 onItemClickListener?.onMovieClick(item)
             }

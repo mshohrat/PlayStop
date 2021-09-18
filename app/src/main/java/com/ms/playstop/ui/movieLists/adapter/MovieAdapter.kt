@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -14,6 +13,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.extension.hide
+import com.ms.playstop.extension.show
 import com.ms.playstop.extension.widthOfDevice
 import com.ms.playstop.model.Movie
 import com.ms.playstop.utils.DayNightModeAwareAdapter
@@ -138,11 +138,11 @@ class MovieAdapter(
                 //scoreTv?.text = itemView.context?.getString(R.string.imdb_empty)
                 scoreTv?.hide()
             }
-//            if(item?.price == 0f && item.isSeries.not()) {
-//                freeTv?.show()
-//            } else {
-//                freeTv?.hide()
-//            }
+            if(item?.price == 0f && item.isSeries.not()) {
+                freeTv?.show()
+            } else {
+                freeTv?.hide()
+            }
             rootView.setOnClickListener {
                 onItemClickListener?.onItemClick(item)
             }
