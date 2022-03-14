@@ -9,6 +9,7 @@ data class SearchFilter(
     var categories: ArrayList<Category> = arrayListOf(),
     var genres: ArrayList<Genre> = arrayListOf(),
     var sort: Int = Movie.SORT_DEFAULT,
+    var type: Int = Movie.TYPE_ALL,
     var languages: ArrayList<Language> = arrayListOf(),
     var countries: ArrayList<Country> = arrayListOf(),
     var minimumScore: Float = 0f,

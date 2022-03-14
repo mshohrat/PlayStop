@@ -205,4 +205,9 @@
     <string name="german">آلمانی</string>
     <string name="korean">کره‌ای</string>
     <string name="latin">لاتین</string>
+    <string name="filter_types_title">نوع</string>
+    <string name="movie_type_all">همه</string>
+    <string name="type_movie">فیلم</string>
+    <string name="type_series">سریال</string>
+    <string name="download_subtitle_direct">دانلود زیرنویس</string>
 </resources>

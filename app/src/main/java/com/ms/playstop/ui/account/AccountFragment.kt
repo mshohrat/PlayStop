@@ -19,6 +19,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
 import com.ms.playstop.base.BaseFragment
 import com.ms.playstop.extension.*
+import com.ms.playstop.model.Profile
 import com.ms.playstop.ui.completeAccount.CompleteAccountFragment
 import com.ms.playstop.ui.enrerPhoneNumber.EnterPhoneNumberFragment
 import com.ms.playstop.ui.mainAccount.MainAccountFragment
@@ -260,8 +261,10 @@ class AccountFragment : BaseFragment() {
         }
     }
 
-    override fun onSharedPreferencesChanged() {
-        viewModel.loadAccountData()
+    override fun onSharedPreferencesChanged(key: String) {
+        if(key == Profile.SAVE_KEY) {
+            viewModel.loadAccountData()
+        }
     }
 
     override fun handleBack(): Boolean {

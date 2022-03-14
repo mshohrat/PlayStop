@@ -35,6 +35,7 @@ import com.ms.playstop.extension.*
 import com.ms.playstop.model.Character
 import com.ms.playstop.model.Episode
 import com.ms.playstop.model.Movie
+import com.ms.playstop.model.Profile
 import com.ms.playstop.network.model.GeneralResponse
 import com.ms.playstop.ui.character.CharacterFragment
 import com.ms.playstop.ui.character.adapter.CharacterAdapter
@@ -582,7 +583,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
             movie_links_recycler?.show()
             val linkLayoutManager =
                 LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            val linkAdapter = LinkAdapter(it, movie.subtitles,movie.name,movie.id)
+            val linkAdapter = LinkAdapter(it, movie.subtitles,movie.name,movie.id,Movie.TYPE_MOVIE)
             movie_links_recycler?.layoutManager = linkLayoutManager
             movie_links_recycler?.adapter = linkAdapter
         } ?: kotlin.run {
@@ -801,7 +802,10 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
                 recycler?.layoutManager = lm
                 val adapter = LinkAdapter(urls,
                     episode.subtitles,
-                    viewModel.movie.value?.name?.plus(" - ")?.plus(seasonName)?.plus(" - ")?.plus(episode.name))
+                    viewModel.movie.value?.name?.plus(" - ")?.plus(seasonName)?.plus(" - ")?.plus(episode.name),
+                    episode.id,
+                    Movie.TYPE_SERIES
+                )
                 recycler?.adapter = adapter
                 dialog.show()
             }
@@ -832,8 +836,10 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
         loadingDialog?.cancel()
     }
 
-    override fun onSharedPreferencesChanged() {
-        viewModel.refresh()
+    override fun onSharedPreferencesChanged(key: String) {
+        if(key == Profile.SAVE_KEY) {
+            viewModel.refresh()
+        }
     }
 
     override fun onItemClick(character: Character,type: Int, position: Int) {

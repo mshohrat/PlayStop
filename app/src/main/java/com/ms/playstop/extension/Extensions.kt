@@ -410,18 +410,22 @@ fun BaseFragment.passHandleBackToParent() : Boolean {
     }
 }
 
-fun String.isPlayable() : Boolean {
+fun String.isFile() : Boolean {
     if(this.isEmpty() || this.contains(".").not()) {
         return false
     }
     val uri = Uri.parse(this)
-    val lastSegment = uri.lastPathSegment
+    val lastSegment = uri.lastPathSegment?.toLowerCase(Locale.getDefault())
     if(lastSegment.isNullOrEmpty()) {
         return false
     }
     return lastSegment.contains("mkv",true)
             || lastSegment.contains("mp4",true)
             || lastSegment.contains("m3u8",true)
+            || lastSegment.contains("srt",true)
+            || lastSegment.contains("txt",true)
+            || lastSegment.contains("vtt",true)
+            || lastSegment.contains("ssa",true)
 }
 
 fun Fragment.addToParent(destination: Fragment) {

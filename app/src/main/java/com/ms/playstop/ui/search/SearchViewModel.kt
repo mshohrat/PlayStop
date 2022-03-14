@@ -32,7 +32,12 @@ class SearchViewModel : ViewModel() {
                         searchFilter?.years?.map { it.value },
                         searchFilter?.countries?.map { it.id },
                         searchFilter?.minimumScore,
-                        searchFilter?.maximumScore
+                        searchFilter?.maximumScore,
+                        when(searchFilter?.type) {
+                            Movie.TYPE_MOVIE -> 1
+                            Movie.TYPE_SERIES -> 2
+                            else -> 0
+                        }
                     )
                 )
                 ?.initSchedulers()

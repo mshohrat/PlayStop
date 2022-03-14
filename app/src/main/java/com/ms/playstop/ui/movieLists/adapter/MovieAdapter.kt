@@ -1,5 +1,6 @@
 package com.ms.playstop.ui.movieLists.adapter
 
+import android.animation.Animator
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
@@ -155,7 +156,24 @@ class MovieAdapter(
                 params?.height = height
                 imageIv?.layoutParams = params
             }
-            rootView.animate().alpha(1f).setDuration(250).start()
+            rootView.animate().alpha(1f).setDuration(250).setListener(object : Animator.AnimatorListener{
+                override fun onAnimationStart(animation: Animator?) {
+
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                    rootView.alpha = 1f
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+
+                }
+
+            }).start()
         }
 
         override fun onDayNightModeChanged(type: Int) {

@@ -165,7 +165,7 @@
         android:layout_height="@dimen/play_movie_timebar_height"
         app:scrubber_color="@color/yellow"
         app:played_color="@color/yellow_opacity_60"
-        app:buffered_color="@android:color/darker_gray"
+        app:buffered_color="#aaa"
         app:scrubber_dragged_size="@dimen/play_movie_timebar_height"
         app:layout_constraintStart_toEndOf="@id/exo_position"
         app:layout_constraintEnd_toStartOf="@id/exo_duration"

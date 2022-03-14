@@ -21,7 +21,7 @@ abstract class BaseFragment : Fragment(), OnDayNightModeChangeListener {
 
     private val SHARED_PREFERENCES_TAG = "Hawk2"
     private val sharedPreferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { preferences, key ->
-        onSharedPreferencesChanged()
+        onSharedPreferencesChanged(key)
     }
     private var isActivityCreated = false
     private var isViewLoadedCalled = false
@@ -58,7 +58,7 @@ abstract class BaseFragment : Fragment(), OnDayNightModeChangeListener {
         }
     }
 
-    protected open fun onSharedPreferencesChanged() {
+    protected open fun onSharedPreferencesChanged(key: String) {
 
     }
 

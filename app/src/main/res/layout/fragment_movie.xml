@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    tools:visibility="visible"
+                    tools:visibility="gone"
                     app:constraint_referenced_ids="movie_image_background_iv,movie_image_background_cover_iv"/>
 
                 <androidx.appcompat.widget.AppCompatImageView

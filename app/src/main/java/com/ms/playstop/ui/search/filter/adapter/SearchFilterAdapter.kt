@@ -1,6 +1,7 @@
 package com.ms.playstop.ui.search.filter.adapter
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
@@ -32,10 +33,12 @@ class SearchFilterAdapter(
     private val languages : List<Language>?,
     private val years : List<Year>?,
     private val countries : List<Country>?,
+    private val types : List<MovieType>?,
     private var searchFilter: SearchFilter,
     private val listener: OnDataChangedListener? = null
 ) : RecyclerView.Adapter<SearchFilterAdapter.ViewHolder>(), DayNightModeAwareAdapter {
 
+    private val FILTER_TYPES_TITLE = R.string.filter_types_title
     private val FILTER_CATEGORIES_TITLE = R.string.filter_categories_title
     private val FILTER_GENRES_TITLE = R.string.filter_genres_title
     private val FILTER_SORT_TITLE = R.string.filter_sort_title
@@ -57,6 +60,16 @@ class SearchFilterAdapter(
     }
 
     init {
+        var selectedTypePos = arrayListOf<FilterItem>()
+        types.takeIf { it.isNullOrEmpty().not() }?.let {
+            for(i in it.indices) {
+                if(it[i].type == Movie.TYPE_ALL) {
+                    selectedTypePos = arrayListOf(it[i])
+                    break
+                }
+            }
+            dataList.add(TYPE_HEADER to SearchFilterHeaderListItem(context.getString(FILTER_TYPES_TITLE),ArrayList(it),selectedTypePos,false))
+        }
         categories.takeIf { it.isNullOrEmpty().not() }?.let {
             dataList.add(TYPE_HEADER to SearchFilterHeaderListItem(context.getString(FILTER_CATEGORIES_TITLE),ArrayList(it),arrayListOf()))
         }
@@ -151,6 +164,20 @@ class SearchFilterAdapter(
                                         isSelected = item.second.isSelected))
                                     if(item.second.isSelected) {
                                         newData.addAll(ArrayList(sorts ?: arrayListOf()).map {
+                                            (if(hasMultipleChoices) TYPE_ITEM_CHECKBOX else TYPE_ITEM_RADIO) to (it.apply {
+                                                isSelected = (item.second as SearchFilterHeaderListItem).selectedPositions.map { it.getFilterId() }.contains(it.getFilterId())
+                                            })
+                                        })
+                                    }
+                                }
+                                is MovieType -> {
+                                    newData.add(TYPE_HEADER to SearchFilterHeaderListItem(
+                                        context.getString(FILTER_TYPES_TITLE),
+                                        ArrayList(types ?: arrayListOf()),
+                                        ArrayList((types ?: arrayListOf()).filter { it.type == searchFilter.type }),
+                                        isSelected = item.second.isSelected))
+                                    if(item.second.isSelected) {
+                                        newData.addAll(ArrayList(types ?: arrayListOf()).map {
                                             (if(hasMultipleChoices) TYPE_ITEM_CHECKBOX else TYPE_ITEM_RADIO) to (it.apply {
                                                 isSelected = (item.second as SearchFilterHeaderListItem).selectedPositions.map { it.getFilterId() }.contains(it.getFilterId())
                                             })
@@ -304,6 +331,7 @@ class SearchFilterAdapter(
             else -> {
                 when(item.second) {
                     is Sort -> TYPE_ITEM_RADIO
+                    is MovieType -> TYPE_ITEM_RADIO
                     is SearchFilterSliderChild -> TYPE_ITEM_SLIDER
                     else -> TYPE_ITEM_CHECKBOX
                 }
@@ -542,15 +570,30 @@ class SearchFilterAdapter(
             rootView.setOnClickListener {
                 radiobtn?.takeIf { it.isChecked.not() }?.let { rb ->
                     rb.isChecked = true
-                    for (i in dataList.indices) {
-                        if(i != position && dataList[i].second is Sort) {
-                            dataList[i].second.isSelected = false
-                        }
-                    }
+                    uncheckOtherRadioButtons(position,item.second)
                     updateData(item.apply { second.isSelected = true },true)
                 }
             }
 
+        }
+
+        private fun uncheckOtherRadioButtons(position: Int,filterItem: FilterItem) {
+            when(filterItem) {
+                is Sort -> {
+                    dataList.filter { it.second is Sort }.forEach {
+                        if(dataList.indexOf(it) != position) {
+                            it.second.isSelected = false
+                        }
+                    }
+                }
+                is MovieType -> {
+                    dataList.filter { it.second is MovieType }.forEach {
+                        if(dataList.indexOf(it) != position) {
+                            it.second.isSelected = false
+                        }
+                    }
+                }
+            }
         }
 
         override fun onDayNightModeChanged(type: Int) {
@@ -669,6 +712,13 @@ class SearchFilterAdapter(
                     }
                 }
             }
+            is MovieType -> {
+                if(filter.isSelected) {
+                    if(searchFilter.type != filter.type) {
+                        searchFilter.type = filter.type
+                    }
+                }
+            }
             is SearchFilterSliderChild -> {
                 searchFilter.minimumScore = filter.selectedValues.first
                 searchFilter.maximumScore = filter.selectedValues.second
@@ -741,6 +791,13 @@ class SearchFilterAdapter(
                                     if (i.isSelected) {
                                         if (searchFilter.sort != i.type) {
                                             searchFilter.sort = i.type
+                                        }
+                                    }
+                                }
+                                is MovieType -> {
+                                    if (i.isSelected) {
+                                        if (searchFilter.type != i.type) {
+                                            searchFilter.type = i.type
                                         }
                                     }
                                 }

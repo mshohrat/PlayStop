@@ -60,11 +60,13 @@
         android:id="@+id/enter_phone_number_phone_bg_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
         android:layout_marginHorizontal="@dimen/margin_standard"
         android:layout_marginTop="@dimen/margin_standard"
+        android:background="@drawable/shape_rectangle_rounded_10dp_white_opacity_10"
+        app:layout_constraintBottom_toBottomOf="@id/enter_phone_number_phone_et"
         app:layout_constraintTop_toBottomOf="@id/enter_phone_number_appbar"
-        app:layout_constraintBottom_toBottomOf="@id/enter_phone_number_phone_et"/>
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="16dp" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/enter_phone_number_phone_title_tv"

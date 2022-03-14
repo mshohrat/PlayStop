@@ -1,15 +1,25 @@
 package com.ms.playstop.ui.movies.adapter
 
+import android.animation.Animator
 import android.content.res.ColorStateList
+import android.graphics.ColorFilter
+import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.ms.playstop.R
@@ -77,12 +87,9 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
         val freeTv = itemView.movie_free_tv
 
         fun bind(item: Movie?) {
-            loadImage(
-                imageIv,
-                item?.image,
-                listOf(RequestOptions.bitmapTransform(RoundedCornersTransformation(16,0))),
-                3
-            )
+            imageIv?.let {
+                Glide.with(it).load(item?.image).apply(RequestOptions.bitmapTransform(RoundedCornersTransformation(16,0))).into(it)
+            }
             nameTv?.text = item?.name
             item?.genres?.takeIf { it.isNotEmpty() }?.let {
                 genreTv?.text = it.first().name
@@ -110,7 +117,24 @@ class MoviePagedAdapter(private val onItemClickListener: OnItemClickListener? = 
             params?.width = width
             params?.height = height
             imageIv?.layoutParams = params
-            rootView.animate().alpha(1f).setDuration(250).start()
+            rootView.animate().alpha(1f).setDuration(250).setListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                    rootView.alpha = 1f
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+
+                }
+
+            }).start()
         }
 
         override fun onDayNightModeChanged(type: Int) {

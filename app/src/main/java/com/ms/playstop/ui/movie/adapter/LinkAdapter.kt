@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +18,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.textview.MaterialTextView
 import com.ms.playstop.R
 import com.ms.playstop.extension.convertDpToPixel
-import com.ms.playstop.extension.isPlayable
+import com.ms.playstop.extension.isFile
 import com.ms.playstop.model.Subtitle
 import com.ms.playstop.model.Url
 import com.ms.playstop.ui.playVideo.PlayVideoActivity
@@ -32,7 +31,8 @@ import java.util.ArrayList
 class LinkAdapter(private val urls: List<Url>,
                   private val subtitles: List<Subtitle>? = null,
                   private val movieName: String? = null,
-                  private val movieId: Int? = null)
+                  private val movieId: Int? = null,
+                  private val movieType: Int)
     : RecyclerView.Adapter<LinkAdapter.ViewHolder>(), DayNightModeAwareAdapter {
 
     private var recyclerView: RecyclerView? = null
@@ -81,8 +81,8 @@ class LinkAdapter(private val urls: List<Url>,
                 volumeTv?.text = getVolumeText(ctx,url.volume)
             }
             rootView.setOnClickListener {
-                if(url.link.isPlayable()) {
-                    showBottomSheetDialogForPlayOrDownload(rootView.context, url)
+                if(url.link.isFile()) {
+                    showBottomSheetDialogForPlayOrDownload(rootView.context, url,subtitles?.firstOrNull())
                 }
                 else {
                     tryToDownload(rootView.context,url)
@@ -124,11 +124,16 @@ class LinkAdapter(private val urls: List<Url>,
         }
     }
 
-    private fun showBottomSheetDialogForPlayOrDownload(context: Context?,url: Url) {
+    private fun showBottomSheetDialogForPlayOrDownload(
+        context: Context?,
+        url: Url,
+        subtitleUrl: Subtitle?
+    ) {
         context?.let { ctx ->
             val items = arrayListOf<Pair<Int,Int>>()
             items.add(MenuAdapter.ITEM_TYPE_PLAY to R.string.play)
             items.add(MenuAdapter.ITEM_TYPE_DOWNLOAD to R.string.download)
+            items.add(MenuAdapter.ITEM_TYPE_DOWNLOAD_SUBTITLE to R.string.download_subtitle_direct)
             val dialog = BottomSheetDialog(ctx)
             dialog.setContentView(R.layout.layout_bottom_sheet_recycler)
             val titleTv = dialog.findViewById<MaterialTextView>(R.id.bottom_sheet_recycler_title_tv)
@@ -150,6 +155,9 @@ class LinkAdapter(private val urls: List<Url>,
                         MenuAdapter.ITEM_TYPE_DOWNLOAD -> {
                             tryToDownload(context,url)
                         }
+                        MenuAdapter.ITEM_TYPE_DOWNLOAD_SUBTITLE -> {
+                            tryToDownloadSubtitle(context,subtitleUrl)
+                        }
                         else -> {}
                     }
                     dialog.takeIf { it.isShowing }?.dismiss()
@@ -164,6 +172,7 @@ class LinkAdapter(private val urls: List<Url>,
     private fun tryToPlay(context: Context?,url: Url) {
         context?.let {
             val intent = Intent(context,PlayVideoActivity::class.java)
+            intent.putExtra(PlayVideoActivity.PLAY_VIDEO_TYPE,movieType)
             intent.putExtra(PlayVideoActivity.PLAY_VIDEO_ID,movieId)
             intent.putExtra(PlayVideoActivity.PLAY_VIDEO_URL,url.link)
             intent.putExtra(PlayVideoActivity.PLAY_VIDEO_NAME, movieName)
@@ -177,7 +186,7 @@ class LinkAdapter(private val urls: List<Url>,
 
     private fun tryToDownload(context: Context?,url: Url) {
          val intent = Intent(Intent.ACTION_VIEW)
-         if(url.link.isPlayable()) {
+         if(url.link.isFile()) {
              intent.setDataAndType(Uri.parse(url.link), "file/*")
          } else {
              intent.data = Uri.parse(url.link)
@@ -193,6 +202,27 @@ class LinkAdapter(private val urls: List<Url>,
                         Intent.createChooser(intent,context.getString(R.string.receive_by))
                     )
          }
+    }
+
+    private fun tryToDownloadSubtitle(context: Context?, url: Subtitle?) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        if(url == null || url.link.isNullOrEmpty()) return
+        if(url.link.isFile()) {
+            intent.setDataAndType(Uri.parse(url.link), "file/*")
+        } else {
+            intent.data = Uri.parse(url.link)
+        }
+        val resolveInfo = context?.packageManager?.queryIntentActivities(intent,0)
+        resolveInfo?.takeIf { it.isNotEmpty() }?.let {
+            context.startActivity(
+                Intent.createChooser(intent,context.getString(R.string.receive_by))
+            )
+        } ?: kotlin.run {
+            intent.data = Uri.parse(url.link)
+            context?.startActivity(
+                Intent.createChooser(intent,context.getString(R.string.receive_by))
+            )
+        }
     }
 
     override fun onDayNightModeChanged(type: Int) {

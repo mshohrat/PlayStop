@@ -73,5 +73,9 @@ data class Movie(
 
         const val WATCHED_ONLINE_TIMES = "Watched Online Times"
         const val IN_APP_REVIEW_SHOWN = "In App Review Shown"
+
+        const val TYPE_ALL = 100
+        const val TYPE_MOVIE = 101
+        const val TYPE_SERIES = 102
     }
 }

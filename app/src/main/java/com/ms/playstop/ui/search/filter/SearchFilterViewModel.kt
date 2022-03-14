@@ -16,6 +16,7 @@ class SearchFilterViewModel : ViewModel() {
     var languages = emptyList<Language>()
     var years = arrayListOf<Year>()
     var sorts = arrayListOf<Sort>()
+    var types = arrayListOf<MovieType>()
     lateinit var filter : SearchFilter
     var minimumScore = 1f
     var maximumScore = 10f
@@ -32,6 +33,14 @@ class SearchFilterViewModel : ViewModel() {
                     this@SearchFilterViewModel.years.add(Year(i))
                 }
             }
+        }
+    }
+
+    fun initTypes(context: Context?) {
+        context?.let { ctx ->
+            this@SearchFilterViewModel.types.add(MovieType(Movie.TYPE_ALL,ctx.getString(R.string.movie_type_all)))
+            this@SearchFilterViewModel.types.add(MovieType(Movie.TYPE_MOVIE,ctx.getString(R.string.type_movie)))
+            this@SearchFilterViewModel.types.add(MovieType(Movie.TYPE_SERIES,ctx.getString(R.string.type_series)))
         }
     }
 

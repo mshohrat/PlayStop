@@ -14,6 +14,7 @@ class MenuAdapter(private val items: List<Pair<Int,Int>>,
     companion object {
         const val ITEM_TYPE_PLAY = 1
         const val ITEM_TYPE_DOWNLOAD = 2
+        const val ITEM_TYPE_DOWNLOAD_SUBTITLE = 3
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_menu_layout,parent,false))
@@ -42,6 +43,9 @@ class MenuAdapter(private val items: List<Pair<Int,Int>>,
                     }
                     ITEM_TYPE_DOWNLOAD -> {
                         imageIv?.setImageDrawable(AppCompatResources.getDrawable(ctx,R.drawable.ic_download))
+                    }
+                    ITEM_TYPE_DOWNLOAD_SUBTITLE -> {
+                        imageIv?.setImageDrawable(AppCompatResources.getDrawable(ctx,R.drawable.ic_subtitle))
                     }
                     else -> {}
                 }

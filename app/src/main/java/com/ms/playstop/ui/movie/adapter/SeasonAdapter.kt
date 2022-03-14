@@ -17,18 +17,23 @@ import com.ms.playstop.utils.DayNightModeAwareAdapter
 import com.ms.playstop.utils.DayNightModeAwareViewHolder
 import kotlinx.android.synthetic.main.item_season_layout.view.*
 
-class SeasonAdapter(private val seasons: List<Season>,private val onItemClickListener: EpisodeAdapter.OnItemClickListener)
+class SeasonAdapter(seasons: List<Season>,private val onItemClickListener: EpisodeAdapter.OnItemClickListener)
     : RecyclerView.Adapter<SeasonAdapter.ViewHolder>(), DayNightModeAwareAdapter {
 
     private var recyclerView: RecyclerView? = null
     private var boundViewHolders = mutableListOf<ViewHolder>()
+    private var items = mutableListOf<Pair<Season,Boolean>>()
+
+    init {
+        items = seasons.map { it to false }.toMutableList()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_season_layout,parent,false))
     }
 
     override fun getItemCount(): Int {
-        return seasons.size
+        return items.size
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -43,8 +48,8 @@ class SeasonAdapter(private val seasons: List<Season>,private val onItemClickLis
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val season = seasons[position]
-        holder.bind(season)
+        val item = items[position]
+        holder.bind(position,item)
         boundViewHolders.takeIf { it.contains(holder).not() }?.add(holder)
     }
 
@@ -59,23 +64,28 @@ class SeasonAdapter(private val seasons: List<Season>,private val onItemClickLis
         val nameTv = itemView.season_name_tv
         val episodesRecycler = itemView.season_episodes_recycler
 
-        fun bind(season: Season) {
-            nameTv?.text = season.name
-            season.episodes?.let {
+        fun bind(position: Int,item: Pair<Season,Boolean>) {
+            nameTv?.text = item.first.name
+            item.first.episodes?.let {
                 val layoutManager = LinearLayoutManager(itemView.context,RecyclerView.VERTICAL,false)
-                val adapter = EpisodeAdapter(it,onItemClickListener,season.name)
+                val adapter = EpisodeAdapter(it,onItemClickListener,item.first.name)
                 episodesRecycler?.layoutManager = layoutManager
                 episodesRecycler?.adapter = adapter
-                episodesRecycler?.hide()
+            }
+            if(item.second) {
+                TransitionManager.beginDelayedTransition(rootView,Fade())
+                episodesRecycler.show()
+            } else {
+                TransitionManager.beginDelayedTransition(rootView,Fade())
+                episodesRecycler.hide()
             }
             nameTv?.setOnClickListener {
-                if(episodesRecycler?.visibility == View.GONE) {
-                    TransitionManager.beginDelayedTransition(rootView,Fade())
-                    episodesRecycler.show()
+                if(item.second.not()) {
+                    items[position] = item.first to true
                 } else {
-                    TransitionManager.beginDelayedTransition(rootView,Fade())
-                    episodesRecycler.hide()
+                    items[position] = item.first to false
                 }
+                notifyDataSetChanged()
             }
         }
 

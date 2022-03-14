@@ -74,6 +74,7 @@ class SearchFilterFragment : BaseFragment(), SearchFilterAdapter.OnDataChangedLi
 
     override fun onViewLoaded() {
         super.onViewLoaded()
+        viewModel.initTypes(activity)
         viewModel.initSorts(activity)
         parentFragment?.takeIf { it is SearchFragment }?.let {
             viewModel.updateFilter((it as SearchFragment).getSearchFilter() ?: SearchFilter())
@@ -106,7 +107,7 @@ class SearchFilterFragment : BaseFragment(), SearchFilterAdapter.OnDataChangedLi
 
     private fun initViews() {
         activity?.let { ctx ->
-            val adapter = SearchFilterAdapter(ctx,viewModel.categories,viewModel.genres,viewModel.sorts,viewModel.languages,viewModel.years,viewModel.countries,viewModel.filter,this)
+            val adapter = SearchFilterAdapter(ctx,viewModel.categories,viewModel.genres,viewModel.sorts,viewModel.languages,viewModel.years,viewModel.countries,viewModel.types,viewModel.filter,this)
             search_filter_recycler?.layoutManager = LinearLayoutManager(ctx,RecyclerView.VERTICAL,false)
             search_filter_recycler?.adapter = adapter
         }

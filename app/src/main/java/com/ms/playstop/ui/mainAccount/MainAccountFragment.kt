@@ -95,7 +95,7 @@ class MainAccountFragment : BaseFragment() {
         }
     }
 
-    override fun onSharedPreferencesChanged() {
+    override fun onSharedPreferencesChanged(key: String) {
         if(isUserLoggedIn()) {
             if(hasChild(AccountFragment.TAG).not()) {
                 removeAllChildren(withAnimation = false, skipStickyChildren = false)

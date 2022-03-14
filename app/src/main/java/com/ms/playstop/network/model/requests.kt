@@ -118,7 +118,9 @@ data class SearchMovieRequest(
     @SerializedName("minimum_score")
     val minimumScore: Float? = null,
     @SerializedName("maximum_score")
-    val maximumScore: Float? = null
+    val maximumScore: Float? = null,
+    @SerializedName("type")
+    val type: Int? = null
 )
 
 data class RequestMovieRequest(

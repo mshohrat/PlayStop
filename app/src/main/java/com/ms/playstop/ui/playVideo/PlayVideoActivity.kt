@@ -57,6 +57,7 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
     RadioLinkAdapter.OnItemClickListener {
 
     companion object {
+        const val PLAY_VIDEO_TYPE = "PLAY VIDEO TYPE"
         const val PLAY_VIDEO_ID = "PLAY VIDEO ID"
         const val PLAY_VIDEO_URL = "PLAY VIDEO URL"
         const val PLAY_VIDEO_NAME = "PLAY VIDEO NAME"
@@ -123,6 +124,8 @@ class PlayVideoActivity : AppCompatActivity(), Player.EventListener,
         }
         viewModel = ViewModelProviders.of(this).get(PlayVideoViewModel::class.java)
         subscribeToViewModel()
+        val videoType = intent?.takeIf { it.hasExtra(PLAY_VIDEO_TYPE) }?.getIntExtra(PLAY_VIDEO_TYPE,-1)
+        viewModel.setMovieType(videoType)
         val videoId = intent?.takeIf { it.hasExtra(PLAY_VIDEO_ID) }?.getIntExtra(PLAY_VIDEO_ID,-1)
         viewModel.setMovieId(videoId)
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
