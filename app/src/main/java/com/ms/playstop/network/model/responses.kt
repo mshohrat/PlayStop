@@ -249,3 +249,10 @@ data class SeenMovieResponse(
     @SerializedName("position")
     val position: Long?
 )
+
+data class DevicesResponse(
+    @SerializedName("current_device")
+    val currentDevice: Device,
+    @SerializedName("other_devices")
+    val otherDevices: List<Device>?
+)

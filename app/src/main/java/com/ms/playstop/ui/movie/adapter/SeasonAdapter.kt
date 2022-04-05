@@ -58,6 +58,11 @@ class SeasonAdapter(seasons: List<Season>,private val onItemClickListener: Episo
         boundViewHolders.takeIf { it.contains(holder) }?.remove(holder)
     }
 
+    fun clearAll() {
+        items.clear()
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), DayNightModeAwareViewHolder {
 
         val rootView = itemView as ViewGroup

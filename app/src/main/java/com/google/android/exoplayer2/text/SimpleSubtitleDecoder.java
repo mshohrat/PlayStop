@@ -80,7 +80,7 @@ public abstract class SimpleSubtitleDecoder extends
       detector.setText(inputData.array());
       CharsetMatch charsetMatch = detector.detect();
       byte[] array = charsetMatch.getString().getBytes();
-      Log.i("Subtitle","Decoded Successfully");
+      Log.i("Subtitle Decoding","Decoded Successfully");
       Subtitle subtitle = decode(array, array.length, reset);
       //Set content to subtitle after setting correct encoding
       //This way we have fixed characters for windows-1256 encoding

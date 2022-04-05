@@ -27,6 +27,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="uiMode"
             android:launchMode="singleTask"
+            android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,6 +58,7 @@
         </activity>
 
         <activity android:name=".ui.playVideo.PlayVideoActivity"
+            android:exported="false"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode">
         </activity>
 
