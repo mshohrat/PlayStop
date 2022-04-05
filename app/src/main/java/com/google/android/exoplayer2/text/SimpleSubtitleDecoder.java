@@ -15,12 +15,13 @@
  */
 package com.google.android.exoplayer2.text;
 
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.decoder.SimpleDecoder;
 import com.google.android.exoplayer2.util.Assertions;
-import com.google.android.exoplayer2.util.Log;
 import com.ms.playstop.utils.CharsetDetector;
 import com.ms.playstop.utils.CharsetMatch;
 
@@ -61,7 +62,7 @@ public abstract class SimpleSubtitleDecoder extends
 
   @Override
   protected final SubtitleOutputBuffer createOutputBuffer() {
-    return new SimpleSubtitleOutputBuffer(this::releaseOutputBuffer);
+    return new SimpleSubtitleOutputBuffer(this);
   }
 
   @Override
@@ -80,7 +81,7 @@ public abstract class SimpleSubtitleDecoder extends
       detector.setText(inputData.array());
       CharsetMatch charsetMatch = detector.detect();
       byte[] array = charsetMatch.getString().getBytes();
-      Log.i("Subtitle","Decoded Successfully");
+      Log.i("Subtitle Decoding","Decoded Successfully");
       Subtitle subtitle = decode(array, array.length, reset);
       //Set content to subtitle after setting correct encoding
       //This way we have fixed characters for windows-1256 encoding
