@@ -1,4 +1,4 @@
-package com.ms.playstop.utils;
+package com.google.android.exoplayer2.utils;
 
 /**
  * This class matches UTF-16 and UTF-32, both big- and little-endian. The

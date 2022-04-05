@@ -1,4 +1,4 @@
-package com.ms.playstop.utils;
+package com.google.android.exoplayer2.utils;
 
 /**
  * This class recognizes single-byte encodings. Because the encoding scheme is so

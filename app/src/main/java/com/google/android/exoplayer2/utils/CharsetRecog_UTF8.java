@@ -1,4 +1,4 @@
-package com.ms.playstop.utils;
+package com.google.android.exoplayer2.utils;
 
 /**
  * Charset recognizer for UTF-8

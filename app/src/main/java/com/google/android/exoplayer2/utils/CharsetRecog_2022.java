@@ -1,4 +1,4 @@
-package com.ms.playstop.utils;
+package com.google.android.exoplayer2.utils;
 
 /**
  *  class CharsetRecog_2022  part of the ICU charset detection imlementation.

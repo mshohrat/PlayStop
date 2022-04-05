@@ -1,4 +1,4 @@
-package com.ms.playstop.utils;
+package com.google.android.exoplayer2.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
