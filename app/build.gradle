@@ -31,7 +31,7 @@ android {
     defaultConfig {
         applicationId "com.ms.playstop"
         minSdkVersion 17
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode VERSION_CODE
         versionName "$VERSION_NAME"
         multiDexEnabled true
