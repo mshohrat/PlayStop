@@ -210,4 +210,22 @@
     <string name="type_movie">فیلم</string>
     <string name="type_series">سریال</string>
     <string name="download_subtitle_direct">دانلود زیرنویس</string>
+    <string name="active_devices">دستگاه‌های فعال</string>
+    <string name="connected_devices">دستگاه‌های متصل</string>
+    <string name="current_device">این دستگاه</string>
+    <string name="terminate_other_devices">قطع اتصال سایر دستگاه‌ها</string>
+    <string name="other_devices">سایر دستگاه‌ها</string>
+    <string name="remove">حذف</string>
+    <string name="other_devices_revoked_successfully">قطع دسترسی سایر دستگاه‌ها با موفقیت انجام شد</string>
+    <string name="revoke_other_devices_got_error">خطا در قطع دسترسی سایر دستگاه‌ها</string>
+    <string name="device_revoked_successfully">قطع دسترسی دستگاه‌ مورد نظر با موفقیت انجام شد</string>
+    <string name="revoke_device_got_error">خطا در قطع دسترسی دستگاه‌ مورد نظر</string>
+    <string name="online">آنلاین</string>
+    <string name="last_connection_x">آخرین اتصال %s</string>
+    <string name="remove_device_x">حذف دستگاه %s</string>
+    <string name="remove_all_devices">حذف تمامی دیگر دستگاه‌ها</string>
+    <string name="are_you_sure_to_remove_this_device">آیا از حذف و قطع اتصال دستگاه مورد نظر از حساب کاربری خود اطمینان دارید؟</string>
+    <string name="are_you_sure_to_remove_these_devices">آیا از حذف و قطع اتصال دستگاه‌های مورد نظر از حساب کاربری خود اطمینان دارید؟</string>
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
 </resources>

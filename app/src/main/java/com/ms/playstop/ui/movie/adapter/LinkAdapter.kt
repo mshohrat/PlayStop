@@ -28,7 +28,7 @@ import com.ms.playstop.utils.MenuAdapter
 import kotlinx.android.synthetic.main.item_link_layout.view.*
 import java.util.ArrayList
 
-class LinkAdapter(private val urls: List<Url>,
+class LinkAdapter(private val urls: MutableList<Url>,
                   private val subtitles: List<Subtitle>? = null,
                   private val movieName: String? = null,
                   private val movieId: Int? = null,
@@ -68,6 +68,11 @@ class LinkAdapter(private val urls: List<Url>,
     override fun onViewRecycled(holder: ViewHolder) {
         super.onViewRecycled(holder)
         boundViewHolders.takeIf { it.contains(holder) }?.remove(holder)
+    }
+
+    fun clearAll() {
+        urls.clear()
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), DayNightModeAwareViewHolder {

@@ -139,3 +139,8 @@ data class SeenMovieRequest(
     @SerializedName("position")
     val position: Long
 )
+
+data class RevokeDeviceRequest(
+    @SerializedName("id")
+    val id: Int
+)

@@ -298,4 +298,15 @@ interface ApiService {
         @Path("episode_id") episodeId: Int
     ) : Single<SeenMovieResponse?>?
 
+    @GET("v1/user/device")
+    fun getDevices(): Single<DevicesResponse?>?
+
+    @HTTP(method = "DELETE", path = "v1/user/device", hasBody = true)
+    fun revokeDevice(
+        @Body revokeDeviceRequest: RevokeDeviceRequest
+    ): Single<GeneralResponse?>?
+
+    @DELETE("v1/user/device/all")
+    fun revokeAllOtherDevices(): Single<GeneralResponse?>?
+
 }

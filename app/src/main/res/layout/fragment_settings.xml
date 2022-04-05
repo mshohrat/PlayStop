@@ -54,23 +54,138 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/settings_night_mode_title_tv"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height"
-        style="?textAppearanceHeadline4"
-        app:layout_constraintTop_toBottomOf="@id/settings_appbar"
-        android:text="@string/night_mode"
-        android:gravity="center_vertical|start"
-        android:paddingHorizontal="@dimen/margin_standard"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/settings_night_mode_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:overScrollMode="never"
-        app:layout_constraintTop_toBottomOf="@id/settings_night_mode_title_tv"/>
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/settings_appbar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/settings_night_mode_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/action_bar_height"
+                style="?textAppearanceHeadline4"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/night_mode"
+                android:gravity="center_vertical|start"
+                android:paddingHorizontal="@dimen/margin_standard"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/settings_night_mode_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/settings_night_mode_recycler_min_height"
+                android:scrollbars="none"
+                android:overScrollMode="never"
+                app:layout_constraintTop_toBottomOf="@id/settings_night_mode_title_tv"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/settings_connected_devices_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/action_bar_height"
+                style="?textAppearanceHeadline4"
+                app:layout_constraintTop_toBottomOf="@id/settings_night_mode_recycler"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/connected_devices"
+                android:gravity="center_vertical|start"
+                android:paddingHorizontal="@dimen/margin_standard"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/settings_current_device_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?textAppearanceHeadline4"
+                app:layout_constraintTop_toBottomOf="@id/settings_connected_devices_title_tv"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/current_device"
+                android:gravity="center_vertical|start"
+                android:paddingHorizontal="@dimen/margin_standard"/>
+
+            <include
+                android:id="@+id/settings_current_device_loading_layout"
+                layout="@layout/item_device_place_holder_layout"
+                app:layout_constraintTop_toBottomOf="@id/settings_current_device_title_tv"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <include
+                android:id="@+id/settings_current_device_layout"
+                layout="@layout/item_device_layout"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@id/settings_current_device_title_tv"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/settings_terminate_other_devices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_marginHorizontal="@dimen/margin_standard"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/settings_current_device_layout"
+                android:text="@string/terminate_other_devices"
+                app:rippleColor="@color/white_opacity_10"
+                android:textAppearance="?textAppearanceCaption"
+                android:textColor="@color/redDark"
+                android:visibility="gone"
+                tools:visibility="visible"
+                />
+
+            <com.ms.playstop.utils.MKLoader
+                android:id="@+id/settings_terminate_other_devices_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:mk_type="Worm"
+                app:mk_color="@color/redDark"
+                app:layout_constraintStart_toStartOf="@id/settings_terminate_other_devices"
+                app:layout_constraintEnd_toEndOf="@id/settings_terminate_other_devices"
+                app:layout_constraintTop_toTopOf="@id/settings_terminate_other_devices"
+                app:layout_constraintBottom_toBottomOf="@id/settings_terminate_other_devices"
+                android:visibility="gone"
+                tools:visibility="visible"
+                />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/settings_other_devices_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?textAppearanceHeadline4"
+                app:layout_constraintTop_toBottomOf="@id/settings_terminate_other_devices"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@string/other_devices"
+                android:gravity="center_vertical|start"
+                android:paddingHorizontal="@dimen/margin_standard"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/settings_other_devices_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_standard"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                app:layout_constraintTop_toBottomOf="@id/settings_other_devices_title_tv"/>
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/settings_other_devices_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:constraint_referenced_ids="settings_other_devices_title_tv,settings_other_devices_recycler"/>
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -583,11 +583,13 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
             movie_links_recycler?.show()
             val linkLayoutManager =
                 LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-            val linkAdapter = LinkAdapter(it, movie.subtitles,movie.name,movie.id,Movie.TYPE_MOVIE)
+            val linkAdapter = LinkAdapter(it.toMutableList(), movie.subtitles,movie.name,movie.id,Movie.TYPE_MOVIE)
             movie_links_recycler?.layoutManager = linkLayoutManager
             movie_links_recycler?.adapter = linkAdapter
         } ?: kotlin.run {
             movie_no_links_tv?.show()
+            (movie_links_recycler?.adapter as? LinkAdapter)?.clearAll()
+            movie_links_recycler?.hide()
         }
     }
 
@@ -606,6 +608,8 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
             movie_seasons_recycler?.adapter = seasonAdapter
         } ?: kotlin.run {
             movie_no_seasons_tv?.show()
+            (movie_seasons_recycler?.adapter as? SeasonAdapter)?.clearAll()
+            movie_seasons_recycler?.hide()
         }
     }
 
@@ -800,7 +804,7 @@ class MovieFragment : BaseFragment(), EpisodeAdapter.OnItemClickListener,
                 }
                 val lm = LinearLayoutManager(ctx,RecyclerView.VERTICAL,false)
                 recycler?.layoutManager = lm
-                val adapter = LinkAdapter(urls,
+                val adapter = LinkAdapter(urls.toMutableList(),
                     episode.subtitles,
                     viewModel.movie.value?.name?.plus(" - ")?.plus(seasonName)?.plus(" - ")?.plus(episode.name),
                     episode.id,

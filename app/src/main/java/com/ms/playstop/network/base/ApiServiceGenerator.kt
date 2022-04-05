@@ -4,19 +4,26 @@ import android.annotation.SuppressLint
 import android.os.Build
 import com.ms.playstop.BuildConfig
 import com.ms.playstop.MainActivity
+import com.ms.playstop.extension.isUserLoggedIn
 import com.ms.playstop.model.Profile
 import com.ms.playstop.network.model.RefreshTokenRequest
 import com.orhanobut.hawk.Hawk
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
+import okio.Buffer
+import okio.GzipSource
+import org.json.JSONException
+import org.json.JSONObject
+import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
+import java.nio.charset.Charset
 import java.util.*
+import java.util.concurrent.TimeUnit
+
 
 class ApiServiceGenerator {
 
@@ -68,6 +75,44 @@ class ApiServiceGenerator {
                             .build()
                     }
                     val response = chain.proceed(request)
+                    try {
+                        val headers = request.headers()
+                        val responseBody = response.body()
+                        val source = responseBody!!.source()
+                        source.request(Long.MAX_VALUE) // Buffer the entire body.
+
+                        var buffer = source.buffer()
+
+                        if ("gzip".equals(headers.get("Content-Encoding"), ignoreCase = true)) {
+                            var gzippedResponseBody: GzipSource? = null
+                            try {
+                                gzippedResponseBody = GzipSource(buffer.clone())
+                                buffer = Buffer()
+                                buffer.writeAll(gzippedResponseBody)
+                            } finally {
+                                gzippedResponseBody?.close()
+                            }
+                        }
+
+                        var charset = Charset.forName("UTF-8")
+                        val contentType = responseBody.contentType()
+                        if (contentType != null) {
+                            charset = contentType.charset(charset)
+                        }
+                        val jsonObject = JSONObject(buffer?.clone()?.readString(charset) ?: "")
+                        if(jsonObject.has("revoked")) {
+                            val revoked = jsonObject.getBoolean("revoked")
+                            if(revoked && isUserLoggedIn()) {
+                                Hawk.delete(Profile.SAVE_KEY)
+                            }
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                     if (response.code() == 401) {
                         if(request?.url()?.pathSegments()?.contains("auth") == true && request?.url()?.pathSegments()?.contains("login") == true) {
                             return response
